@@ -1,0 +1,22 @@
+//
+//  ZFAB-Prefix.pch
+//  ZFAB
+//
+//  Created by 徐宝桥 on 15/3/24.
+//  Copyright (c) 2015年 ___MyCompanyName___. All rights reserved.
+//
+
+#ifndef ZFAB_ZFAB_Prefix_pch
+#define ZFAB_ZFAB_Prefix_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#endif
+
+#import "Constants.h"
