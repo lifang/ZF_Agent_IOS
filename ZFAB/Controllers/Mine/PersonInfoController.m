@@ -11,6 +11,10 @@
 #import "PersonModel.h"
 #import "AppDelegate.h"
 #import "CityHandle.h"
+#import "ModifyMobileController.h"
+#import "ModifyEmailController.h"
+#import "ModifyPasswordController.h"
+#import "AddressViewController.h"
 
 @interface PersonInfoController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 
@@ -22,11 +26,20 @@
 
 @implementation PersonInfoController
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"我的信息";
+    self.view.backgroundColor = kColor(244, 243, 243, 1);
     [self getPersonDetailInfo];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshPersonInfo:)
+                                                 name:RefreshPersonInfoNotification
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,7 +74,7 @@
     signOut.frame = CGRectMake(80, 20, kScreenWidth - 160, 40);
     signOut.layer.cornerRadius = 4;
     signOut.layer.masksToBounds = YES;
-    signOut.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    signOut.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
     [signOut setTitle:@"退出登录" forState:UIControlStateNormal];
     [signOut setBackgroundImage:[UIImage imageNamed:@"red.png"] forState:UIControlStateNormal];
     [signOut addTarget:self action:@selector(signOut:) forControlEvents:UIControlEventTouchUpInside];
@@ -144,7 +157,6 @@
             hud.labelText = kNetworkFailed;
         }
     }];
-
 }
 
 #pragma mark - Action
@@ -487,6 +499,54 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if ([_personInfo.type intValue] == AgentTypeCompany) {
+        if (indexPath.section == 1 && indexPath.row == 2) {
+            //修改手机
+            ModifyMobileController *mobileC = [[ModifyMobileController alloc] init];
+            mobileC.personInfo = _personInfo;
+            [self.navigationController pushViewController:mobileC animated:YES];
+        }
+        else if (indexPath.section == 1 && indexPath.row == 3) {
+            //修改邮箱
+            ModifyEmailController *emailC = [[ModifyEmailController alloc] init];
+            emailC.personInfo = _personInfo;
+            [self.navigationController pushViewController:emailC animated:YES];
+        }
+        else if (indexPath.section == 3 && indexPath.row == 1) {
+            //修改密码
+            ModifyPasswordController *modifyC = [[ModifyPasswordController alloc] init];
+            [self.navigationController pushViewController:modifyC animated:YES];
+        }
+        else if (indexPath.section == 3 && indexPath.row == 2) {
+            //修改地址
+            AddressViewController *addressC = [[AddressViewController alloc] init];
+            [self.navigationController pushViewController:addressC animated:YES];
+        }
+    }
+    else {
+        if (indexPath.section == 0 && indexPath.row == 2) {
+            //修改手机
+            ModifyMobileController *mobileC = [[ModifyMobileController alloc] init];
+            mobileC.personInfo = _personInfo;
+            [self.navigationController pushViewController:mobileC animated:YES];
+        }
+        else if (indexPath.section == 0 && indexPath.row == 3) {
+            //修改邮箱
+            ModifyEmailController *emailC = [[ModifyEmailController alloc] init];
+            emailC.personInfo = _personInfo;
+            [self.navigationController pushViewController:emailC animated:YES];
+        }
+        else if (indexPath.section == 2 && indexPath.row == 1) {
+            //修改密码
+            ModifyPasswordController *modifyC = [[ModifyPasswordController alloc] init];
+            [self.navigationController pushViewController:modifyC animated:YES];
+        }
+        else if (indexPath.section == 2 && indexPath.row == 2) {
+            //修改地址
+            AddressViewController *addressC = [[AddressViewController alloc] init];
+            [self.navigationController pushViewController:addressC animated:YES];
+        }
+    }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -501,5 +561,10 @@
     }
 }
 
+#pragma mark - NSNotification
+
+- (void)refreshPersonInfo:(NSNotification *)notification {
+    [_tableView reloadData];
+}
 
 @end

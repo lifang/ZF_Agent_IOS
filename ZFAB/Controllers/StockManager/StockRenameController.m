@@ -45,7 +45,7 @@
     submitBtn.frame = CGRectMake(80, 20, kScreenWidth - 160, 40);
     submitBtn.layer.cornerRadius = 4;
     submitBtn.layer.masksToBounds = YES;
-    submitBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    submitBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
     [submitBtn setTitle:@"保存" forState:UIControlStateNormal];
     [submitBtn setBackgroundImage:[UIImage imageNamed:@"blue.png"] forState:UIControlStateNormal];
     [submitBtn addTarget:self action:@selector(stockRename:) forControlEvents:UIControlEventTouchUpInside];

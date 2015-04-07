@@ -69,7 +69,7 @@
     signOut.frame = CGRectMake(80, 20, kScreenWidth - 160, 40);
     signOut.layer.cornerRadius = 4;
     signOut.layer.masksToBounds = YES;
-    signOut.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    signOut.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
     [signOut setTitle:@"确认" forState:UIControlStateNormal];
     [signOut setBackgroundImage:[UIImage imageNamed:@"orange.png"] forState:UIControlStateNormal];
     [signOut addTarget:self action:@selector(filterFinished:) forControlEvents:UIControlEventTouchUpInside];

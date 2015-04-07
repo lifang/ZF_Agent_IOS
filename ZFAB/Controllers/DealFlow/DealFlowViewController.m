@@ -9,16 +9,21 @@
 #import "DealFlowViewController.h"
 #import "NetworkInterface.h"
 #import "TimeFormat.h"
+#import "TradeTerminalController.h"
+#import "TradeAgentController.h"
+#import "AppDelegate.h"
 
 typedef enum {
     TimeStart = 0,
     TimeEnd,
 }TimeType;
 
-@interface DealFlowViewController ()
+@interface DealFlowViewController ()<TradeTerminalDelegate,TradeAgentDelegate>
 
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
 
+@property (nonatomic, strong) NSString *terminalNumber;
+@property (nonatomic, strong) TradeAgentModel *agentModel;
 @property (nonatomic, strong) NSString *startTime;
 @property (nonatomic, strong) NSString *endTime;
 
@@ -29,6 +34,8 @@ typedef enum {
 
 @property (nonatomic, strong) NSMutableArray *tradeRecords;
 
+@property (nonatomic, strong) NSMutableArray *tradeAgentItem; //代理商列表数组
+
 @end
 
 @implementation DealFlowViewController
@@ -37,6 +44,7 @@ typedef enum {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _tradeRecords = [[NSMutableArray alloc] init];
+    _tradeAgentItem = [[NSMutableArray alloc] init];
     self.title = @"交易流水";
     [self initAndLayoutUI];
 }
@@ -142,87 +150,148 @@ typedef enum {
     return type;
 }
 
-#pragma mark - Action
+#pragma mark - Request
 
-- (IBAction)startSearch:(id)sender {
-    [self pickerScrollOut];
-//    if ([_terminalLabel.text isEqualToString:s_defaultTerminalNum]) {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-//                                                        message:@"请选择终端号"
-//                                                       delegate:nil
-//                                              cancelButtonTitle:@"确定"
-//                                              otherButtonTitles:nil];
-//        [alert show];
-//        return;
-//    }
-    if (!_startTime || [_startTime isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"请选择开始时间"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
-    if (!_endTime || [_endTime isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"请选择结束时间"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
-    NSDate *start = [TimeFormat dateFromString:_startTime];
-    NSDate *end = [TimeFormat dateFromString:_endTime];
-    if (!([start earlierDate:end] == start)) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"开始时间不能晚于结束时间"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
+- (void)firstLoadData {
+    self.page = 1;
+    [self downloadDataWithPage:self.page isMore:NO];
+}
+
+- (void)downloadDataWithPage:(int)page isMore:(BOOL)isMore {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    TradeType tradeType = [self tradeTypeFromIndex:_segmentControl.selectedSegmentIndex];
+    [NetworkInterface getTradeRecordWithAgentID:delegate.agentID token:delegate.token tradeType:tradeType terminalNumber:_terminalNumber subAgentID:_agentModel.agentID startTime:_startTime endTime:_endTime page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    if (!isMore) {
+                        [_tradeRecords removeAllObjects];
+                    }
+                    id list = [object objectForKey:@"result"];
+                    if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
+                        //有数据
+                        self.page++;
+                        [hud hide:YES];
+                    }
+                    else {
+                        //无数据
+                        hud.labelText = @"没有更多数据了...";
+                    }
+                    [self parseTradeListDataWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+        if (!isMore) {
+            [self refreshViewFinishedLoadingWithDirection:PullFromTop];
+        }
+        else {
+            [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
+        }
+    }];
+}
+
+#pragma mark - Data
+
+- (void)parseTradeListDataWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
         return;
     }
 }
 
-- (IBAction)startStatistic:(id)sender {
-//    if ([_terminalLabel.text isEqualToString:s_defaultTerminalNum]) {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-//                                                        message:@"请选择终端号"
-//                                                       delegate:nil
-//                                              cancelButtonTitle:@"确定"
-//                                              otherButtonTitles:nil];
-//        [alert show];
-//        return;
-//    }
+#pragma mark - Action
+
+- (IBAction)startSearch:(id)sender {
+    [self pickerScrollOut];
+    if (!_terminalNumber || [_terminalNumber isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择终端号";
+        return;
+    }
     if (!_startTime || [_startTime isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"请选择开始时间"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择开始时间";
         return;
     }
     if (!_endTime || [_endTime isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"请选择结束时间"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择结束时间";
         return;
     }
     NSDate *start = [TimeFormat dateFromString:_startTime];
     NSDate *end = [TimeFormat dateFromString:_endTime];
     if (!([start earlierDate:end] == start)) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                        message:@"开始时间不能晚于结束时间"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"开始时间不能晚于结束时间";
+        return;
+    }
+    [self firstLoadData];
+}
+
+- (IBAction)startStatistic:(id)sender {
+    [self pickerScrollOut];
+    if (!_terminalNumber || [_terminalNumber isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择终端号";
+        return;
+    }
+    if (!_startTime || [_startTime isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择开始时间";
+        return;
+    }
+    if (!_endTime || [_endTime isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择结束时间";
+        return;
+    }
+    NSDate *start = [TimeFormat dateFromString:_startTime];
+    NSDate *end = [TimeFormat dateFromString:_endTime];
+    if (!([start earlierDate:end] == start)) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"开始时间不能晚于结束时间";
         return;
     }
 }
@@ -282,7 +351,7 @@ typedef enum {
             cell.detailTextLabel.font = [UIFont systemFontOfSize:14.f];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.textLabel.text = @"选择终端号";
-            cell.detailTextLabel.text = @"14824832434";
+            cell.detailTextLabel.text = _terminalNumber;
             cell.imageView.image = kImageName(@"terminal.png");
             return cell;
         }
@@ -294,7 +363,7 @@ typedef enum {
             cell.detailTextLabel.font = [UIFont systemFontOfSize:14.f];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.textLabel.text = @"选择代理商";
-            cell.detailTextLabel.text = @"113";
+            cell.detailTextLabel.text = _agentModel.agentName;
             cell.imageView.image = kImageName(@"agent.png");
             return cell;
         }
@@ -418,10 +487,17 @@ typedef enum {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
-
+        //选择终端
+        TradeTerminalController *tradeC = [[TradeTerminalController alloc] init];
+        tradeC.delegate = self;
+        [self.navigationController pushViewController:tradeC animated:YES];
     }
     else if (indexPath.section == 1) {
-        
+        //选择代理商
+        TradeAgentController *agentC = [[TradeAgentController alloc] init];
+        agentC.delegate = self;
+        agentC.agentItem = _tradeAgentItem;
+        [self.navigationController pushViewController:agentC animated:YES];
     }
     else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
@@ -470,5 +546,40 @@ typedef enum {
     }];
 }
 
+#pragma mark - 上下拉刷新重写
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (_terminalNumber && _agentModel && _startTime && _endTime) {
+        [super scrollViewDidScroll:scrollView];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (_terminalNumber && _agentModel && _startTime && _endTime) {
+        [super scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+    }
+}
+
+- (void)pullDownToLoadData {
+    [self firstLoadData];
+}
+
+- (void)pullUpToLoadData {
+    [self downloadDataWithPage:self.page isMore:YES];
+}
+
+#pragma mark - TradeTerminalDelegate
+
+- (void)getSelectTerminalNumber:(NSString *)terminalNumber {
+    _terminalNumber = terminalNumber;
+    [self.tableView reloadData];
+}
+
+#pragma mark - TradeAgentDelegate
+
+- (void)getSelectedAgent:(TradeAgentModel *)agentModel {
+    _agentModel = agentModel;
+    [self.tableView reloadData];
+}
 
 @end

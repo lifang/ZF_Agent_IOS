@@ -6,8 +6,11 @@
 //  Copyright (c) 2015年 ___MyCompanyName___. All rights reserved.
 //
 
-//上下拉刷新 父类控制器
+/****************************
 
+    上下拉刷新 父类控制器
+
+ *****************************/
 #import "CommonViewController.h"
 #import "RefreshView.h"
 

@@ -8,15 +8,19 @@
 
 #import "OrderManagerController.h"
 #import "NetworkInterface.h"
+#import "AppDelegate.h"
+#import "OrderModel.h"
+#import "OrderCell.h"
 #import "KxMenu.h"
+#import "OrderDetailController.h"
 
-@interface OrderManagerController ()
+@interface OrderManagerController ()<OrderCellDelegate>
 
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
 
 @property (nonatomic, assign) SupplyGoodsType supplyType; //批购还是代购订单
 
-@property (nonatomic, assign) OrderStatus currentStatus;  //筛选的订单状态
+@property (nonatomic, assign) int currentStatus;  //筛选的订单状态
 @property (nonatomic, assign) OrderType currentType;      //筛选的订单类型
 
 @property (nonatomic, strong) UIButton *typeButton;   //订单类型
@@ -24,6 +28,8 @@
 
 @property (nonatomic, strong) UILabel *typeLabel;
 @property (nonatomic, strong) UILabel *statusLabel;
+
+@property (nonatomic, strong) NSMutableArray *orderItem;
 
 @end
 
@@ -33,6 +39,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"订单管理";
+    _orderItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
     self.supplyType = SupplyGoodsWholesale;
 }
@@ -163,14 +170,19 @@
 
 - (void)setSupplyType:(SupplyGoodsType)supplyType {
     _supplyType = supplyType;
-    self.currentStatus = OrderStatusAll;
-    self.currentType = OrderTypeAll;
+    if (supplyType == SupplyGoodsProcurement) {
+        self.currentStatus = ProcurementStatusAll;
+        self.currentType = OrderTypeProcurement;
+    }
+    else {
+        self.currentStatus = WholesaleStatusAll;
+        self.currentType = OrderTypeWholesale;
+    }
     [self setHeaderAndFooterView];
     [self firstLoadData];
-    NSLog(@"orderManager %d load data",supplyType);
 }
 
-- (void)setCurrentStatus:(OrderStatus)currentStatus {
+- (void)setCurrentStatus:(int)currentStatus {
     _currentStatus = currentStatus;
     _statusLabel.text = [self stringForOrderStatus:_currentStatus];
 }
@@ -183,41 +195,145 @@
 #pragma mark - Request
 
 - (void)firstLoadData {
-    
+    NSString *type = nil;
+    if (_currentType == OrderTypeProcurement) {
+        type = @"代购所有类型";
+    }
+    else if (_currentType == OrderTypeProcurementBuy) {
+        type = @"代购买类型";
+    }
+    else if (_currentType == OrderTypeProcurementRent) {
+        type = @"代租赁类型";
+    }
+    else {
+        type = @"批购类型";
+    }
+    NSLog(@"%@加载状态%d订单",type,_currentStatus);
+    self.page = 1;
+    [self downloadDataWithPage:self.page isMore:NO];
 }
 
 - (void)downloadDataWithPage:(int)page isMore:(BOOL)isMore {
-    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface getOrderListWithAgentID:delegate.agentID token:delegate.token orderType:_currentType keyword:nil status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    if (!isMore) {
+                        [_orderItem removeAllObjects];
+                    }
+                    id list = [[object objectForKey:@"result"] objectForKey:@"list"];
+                    if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
+                        //有数据
+                        self.page++;
+                        [hud hide:YES];
+                    }
+                    else {
+                        //无数据
+                        hud.labelText = @"没有更多数据了...";
+                    }
+                    [self parseOrderListWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+        if (!isMore) {
+            [self refreshViewFinishedLoadingWithDirection:PullFromTop];
+        }
+        else {
+            [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
+        }
+    }];
 }
 
 #pragma mark - Data
 
-- (NSString *)stringForOrderStatus:(OrderStatus)status {
+- (void)parseOrderListWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+        return;
+    }
+    id orderList = [[dict objectForKey:@"result"] objectForKey:@"list"];
+    if ([orderList isKindOfClass:[NSArray class]]) {
+        for (int i = 0; i < [orderList count]; i++) {
+            id orderDict = [orderList objectAtIndex:i];
+            if ([orderDict isKindOfClass:[NSDictionary class]]) {
+                OrderModel *model = [[OrderModel alloc] initWithParseDictionary:orderDict];
+                [_orderItem addObject:model];
+            }
+        }
+    }
+    [self.tableView reloadData];
+}
+
+- (NSString *)stringForOrderStatus:(int)status {
     NSString *title = nil;
-    switch (status) {
-        case OrderStatusAll:
-            title = @"全部";
-            break;
-        case OrderStatusUnPaid:
-            title = @"未付款";
-            break;
-        case OrderStatusPaid:
-            title = @"已付款";
-            break;
-        case OrderStatusSend:
-            title = @"已发货";
-            break;
-        case OrderStatusReview:
-            title = @"已评价";
-            break;
-        case OrderStatusCancel:
-            title = @"已取消";
-            break;
-        case OrderStatusClosed:
-            title = @"交易关闭";
-            break;
-        default:
-            break;
+    if (_supplyType == SupplyGoodsProcurement) {
+        //代购
+        switch (status) {
+            case ProcurementStatusAll:
+                title = @"全部";
+                break;
+            case ProcurementStatusUnPaid:
+                title = @"未付款";
+                break;
+            case ProcurementStatusPaid:
+                title = @"已付款";
+                break;
+            case ProcurementStatusSend:
+                title = @"已发货";
+                break;
+            case ProcurementStatusReview:
+                title = @"已评价";
+                break;
+            case ProcurementStatusCancel:
+                title = @"已取消";
+                break;
+            case ProcurementStatusClosed:
+                title = @"交易关闭";
+                break;
+            default:
+                break;
+        }
+    }
+    else {
+        //批购
+        switch (status) {
+            case WholesaleStatusAll:
+                title = @"全部";
+                break;
+            case WholesaleStatusUnPaid:
+                title = @"未付款";
+                break;
+            case WholesaleStatusPartPaid:
+                title = @"已付定金";
+                break;
+            case WholesaleStatusFinish:
+                title = @"已完成";
+                break;
+            case WholesaleStatusCancel:
+                title = @"已取消";
+                break;
+            default:
+                break;
+        }
     }
     return title;
 }
@@ -225,23 +341,14 @@
 - (NSString *)stringForOrderType:(OrderType)type {
     NSString *title = nil;
     switch (type) {
-        case OrderTypeAll:
+        case OrderTypeProcurement:
             title = @"全部";
             break;
-        case OrderTypeUserBuy:
-            title = @"用户购买";
+        case OrderTypeProcurementBuy:
+            title = @"代购买";
             break;
-        case OrderTypeUserRent:
-            title = @"用户租赁";
-            break;
-        case OrderTypeAgentProcurement:
-            title = @"代理商代购";
-            break;
-        case OrderTypeAgentRent:
-            title = @"代理商代租赁";
-            break;
-        case OrderTypeWholesale:
-            title = @"代理商批购";
+        case OrderTypeProcurementRent:
+            title = @"代租赁";
             break;
         default:
             break;
@@ -257,42 +364,24 @@
 
 - (IBAction)showOrderType:(id)sender {
     NSMutableArray *listArray = [NSMutableArray arrayWithObjects:
-                                 [KxMenuItem menuItem:[self stringForOrderType:OrderTypeAll]
+                                 [KxMenuItem menuItem:[self stringForOrderType:OrderTypeProcurement]
                                                 image:nil
                                                target:self
                                                action:@selector(selectType:)
-                                        selectedTitle:_statusLabel.text
-                                                  tag:OrderTypeAll],
-                                 [KxMenuItem menuItem:[self stringForOrderType:OrderTypeUserBuy]
+                                        selectedTitle:_typeLabel.text
+                                                  tag:OrderTypeProcurement],
+                                 [KxMenuItem menuItem:[self stringForOrderType:OrderTypeProcurementBuy]
                                                 image:nil
                                                target:self
                                                action:@selector(selectType:)
-                                        selectedTitle:_statusLabel.text
-                                                  tag:OrderTypeUserBuy],
-                                 [KxMenuItem menuItem:[self stringForOrderType:OrderTypeUserRent]
+                                        selectedTitle:_typeLabel.text
+                                                  tag:OrderTypeProcurementBuy],
+                                 [KxMenuItem menuItem:[self stringForOrderType:OrderTypeProcurementRent]
                                                 image:nil
                                                target:self
                                                action:@selector(selectType:)
-                                        selectedTitle:_statusLabel.text
-                                                  tag:OrderTypeUserRent],
-                                 [KxMenuItem menuItem:[self stringForOrderType:OrderTypeAgentProcurement]
-                                                image:nil
-                                               target:self
-                                               action:@selector(selectType:)
-                                        selectedTitle:_statusLabel.text
-                                                  tag:OrderTypeAgentProcurement],
-                                 [KxMenuItem menuItem:[self stringForOrderType:OrderTypeAgentRent]
-                                                image:nil
-                                               target:self
-                                               action:@selector(selectType:)
-                                        selectedTitle:_statusLabel.text
-                                                  tag:OrderTypeAgentRent],
-                                 [KxMenuItem menuItem:[self stringForOrderType:OrderTypeWholesale]
-                                                image:nil
-                                               target:self
-                                               action:@selector(selectType:)
-                                        selectedTitle:_statusLabel.text
-                                                  tag:OrderTypeWholesale],
+                                        selectedTitle:_typeLabel.text
+                                                  tag:OrderTypeProcurementRent],
                                  nil];
     
     CGRect convertRect = [_typeButton convertRect:_typeButton.frame toView:self.view];
@@ -301,50 +390,82 @@
 }
 
 - (IBAction)showOrderStatus:(id)sender {
-    NSMutableArray *listArray = [NSMutableArray arrayWithObjects:
-                                 [KxMenuItem menuItem:[self stringForOrderStatus:OrderStatusAll]
+    NSMutableArray *listArray = nil;
+    if (_supplyType == SupplyGoodsProcurement) {
+        listArray = [NSMutableArray arrayWithObjects:
+                     [KxMenuItem menuItem:[self stringForOrderStatus:ProcurementStatusAll]
+                                    image:nil
+                                   target:self
+                                   action:@selector(selectStatus:)
+                            selectedTitle:_statusLabel.text
+                                      tag:ProcurementStatusAll],
+                     [KxMenuItem menuItem:[self stringForOrderStatus:ProcurementStatusUnPaid]
+                                    image:nil
+                                   target:self
+                                   action:@selector(selectStatus:)
+                            selectedTitle:_statusLabel.text
+                                      tag:ProcurementStatusUnPaid],
+                     [KxMenuItem menuItem:[self stringForOrderStatus:ProcurementStatusPaid]
+                                    image:nil
+                                   target:self
+                                   action:@selector(selectStatus:)
+                            selectedTitle:_statusLabel.text
+                                      tag:ProcurementStatusPaid],
+                     [KxMenuItem menuItem:[self stringForOrderStatus:ProcurementStatusSend]
+                                    image:nil
+                                   target:self
+                                   action:@selector(selectStatus:)
+                            selectedTitle:_statusLabel.text
+                                      tag:ProcurementStatusSend],
+                     [KxMenuItem menuItem:[self stringForOrderStatus:ProcurementStatusCancel]
+                                    image:nil
+                                   target:self
+                                   action:@selector(selectStatus:)
+                            selectedTitle:_statusLabel.text
+                                      tag:ProcurementStatusCancel],
+                     [KxMenuItem menuItem:[self stringForOrderStatus:ProcurementStatusClosed]
+                                    image:nil
+                                   target:self
+                                   action:@selector(selectStatus:)
+                            selectedTitle:_statusLabel.text
+                                      tag:ProcurementStatusClosed],
+                     nil];
+    }
+    else {
+        listArray = [NSMutableArray arrayWithObjects:
+                                 [KxMenuItem menuItem:[self stringForOrderStatus:WholesaleStatusAll]
                                                 image:nil
                                                target:self
                                                action:@selector(selectStatus:)
                                         selectedTitle:_statusLabel.text
-                                                  tag:OrderStatusAll],
-                                 [KxMenuItem menuItem:[self stringForOrderStatus:OrderStatusUnPaid]
+                                                  tag:WholesaleStatusAll],
+                                 [KxMenuItem menuItem:[self stringForOrderStatus:WholesaleStatusUnPaid]
                                                 image:nil
                                                target:self
                                                action:@selector(selectStatus:)
                                         selectedTitle:_statusLabel.text
-                                                  tag:OrderStatusUnPaid],
-                                 [KxMenuItem menuItem:[self stringForOrderStatus:OrderStatusPaid]
+                                                  tag:WholesaleStatusUnPaid],
+                                 [KxMenuItem menuItem:[self stringForOrderStatus:WholesaleStatusPartPaid]
                                                 image:nil
                                                target:self
                                                action:@selector(selectStatus:)
                                         selectedTitle:_statusLabel.text
-                                                  tag:OrderStatusPaid],
-                                 [KxMenuItem menuItem:[self stringForOrderStatus:OrderStatusSend]
+                                                  tag:WholesaleStatusPartPaid],
+                                 [KxMenuItem menuItem:[self stringForOrderStatus:WholesaleStatusFinish]
                                                 image:nil
                                                target:self
                                                action:@selector(selectStatus:)
                                         selectedTitle:_statusLabel.text
-                                                  tag:OrderStatusSend],
-                                 [KxMenuItem menuItem:[self stringForOrderStatus:OrderStatusReview]
+                                                  tag:WholesaleStatusFinish],
+                                 [KxMenuItem menuItem:[self stringForOrderStatus:WholesaleStatusCancel]
                                                 image:nil
                                                target:self
                                                action:@selector(selectStatus:)
                                         selectedTitle:_statusLabel.text
-                                                  tag:OrderStatusReview],
-                                 [KxMenuItem menuItem:[self stringForOrderStatus:OrderStatusCancel]
-                                                image:nil
-                                               target:self
-                                               action:@selector(selectStatus:)
-                                        selectedTitle:_statusLabel.text
-                                                  tag:OrderStatusCancel],
-                                 [KxMenuItem menuItem:[self stringForOrderStatus:OrderStatusClosed]
-                                                image:nil
-                                               target:self
-                                               action:@selector(selectStatus:)
-                                        selectedTitle:_statusLabel.text
-                                                  tag:OrderStatusClosed],
+                                                  tag:WholesaleStatusCancel],
                                  nil];
+
+    }
     CGRect convertRect = [_statusButton convertRect:_statusButton.frame toView:self.view];
     CGRect rect = CGRectMake(_statusButton.frame.origin.x + _statusButton.frame.size.width / 2, convertRect.origin.y + convertRect.size.height + 5, 0, 0);
     [KxMenu showMenuInView:self.view fromRect:rect menuItems:listArray];
@@ -352,32 +473,84 @@
 
 - (IBAction)selectStatus:(id)sender {
     KxMenuItem *item = (KxMenuItem *)sender;
-    self.currentStatus = (OrderStatus)item.tag;
-    NSLog(@"status %d load data",self.currentStatus);
+    self.currentStatus = (int)item.tag;
     [self firstLoadData];
 }
 
 - (IBAction)selectType:(id)sender {
     KxMenuItem *item = (KxMenuItem *)sender;
     self.currentType = (OrderType)item.tag;
-    NSLog(@"type %d load data",self.currentType);
     [self firstLoadData];
 }
 
 #pragma mark - UITableView
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return [_orderItem count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 20;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-    cell.textLabel.text = @"123";
+    OrderModel *model = [_orderItem objectAtIndex:indexPath.section];
+    NSString *identifier = [model getCellIdentifierWithSupplyType:_supplyType];
+    OrderCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (cell == nil) {
+        cell =[[ OrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier supplyType:_supplyType];
+    }
+    cell.delegate = self;
+    [cell setContentsWithData:model];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    OrderModel *model = [_orderItem objectAtIndex:indexPath.section];
+    OrderDetailController *detailC = [[OrderDetailController alloc] init];
+    detailC.supplyType = _supplyType;
+    detailC.orderID = model.orderID;
+    [self.navigationController pushViewController:detailC animated:YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    OrderModel *model = [_orderItem objectAtIndex:indexPath.section];
+    NSString *identifier = [model getCellIdentifierWithSupplyType:_supplyType];
+    if ([identifier isEqualToString:wholesaleCancelIdentifier]) {
+        return kOrderShortCellHeight + kFlexibleHeight;
+    }
+    else if ([identifier isEqualToString:wholesaleDepositIdentifier] ||
+             [identifier isEqualToString:wholesaleFinishIdentifier] ||
+             [identifier isEqualToString:wholesaleUnpaidIdentifier]) {
+        return kOrderLongCellHeight + kFlexibleHeight;
+    }
+    else if ([identifier isEqualToString:procurementThirdIdentifier]) {
+        return kOrderShortCellHeight;
+    }
+    else if ([identifier isEqualToString:procurementFirstIdentifier] ||
+             [identifier isEqualToString:procurementSecondIdentifier]) {
+        return kOrderLongCellHeight;
+    }
+    return 44.f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 8.f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.001f;
+}
+
+#pragma mark - 上下拉刷新重写
+
+- (void)pullDownToLoadData {
+    [self firstLoadData];
+}
+
+- (void)pullUpToLoadData {
+    [self downloadDataWithPage:self.page isMore:YES];
 }
 
 @end

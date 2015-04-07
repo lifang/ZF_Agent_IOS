@@ -8,6 +8,8 @@
 
 #import "CommonViewController.h"
 
+static NSString *RefreshPersonInfoNotification = @"RefreshPersonInfoNotification";
+
 @interface PersonInfoController : CommonViewController
 
 @end

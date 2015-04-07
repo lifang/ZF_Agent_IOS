@@ -3,11 +3,11 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "module6.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "module6@2x.png"
     },
     {
       "idiom" : "universal",

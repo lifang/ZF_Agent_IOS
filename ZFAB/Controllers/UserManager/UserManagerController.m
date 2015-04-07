@@ -176,7 +176,8 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface deleteUserWithAgentID:delegate.agentID token:delegate.token userID:model.userID finished:^(BOOL success, NSData *response) {
+
+    [NetworkInterface deleteUserWithAgentID:delegate.agentID token:delegate.token userIDs:[NSArray arrayWithObject:[NSNumber numberWithInt:[model.userID intValue]]] finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -209,12 +210,44 @@
 }
 
 - (void)deleteMultiUsers {
-    NSLog(@"%@",_selectedItem);
+    NSArray *userIDs = [self usersIDForEditRows];
+    if ([userIDs count] <= 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择需要删除的用户";
+        return;
+    }
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.customView = [[UIImageView alloc] init];
-    hud.mode = MBProgressHUDModeCustomView;
-    [hud hide:YES afterDelay:1.f];
-    hud.labelText = @"等待接口...";
+    hud.labelText = @"提交中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface deleteUserWithAgentID:delegate.agentID token:delegate.token userIDs:userIDs finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    hud.labelText = @"删除成功";
+                    [self updateUserListForMultiDelete];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
 }
 
 #pragma mark - Data
@@ -232,6 +265,37 @@
         }
     }
     [self.tableView reloadData];
+}
+
+//多删成功后更新列表
+- (void)updateUserListForMultiDelete {
+    NSMutableArray *deleteUserArray = [[NSMutableArray alloc] init];
+    NSMutableArray *deleteIndexArray = [[NSMutableArray alloc] init];
+    for (NSNumber *index in _selectedItem) {
+        if ([index intValue] < [_dataItem count]) {
+            UserModel *model = [_dataItem objectAtIndex:[index intValue]];
+            [deleteUserArray addObject:model];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[index intValue] inSection:0];
+            [deleteIndexArray addObject:indexPath];
+        }
+    }
+    [_dataItem removeObjectsInArray:deleteUserArray];
+    [self.tableView beginUpdates];
+    [self.tableView deleteRowsAtIndexPaths:deleteIndexArray withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
+    self.isMultiDelete = NO;
+}
+
+//获取多选状态下选中的消息id数组
+- (NSArray *)usersIDForEditRows {
+    NSMutableArray *IDs = [[NSMutableArray alloc] init];
+    for (NSNumber *index in _selectedItem) {
+        if ([index intValue] < [_dataItem count]) {
+            UserModel *model = [_dataItem objectAtIndex:[index intValue]];
+            [IDs addObject:[NSNumber numberWithInt:[model.userID intValue]]];
+        }
+    }
+    return IDs;
 }
 
 #pragma mark - Action
@@ -313,15 +377,10 @@
 #pragma mark - 上下拉刷新重写
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (!_isMultiDelete) {
-        [super scrollViewDidScroll:scrollView];
-    }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (!_isMultiDelete) {
-        [super scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
-    }
+
 }
 
 - (void)pullDownToLoadData {

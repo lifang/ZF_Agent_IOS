@@ -213,7 +213,7 @@
     signInBtn.translatesAutoresizingMaskIntoConstraints = NO;
     signInBtn.layer.cornerRadius = 4;
     signInBtn.layer.masksToBounds = YES;
-    signInBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    signInBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
     [signInBtn setTitle:@"登录" forState:UIControlStateNormal];
     [signInBtn setBackgroundImage:[UIImage imageNamed:@"blue.png"] forState:UIControlStateNormal];
     [signInBtn addTarget:self action:@selector(signIn:) forControlEvents:UIControlEventTouchUpInside];

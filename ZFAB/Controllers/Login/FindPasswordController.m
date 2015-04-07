@@ -224,7 +224,7 @@
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     CGFloat buttonWidth = 100;
     CGFloat space = 10.f;
-    _inputField.frame = CGRectMake(10, (cell.frame.size.height - 30) / 2, kScreenWidth - buttonWidth - 3 * space, 30);
+    _inputField.frame = CGRectMake(space, (cell.frame.size.height - 30) / 2, kScreenWidth - buttonWidth - 3 * space, 30);
     _sendButton.frame = CGRectMake(kScreenWidth - 110, (cell.frame.size.height - 30) / 2, 100, 30);
     [cell.contentView addSubview:_inputField];
     [cell.contentView addSubview:_sendButton];

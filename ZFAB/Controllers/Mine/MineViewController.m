@@ -8,6 +8,7 @@
 
 #import "MineViewController.h"
 #import "PersonInfoController.h"
+#import "AgentManagerController.h"
 
 @interface MineViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -161,7 +162,10 @@
                 }
                     break;
                 case 1: {
-                    
+                    //下级代理商管理
+                    AgentManagerController *agentC = [[AgentManagerController alloc] init];
+                    agentC.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:agentC animated:YES];
                 }
                     break;
                 case 2: {

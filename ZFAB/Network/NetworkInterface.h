@@ -30,22 +30,10 @@ typedef enum {
 }SupplyGoodsType;
 
 typedef enum {
-    OrderStatusAll = -1,
-    OrderStatusUnPaid = 1,//未付款
-    OrderStatusPaid,      //已付款
-    OrderStatusSend,      //已发货
-    OrderStatusReview,    //已评价
-    OrderStatusCancel,    //已取消
-    OrderStatusClosed,    //交易关闭
-}OrderStatus;
-
-typedef enum {
-    OrderTypeAll = -1,
-    OrderTypeUserBuy,          //用户订购
-    OrderTypeUserRent,         //用户租赁
-    OrderTypeAgentProcurement, //代理商代购
-    OrderTypeAgentRent,        //代理商代租赁
-    OrderTypeWholesale,        //代理商批购
+    OrderTypeProcurement = -1,      //不传默认查询3，4
+    OrderTypeProcurementBuy = 3,    //代理商代购
+    OrderTypeProcurementRent,       //代理商代租赁
+    OrderTypeWholesale,            //代理商批购
 }OrderType;
 
 typedef enum {
@@ -72,6 +60,12 @@ typedef enum {
     CSTypeUpdate,      //更新资料记录
     CSTypeCancel,      //注销记录
 }CSType;
+
+typedef enum {
+    AddressNone = 0,
+    AddressDefault,    //默认地址
+    AddressOther,      //非默认地址
+}AddressType;
 
 //1.登录
 static NSString *s_login_method = @"agent/agentLogin";
@@ -121,38 +115,74 @@ static NSString *s_stockDetail_method = @"stock/info";
 //43.库存管理详情——下级代理商终端列表
 static NSString *s_stockTerminal_method = @"stock/terminallist";
 
-//55.交易流水——获取终端
+//57.交易流水——获取终端
 static NSString *s_tradeTerminalList_method = @"trade/record/getTerminals";
 
-//60.我的消息——列表
+//58.交易流水——获取代理商列表
+static NSString *s_tradeAgentList_method = @"trade/record/getAgents";
+
+//59.交易流水——查询交易流水
+static NSString *s_tradeRecord_method = @"trade/record/getTradeRecords";
+
+//62.我的消息——列表
 static NSString *s_messageList_method = @"message/receiver/getAll";
 
-//61.我的消息——详情
+//63.我的消息——详情
 static NSString *s_messageDetail_method = @"message/receiver/getById";
 
-//62.我的消息——单个删除
+//64.我的消息——单个删除
 static NSString *s_messageSingleDelete_method = @"message/receiver/deleteById";
 
-//63.我的消息——批量删除
+//65.我的消息——批量删除
 static NSString *s_messageMultiDelete_method = @"message/receiver/batchDelete";
 
-//64.我的消息——批量已读
+//66.我的消息——批量已读
 static NSString *s_messageMultiRead_method = @"message/receiver/batchRead";
 
-//80.我的信息——获取详情
+//67.订单管理——列表
+static NSString *s_orderList_method = @"order/orderSearch";
+
+//68.订单管理——批购详情
+static NSString *s_orderDetailWholesale_method = @"order/getWholesaleById";
+
+//71.订单管理——代购详情
+static NSString *s_orderDetailProcurement_method = @"order/getProxyById";
+
+//83.我的信息——获取详情
 static NSString *s_personDetail_method = @"agents/getOne";
 
-//81.我的信息——获取修改手机验证码
+//84.我的信息——获取修改手机验证码
 static NSString *s_modifyPhoneValidate_method = @"agents/getUpdatePhoneDentcode";
 
-//82.我的信息——修改手机
+//85.我的信息——修改手机
 static NSString *s_modifyPhone_method = @"agents/updatePhone";
 
-//83.我的信息——获取修改邮箱验证码
+//86.我的信息——获取修改邮箱验证码
 static NSString *s_modifyEmailValidate_method = @"agents/getUpdateEmailDentcode";
 
-//84.我的信息——修改邮箱
+//87.我的信息——修改邮箱
 static NSString *s_modifyEmail_method = @"agents/updateEmail";
+
+//88.我的信息——修改密码
+static NSString *s_modifyPassword_method = @"agents/updatePassword";
+
+//89.我的信息——地址列表
+static NSString *s_addressList_method = @"agents/getAddressList";
+
+//90.我的信息——新增地址
+static NSString *s_addressAdd_method = @"agents/insertAddress";
+
+//91.我的信息——删除地址
+static NSString *s_addressDelete_method = @"agents/batchDeleteAddress";
+
+//91.a.我的信息——更新收货地址
+static NSString *s_addressUpdate_method = @"agents/updateAddress";
+
+//92.下级代理商管理——列表
+static NSString *s_subAgentList_method = @"lowerAgent/list";
+
+//95.下级代理商管理——设置默认分润
+static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
 
 @interface NetworkInterface : NSObject
 
@@ -256,22 +286,26 @@ static NSString *s_modifyEmail_method = @"agents/updateEmail";
  @abstract 32.用户管理——删除用户
  @param agentID  代理商id
  @param token    登录返回
- @param userID   删除用户的id
+ @param userIDs   删除用户的id数组
  @result finish  请求回调结果
  */
 + (void)deleteUserWithAgentID:(NSString *)agentID
                         token:(NSString *)token
-                       userID:(NSString *)userID
+                      userIDs:(NSArray *)userIDs
                      finished:(requestDidFinished)finish;
 
 /*!
  @abstract 33.用户管理——获取用户终端
  @param token    登录返回
  @param userID   用户id
+ @param page     分页参数 页
+ @param rows     分页参数 行
  @result finish  请求回调结果
  */
 + (void)getUserTerminalListWithUserID:(NSString *)userID
                                 token:(NSString *)token
+                                 page:(int)page
+                                 rows:(int)rows
                              finished:(requestDidFinished)finish;
 /*!
  @abstract 34.商品搜索条件
@@ -402,7 +436,7 @@ static NSString *s_modifyEmail_method = @"agents/updateEmail";
                            finished:(requestDidFinished)finish;
 
 /*!
- @abstract 55.交易流水获取终端列表
+ @abstract 57.交易流水——获取终端列表
  @param token    登录返回
  @param agentID  代理商id
  @result finish  请求回调结果
@@ -412,7 +446,41 @@ static NSString *s_modifyEmail_method = @"agents/updateEmail";
                                finished:(requestDidFinished)finish;
 
 /*!
- @abstract 60.我的消息列表
+ @abstract 58.交易流水——获取代理商列表
+ @param token    登录返回
+ @param agentID  代理商id
+ @result finish  请求回调结果
+ */
++ (void)getTradeAgentListWithAgentID:(NSString *)agentID
+                               token:(NSString *)token
+                            finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 59.交易流水——查询交易流水
+ @param agentID  代理商id
+ @param token    登录返回
+ @param tradeType  交易类型
+ @param terminalNumber  终端号
+ @param subAgentID  下级代理商
+ @param startTime   开始时间
+ @param endTime     结束时间
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getTradeRecordWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                        tradeType:(TradeType)tradeType
+                   terminalNumber:(NSString *)terminalNumber
+                       subAgentID:(NSString *)subAgentID
+                        startTime:(NSString *)startTime
+                          endTime:(NSString *)endTime
+                             page:(int)page
+                             rows:(int)rows
+                         finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 62.我的消息列表
  @param agentID  代理商id
  @param token    登录返回
  @param page     分页参数 页
@@ -426,7 +494,7 @@ static NSString *s_modifyEmail_method = @"agents/updateEmail";
                            finished:(requestDidFinished)finish;
 
 /*!
- @abstract 61.我的消息详情
+ @abstract 63.我的消息详情
  @param agentID  代理商id
  @param token    登录返回
  @param messageID  消息id
@@ -438,7 +506,7 @@ static NSString *s_modifyEmail_method = @"agents/updateEmail";
                              finished:(requestDidFinished)finish;
 
 /*!
- @abstract 62.我的消息单删
+ @abstract 64.我的消息单删
  @param agentID  代理商id
  @param token    登录返回
  @param messageID  消息id
@@ -450,7 +518,7 @@ static NSString *s_modifyEmail_method = @"agents/updateEmail";
                               finished:(requestDidFinished)finish;
 
 /*!
- @abstract 63.我的消息多删
+ @abstract 65.我的消息多删
  @param agentID  代理商id
  @param token    登录返回
  @param messageIDs  消息id数组
@@ -462,7 +530,7 @@ static NSString *s_modifyEmail_method = @"agents/updateEmail";
                              finished:(requestDidFinished)finish;
 
 /*!
- @abstract 64.我的消息批量已读
+ @abstract 66.我的消息批量已读
  @param agentID  代理商id
  @param token    登录返回
  @param messageIDs  消息id数组
@@ -474,7 +542,39 @@ static NSString *s_modifyEmail_method = @"agents/updateEmail";
                            finished:(requestDidFinished)finish;
 
 /*!
- @abstract 80.我的信息——获取详情
+ @abstract 67.订单管理——列表
+ @param agentID  代理商id
+ @param token    登录返回
+ @param orderType  订单类型
+ @param keyword    关键字
+ @param status     订单状态
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getOrderListWithAgentID:(NSString *)agentID
+                          token:(NSString *)token
+                      orderType:(OrderType)orderType
+                        keyword:(NSString *)keyword
+                         status:(int)status
+                           page:(int)page
+                           rows:(int)rows
+                       finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 68.订单管理——批购列表  71.代购列表
+ @param token    登录返回
+ @param supplyType  批购还是代购
+ @param orderID    订单id
+ @result finish  请求回调结果
+ */
++ (void)getOrderDetailWithToken:(NSString *)token
+                      orderType:(SupplyGoodsType)supplyType
+                        orderID:(NSString *)orderID
+                       finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 83.我的信息——获取详情
  @param agentID  代理商id
  @param token    登录返回
  @result finish  请求回调结果
@@ -484,7 +584,7 @@ static NSString *s_modifyEmail_method = @"agents/updateEmail";
                           finished:(requestDidFinished)finish;
 
 /*!
- @abstract 81.我的信息——获取修改手机验证码
+ @abstract 84.我的信息——获取修改手机验证码
  @param agentID  代理商id
  @param token    登录返回
  @param phoneNumber  手机号
@@ -496,7 +596,7 @@ static NSString *s_modifyEmail_method = @"agents/updateEmail";
                                         finished:(requestDidFinished)finish;
 
 /*!
- @abstract 82.我的信息——修改手机
+ @abstract 85.我的信息——修改手机
  @param agentID  代理商id
  @param token    登录返回
  @param phoneNumber  新手机号码
@@ -510,7 +610,7 @@ static NSString *s_modifyEmail_method = @"agents/updateEmail";
                              finished:(requestDidFinished)finish;
 
 /*!
- @abstract 83.我的信息——获取修改邮箱验证码
+ @abstract 86.我的信息——获取修改邮箱验证码
  @param agentID  代理商id
  @param token    登录返回
  @param email    邮箱
@@ -522,7 +622,7 @@ static NSString *s_modifyEmail_method = @"agents/updateEmail";
                                        finished:(requestDidFinished)finish;
 
 /*!
- @abstract 84.我的信息——修改邮箱
+ @abstract 87.我的信息——修改邮箱
  @param agentID  代理商id
  @param token    登录返回
  @param email    新邮箱
@@ -533,6 +633,110 @@ static NSString *s_modifyEmail_method = @"agents/updateEmail";
                                token:(NSString *)token
                             newEmail:(NSString *)email
                             validate:(NSString *)validate
+                            finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 88.我的信息——修改密码
+ @param agentID  代理商id
+ @param token    登录返回
+ @param primaryPassword   原密码
+ @param newPassword   新密码
+ @result finish  请求回调结果
+ */
++ (void)modifyPasswordWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                  primaryPassword:(NSString *)primaryPassword
+                      newPassword:(NSString *)newPassword
+                         finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 89.我的信息——地址列表
+ @param agentID  代理商id
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getAddressListWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                         finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 90.我的信息——新增地址
+ @param agentID  代理商id
+ @param token    登录返回
+ @param cityID   城市id
+ @param receiverName   收件人姓名
+ @param phoneNumber    收件人手机
+ @param zipCode  邮政编码
+ @param address  详细地址
+ @param addressType    是否默认地址
+ @result finish  请求回调结果
+ */
++ (void)addAddressWithAgentID:(NSString *)agentID
+                        token:(NSString *)token
+                       cityID:(NSString *)cityID
+                 receiverName:(NSString *)receiverName
+                  phoneNumber:(NSString *)phoneNumber
+                      zipCode:(NSString *)zipCode
+                      address:(NSString *)address
+                    isDefault:(AddressType)addressType
+                     finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 91.我的信息——批量删除地址
+ @param token    登录返回
+ @param addressIDs   地址id数组
+ @result finish  请求回调结果
+ */
++ (void)deleteAddressWithToken:(NSString *)token
+                    addressIDs:(NSArray *)addressIDs
+                      finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 91.a.修改地址
+ @param token       登录返回
+ @param addressID   地址ID
+ @param cityID    城市id
+ @param receiverName   收件人姓名
+ @param phoneNumber   收件人电话
+ @param zipCode   邮编
+ @param address   详细地址
+ @param addressType  是否默认地址
+ @result finish  请求回调结果
+ */
++ (void)updateAddressWithToken:(NSString *)token
+                     addressID:(NSString *)addressID
+                        cityID:(NSString *)cityID
+                  receiverName:(NSString *)receiverName
+                   phoneNumber:(NSString *)phoneNumber
+                       zipCode:(NSString *)zipCode
+                       address:(NSString *)address
+                     isDefault:(AddressType)addressType
+                      finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 92.下级代理商管理——列表
+ @param agentID  代理商id
+ @param token    登录返回
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getSubAgentListWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+                              page:(int)page
+                              rows:(int)rows
+                          finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 95.下级代理商管理——设置默认分润
+ @param agentID  代理商id
+ @param token    登录返回
+ @param precent  分润比例
+ @result finish  请求回调结果
+ */
++ (void)setDefaultBenefitWithAgentID:(NSString *)agentID
+                               token:(NSString *)token
+                             precent:(CGFloat)precent
                             finished:(requestDidFinished)finish;
 
 @end

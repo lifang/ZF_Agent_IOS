@@ -71,7 +71,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getUserTerminalListWithUserID:_userModel.userID token:delegate.token finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getUserTerminalListWithUserID:_userModel.userID token:delegate.token page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -123,7 +123,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface deleteUserWithAgentID:delegate.agentID token:delegate.token userID:_userModel.userID finished:^(BOOL success, NSData *response) {
+    [NetworkInterface deleteUserWithAgentID:delegate.agentID token:delegate.token userIDs:[NSArray arrayWithObject:_userModel.userID] finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;

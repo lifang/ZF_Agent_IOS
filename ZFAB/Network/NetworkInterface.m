@@ -217,15 +217,15 @@ static NSString *HTTP_GET  = @"GET";
 //32.
 + (void)deleteUserWithAgentID:(NSString *)agentID
                         token:(NSString *)token
-                       userID:(NSString *)userID
+                      userIDs:(NSArray *)userIDs
                      finished:(requestDidFinished)finish {
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     if (agentID) {
         [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
     }
-    if (userID) {
-        [paramDict setObject:[NSNumber numberWithInt:[userID intValue]] forKey:@"customerId"];
+    if (userIDs) {
+        [paramDict setObject:userIDs forKey:@"customerArrayId"];
     }
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_userDelete_method];
@@ -238,12 +238,16 @@ static NSString *HTTP_GET  = @"GET";
 //33.
 + (void)getUserTerminalListWithUserID:(NSString *)userID
                                 token:(NSString *)token
+                                 page:(int)page
+                                 rows:(int)rows
                              finished:(requestDidFinished)finish {
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     if (userID) {
         [paramDict setObject:[NSNumber numberWithInt:[userID intValue]] forKey:@"customerId"];
     }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_userTerminal_method];
     [[self class] requestWithURL:urlString
@@ -452,7 +456,7 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
-//55.
+//57.
 + (void)getTradeTerminalListWithAgentID:(NSString *)agentID
                                   token:(NSString *)token
                                finished:(requestDidFinished)finish {
@@ -469,7 +473,57 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
-//60.
+//58.
++ (void)getTradeAgentListWithAgentID:(NSString *)agentID
+                               token:(NSString *)token
+                            finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_tradeAgentList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//59.
++ (void)getTradeRecordWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                        tradeType:(TradeType)tradeType
+                   terminalNumber:(NSString *)terminalNumber
+                       subAgentID:(NSString *)subAgentID
+                        startTime:(NSString *)startTime
+                          endTime:(NSString *)endTime
+                             page:(int)page
+                             rows:(int)rows
+                         finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    [paramDict setObject:[NSNumber numberWithInt:tradeType] forKey:@"tradeTypeId"];
+    if (terminalNumber) {
+        [paramDict setObject:terminalNumber forKey:@"terminalNumber"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:[subAgentID intValue]] forKey:@"sonagentId"];
+    if (startTime) {
+        [paramDict setObject:startTime forKey:@"startTime"];
+    }
+    if (endTime) {
+        [paramDict setObject:endTime forKey:@"endTime"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_tradeRecord_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//62.
 + (void)getMyMessageListWithAgentID:(NSString *)agentID
                               token:(NSString *)token
                                page:(int)page
@@ -490,7 +544,7 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
-//61.
+//63.
 + (void)getMyMessageDetailWithAgentID:(NSString *)agentID
                                 token:(NSString *)token
                             messageID:(NSString *)messageID
@@ -509,7 +563,7 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
-//62.
+//64.
 + (void)deleteSingleMessageWithAgentID:(NSString *)agentID
                                  token:(NSString *)token
                              messageID:(NSString *)messageID
@@ -528,7 +582,7 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
-//63.
+//65.
 + (void)deleteMultiMessageWithAgentID:(NSString *)agentID
                                 token:(NSString *)token
                            messageIDs:(NSArray *)messageIDs
@@ -547,7 +601,7 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
-//64.
+//66.
 + (void)readMultiMessageWithAgentID:(NSString *)agentID
                               token:(NSString *)token
                          messageIDs:(NSArray *)messageIDs
@@ -566,7 +620,58 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
-//80.
+//67.
++ (void)getOrderListWithAgentID:(NSString *)agentID
+                          token:(NSString *)token
+                      orderType:(OrderType)orderType
+                        keyword:(NSString *)keyword
+                         status:(int)status
+                           page:(int)page
+                           rows:(int)rows
+                       finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
+    if (orderType > 0) {
+        [paramDict setObject:[NSNumber numberWithInt:orderType] forKey:@"p"];
+    }
+    if (keyword) {
+        [paramDict setObject:keyword forKey:@"search"];
+    }
+    if (status > 0) {
+        [paramDict setObject:[NSString stringWithFormat:@"%d",status] forKey:@"q"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_orderList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//68、71.
++ (void)getOrderDetailWithToken:(NSString *)token
+                      orderType:(SupplyGoodsType)supplyType
+                        orderID:(NSString *)orderID
+                       finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[orderID intValue]] forKey:@"id"];
+    //url
+    NSString *method = s_orderDetailWholesale_method;
+    if (supplyType == SupplyGoodsProcurement) {
+        method = s_orderDetailProcurement_method;
+    }
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//83.
 + (void)getPersonDetailWithAgentID:(NSString *)agentID
                              token:(NSString *)token
                           finished:(requestDidFinished)finish {
@@ -583,7 +688,7 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
-//81.
+//84.
 + (void)getPersonModifyMobileValidateWithAgentID:(NSString *)agentID
                                            token:(NSString *)token
                                      phoneNumber:(NSString *)phoneNumber
@@ -604,7 +709,7 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
-//82.
+//85.
 + (void)modifyPersonMobileWithAgentID:(NSString *)agentID
                                 token:(NSString *)token
                        newPhoneNumber:(NSString *)phoneNumber
@@ -629,7 +734,7 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
-//83.
+//86.
 + (void)getPersonModifyEmailValidateWithAgentID:(NSString *)agentID
                                           token:(NSString *)token
                                           email:(NSString *)email
@@ -650,7 +755,7 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
-//84.
+//87.
 + (void)modifyPersonEmailWithAgentID:(NSString *)agentID
                                token:(NSString *)token
                             newEmail:(NSString *)email
@@ -669,6 +774,179 @@ static NSString *HTTP_GET  = @"GET";
     }
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_modifyEmail_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//88.
++ (void)modifyPasswordWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                  primaryPassword:(NSString *)primaryPassword
+                      newPassword:(NSString *)newPassword
+                         finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
+    }
+    if (primaryPassword) {
+        [paramDict setObject:[EncryptHelper MD5_encryptWithString:primaryPassword] forKey:@"passwordOld"];
+    }
+    if (newPassword) {
+        [paramDict setObject:[EncryptHelper MD5_encryptWithString:newPassword] forKey:@"password"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_modifyPassword_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//89.
++ (void)getAddressListWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                         finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
+    }
+
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_addressList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//90.
++ (void)addAddressWithAgentID:(NSString *)agentID
+                        token:(NSString *)token
+                       cityID:(NSString *)cityID
+                 receiverName:(NSString *)receiverName
+                  phoneNumber:(NSString *)phoneNumber
+                      zipCode:(NSString *)zipCode
+                      address:(NSString *)address
+                    isDefault:(AddressType)addressType
+                     finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
+    }
+    if (cityID) {
+        [paramDict setObject:cityID forKey:@"cityId"];
+    }
+    if (receiverName) {
+        [paramDict setObject:receiverName forKey:@"receiver"];
+    }
+    if (phoneNumber) {
+        [paramDict setObject:phoneNumber forKey:@"moblephone"];
+    }
+    if (zipCode) {
+        [paramDict setObject:zipCode forKey:@"zipCode"];
+    }
+    if (address) {
+        [paramDict setObject:address forKey:@"address"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:addressType] forKey:@"isDefault"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_addressAdd_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//91.
++ (void)deleteAddressWithToken:(NSString *)token
+                    addressIDs:(NSArray *)addressIDs
+                      finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:addressIDs forKey:@"ids"];
+    
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_addressDelete_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//91.a.
++ (void)updateAddressWithToken:(NSString *)token
+                     addressID:(NSString *)addressID
+                        cityID:(NSString *)cityID
+                  receiverName:(NSString *)receiverName
+                   phoneNumber:(NSString *)phoneNumber
+                       zipCode:(NSString *)zipCode
+                       address:(NSString *)address
+                     isDefault:(AddressType)addressType
+                      finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[addressID intValue]] forKey:@"id"];
+    if (cityID) {
+        [paramDict setObject:cityID forKey:@"cityId"];
+    }
+    if (receiverName) {
+        [paramDict setObject:receiverName forKey:@"receiver"];
+    }
+    if (phoneNumber) {
+        [paramDict setObject:phoneNumber forKey:@"moblephone"];
+    }
+    if (zipCode) {
+        [paramDict setObject:zipCode forKey:@"zipCode"];
+    }
+    if (address) {
+        [paramDict setObject:address forKey:@"address"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:addressType] forKey:@"isDefault"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_addressUpdate_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//92.
++ (void)getSubAgentListWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+                              page:(int)page
+                              rows:(int)rows
+                          finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (agentID) {
+        [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentsId"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgentList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//95.
++ (void)setDefaultBenefitWithAgentID:(NSString *)agentID
+                               token:(NSString *)token
+                             precent:(CGFloat)precent
+                            finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentsId"];
+    [paramDict setObject:[NSNumber numberWithFloat:precent] forKey:@"defaultProfit"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgentDefaultBenefit_method];
     [[self class] requestWithURL:urlString
                           params:paramDict
                       httpMethod:HTTP_POST
