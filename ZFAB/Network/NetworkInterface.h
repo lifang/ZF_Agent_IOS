@@ -62,6 +62,12 @@ typedef enum {
 }CSType;
 
 typedef enum {
+    OpenApplyNone = 0,
+    OpenApplyPublic,    //对公
+    OpenApplyPrivate,   //对私
+}OpenApplyType;  //开通类型
+
+typedef enum {
     AddressNone = 0,
     AddressDefault,    //默认地址
     AddressOther,      //非默认地址
@@ -83,7 +89,34 @@ static NSString *s_emailValidate_method = @"agent/sendEmailVerificationCode";
 static NSString *s_findPassword_method = @"agent/updatePassword";
 
 //7.注册图片上传
-static NSString *s_uploadRegisterImage_method = @"agent/uploadFile";
+static NSString *s_uploadRegisterImage_method = @"comment/upload/tempImage";
+
+//8 9.申请开通——申请开通列表
+static NSString *s_applyList_method = @"apply/searchApplyList";
+
+//10.申请开通——进入开通申请
+static NSString *s_applyDetail_method = @"apply/getApplyDetails";
+
+//11.申请开通——获取商户
+static NSString *s_applyMerchantDetail_method = @"apply/getMerchant";
+
+//12.申请开通——获取支付通道
+static NSString *s_channelList_method = @"apply/getChannels";
+
+//13.申请开通——选择银行
+static NSString *s_bank_method = @"apply/chooseBank";
+
+//16.申请开通——图片上传
+static NSString *s_uploadApplyImage_method = @"comment/upload/tempImage";
+
+//17.申请开通——查看终端详情
+static NSString *s_terminalDetail_method = @"terminal/getApplyDetails";
+
+//18.申请开通——获取商户列表
+static NSString *s_merchantList_method = @"terminal/getMerchants";
+
+//20.终端管理——获取终端列表
+static NSString *s_terminalList_method = @"apply/searchApplyList";
 
 //31.用户管理——获取用户列表
 static NSString *s_userList_method = @"user/getUser";
@@ -145,8 +178,44 @@ static NSString *s_orderList_method = @"order/orderSearch";
 //68.订单管理——批购详情
 static NSString *s_orderDetailWholesale_method = @"order/getWholesaleById";
 
+//69.订单管理——批购取消订单
+static NSString *s_orderCancelWholesale_method = @"order/cancelWholesale";
+
 //71.订单管理——代购详情
 static NSString *s_orderDetailProcurement_method = @"order/getProxyById";
+
+//72.订单管理——代购取消订单
+static NSString *s_orderCancelProcurement_method = @"order/cancelProxy";
+
+//73.售后记录——售后单列表
+static NSString *s_afterSaleList_method = @"cs/agents/search";
+
+//74.售后记录——售后单取消申请
+static NSString *s_afterSaleCancel_method = @"cs/agents/cancelApply";
+
+//75.售后记录——售后单详情
+static NSString *s_afterSaleDetail_method = @"cs/agents/getById";
+
+//76.售后记录——注销记录列表
+static NSString *s_cancelList_method = @"cs/cancels/search";
+
+//77.售后记录——注销记录取消申请
+static NSString *s_cancelCancel_method = @"cs/cancels/cancelApply";
+
+//78.售后记录——注销记录重新提交
+static NSString *s_cancelApply_mehtod = @"cs/cancels/resubmitCancel";
+
+//79.售后记录——注销记录详情
+static NSString *s_cancelDetail_method = @"cs/cancels/getCanCelById";
+
+//80.售后记录——更新资料列表
+static NSString *s_updateList_method = @"update/info/search";
+
+//81.售后记录——更新资料详情
+static NSString *s_updateDetail_method = @"update/info/getInfoById";
+
+//82.售后记录——更新资料取消申请
+static NSString *s_updateCancel_method = @"update/info/cancelApply";
 
 //83.我的信息——获取详情
 static NSString *s_personDetail_method = @"agents/getOne";
@@ -271,6 +340,112 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
  */
 + (void)uploadRegisterImageWithImage:(UIImage *)image
                             finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 8 9.申请开通——申请开通列表
+ @param token    登录返回
+ @param agentID   代理商id
+ @param keyword   关键字
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getApplyListWithAgentID:(NSString *)agentID
+                          token:(NSString *)token
+                        keyword:(NSString *)keyword
+                           page:(int)page
+                           rows:(int)rows
+                       finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 10.申请开通——进入开通申请
+ @param agentID  代理商id
+ @param token    登录返回
+ @param terminalNumber    终端id
+ @param applyType   对公 对私
+ @result finish  请求回调结果
+ */
++ (void)beginToApplyWithAgentID:(NSString *)agentID
+                          token:(NSString *)token
+                     terminalID:(NSString *)terminalID
+                  openApplyType:(OpenApplyType)applyType
+                       finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 11.申请开通——商户详情
+ @param token    登录返回
+ @param merchantID   商户id
+ @result finish  请求回调结果
+ */
++ (void)getMerchantDetaikWithToken:(NSString *)token
+                        merchantID:(NSString *)merchantID
+                          finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 12.申请开通——获取支付通道
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getChannelListWithToken:(NSString *)token
+                       finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 13.申请开通——选择银行
+ @param token    登录返回
+ @param keyword  关键字
+ @result finish  请求回调结果
+ */
++ (void)getBankListWithToken:(NSString *)token
+                     keyword:(NSString *)keyword
+                    finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 16.申请开通——上传图片
+ @param image       图片
+ @result finish  请求回调结果
+ */
++ (void)uploadApplyImageWithImage:(UIImage *)image
+                         finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 17.申请开通——查看终端详情
+ @param token    登录返回
+ @param terminalID 终端id
+ @result finish  请求回调结果
+ */
++ (void)getTerminalDetailWithToken:(NSString *)token
+                        terminalID:(NSString *)terminalID
+                          finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 18.申请开通——获取商户列表
+ @param agentID     代理商ID
+ @param token    登录返回
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getMerchantListWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+                              page:(int)page
+                              rows:(int)rows
+                          finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 20.终端管理——获取终端列表
+ @param agentID     代理商ID
+ @param token    登录返回
+ @param keyword  终端号关键字
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getTerminalListWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+                           keyword:(NSString *)keyword
+                              page:(int)page
+                              rows:(int)rows
+                          finished:(requestDidFinished)finish;
 
 /*!
  @abstract 31.用户管理——获取用户列表
@@ -571,6 +746,80 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
 + (void)getOrderDetailWithToken:(NSString *)token
                       orderType:(SupplyGoodsType)supplyType
                         orderID:(NSString *)orderID
+                       finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 69.订单管理——取消批购订单
+ @param token    登录返回
+ @param orderID    订单id
+ @result finish  请求回调结果
+ */
++ (void)cancelWholesaleOrderWithToken:(NSString *)token
+                              orderID:(NSString *)orderID
+                             finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 72.订单管理——取消代购订单
+ @param token    登录返回
+ @param orderID    订单id
+ @result finish  请求回调结果
+ */
++ (void)cancelProcurementOrderWithToken:(NSString *)token
+                                orderID:(NSString *)orderID
+                               finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 73.售后单列表  76.注销记录列表 80.更新记录列表
+ @param agentID  代理商id
+ @param token    登录返回
+ @param type     售后类型
+ @param keyword  搜索关键字
+ @param status   订单状态
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getCSListWithAgentID:(NSString *)agentID
+                       token:(NSString *)token
+                      csType:(CSType)type
+                     keyword:(NSString *)keyword
+                      status:(int)status
+                        page:(int)page
+                        rows:(int)rows
+                    finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 74.售后单取消申请  77.注销记录取消申请 82.更新记录取消申请
+ @param token    登录返回
+ @param type     售后类型
+ @param csID     售后单id
+ @result finish  请求回调结果
+ */
++ (void)csCancelApplyWithToken:(NSString *)token
+                        csType:(CSType)type
+                          csID:(NSString *)csID
+                      finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 75.售后单详情 79.注销记录详情 81.更新记录详情
+ @param token    登录返回
+ @param type     售后类型
+ @param csID     售后单id
+ @result finish  请求回调结果
+ */
++ (void)getCSDetailWithToken:(NSString *)token
+                      csType:(CSType)type
+                        csID:(NSString *)csID
+                    finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 78.售后记录——重新提交注销
+ @param token    登录返回
+ @param csID     售后单id
+ @result finish  请求回调结果
+ */
++ (void)csRepeatAppleyWithToken:(NSString *)token
+                           csID:(NSString *)csID
                        finished:(requestDidFinished)finish;
 
 /*!

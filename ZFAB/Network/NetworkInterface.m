@@ -193,8 +193,165 @@ static NSString *HTTP_GET  = @"GET";
                                                                 finished:finish];
     [request uploadImageData:UIImagePNGRepresentation(image)
                    imageName:nil
-                         key:@"filename"];
+                         key:@"img"];
     [request start];
+}
+
+//8. 9.
++ (void)getApplyListWithAgentID:(NSString *)agentID
+                          token:(NSString *)token
+                        keyword:(NSString *)keyword
+                           page:(int)page
+                           rows:(int)rows
+                       finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    if (keyword) {
+        [paramDict setObject:keyword forKey:@"serialNum"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_applyList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+
+}
+
+//10.
++ (void)beginToApplyWithAgentID:(NSString *)agentID
+                          token:(NSString *)token
+                     terminalID:(NSString *)terminalID
+                  openApplyType:(OpenApplyType)applyType
+                       finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
+    [paramDict setObject:[NSNumber numberWithInt:[terminalID intValue]] forKey:@"terminalsId"];
+    [paramDict setObject:[NSNumber numberWithInt:applyType] forKey:@"status"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_applyDetail_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//11.
++ (void)getMerchantDetaikWithToken:(NSString *)token
+                        merchantID:(NSString *)merchantID
+                          finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[merchantID intValue]] forKey:@"merchantId"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_applyMerchantDetail_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//12.
++ (void)getChannelListWithToken:(NSString *)token
+                       finished:(requestDidFinished)finish {
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_channelList_method];
+    [[self class] requestWithURL:urlString
+                          params:nil
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//13.
++ (void)getBankListWithToken:(NSString *)token
+                     keyword:(NSString *)keyword
+                    finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (keyword) {
+        [paramDict setObject:keyword forKey:@"bankName"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_bank_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//16.
++ (void)uploadApplyImageWithImage:(UIImage *)image
+                         finished:(requestDidFinished)finish {
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_uploadApplyImage_method];
+    NetworkRequest *request = [[NetworkRequest alloc] initWithRequestURL:urlString
+                                                              httpMethod:HTTP_POST
+                                                                finished:finish];
+    [request uploadImageData:UIImagePNGRepresentation(image)
+                   imageName:nil
+                         key:@"img"];
+    [request start];
+}
+
+//17.
++ (void)getTerminalDetailWithToken:(NSString *)token
+                        terminalID:(NSString *)terminalID
+                          finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[terminalID intValue]] forKey:@"terminalsId"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_terminalDetail_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//18.
++ (void)getMerchantListWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+                              page:(int)page
+                              rows:(int)rows
+                          finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_merchantList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//20.
++ (void)getTerminalListWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+                           keyword:(NSString *)keyword
+                              page:(int)page
+                              rows:(int)rows
+                          finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    if (keyword) {
+        [paramDict setObject:keyword forKey:@"serialNum"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_terminalList_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
 }
 
 //31.
@@ -665,6 +822,154 @@ static NSString *HTTP_GET  = @"GET";
         method = s_orderDetailProcurement_method;
     }
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//69.
++ (void)cancelWholesaleOrderWithToken:(NSString *)token
+                              orderID:(NSString *)orderID
+                             finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[orderID intValue]] forKey:@"id"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_orderCancelWholesale_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//72.
++ (void)cancelProcurementOrderWithToken:(NSString *)token
+                                orderID:(NSString *)orderID
+                               finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[orderID intValue]] forKey:@"id"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_orderCancelProcurement_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//73. 76. 80.
++ (void)getCSListWithAgentID:(NSString *)agentID
+                       token:(NSString *)token
+                      csType:(CSType)type
+                     keyword:(NSString *)keyword
+                      status:(int)status
+                        page:(int)page
+                        rows:(int)rows
+                    finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"customerId"];
+    if (keyword) {
+        [paramDict setObject:keyword forKey:@"search"];
+    }
+    if (status > 0) {
+        [paramDict setObject:[NSNumber numberWithInt:status] forKey:@"q"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
+    //url
+    NSString *method = nil;
+    switch (type) {
+        case CSTypeAfterSale:
+            method = s_afterSaleList_method;
+            break;
+        case CSTypeUpdate:
+            method = s_updateList_method;
+            break;
+        case CSTypeCancel:
+            method = s_cancelList_method;
+            break;
+        default:
+            break;
+    }
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+
+}
+
+//74. 77. 82.
++ (void)csCancelApplyWithToken:(NSString *)token
+                        csType:(CSType)type
+                          csID:(NSString *)csID
+                      finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[csID intValue]] forKey:@"id"];
+    //url
+    NSString *method = nil;
+    switch (type) {
+        case CSTypeAfterSale:
+            method = s_afterSaleCancel_method;
+            break;
+        case CSTypeUpdate:
+            method = s_updateCancel_method;
+            break;
+        case CSTypeCancel:
+            method = s_cancelCancel_method;
+            break;
+        default:
+            break;
+    }
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//75. 79. 81.
++ (void)getCSDetailWithToken:(NSString *)token
+                      csType:(CSType)type
+                        csID:(NSString *)csID
+                    finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[csID intValue]] forKey:@"id"];
+    //url
+    NSString *method = nil;
+    switch (type) {
+        case CSTypeAfterSale:
+            method = s_afterSaleDetail_method;
+            break;
+        case CSTypeUpdate:
+            method = s_updateDetail_method;
+            break;
+        case CSTypeCancel:
+            method = s_cancelDetail_method;
+            break;
+        default:
+            break;
+    }
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
+//78.
++ (void)csRepeatAppleyWithToken:(NSString *)token
+                           csID:(NSString *)csID
+                       finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[csID intValue]] forKey:@"id"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_cancelApply_mehtod];
     [[self class] requestWithURL:urlString
                           params:paramDict
                       httpMethod:HTTP_POST

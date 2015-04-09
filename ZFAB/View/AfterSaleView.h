@@ -8,15 +8,15 @@
 
 /***********售后按钮***********/
 
-typedef enum {
-    AfterSaleNone = 0,
-    ///售后单记录
-    AfterSaleBill,
-    ///更新资料记录
-    AfterSaleUpdate,
-    ///注销记录
-    AfterSaleCancel,
-}AfterSaleTag;
+//typedef enum {
+//    AfterSaleNone = 0,
+//    ///售后单记录
+//    AfterSaleBill,
+//    ///更新资料记录
+//    AfterSaleUpdate,
+//    ///注销记录
+//    AfterSaleCancel,
+//}AfterSaleTag;
 
 #import <UIKit/UIKit.h>
 

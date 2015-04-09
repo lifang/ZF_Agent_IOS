@@ -34,9 +34,6 @@
     _agentID = @"1";
     _token = @"123";
     _cityID = @"1";
-    [NetworkInterface getOrderListWithAgentID:_agentID token:_token orderType:3 keyword:nil status:-1 page:1 rows:kPageSize finished:^(BOOL success,NSData *response) {
-        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-    }];
     return YES;
 }
 

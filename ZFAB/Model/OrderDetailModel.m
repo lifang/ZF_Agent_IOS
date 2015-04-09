@@ -70,6 +70,7 @@
         _paidDeposit = [[dict objectForKey:@"zhifu_dingjin"] floatValue] / 100;
         _totalCount = [[dict objectForKey:@"total_quantity"] intValue];
         _shipmentCount = [[dict objectForKey:@"shipped_quantity"] intValue];
+        _proTotalCount = [[dict objectForKey:@"order_totalNum"] intValue];
         
         if ([dict objectForKey:@"guishu_user"]) {
             _belongUser = [NSString stringWithFormat:@"%@",[dict objectForKey:@"guishu_user"]];
@@ -78,7 +79,7 @@
             _belongUser = @"";
         }
         
-        id recordObject = [[dict objectForKey:@"comments"] objectForKey:@"content"];
+        id recordObject = [[dict objectForKey:@"comments"] objectForKey:@"list"];
         if ([recordObject isKindOfClass:[NSArray class]]) {
             _recordList = [[NSMutableArray alloc] init];
             for (int i = 0; i < [recordObject count]; i++) {
@@ -103,4 +104,54 @@
     }
     return self;
 }
+
+#pragma mark - Data
+
+- (NSString *)getStatusStringWithSupplyType:(SupplyGoodsType)supplyType {
+    NSString *statusString = nil;
+    if (supplyType == SupplyGoodsWholesale) {
+        switch (_orderStatus) {
+            case WholesaleStatusUnPaid:
+                statusString = @"未付款";
+                break;
+            case WholesaleStatusPartPaid:
+                statusString = @"已付定金";
+                break;
+            case WholesaleStatusFinish:
+                statusString = @"已完成";
+                break;
+            case WholesaleStatusCancel:
+                statusString = @"已取消";
+                break;
+            default:
+                break;
+        }
+    }
+    else if (supplyType == SupplyGoodsProcurement) {
+        switch (_orderStatus) {
+            case ProcurementStatusUnPaid:
+                statusString = @"未付款";
+                break;
+            case ProcurementStatusPaid:
+                statusString = @"已付款";
+                break;
+            case ProcurementStatusSend:
+                statusString = @"已发货";
+                break;
+            case ProcurementStatusReview:
+                statusString = @"已评价";
+                break;
+            case ProcurementStatusCancel:
+                statusString = @"已取消";
+                break;
+            case ProcurementStatusClosed:
+                statusString = @"交易关闭";
+                break;
+            default:
+                break;
+        }
+    }
+    return statusString;
+}
+
 @end

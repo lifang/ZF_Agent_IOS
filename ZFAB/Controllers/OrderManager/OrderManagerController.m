@@ -14,7 +14,7 @@
 #import "KxMenu.h"
 #import "OrderDetailController.h"
 
-@interface OrderManagerController ()<OrderCellDelegate>
+@interface OrderManagerController ()<OrderCellDelegate,UIAlertViewDelegate>
 
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
 
@@ -31,9 +31,15 @@
 
 @property (nonatomic, strong) NSMutableArray *orderItem;
 
+@property (nonatomic, strong) OrderModel *selectedOrder;
+
 @end
 
 @implementation OrderManagerController
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,6 +48,10 @@
     _orderItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
     self.supplyType = SupplyGoodsWholesale;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshOrderList:)
+                                                 name:RefreshOrderListNotification
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -260,6 +270,74 @@
         }
         else {
             [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
+        }
+    }];
+}
+
+//取消批购订单
+- (void)cancelWholesaleOrder {
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface cancelWholesaleOrderWithToken:delegate.token orderID:_selectedOrder.orderID finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    hud.labelText = @"订单取消成功";
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshOrderListNotification object:nil];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+//取消代购订单
+- (void)cancelProcurementOrder {
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface cancelProcurementOrderWithToken:delegate.token orderID:_selectedOrder.orderID finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    hud.labelText = @"订单取消成功";
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshOrderListNotification object:nil];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
         }
     }];
 }
@@ -532,7 +610,11 @@
              [identifier isEqualToString:procurementSecondIdentifier]) {
         return kOrderLongCellHeight;
     }
-    return 44.f;
+    //下面两种情况防止返回订单状态为其他枚举值
+    else if (_supplyType == SupplyGoodsWholesale) {
+        return kOrderShortCellHeight + kFlexibleHeight;
+    }
+    return kOrderShortCellHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -551,6 +633,65 @@
 
 - (void)pullUpToLoadData {
     [self downloadDataWithPage:self.page isMore:YES];
+}
+
+#pragma mark - CellDelegate
+
+//批购
+- (void)orderCellCancelWholesaleOrder:(OrderModel *)model {
+    _selectedOrder = model;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                    message:@"确定取消此订单？"
+                                                   delegate:self
+                                          cancelButtonTitle:@"取消"
+                                          otherButtonTitles:@"确定", nil];
+    [alert show];
+}
+
+- (void)orderCellPayWholesaleOrder:(OrderModel *)model {
+    
+}
+
+- (void)orderCellPayDepositOrder:(OrderModel *)model {
+    
+}
+
+- (void)orderCellWholesaleRepeat:(OrderModel *)model {
+    
+}
+
+//代购
+- (void)orderCellCancelProcurementOrder:(OrderModel *)model {
+    
+}
+
+- (void)orderCellPayProcurementOrder:(OrderModel *)model {
+    
+}
+
+- (void)orderCellProcurementRepeat:(OrderModel *)model {
+    
+}
+
+#pragma mark - AlertView
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        if (_supplyType == SupplyGoodsWholesale) {
+            //批购
+            [self cancelWholesaleOrder];
+        }
+        else {
+            //代购
+            [self cancelProcurementOrder];
+        }
+    }
+}
+
+#pragma mark - NSNotification
+
+- (void)refreshOrderList:(NSNotification *)notification {
+    [self performSelector:@selector(firstLoadData) withObject:nil afterDelay:0.1f];
 }
 
 @end

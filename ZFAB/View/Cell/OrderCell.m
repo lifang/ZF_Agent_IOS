@@ -538,7 +538,7 @@ typedef enum {
     else if ([_identifier isEqualToString:procurementSecondIdentifier]) {
         //代购 已发货 已取消 交易关闭
         [self addLine];
-        UIButton *repeatBtn = [self buttonWithTitle:@"再次批购" action:@selector(repeatProcurement:) style:orderBtnStyleSecond];
+        UIButton *repeatBtn = [self buttonWithTitle:@"再次代购" action:@selector(repeatProcurement:) style:orderBtnStyleSecond];
         [self.contentView addSubview:repeatBtn];
         [self layoutButton:repeatBtn location:BtnPositionMiddle];
     }
@@ -745,37 +745,51 @@ typedef enum {
 
 //批购
 - (IBAction)cancelWholesalOrder:(id)sender {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(orderCellCancelWholesaleOrder:)]) {
+        [_delegate orderCellCancelWholesaleOrder:_cellData];
+    }
 }
 
 //支付定金
 - (IBAction)payDeposit:(id)sender {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(orderCellPayDepositOrder:)]) {
+        [_delegate orderCellPayDepositOrder:_cellData];
+    }
 }
 
 //付款
 - (IBAction)payWholesaleOrder:(id)sender {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(orderCellPayWholesaleOrder:)]) {
+        [_delegate orderCellPayWholesaleOrder:_cellData];
+    }
 }
 
 //再次批购
 - (IBAction)repeatWholesale:(id)sender {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(orderCellWholesaleRepeat:)]) {
+        [_delegate orderCellWholesaleRepeat:_cellData];
+    }
 }
 
 //代购
 - (IBAction)cancelProcurementOrder:(id)sender {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(orderCellCancelProcurementOrder:)]) {
+        [_delegate orderCellCancelProcurementOrder:_cellData];
+    }
 }
 
 //付款
 - (IBAction)payProcurementOrder:(id)sender {
-
+    if (_delegate && [_delegate respondsToSelector:@selector(orderCellPayProcurementOrder:)]) {
+        [_delegate orderCellPayProcurementOrder:_cellData];
+    }
 }
 
 //再次代购
 - (IBAction)repeatProcurement:(id)sender {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(orderCellProcurementRepeat:)]) {
+        [_delegate orderCellProcurementRepeat:_cellData];
+    }
 }
 
 @end

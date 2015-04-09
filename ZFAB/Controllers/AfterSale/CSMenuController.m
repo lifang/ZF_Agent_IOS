@@ -8,6 +8,7 @@
 
 #import "CSMenuController.h"
 #import "AfterSaleView.h"
+#import "CSListController.h"
 
 @interface CSMenuController ()
 
@@ -75,7 +76,10 @@
 #pragma mark - Action
 
 - (IBAction)selectedModule:(id)sender {
-    
+    UIButton *btn = (UIButton *)sender;
+    CSListController *listC = [[CSListController alloc] init];
+    listC.csType = (CSType)btn.tag;
+    [self.navigationController pushViewController:listC animated:YES];
 }
 
 

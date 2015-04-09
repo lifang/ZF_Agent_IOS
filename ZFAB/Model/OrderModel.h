@@ -24,7 +24,7 @@ typedef enum {
     WholesaleStatusUnPaid = 1,   //未付款
     WholesaleStatusPartPaid,     //已付定金
     WholesaleStatusFinish,       //已完成
-    WholesaleStatusCancel,       //已取消
+    WholesaleStatusCancel = 5,       //已取消
 }WholesaleOrderStatus;  //批购订单状态
 
 //批购 取消订单+支付定金

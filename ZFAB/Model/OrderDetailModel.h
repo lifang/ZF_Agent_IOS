@@ -34,9 +34,9 @@
 
 @property (nonatomic, assign) int orderStatus;
 
-/*批购字段*/
 @property (nonatomic, assign) CGFloat actualPrice;   //实付金额
 
+/*批购字段*/
 @property (nonatomic, assign) CGFloat totalDeposit;  //定金总额
 
 @property (nonatomic, assign) CGFloat paidDeposit;   //已付定金
@@ -44,12 +44,20 @@
 @property (nonatomic, assign) int totalCount;        //总数量
 
 @property (nonatomic, assign) int shipmentCount;     //已发货数量
+/*******************************/
 
 /*代购字段*/
 @property (nonatomic, strong) NSString *belongUser;  //归属用户
 
+@property (nonatomic, assign) int proTotalCount;   //代购总数量
+/***************/
+
 @property (nonatomic, strong) NSMutableArray *goodList;
 
 @property (nonatomic, strong) NSMutableArray *recordList;
+
+- (id)initWithParseDictionary:(NSDictionary *)dict;
+
+- (NSString *)getStatusStringWithSupplyType:(SupplyGoodsType)supplyType;
 
 @end

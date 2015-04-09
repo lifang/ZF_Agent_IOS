@@ -18,6 +18,13 @@
 
 @protocol OrderCellDelegate <NSObject>
 
+- (void)orderCellCancelWholesaleOrder:(OrderModel *)model;
+- (void)orderCellPayDepositOrder:(OrderModel *)model;
+- (void)orderCellPayWholesaleOrder:(OrderModel *)model;
+- (void)orderCellWholesaleRepeat:(OrderModel *)model;
+- (void)orderCellCancelProcurementOrder:(OrderModel *)model;
+- (void)orderCellPayProcurementOrder:(OrderModel *)model;
+- (void)orderCellProcurementRepeat:(OrderModel *)model;
 
 @end
 

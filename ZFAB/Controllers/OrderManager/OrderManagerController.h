@@ -8,6 +8,8 @@
 
 #import "RefreshViewController.h"
 
+static NSString *RefreshOrderListNotification = @"RefreshOrderListNotification";
+
 @interface OrderManagerController : RefreshViewController
 
 @end

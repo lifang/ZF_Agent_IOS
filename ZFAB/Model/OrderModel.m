@@ -93,6 +93,8 @@
     return self;
 }
 
+#pragma mark - Data
+
 - (NSString *)getCellIdentifierWithSupplyType:(SupplyGoodsType)supplyType {
     NSString *identifier = nil;
     if (supplyType == SupplyGoodsWholesale) {

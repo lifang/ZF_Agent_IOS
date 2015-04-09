@@ -7,7 +7,9 @@
 //
 
 #import "RefreshViewController.h"
-#import "NetworkInterface.h"
+#import "CSDataHandle.h"
+
+static NSString *RefreshCSListNotification = @"RefreshCSListNotification";
 
 @interface CSListController : RefreshViewController
 

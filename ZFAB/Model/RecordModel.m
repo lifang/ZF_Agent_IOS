@@ -25,4 +25,19 @@
     return self;
 }
 
+- (id)initWithParseTerminalDictionary:(NSDictionary *)dict {
+    if (self = [super init]) {
+        if ([dict objectForKey:@"name"]) {
+            _recordName = [NSString stringWithFormat:@"%@",[dict objectForKey:@"name"]];
+        }
+        if ([dict objectForKey:@"created_at"]) {
+            _recordTime = [NSString stringWithFormat:@"%@",[dict objectForKey:@"created_at"]];
+        }
+        if ([dict objectForKey:@"content"]) {
+            _recordContent = [NSString stringWithFormat:@"%@",[dict objectForKey:@"content"]];
+        }
+    }
+    return self;
+}
+
 @end

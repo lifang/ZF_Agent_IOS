@@ -16,6 +16,8 @@
 #import "OrderManagerController.h"
 #import "UserManagerController.h"
 #import "StockManagerController.h"
+#import "OpenApplyController.h"
+#import "TerminalManagerController.h"
 
 @interface HomeViewController ()
 
@@ -201,6 +203,9 @@
             break;
         case ModuleTerminalManager: {
             //终端管理
+            TerminalManagerController *terminalC = [[TerminalManagerController alloc] init];
+            terminalC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:terminalC animated:YES];
         }
             break;
         case ModuleUserManager: {
@@ -219,7 +224,9 @@
             break;
         case ModuleOpenApply: {
             //申请开通
-
+            OpenApplyController *applyC = [[OpenApplyController alloc] init];
+            applyC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:applyC animated:YES];
         }
             break;
         default:
