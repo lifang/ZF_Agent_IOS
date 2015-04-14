@@ -51,4 +51,16 @@
     return self;
 }
 
+- (id)initWithParsePGChannelDictionary:(NSDictionary *)dict {
+    if (self = [super init]) {
+        if ([dict objectForKey:@"id"]) {
+            _channelID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"id"]];
+        }
+        if ([dict objectForKey:@"paychannel"]) {
+            _channelName = [NSString stringWithFormat:@"%@",[dict objectForKey:@"paychannel"]];
+        }
+    }
+    return self;
+}
+
 @end

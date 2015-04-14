@@ -7,6 +7,7 @@
 //
 
 #import "CommonViewController.h"
+#import "SearchHistoryHelper.h"
 #import "ZFSearchBar.h"
 
 @protocol SearchDelegate <NSObject>
@@ -20,5 +21,7 @@
 @property (nonatomic, assign) id<SearchDelegate>delegate;
 
 @property (nonatomic, strong) NSString *keyword;
+
+@property (nonatomic, assign) HistoryType type;
 
 @end

@@ -41,19 +41,19 @@
 - (NSString *)getOpenStatusString {
     NSString *status = nil;
     switch (_openStatus) {
-        case TerminalStatusOpened:
+        case StockTerminalStatusOpened:
             status = @"已开通";
             break;
-        case TerminalStatusPartOpened:
+        case StockTerminalStatusPartOpened:
             status = @"部分开通";
             break;
-        case TerminalStatusUnOpened:
+        case StockTerminalStatusUnOpened:
             status = @"未开通";
             break;
-        case TerminalStatusCanceled:
+        case StockTerminalStatusCanceled:
             status = @"已取消";
             break;
-        case TerminalStatusStopped:
+        case StockTerminalStatusStopped:
             status = @"已停用";
             break;
         default:

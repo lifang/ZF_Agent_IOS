@@ -17,6 +17,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    if (kDeviceVersion >= 7.0) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                 style:UIBarButtonItemStyleDone
+                                                                target:nil
+                                                                action:nil];
+    self.navigationItem.backBarButtonItem = backItem;
 }
 
 - (void)didReceiveMemoryWarning {

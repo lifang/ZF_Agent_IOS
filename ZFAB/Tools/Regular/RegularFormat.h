@@ -24,5 +24,7 @@
 + (BOOL)isInt:(NSString*)string;
 //浮点型
 + (BOOL)isFloat:(NSString *)string;
+//文字长度
++ (int)stringLength:(NSString *)string;
 
 @end

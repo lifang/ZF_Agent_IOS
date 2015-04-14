@@ -170,7 +170,6 @@
 #pragma mark - Action
 
 - (IBAction)moduleSelected:(id)sender {
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
     ModuleView *moduleView = (ModuleView *)sender;
     switch (moduleView.tag) {
         case ModuleBuy: {

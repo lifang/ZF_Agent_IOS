@@ -7,7 +7,6 @@
 //
 
 #import "SearchViewController.h"
-#import "SearchHistoryHelper.h"
 
 @interface SearchViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 
@@ -53,6 +52,18 @@
     _searchBar.text = _keyword;
     self.navigationItem.titleView = _searchBar;
     [_searchBar becomeFirstResponder];
+    NSString *placeHolder = nil;
+    switch (_type) {
+        case HistoryTypeGood:
+            placeHolder = @"搜索商品";
+            break;
+        case HistoryTypeAfterSaleApply:
+            placeHolder = @"搜索终端号";
+            break;
+        default:
+            break;
+    }
+    [_searchBar setAttrPlaceHolder:placeHolder];
 }
 
 - (void)initContentView {
@@ -121,14 +132,13 @@
 #pragma mark - Action
 
 - (IBAction)dismiss:(id)sender {
-    [self searchWithString:nil];
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 #pragma mark - 数据
 
 - (void)getSearchHistory {
-    NSMutableArray *searchArray = [SearchHistoryHelper getGoodsHistory];
+    NSMutableArray *searchArray = [SearchHistoryHelper getHistoryWithType:_type];
     if (searchArray) {
         self.historyItems = searchArray;
     }
@@ -138,7 +148,7 @@
 
 - (IBAction)clearSearchHistoy:(id)sender {
     [self.historyItems removeAllObjects];
-    [SearchHistoryHelper removeGoodsHistory];
+    [SearchHistoryHelper removeHistoryWithType:_type];
     [self setHeaderAndFooterView];
     [_tableView reloadData];
 }
@@ -147,7 +157,7 @@
     if (![self.historyItems containsObject:self.searchBar.text]) {
         [self.historyItems addObject:self.searchBar.text];
         //保存搜索历史到本地
-        [SearchHistoryHelper saveGoodsHistory:self.historyItems];
+        [SearchHistoryHelper saveHistory:self.historyItems forType:_type];
         [self setHeaderAndFooterView];
         [_tableView reloadData];
     }

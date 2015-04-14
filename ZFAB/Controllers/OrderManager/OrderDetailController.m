@@ -496,7 +496,7 @@ typedef enum {
                 orderTypeLabel.backgroundColor = [UIColor clearColor];
                 orderTypeLabel.font = [UIFont systemFontOfSize:12.f];
                 orderTypeLabel.textColor = kColor(116, 116, 116, 1);
-                orderTypeLabel.text = [NSString stringWithFormat:@"订单编号：%@",orderType];
+                orderTypeLabel.text = [NSString stringWithFormat:@"订单类型：%@",orderType];
                 [cell.contentView addSubview:orderTypeLabel];
                 //支付方式
                 UILabel *typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, 50, kScreenWidth - originX * 2 - btnWidth, 20.f)];

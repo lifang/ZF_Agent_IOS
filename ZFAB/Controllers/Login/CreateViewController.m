@@ -835,6 +835,9 @@
 #pragma mark - UITextField
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (textField == _usernameField || textField == _passwordField || textField == _confirmField) {
+        return;
+    }
     RegisterCell *cell = (RegisterCell *)[[textField superview] superview];
     CGRect rect = cell.textLabel.frame;
     [cell.textLabel sizeToFit];
@@ -851,6 +854,9 @@
 }
 
 - (void)textFieldDidEndEditing:(RegisterTextField *)textField {
+    if (textField == _usernameField || textField == _passwordField || textField == _confirmField) {
+        return;
+    }
     if (textField.text && ![textField.text isEqualToString:@""]) {
         [_registerDict setObject:textField.text forKey:textField.key];
     }

@@ -13,7 +13,9 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (nonatomic, strong) NSString *agentID;
+@property (nonatomic, strong) NSString *agentUserID;  //代理商对应的用户id
+@property (nonatomic, strong) NSString *agentID;      //代理商id
+@property (nonatomic, strong) NSString *userID;       //用户id
 @property (nonatomic, strong) NSString *token;
 @property (nonatomic, strong) NSString *cityID;
 

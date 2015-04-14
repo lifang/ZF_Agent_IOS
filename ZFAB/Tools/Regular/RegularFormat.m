@@ -61,4 +61,19 @@
     return [scan scanFloat:&val] && [scan isAtEnd];
 }
 
++ (int)stringLength:(NSString *)string {
+    int strLength = 0;
+    char *p = (char *)[string cStringUsingEncoding:NSUnicodeStringEncoding];
+    for (int i = 0; i < [string lengthOfBytesUsingEncoding:NSUnicodeStringEncoding]; i++) {
+        if (*p) {
+            p++;
+            strLength++;
+        }
+        else {
+            p++;
+        }
+    }
+    return strLength;
+}
+
 @end

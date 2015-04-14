@@ -12,6 +12,8 @@
 #import "KxMenu.h"
 #import "TerminalManagerCell.h"
 #import "TerminalDetailController.h"
+#import "AfterSaleApplyController.h"
+#import "BindingViewController.h"
 
 @interface TerminalManagerController ()
 
@@ -228,11 +230,13 @@
 #pragma mark - Action
 
 - (IBAction)applyAfterSale:(id)sender {
-    
+    AfterSaleApplyController *applyC = [[AfterSaleApplyController alloc] init];
+    [self.navigationController pushViewController:applyC animated:YES];
 }
 
 - (IBAction)bindingTerminal:(id)sender {
-    
+    BindingViewController *bindingC = [[BindingViewController alloc] init];
+    [self.navigationController pushViewController:bindingC animated:YES];
 }
 
 - (IBAction)selectStatus:(id)sender {

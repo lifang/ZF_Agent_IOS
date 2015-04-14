@@ -8,6 +8,7 @@
 
 #import "AgentManagerController.h"
 #import "SubAgentListController.h"
+#import "PrepareGoodManagerController.h"
 
 @interface AgentManagerController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -120,6 +121,9 @@
         }
             break;
         case 1: {
+            //配货
+            PrepareGoodManagerController *prepareC = [[PrepareGoodManagerController alloc] init];
+            [self.navigationController pushViewController:prepareC animated:YES];
             
         }
             break;

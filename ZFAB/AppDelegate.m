@@ -31,9 +31,14 @@
     self.window.rootViewController = _rootViewController;
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     [self.window makeKeyAndVisible];
+    _userID = @"1";
+    _agentUserID = @"1";
     _agentID = @"1";
     _token = @"123";
     _cityID = @"1";
+//    [NetworkInterface loginWithUsername:@"zqq" password:@"123456" isAlreadyEncrypt:NO finished:^(BOOL success, NSData *response) {
+//        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+//    }];
     return YES;
 }
 

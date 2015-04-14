@@ -125,6 +125,24 @@
 		7746EAE41ACD3D93009DD425 /* SubAgentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7746EAE31ACD3D93009DD425 /* SubAgentCell.m */; };
 		7746EAE71ACD40F6009DD425 /* SubAgentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7746EAE61ACD40F6009DD425 /* SubAgentModel.m */; };
 		7746EAEA1ACD61C2009DD425 /* DefaultBenefitController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7746EAE91ACD61C2009DD425 /* DefaultBenefitController.m */; };
+		77551EE21ADB68E9008B2730 /* BindingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77551EE11ADB68E9008B2730 /* BindingViewController.m */; };
+		77551EE51ADB7170008B2730 /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77551EE41ADB7170008B2730 /* UserListViewController.m */; };
+		77551EE81ADB91D7008B2730 /* AddUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77551EE71ADB91D7008B2730 /* AddUserViewController.m */; };
+		77551EF01ADBACFD008B2730 /* PrepareGoodManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77551EEF1ADBACFD008B2730 /* PrepareGoodManagerController.m */; };
+		77551EF31ADBC5DE008B2730 /* GoodAgentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77551EF21ADBC5DE008B2730 /* GoodAgentModel.m */; };
+		77551EF61ADBC7B6008B2730 /* GoodAgentListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77551EF51ADBC7B6008B2730 /* GoodAgentListController.m */; };
+		77551EF91ADBD34F008B2730 /* PrepareGoodModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77551EF81ADBD34F008B2730 /* PrepareGoodModel.m */; };
+		77551EFC1ADBD5A3008B2730 /* PrepareGoodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77551EFB1ADBD5A3008B2730 /* PrepareGoodCell.m */; };
+		7758F9B11AD6948900A49546 /* AfterSaleApplyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7758F9B01AD6948900A49546 /* AfterSaleApplyController.m */; };
+		775F66521AD8BA360086E708 /* TMFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775F66511AD8BA360086E708 /* TMFilterViewController.m */; };
+		775F66551AD8C0A60086E708 /* TMFilterPOSController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775F66541AD8C0A50086E708 /* TMFilterPOSController.m */; };
+		775F66581AD8C61B0086E708 /* POSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 775F66571AD8C61B0086E708 /* POSModel.m */; };
+		775F665B1AD8CBC40086E708 /* TMFilterChannelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775F665A1AD8CBC40086E708 /* TMFilterChannelController.m */; };
+		7760DAE41ADCA69E005C607A /* PrepareGoodController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7760DAE31ADCA69E005C607A /* PrepareGoodController.m */; };
+		7760DAE71ADCA90E005C607A /* PGSelectedTerminalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7760DAE61ADCA90E005C607A /* PGSelectedTerminalController.m */; };
+		7760DAEA1ADCADFA005C607A /* PGFilterPOSController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7760DAE91ADCADFA005C607A /* PGFilterPOSController.m */; };
+		7760DAED1ADCB0FA005C607A /* PGFilterChannelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7760DAEC1ADCB0FA005C607A /* PGFilterChannelController.m */; };
+		7760DAF01ADCBC42005C607A /* PGInputTerminalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7760DAEF1ADCBC42005C607A /* PGInputTerminalController.m */; };
 		7766A4371AC8E58600DCBD76 /* NetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7766A4361AC8E58600DCBD76 /* NetworkRequest.m */; };
 		7766A43A1AC8E5EB00DCBD76 /* EncryptHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7766A4391AC8E5EB00DCBD76 /* EncryptHelper.m */; };
 		7766A43E1AC9174600DCBD76 /* UserManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7766A43D1AC9174600DCBD76 /* UserManagerController.m */; };
@@ -143,6 +161,14 @@
 		7766A4681AC970AC00DCBD76 /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7766A4671AC970AC00DCBD76 /* FilterViewController.m */; };
 		7766A46B1AC9718800DCBD76 /* FilterContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7766A46A1AC9718800DCBD76 /* FilterContentViewController.m */; };
 		7766A46E1AC974C900DCBD76 /* GoodListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7766A46D1AC974C900DCBD76 /* GoodListModel.m */; };
+		7774814C1AD762D000E08ECB /* SelectedAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774814B1AD762D000E08ECB /* SelectedAddressController.m */; };
+		7774814F1AD7630300E08ECB /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774814E1AD7630300E08ECB /* AddressCell.m */; };
+		777481521AD76F3B00E08ECB /* TMSelectedTerminalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 777481511AD76F3B00E08ECB /* TMSelectedTerminalController.m */; };
+		777481551AD7927100E08ECB /* TMInputTerminalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 777481541AD7927100E08ECB /* TMInputTerminalController.m */; };
+		777481581AD79FEE00E08ECB /* SerialModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 777481571AD79FEE00E08ECB /* SerialModel.m */; };
+		7774815B1AD7A16700E08ECB /* TMTerminalListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774815A1AD7A16700E08ECB /* TMTerminalListController.m */; };
+		7774815E1AD7A4A900E08ECB /* SerialSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774815D1AD7A4A900E08ECB /* SerialSearchCell.m */; };
+		777481611AD7ABA400E08ECB /* TerminalBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 777481601AD7ABA400E08ECB /* TerminalBottomView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -394,6 +420,42 @@
 		7746EAE61ACD40F6009DD425 /* SubAgentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubAgentModel.m; sourceTree = "<group>"; };
 		7746EAE81ACD61C2009DD425 /* DefaultBenefitController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultBenefitController.h; sourceTree = "<group>"; };
 		7746EAE91ACD61C2009DD425 /* DefaultBenefitController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultBenefitController.m; sourceTree = "<group>"; };
+		77551EE01ADB68E9008B2730 /* BindingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindingViewController.h; sourceTree = "<group>"; };
+		77551EE11ADB68E9008B2730 /* BindingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindingViewController.m; sourceTree = "<group>"; };
+		77551EE31ADB7170008B2730 /* UserListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserListViewController.h; sourceTree = "<group>"; };
+		77551EE41ADB7170008B2730 /* UserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserListViewController.m; sourceTree = "<group>"; };
+		77551EE61ADB91D7008B2730 /* AddUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddUserViewController.h; sourceTree = "<group>"; };
+		77551EE71ADB91D7008B2730 /* AddUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddUserViewController.m; sourceTree = "<group>"; };
+		77551EEE1ADBACFD008B2730 /* PrepareGoodManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrepareGoodManagerController.h; sourceTree = "<group>"; };
+		77551EEF1ADBACFD008B2730 /* PrepareGoodManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrepareGoodManagerController.m; sourceTree = "<group>"; };
+		77551EF11ADBC5DE008B2730 /* GoodAgentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodAgentModel.h; sourceTree = "<group>"; };
+		77551EF21ADBC5DE008B2730 /* GoodAgentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodAgentModel.m; sourceTree = "<group>"; };
+		77551EF41ADBC7B6008B2730 /* GoodAgentListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodAgentListController.h; sourceTree = "<group>"; };
+		77551EF51ADBC7B6008B2730 /* GoodAgentListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodAgentListController.m; sourceTree = "<group>"; };
+		77551EF71ADBD34F008B2730 /* PrepareGoodModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrepareGoodModel.h; sourceTree = "<group>"; };
+		77551EF81ADBD34F008B2730 /* PrepareGoodModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrepareGoodModel.m; sourceTree = "<group>"; };
+		77551EFA1ADBD5A3008B2730 /* PrepareGoodCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrepareGoodCell.h; sourceTree = "<group>"; };
+		77551EFB1ADBD5A3008B2730 /* PrepareGoodCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrepareGoodCell.m; sourceTree = "<group>"; };
+		7758F9AF1AD6948900A49546 /* AfterSaleApplyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AfterSaleApplyController.h; sourceTree = "<group>"; };
+		7758F9B01AD6948900A49546 /* AfterSaleApplyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AfterSaleApplyController.m; sourceTree = "<group>"; };
+		775F66501AD8BA360086E708 /* TMFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMFilterViewController.h; sourceTree = "<group>"; };
+		775F66511AD8BA360086E708 /* TMFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMFilterViewController.m; sourceTree = "<group>"; };
+		775F66531AD8C0A50086E708 /* TMFilterPOSController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMFilterPOSController.h; sourceTree = "<group>"; };
+		775F66541AD8C0A50086E708 /* TMFilterPOSController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMFilterPOSController.m; sourceTree = "<group>"; };
+		775F66561AD8C61B0086E708 /* POSModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POSModel.h; sourceTree = "<group>"; };
+		775F66571AD8C61B0086E708 /* POSModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POSModel.m; sourceTree = "<group>"; };
+		775F66591AD8CBC40086E708 /* TMFilterChannelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMFilterChannelController.h; sourceTree = "<group>"; };
+		775F665A1AD8CBC40086E708 /* TMFilterChannelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMFilterChannelController.m; sourceTree = "<group>"; };
+		7760DAE21ADCA69E005C607A /* PrepareGoodController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrepareGoodController.h; sourceTree = "<group>"; };
+		7760DAE31ADCA69E005C607A /* PrepareGoodController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrepareGoodController.m; sourceTree = "<group>"; };
+		7760DAE51ADCA90E005C607A /* PGSelectedTerminalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSelectedTerminalController.h; sourceTree = "<group>"; };
+		7760DAE61ADCA90E005C607A /* PGSelectedTerminalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSelectedTerminalController.m; sourceTree = "<group>"; };
+		7760DAE81ADCADFA005C607A /* PGFilterPOSController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGFilterPOSController.h; sourceTree = "<group>"; };
+		7760DAE91ADCADFA005C607A /* PGFilterPOSController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFilterPOSController.m; sourceTree = "<group>"; };
+		7760DAEB1ADCB0FA005C607A /* PGFilterChannelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGFilterChannelController.h; sourceTree = "<group>"; };
+		7760DAEC1ADCB0FA005C607A /* PGFilterChannelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFilterChannelController.m; sourceTree = "<group>"; };
+		7760DAEE1ADCBC42005C607A /* PGInputTerminalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGInputTerminalController.h; sourceTree = "<group>"; };
+		7760DAEF1ADCBC42005C607A /* PGInputTerminalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGInputTerminalController.m; sourceTree = "<group>"; };
 		7766A4351AC8E58600DCBD76 /* NetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkRequest.h; sourceTree = "<group>"; };
 		7766A4361AC8E58600DCBD76 /* NetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkRequest.m; sourceTree = "<group>"; };
 		7766A4381AC8E5EB00DCBD76 /* EncryptHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptHelper.h; sourceTree = "<group>"; };
@@ -430,6 +492,22 @@
 		7766A46A1AC9718800DCBD76 /* FilterContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterContentViewController.m; sourceTree = "<group>"; };
 		7766A46C1AC974C900DCBD76 /* GoodListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodListModel.h; sourceTree = "<group>"; };
 		7766A46D1AC974C900DCBD76 /* GoodListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodListModel.m; sourceTree = "<group>"; };
+		7774814A1AD762D000E08ECB /* SelectedAddressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedAddressController.h; sourceTree = "<group>"; };
+		7774814B1AD762D000E08ECB /* SelectedAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedAddressController.m; sourceTree = "<group>"; };
+		7774814D1AD7630300E08ECB /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressCell.h; sourceTree = "<group>"; };
+		7774814E1AD7630300E08ECB /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressCell.m; sourceTree = "<group>"; };
+		777481501AD76F3B00E08ECB /* TMSelectedTerminalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMSelectedTerminalController.h; sourceTree = "<group>"; };
+		777481511AD76F3B00E08ECB /* TMSelectedTerminalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMSelectedTerminalController.m; sourceTree = "<group>"; };
+		777481531AD7927100E08ECB /* TMInputTerminalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMInputTerminalController.h; sourceTree = "<group>"; };
+		777481541AD7927100E08ECB /* TMInputTerminalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMInputTerminalController.m; sourceTree = "<group>"; };
+		777481561AD79FEE00E08ECB /* SerialModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerialModel.h; sourceTree = "<group>"; };
+		777481571AD79FEE00E08ECB /* SerialModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SerialModel.m; sourceTree = "<group>"; };
+		777481591AD7A16700E08ECB /* TMTerminalListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMTerminalListController.h; sourceTree = "<group>"; };
+		7774815A1AD7A16700E08ECB /* TMTerminalListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMTerminalListController.m; sourceTree = "<group>"; };
+		7774815C1AD7A4A900E08ECB /* SerialSearchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerialSearchCell.h; sourceTree = "<group>"; };
+		7774815D1AD7A4A900E08ECB /* SerialSearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SerialSearchCell.m; sourceTree = "<group>"; };
+		7774815F1AD7ABA400E08ECB /* TerminalBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalBottomView.h; sourceTree = "<group>"; };
+		777481601AD7ABA400E08ECB /* TerminalBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalBottomView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -641,6 +719,7 @@
 				7746EAD31ACD11BE009DD425 /* AddressViewController.m */,
 				7746EAD51ACD1252009DD425 /* AddressEditController.h */,
 				7746EAD61ACD1252009DD425 /* AddressEditController.m */,
+				77551EED1ADBAC9F008B2730 /* PrepareGood */,
 				7746EADB1ACD1E78009DD425 /* AgentManager */,
 			);
 			path = Mine;
@@ -663,6 +742,8 @@
 				7745CF2C1AD3C1A0003DB9FA /* RecordView.m */,
 				773F14321AD661EA00F9EC92 /* FormView.h */,
 				773F14331AD661EA00F9EC92 /* FormView.m */,
+				7774815F1AD7ABA400E08ECB /* TerminalBottomView.h */,
+				777481601AD7ABA400E08ECB /* TerminalBottomView.m */,
 				7766A4431AC9200300DCBD76 /* Cell */,
 			);
 			path = View;
@@ -747,6 +828,28 @@
 				773F142A1AD64CB900F9EC92 /* TerminalManagerController.m */,
 				773F142F1AD6615700F9EC92 /* TerminalDetailController.h */,
 				773F14301AD6615700F9EC92 /* TerminalDetailController.m */,
+				7758F9AF1AD6948900A49546 /* AfterSaleApplyController.h */,
+				7758F9B01AD6948900A49546 /* AfterSaleApplyController.m */,
+				7774814A1AD762D000E08ECB /* SelectedAddressController.h */,
+				7774814B1AD762D000E08ECB /* SelectedAddressController.m */,
+				777481501AD76F3B00E08ECB /* TMSelectedTerminalController.h */,
+				777481511AD76F3B00E08ECB /* TMSelectedTerminalController.m */,
+				777481531AD7927100E08ECB /* TMInputTerminalController.h */,
+				777481541AD7927100E08ECB /* TMInputTerminalController.m */,
+				777481591AD7A16700E08ECB /* TMTerminalListController.h */,
+				7774815A1AD7A16700E08ECB /* TMTerminalListController.m */,
+				775F66501AD8BA360086E708 /* TMFilterViewController.h */,
+				775F66511AD8BA360086E708 /* TMFilterViewController.m */,
+				775F66531AD8C0A50086E708 /* TMFilterPOSController.h */,
+				775F66541AD8C0A50086E708 /* TMFilterPOSController.m */,
+				775F66591AD8CBC40086E708 /* TMFilterChannelController.h */,
+				775F665A1AD8CBC40086E708 /* TMFilterChannelController.m */,
+				77551EE01ADB68E9008B2730 /* BindingViewController.h */,
+				77551EE11ADB68E9008B2730 /* BindingViewController.m */,
+				77551EE31ADB7170008B2730 /* UserListViewController.h */,
+				77551EE41ADB7170008B2730 /* UserListViewController.m */,
+				77551EE61ADB91D7008B2730 /* AddUserViewController.h */,
+				77551EE71ADB91D7008B2730 /* AddUserViewController.m */,
 			);
 			path = TerminalManager;
 			sourceTree = "<group>";
@@ -886,6 +989,27 @@
 			path = AgentManager;
 			sourceTree = "<group>";
 		};
+		77551EED1ADBAC9F008B2730 /* PrepareGood */ = {
+			isa = PBXGroup;
+			children = (
+				77551EEE1ADBACFD008B2730 /* PrepareGoodManagerController.h */,
+				77551EEF1ADBACFD008B2730 /* PrepareGoodManagerController.m */,
+				77551EF41ADBC7B6008B2730 /* GoodAgentListController.h */,
+				77551EF51ADBC7B6008B2730 /* GoodAgentListController.m */,
+				7760DAE21ADCA69E005C607A /* PrepareGoodController.h */,
+				7760DAE31ADCA69E005C607A /* PrepareGoodController.m */,
+				7760DAE51ADCA90E005C607A /* PGSelectedTerminalController.h */,
+				7760DAE61ADCA90E005C607A /* PGSelectedTerminalController.m */,
+				7760DAE81ADCADFA005C607A /* PGFilterPOSController.h */,
+				7760DAE91ADCADFA005C607A /* PGFilterPOSController.m */,
+				7760DAEB1ADCB0FA005C607A /* PGFilterChannelController.h */,
+				7760DAEC1ADCB0FA005C607A /* PGFilterChannelController.m */,
+				7760DAEE1ADCBC42005C607A /* PGInputTerminalController.h */,
+				7760DAEF1ADCBC42005C607A /* PGInputTerminalController.m */,
+			);
+			path = PrepareGood;
+			sourceTree = "<group>";
+		};
 		7766A43B1AC9164600DCBD76 /* UserManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -954,6 +1078,14 @@
 				773F143C1AD66B5500F9EC92 /* OpeningModel.m */,
 				773F14381AD669B300F9EC92 /* ChannelModel.h */,
 				773F14391AD669B300F9EC92 /* ChannelModel.m */,
+				777481561AD79FEE00E08ECB /* SerialModel.h */,
+				777481571AD79FEE00E08ECB /* SerialModel.m */,
+				775F66561AD8C61B0086E708 /* POSModel.h */,
+				775F66571AD8C61B0086E708 /* POSModel.m */,
+				77551EF11ADBC5DE008B2730 /* GoodAgentModel.h */,
+				77551EF21ADBC5DE008B2730 /* GoodAgentModel.m */,
+				77551EF71ADBD34F008B2730 /* PrepareGoodModel.h */,
+				77551EF81ADBD34F008B2730 /* PrepareGoodModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -983,6 +1115,12 @@
 				773F140B1AD6103000F9EC92 /* OpenApplyCell.m */,
 				773F142C1AD6579600F9EC92 /* TerminalManagerCell.h */,
 				773F142D1AD6579600F9EC92 /* TerminalManagerCell.m */,
+				7774814D1AD7630300E08ECB /* AddressCell.h */,
+				7774814E1AD7630300E08ECB /* AddressCell.m */,
+				7774815C1AD7A4A900E08ECB /* SerialSearchCell.h */,
+				7774815D1AD7A4A900E08ECB /* SerialSearchCell.m */,
+				77551EFA1ADBD5A3008B2730 /* PrepareGoodCell.h */,
+				77551EFB1ADBD5A3008B2730 /* PrepareGoodCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1104,17 +1242,21 @@
 			files = (
 				773C57F31AC12F3600D99E83 /* LoginViewController.m in Sources */,
 				7766A4571AC964A800DCBD76 /* TreeDataHandle.m in Sources */,
+				775F66551AD8C0A60086E708 /* TMFilterPOSController.m in Sources */,
 				773C58091AC1406500D99E83 /* GoodsViewController.m in Sources */,
 				773F4F481ACA7CAD00C5A59A /* StockListCell.m in Sources */,
 				7746EAE41ACD3D93009DD425 /* SubAgentCell.m in Sources */,
 				773F14371AD6681A00F9EC92 /* RateModel.m in Sources */,
+				7760DAF01ADCBC42005C607A /* PGInputTerminalController.m in Sources */,
 				77374DEA1ACE5EB800E74A20 /* TradeAgentController.m in Sources */,
 				773F14121AD6191F00F9EC92 /* OpenApplyModel.m in Sources */,
 				773F14271AD647DD00F9EC92 /* MerchantSelectedController.m in Sources */,
 				773F2EFA1ACBC61A00ACB139 /* StockTerminalController.m in Sources */,
 				773C57CC1AC12DE800D99E83 /* AppDelegate.m in Sources */,
 				7745CF2D1AD3C1A0003DB9FA /* RecordView.m in Sources */,
+				7774814F1AD7630300E08ECB /* AddressCell.m in Sources */,
 				773F2F001ACBEAA900ACB139 /* StockTerminalCell.m in Sources */,
+				777481551AD7927100E08ECB /* TMInputTerminalController.m in Sources */,
 				7745CF271AD3B557003DB9FA /* OrderDetailModel.m in Sources */,
 				7745CF211AD37B7A003DB9FA /* OrderCell.m in Sources */,
 				773F140C1AD6103000F9EC92 /* OpenApplyCell.m in Sources */,
@@ -1125,22 +1267,29 @@
 				773FDA9C1AC251850029E224 /* CircleView.m in Sources */,
 				773F4F361ACA495000C5A59A /* SearchViewController.m in Sources */,
 				773FDAB51AC2A21D0029E224 /* AfterSaleView.m in Sources */,
+				7774814C1AD762D000E08ECB /* SelectedAddressController.m in Sources */,
 				773C58181AC1455E00D99E83 /* ModuleView.m in Sources */,
 				772A9C5A1AC3C8B1002A0B72 /* FindPasswordController.m in Sources */,
 				7766A43E1AC9174600DCBD76 /* UserManagerController.m in Sources */,
 				7766A4581AC964A800DCBD76 /* TreeNodeModel.m in Sources */,
 				773F4F011ACA304000C5A59A /* GoodListCell.m in Sources */,
 				773C57F91AC12FAC00D99E83 /* RootViewController.m in Sources */,
+				775F665B1AD8CBC40086E708 /* TMFilterChannelController.m in Sources */,
 				772A9C5E1AC3C95C002A0B72 /* RegularFormat.m in Sources */,
 				773C57C91AC12DE800D99E83 /* main.m in Sources */,
 				773F14211AD629FF00F9EC92 /* ChannelSelectedController.m in Sources */,
+				7760DAEA1ADCADFA005C607A /* PGFilterPOSController.m in Sources */,
+				77551EFC1ADBD5A3008B2730 /* PrepareGoodCell.m in Sources */,
 				772A9C641AC4260A002A0B72 /* RegisterViewController.m in Sources */,
 				773FDAB11AC27E2A0029E224 /* TimeFormat.m in Sources */,
 				77374DE11ACE299C00E74A20 /* CreateAgentController.m in Sources */,
+				77551EF01ADBACFD008B2730 /* PrepareGoodManagerController.m in Sources */,
 				773C58411AC145DA00D99E83 /* SDWebImageDownloaderOperation.m in Sources */,
+				77551EE51ADB7170008B2730 /* UserListViewController.m in Sources */,
 				773C58111AC140B100D99E83 /* MineViewController.m in Sources */,
 				7766A4461AC9201B00DCBD76 /* MultipleDeleteCell.m in Sources */,
 				773F143A1AD669B300F9EC92 /* ChannelModel.m in Sources */,
+				77551EE81ADB91D7008B2730 /* AddUserViewController.m in Sources */,
 				7746EACB1ACCE136009DD425 /* ModifyMobileController.m in Sources */,
 				77374DE41ACE443400E74A20 /* ScanImageViewController.m in Sources */,
 				77374DF01ACE6E9200E74A20 /* TradeModel.m in Sources */,
@@ -1156,9 +1305,12 @@
 				7746EADE1ACD1E97009DD425 /* AgentManagerController.m in Sources */,
 				7766A4651AC964C700DCBD76 /* TreeView.m in Sources */,
 				773FDAAE1AC27C160029E224 /* DealFlowViewController.m in Sources */,
+				77551EF91ADBD34F008B2730 /* PrepareGoodModel.m in Sources */,
 				773F2EFD1ACBE5AF00ACB139 /* StockTerminalModel.m in Sources */,
 				7745CF301AD3D1F4003DB9FA /* OrderDetailCell.m in Sources */,
+				777481581AD79FEE00E08ECB /* SerialModel.m in Sources */,
 				773C58151AC1451C00D99E83 /* PollingView.m in Sources */,
+				77551EF61ADBC7B6008B2730 /* GoodAgentListController.m in Sources */,
 				773C58471AC145DA00D99E83 /* UIImageView+HighlightedWebCache.m in Sources */,
 				7745CF2A1AD3C0B2003DB9FA /* RecordModel.m in Sources */,
 				7745CF241AD3B286003DB9FA /* OrderDetailController.m in Sources */,
@@ -1192,15 +1344,21 @@
 				773F4F4B1ACAB3E500C5A59A /* StockRenameController.m in Sources */,
 				773C58401AC145DA00D99E83 /* SDWebImageDownloader.m in Sources */,
 				773E27151AD510A9007CB72D /* UpdateDetailController.m in Sources */,
+				777481611AD7ABA400E08ECB /* TerminalBottomView.m in Sources */,
 				7766A46E1AC974C900DCBD76 /* GoodListModel.m in Sources */,
 				773F4F3E1ACA6C1D00C5A59A /* ImageScrollView.m in Sources */,
+				7774815B1AD7A16700E08ECB /* TMTerminalListController.m in Sources */,
 				773E27181AD513A2007CB72D /* ResourceModel.m in Sources */,
 				7766A4491AC9279600DCBD76 /* UserTerminalController.m in Sources */,
 				773C57EF1AC12EBB00D99E83 /* CommonViewController.m in Sources */,
+				775F66521AD8BA360086E708 /* TMFilterViewController.m in Sources */,
 				7746EAD41ACD11BE009DD425 /* AddressViewController.m in Sources */,
+				775F66581AD8C61B0086E708 /* POSModel.m in Sources */,
 				7746EACE1ACD04D2009DD425 /* ModifyEmailController.m in Sources */,
 				773FDAAA1AC258670029E224 /* NetworkInterface.m in Sources */,
+				7774815E1AD7A4A900E08ECB /* SerialSearchCell.m in Sources */,
 				773C58451AC145DA00D99E83 /* UIImage+GIF.m in Sources */,
+				7760DAED1ADCB0FA005C607A /* PGFilterChannelController.m in Sources */,
 				7746EADA1ACD1317009DD425 /* AddressModel.m in Sources */,
 				773F14151AD6271200F9EC92 /* BankModel.m in Sources */,
 				7766A44C1AC9400700DCBD76 /* MessageModel.m in Sources */,
@@ -1217,19 +1375,25 @@
 				773C58441AC145DA00D99E83 /* UIButton+WebCache.m in Sources */,
 				773F4F4E1ACABB4A00C5A59A /* StockDetailController.m in Sources */,
 				773E27131AD510A9007CB72D /* AfterSaleDetailController.m in Sources */,
+				77551EE21ADB68E9008B2730 /* BindingViewController.m in Sources */,
 				773FDAB81AC2A2920029E224 /* CSMenuController.m in Sources */,
 				773C58481AC145DA00D99E83 /* UIImageView+WebCache.m in Sources */,
+				7760DAE71ADCA90E005C607A /* PGSelectedTerminalController.m in Sources */,
+				7758F9B11AD6948900A49546 /* AfterSaleApplyController.m in Sources */,
+				7760DAE41ADCA69E005C607A /* PrepareGoodController.m in Sources */,
 				773E27001AD4D381007CB72D /* CSModel.m in Sources */,
 				773C58491AC145DA00D99E83 /* UIView+WebCacheOperation.m in Sources */,
 				773FDA961AC2513F0029E224 /* RefreshViewController.m in Sources */,
 				773C58461AC145DA00D99E83 /* UIImage+MultiFormat.m in Sources */,
 				7766A44F1AC945F200DCBD76 /* MessageDetailController.m in Sources */,
+				77551EF31ADBC5DE008B2730 /* GoodAgentModel.m in Sources */,
 				773F141B1AD6287500F9EC92 /* MerchantDetailModel.m in Sources */,
 				773C583F1AC145DA00D99E83 /* SDWebImageDecoder.m in Sources */,
 				773E271F1AD550FB007CB72D /* OpenApplyController.m in Sources */,
 				7746EAC51ACCD646009DD425 /* CityHandle.m in Sources */,
 				773C583B1AC145DA00D99E83 /* MBProgressHUD.m in Sources */,
 				773F2F061ACC039500ACB139 /* PersonInfoController.m in Sources */,
+				777481521AD76F3B00E08ECB /* TMSelectedTerminalController.m in Sources */,
 				77374DDE1ACE268B00E74A20 /* CreateViewController.m in Sources */,
 				7746EAE71ACD40F6009DD425 /* SubAgentModel.m in Sources */,
 				773FDAA61AC2571F0029E224 /* ZFSearchBar.m in Sources */,
@@ -1347,6 +1511,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZFAB/ZFAB-Prefix.pch";
 				INFOPLIST_FILE = ZFAB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1359,6 +1524,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZFAB/ZFAB-Prefix.pch";
 				INFOPLIST_FILE = ZFAB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

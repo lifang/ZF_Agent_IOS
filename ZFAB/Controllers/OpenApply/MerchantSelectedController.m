@@ -34,8 +34,19 @@
 
 #pragma mark - UI
 
+- (void)setHeaderAndFooterView {
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 5.f)];
+    headerView.backgroundColor = [UIColor clearColor];
+    self.tableView.tableHeaderView = headerView;
+    
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0.001f)];
+    footerView.backgroundColor = [UIColor clearColor];
+    self.tableView.tableFooterView = footerView;
+}
+
 - (void)initAndLayoutUI {
     [self initRefreshViewWithOffset:0.f];
+    [self setHeaderAndFooterView];
 }
 
 #pragma mark - Request

@@ -118,133 +118,166 @@ static NSString *s_merchantList_method = @"terminal/getMerchants";
 //20.终端管理——获取终端列表
 static NSString *s_terminalList_method = @"apply/searchApplyList";
 
-//31.用户管理——获取用户列表
+//26.终端管理——添加用户
+static NSString *s_addUser_method = @"terminal/addCustomer";
+
+//27.终端管理——绑定终端
+static NSString *s_bindingTerminal_method = @"terminal/bindingTerminals";
+
+//28.终端管理——申请售后根据终端号筛选
+static NSString *s_TMSearchUseTerminal_method = @"terminal/batchTerminalNum";
+
+//29.终端管理——POS机筛选根据支付通道
+static NSString *s_TMSearchUseChannel_method = @"terminal/screeningTerminalNum";
+
+//30.终端管理——POS机
+static NSString *s_TMSearchPOS_method = @"terminal/screeningPosName";
+
+//31.终端管理——支付通道
+static NSString *s_TMsearchChannel_method = @"terminal/getChannels";
+
+//33.终端管理——提交申请售后
+static NSString *s_TMSubmitApply_mehtod = @"terminal/submitAgent";
+
+//34.用户管理——获取用户列表
 static NSString *s_userList_method = @"user/getUser";
 
-//32.用户管理——删除用户
+//35.用户管理——删除用户
 static NSString *s_userDelete_method = @"user/delectAgentUser";
 
-//33.用户管理——获取终端
+//36.用户管理——获取终端
 static NSString *s_userTerminal_method = @"user/getTerminals";
 
-//34.商品搜索条件
+//37.商品搜索条件
 static NSString *s_goodSearch_method = @"good/search";
 
-//35.商品列表
+//38.商品列表
 static NSString *s_goodList_method = @"good/list";
 
-//36.商品详细
+//39.商品详细
 static NSString *s_goodDetail_method = @"good/goodinfo";
 
-//40.库存管理列表
+//43.库存管理列表
 static NSString *s_stockList_method = @"stock/list";
 
-//41.库存管理重命名
+//44.库存管理重命名
 static NSString *s_stockRename_method = @"stock/rename";
 
-//42.库存管理详情——下级代理商列表
+//45.库存管理详情——下级代理商列表
 static NSString *s_stockDetail_method = @"stock/info";
 
-//43.库存管理详情——下级代理商终端列表
+//46.库存管理详情——下级代理商终端列表
 static NSString *s_stockTerminal_method = @"stock/terminallist";
 
-//57.交易流水——获取终端
+//47.选择代理商
+static NSString *s_subAgent_method = @"preparegood/getsonagent";
+
+//48.配货列表
+static NSString *s_prepareGoodList_method = @"preparegood/list";
+
+//50.配货POS列表
+static NSString *s_prepareGoodPOS_method = @"preparegood/getgoodlist";
+
+//51.配货支付通道列表
+static NSString *s_prepareGoodChannel_method = @"preparegood/getpaychannellist";
+
+//58.交易流水——获取终端
 static NSString *s_tradeTerminalList_method = @"trade/record/getTerminals";
 
-//58.交易流水——获取代理商列表
+//59.交易流水——获取代理商列表
 static NSString *s_tradeAgentList_method = @"trade/record/getAgents";
 
-//59.交易流水——查询交易流水
+//60.交易流水——查询交易流水
 static NSString *s_tradeRecord_method = @"trade/record/getTradeRecords";
 
-//62.我的消息——列表
+//63.我的消息——列表
 static NSString *s_messageList_method = @"message/receiver/getAll";
 
-//63.我的消息——详情
+//64.我的消息——详情
 static NSString *s_messageDetail_method = @"message/receiver/getById";
 
-//64.我的消息——单个删除
+//65.我的消息——单个删除
 static NSString *s_messageSingleDelete_method = @"message/receiver/deleteById";
 
-//65.我的消息——批量删除
+//66.我的消息——批量删除
 static NSString *s_messageMultiDelete_method = @"message/receiver/batchDelete";
 
-//66.我的消息——批量已读
+//67.我的消息——批量已读
 static NSString *s_messageMultiRead_method = @"message/receiver/batchRead";
 
-//67.订单管理——列表
+//68.订单管理——列表
 static NSString *s_orderList_method = @"order/orderSearch";
 
-//68.订单管理——批购详情
+//69.订单管理——批购详情
 static NSString *s_orderDetailWholesale_method = @"order/getWholesaleById";
 
-//69.订单管理——批购取消订单
+//70.订单管理——批购取消订单
 static NSString *s_orderCancelWholesale_method = @"order/cancelWholesale";
 
-//71.订单管理——代购详情
+//72.订单管理——代购详情
 static NSString *s_orderDetailProcurement_method = @"order/getProxyById";
 
-//72.订单管理——代购取消订单
+//73.订单管理——代购取消订单
 static NSString *s_orderCancelProcurement_method = @"order/cancelProxy";
 
-//73.售后记录——售后单列表
+//74.售后记录——售后单列表
 static NSString *s_afterSaleList_method = @"cs/agents/search";
 
-//74.售后记录——售后单取消申请
+//75.售后记录——售后单取消申请
 static NSString *s_afterSaleCancel_method = @"cs/agents/cancelApply";
 
-//75.售后记录——售后单详情
+//76.售后记录——售后单详情
 static NSString *s_afterSaleDetail_method = @"cs/agents/getById";
 
-//76.售后记录——注销记录列表
+//77.售后记录——注销记录列表
 static NSString *s_cancelList_method = @"cs/cancels/search";
 
-//77.售后记录——注销记录取消申请
+//78.售后记录——注销记录取消申请
 static NSString *s_cancelCancel_method = @"cs/cancels/cancelApply";
 
-//78.售后记录——注销记录重新提交
+//79.售后记录——注销记录重新提交
 static NSString *s_cancelApply_mehtod = @"cs/cancels/resubmitCancel";
 
-//79.售后记录——注销记录详情
+//80.售后记录——注销记录详情
 static NSString *s_cancelDetail_method = @"cs/cancels/getCanCelById";
 
-//80.售后记录——更新资料列表
+//81.售后记录——更新资料列表
 static NSString *s_updateList_method = @"update/info/search";
 
-//81.售后记录——更新资料详情
+//82.售后记录——更新资料详情
 static NSString *s_updateDetail_method = @"update/info/getInfoById";
 
-//82.售后记录——更新资料取消申请
+//83.售后记录——更新资料取消申请
 static NSString *s_updateCancel_method = @"update/info/cancelApply";
 
-//83.我的信息——获取详情
+//84.我的信息——获取详情
 static NSString *s_personDetail_method = @"agents/getOne";
 
-//84.我的信息——获取修改手机验证码
+//85.我的信息——获取修改手机验证码
 static NSString *s_modifyPhoneValidate_method = @"agents/getUpdatePhoneDentcode";
 
-//85.我的信息——修改手机
+//86.我的信息——修改手机
 static NSString *s_modifyPhone_method = @"agents/updatePhone";
 
-//86.我的信息——获取修改邮箱验证码
+//87.我的信息——获取修改邮箱验证码
 static NSString *s_modifyEmailValidate_method = @"agents/getUpdateEmailDentcode";
 
-//87.我的信息——修改邮箱
+//88.我的信息——修改邮箱
 static NSString *s_modifyEmail_method = @"agents/updateEmail";
 
-//88.我的信息——修改密码
+//89.我的信息——修改密码
 static NSString *s_modifyPassword_method = @"agents/updatePassword";
 
-//89.我的信息——地址列表
+//90.我的信息——地址列表
 static NSString *s_addressList_method = @"agents/getAddressList";
 
-//90.我的信息——新增地址
+//91.我的信息——新增地址
 static NSString *s_addressAdd_method = @"agents/insertAddress";
 
-//91.我的信息——删除地址
+//92.我的信息——删除地址
 static NSString *s_addressDelete_method = @"agents/batchDeleteAddress";
 
-//91.a.我的信息——更新收货地址
+//92.a.我的信息——更新收货地址
 static NSString *s_addressUpdate_method = @"agents/updateAddress";
 
 //92.下级代理商管理——列表
@@ -448,17 +481,114 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                           finished:(requestDidFinished)finish;
 
 /*!
- @abstract 31.用户管理——获取用户列表
+ @abstract 26.终端管理——添加用户
+ @param agentID     代理商ID
+ @param token    登录返回
+ @param name     用户名
+ @param password 密码
+ @param codeNumber   验证码
+ @param cityID   城市id
+ @result finish  请求回调结果
+ */
++ (void)addUserWithAgentID:(NSString *)agentID
+                     token:(NSString *)token
+                  username:(NSString *)name
+                  password:(NSString *)password
+                codeNumber:(NSString *)codeNumber
+                    cityID:(NSString *)cityID
+                  finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 27.终端管理——绑定终端
+ @param token    登录返回
+ @param userID   选择用户的id
+ @param terminalNumber  终端号
+ @result finish  请求回调结果
+ */
++ (void)bindingTerminalWithToken:(NSString *)token
+                          userID:(NSString *)userID
+                  terminalNumber:(NSString *)terminalNumber
+                        finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 28.终端管理——申请售后根据终端号筛选
+ @param token    登录返回
+ @param terminalList  终端号数组
+ @result finish  请求回调结果
+ */
++ (void)getTerminalManagerTerminalWithToken:(NSString *)token
+                               terminalList:(NSArray *)terminalList
+                                   finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 29.终端管理——根据支付通道查询
+ @param token    登录返回
+ @param terminalList  终端号数组
+ @result finish  请求回调结果
+ */
++ (void)getTerminalManagerUseChannelWithToken:(NSString *)token
+                                     posTitle:(NSString *)posTitle
+                                    channelID:(NSString *)channelID
+                                     maxPrice:(CGFloat)maxPrice
+                                     minPrice:(CGFloat)minPrice
+                                     finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 30.终端管理——POS机列表
  @param agentID  代理商id
  @param token    登录返回
  @result finish  请求回调结果
  */
++ (void)getTerminalManagerPOSListWithAgent:(NSString *)agentID
+                                     token:(NSString *)token
+                                  finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 31.终端管理——支付通道
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getTerminalManagerChannelListWithToken:(NSString *)token
+                                      finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 33.终端管理——提交申请售后
+ @param userID   登录用户id
+ @param token    登录返回
+ @param count    终端数量
+ @param address  地址
+ @param receiver 收件人
+ @param phoneNumber 手机号
+ @param reason   售后原因
+ @param terminalList   终端列表字符串
+ @result finish  请求回调结果
+ */
++ (void)submitAfterSaleApplyWithUserID:(NSString *)userID
+                                 token:(NSString *)token
+                         terminalCount:(NSInteger)count
+                               address:(NSString *)address
+                              receiver:(NSString *)receiver
+                           phoneNumber:(NSString *)phoneNumber
+                                reason:(NSString *)reason
+                          terminalList:(NSString *)terminalList
+                              finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 34.用户管理——获取用户列表
+ @param agentID  代理商id
+ @param token    登录返回
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
 + (void)getUserListWithAgentID:(NSString *)agentID
                          token:(NSString *)token
+                          page:(int)page
+                          rows:(int)rows
                       finished:(requestDidFinished)finish;
 
 /*!
- @abstract 32.用户管理——删除用户
+ @abstract 35.用户管理——删除用户
  @param agentID  代理商id
  @param token    登录返回
  @param userIDs   删除用户的id数组
@@ -470,7 +600,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                      finished:(requestDidFinished)finish;
 
 /*!
- @abstract 33.用户管理——获取用户终端
+ @abstract 36.用户管理——获取用户终端
  @param token    登录返回
  @param userID   用户id
  @param page     分页参数 页
@@ -483,7 +613,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                                  rows:(int)rows
                              finished:(requestDidFinished)finish;
 /*!
- @abstract 34.商品搜索条件
+ @abstract 37.商品搜索条件
  @param cityID      城市ID
  @result finish  请求回调结果
  */
@@ -491,7 +621,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                            finished:(requestDidFinished)finish;
 
 /*!
- @abstract 35.商品列表
+ @abstract 38.商品列表
  @param cityID      城市ID
  @param agentID     代理商ID
  @param supplyType  1.批购 2.代购
@@ -531,7 +661,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                      finished:(requestDidFinished)finish;
 
 /*!
- @abstract 36.商品详细
+ @abstract 39.商品详细
  @param cityID      城市ID
  @param agentID     代理商ID
  @param goodID      商品ID
@@ -545,7 +675,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                        finished:(requestDidFinished)finish;
 
 /*!
- @abstract 40.库存管理列表
+ @abstract 43.库存管理列表
  @param agentID     代理商ID
  @param token    登录返回
  @param page     分页参数 页
@@ -559,7 +689,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                        finished:(requestDidFinished)finish;
 
 /*!
- @abstract 41.库存管理重命名
+ @abstract 44.库存管理重命名
  @param agentID     代理商ID
  @param token    登录返回
  @param goodID   商品id
@@ -573,7 +703,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                           finished:(requestDidFinished)finish;
 
 /*!
- @abstract 42.库存管理详情——下级代理商列表
+ @abstract 45.库存管理详情——下级代理商列表
  @param agentID     代理商ID
  @param token    登录返回
  @param channelID   支付通道ID
@@ -593,7 +723,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                          finished:(requestDidFinished)finish;
 
 /*!
- @abstract 43.库存管理详情——下级代理商终端列表
+ @abstract 46.库存管理详情——下级代理商终端列表
  @param agentID     代理商ID
  @param token    登录返回
  @param channelID   支付通道ID
@@ -611,7 +741,57 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                            finished:(requestDidFinished)finish;
 
 /*!
- @abstract 57.交易流水——获取终端列表
+ @abstract 47.选择代理商
+ @param agentID     代理商ID
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getGoodSubAgentWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+                          finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 48.配货列表
+ @param agentID     代理商ID
+ @param token    登录返回
+ @param subAgentID  下级代理商id
+ @param startTime   开始时间
+ @param endTime     结束时间
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getPrepareGoodListWithAgentID:(NSString *)agentID
+                                token:(NSString *)token
+                           subAgentID:(NSString *)subAgentID
+                            startTime:(NSString *)startTime
+                              endTime:(NSString *)endTime
+                                 page:(int)page
+                                 rows:(int)rows
+                             finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 50.配货——POS列表
+ @param agentID  代理商id
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getPrepareGoodPOSWithAgentID:(NSString *)agentID
+                               token:(NSString *)token
+                            finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 51.配货——支付通道列表
+ @param agentID  代理商id
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getPrepareGoodChannelWithAgentID:(NSString *)agentID
+                                   token:(NSString *)token
+                                finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 58.交易流水——获取终端列表
  @param token    登录返回
  @param agentID  代理商id
  @result finish  请求回调结果
@@ -621,7 +801,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                                finished:(requestDidFinished)finish;
 
 /*!
- @abstract 58.交易流水——获取代理商列表
+ @abstract 59.交易流水——获取代理商列表
  @param token    登录返回
  @param agentID  代理商id
  @result finish  请求回调结果
@@ -631,7 +811,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                             finished:(requestDidFinished)finish;
 
 /*!
- @abstract 59.交易流水——查询交易流水
+ @abstract 60.交易流水——查询交易流水
  @param agentID  代理商id
  @param token    登录返回
  @param tradeType  交易类型
@@ -655,7 +835,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                          finished:(requestDidFinished)finish;
 
 /*!
- @abstract 62.我的消息列表
+ @abstract 63.我的消息列表
  @param agentID  代理商id
  @param token    登录返回
  @param page     分页参数 页
@@ -669,7 +849,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                            finished:(requestDidFinished)finish;
 
 /*!
- @abstract 63.我的消息详情
+ @abstract 64.我的消息详情
  @param agentID  代理商id
  @param token    登录返回
  @param messageID  消息id
@@ -681,7 +861,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                              finished:(requestDidFinished)finish;
 
 /*!
- @abstract 64.我的消息单删
+ @abstract 65.我的消息单删
  @param agentID  代理商id
  @param token    登录返回
  @param messageID  消息id
@@ -693,7 +873,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                               finished:(requestDidFinished)finish;
 
 /*!
- @abstract 65.我的消息多删
+ @abstract 66.我的消息多删
  @param agentID  代理商id
  @param token    登录返回
  @param messageIDs  消息id数组
@@ -705,7 +885,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                              finished:(requestDidFinished)finish;
 
 /*!
- @abstract 66.我的消息批量已读
+ @abstract 67.我的消息批量已读
  @param agentID  代理商id
  @param token    登录返回
  @param messageIDs  消息id数组
@@ -717,7 +897,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                            finished:(requestDidFinished)finish;
 
 /*!
- @abstract 67.订单管理——列表
+ @abstract 68.订单管理——列表
  @param agentID  代理商id
  @param token    登录返回
  @param orderType  订单类型
@@ -737,7 +917,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                        finished:(requestDidFinished)finish;
 
 /*!
- @abstract 68.订单管理——批购列表  71.代购列表
+ @abstract 69.订单管理——批购  72.代购
  @param token    登录返回
  @param supplyType  批购还是代购
  @param orderID    订单id
@@ -749,7 +929,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                        finished:(requestDidFinished)finish;
 
 /*!
- @abstract 69.订单管理——取消批购订单
+ @abstract 70.订单管理——取消批购订单
  @param token    登录返回
  @param orderID    订单id
  @result finish  请求回调结果
@@ -759,7 +939,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                              finished:(requestDidFinished)finish;
 
 /*!
- @abstract 72.订单管理——取消代购订单
+ @abstract 73.订单管理——取消代购订单
  @param token    登录返回
  @param orderID    订单id
  @result finish  请求回调结果
@@ -769,7 +949,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                                finished:(requestDidFinished)finish;
 
 /*!
- @abstract 73.售后单列表  76.注销记录列表 80.更新记录列表
+ @abstract 74.售后单列表  77.注销记录列表 81.更新记录列表
  @param agentID  代理商id
  @param token    登录返回
  @param type     售后类型
@@ -789,7 +969,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                     finished:(requestDidFinished)finish;
 
 /*!
- @abstract 74.售后单取消申请  77.注销记录取消申请 82.更新记录取消申请
+ @abstract 75.售后单取消申请  78.注销记录取消申请 83.更新记录取消申请
  @param token    登录返回
  @param type     售后类型
  @param csID     售后单id
@@ -801,7 +981,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                       finished:(requestDidFinished)finish;
 
 /*!
- @abstract 75.售后单详情 79.注销记录详情 81.更新记录详情
+ @abstract 76.售后单详情 80.注销记录详情 82.更新记录详情
  @param token    登录返回
  @param type     售后类型
  @param csID     售后单id
@@ -813,7 +993,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                     finished:(requestDidFinished)finish;
 
 /*!
- @abstract 78.售后记录——重新提交注销
+ @abstract 79.售后记录——重新提交注销
  @param token    登录返回
  @param csID     售后单id
  @result finish  请求回调结果
@@ -823,7 +1003,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                        finished:(requestDidFinished)finish;
 
 /*!
- @abstract 83.我的信息——获取详情
+ @abstract 84.我的信息——获取详情
  @param agentID  代理商id
  @param token    登录返回
  @result finish  请求回调结果
@@ -833,7 +1013,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                           finished:(requestDidFinished)finish;
 
 /*!
- @abstract 84.我的信息——获取修改手机验证码
+ @abstract 85.我的信息——获取修改手机验证码
  @param agentID  代理商id
  @param token    登录返回
  @param phoneNumber  手机号
@@ -845,7 +1025,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                                         finished:(requestDidFinished)finish;
 
 /*!
- @abstract 85.我的信息——修改手机
+ @abstract 86.我的信息——修改手机
  @param agentID  代理商id
  @param token    登录返回
  @param phoneNumber  新手机号码
@@ -859,7 +1039,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                              finished:(requestDidFinished)finish;
 
 /*!
- @abstract 86.我的信息——获取修改邮箱验证码
+ @abstract 87.我的信息——获取修改邮箱验证码
  @param agentID  代理商id
  @param token    登录返回
  @param email    邮箱
@@ -871,7 +1051,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                                        finished:(requestDidFinished)finish;
 
 /*!
- @abstract 87.我的信息——修改邮箱
+ @abstract 88.我的信息——修改邮箱
  @param agentID  代理商id
  @param token    登录返回
  @param email    新邮箱
@@ -885,7 +1065,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                             finished:(requestDidFinished)finish;
 
 /*!
- @abstract 88.我的信息——修改密码
+ @abstract 89.我的信息——修改密码
  @param agentID  代理商id
  @param token    登录返回
  @param primaryPassword   原密码
@@ -899,7 +1079,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                          finished:(requestDidFinished)finish;
 
 /*!
- @abstract 89.我的信息——地址列表
+ @abstract 90.我的信息——地址列表
  @param agentID  代理商id
  @param token    登录返回
  @result finish  请求回调结果
@@ -909,7 +1089,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                          finished:(requestDidFinished)finish;
 
 /*!
- @abstract 90.我的信息——新增地址
+ @abstract 91.我的信息——新增地址
  @param agentID  代理商id
  @param token    登录返回
  @param cityID   城市id
@@ -931,7 +1111,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                      finished:(requestDidFinished)finish;
 
 /*!
- @abstract 91.我的信息——批量删除地址
+ @abstract 92.我的信息——批量删除地址
  @param token    登录返回
  @param addressIDs   地址id数组
  @result finish  请求回调结果
@@ -941,7 +1121,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                       finished:(requestDidFinished)finish;
 
 /*!
- @abstract 91.a.修改地址
+ @abstract 92.a.修改地址
  @param token       登录返回
  @param addressID   地址ID
  @param cityID    城市id

@@ -13,13 +13,19 @@
 #define kGoodsHistoryPath  @"GoodsHistory"
 #define kGoodsKey          @"Goods"
 
+#define kAfterSaleApplyHistoryPath  @"AfterSaleApplyHistoryPath"
+#define kAfterSaleApplyKey          @"AfterSaleApply"
+
+typedef enum {
+    HistoryTypeNone = 0,
+    HistoryTypeGood,    //商品搜索历史
+    HistoryTypeAfterSaleApply,  //申请售后终端搜索历史
+}HistoryType;
+
 @interface SearchHistoryHelper : NSObject
 
-/*
- 商品搜索历史
- */
-+ (NSMutableArray *)getGoodsHistory;
-+ (void)saveGoodsHistory:(NSMutableArray *)goodsHistory;
-+ (void)removeGoodsHistory;
++ (NSMutableArray *)getHistoryWithType:(HistoryType)type;
++ (void)saveHistory:(NSMutableArray *)historyList forType:(HistoryType)type;
++ (void)removeHistoryWithType:(HistoryType)type;
 
 @end

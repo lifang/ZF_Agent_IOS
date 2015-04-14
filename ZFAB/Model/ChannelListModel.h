@@ -25,4 +25,7 @@
 
 - (id)initWithParseDictionary:(NSDictionary *)dict;
 
+//配货换货
+- (id)initWithParsePGChannelDictionary:(NSDictionary *)dict;
+
 @end

@@ -71,7 +71,7 @@
     signOut.layer.masksToBounds = YES;
     signOut.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
     [signOut setTitle:@"确认" forState:UIControlStateNormal];
-    [signOut setBackgroundImage:[UIImage imageNamed:@"orange.png"] forState:UIControlStateNormal];
+    [signOut setBackgroundImage:[UIImage imageNamed:@"blue.png"] forState:UIControlStateNormal];
     [signOut addTarget:self action:@selector(filterFinished:) forControlEvents:UIControlEventTouchUpInside];
     [footerView addSubview:signOut];
     _tableView.tableFooterView = footerView;
@@ -118,7 +118,7 @@
 
 - (void)initInputView {
     _switchButton = [[UISwitch alloc] init];
-    _switchButton.onTintColor = kColor(255, 102, 36, 1);
+    _switchButton.onTintColor = kMainColor;
     _lowField = [[UITextField alloc] init];
     _lowField.font = [UIFont systemFontOfSize:14.f];
     _lowField.backgroundColor = [UIColor clearColor];

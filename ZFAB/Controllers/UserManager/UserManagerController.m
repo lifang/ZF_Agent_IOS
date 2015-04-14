@@ -123,7 +123,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getUserListWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getUserListWithAgentID:delegate.agentID token:delegate.token page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -377,10 +377,15 @@
 #pragma mark - 上下拉刷新重写
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (!_isMultiDelete) {
+        [super scrollViewDidScroll:scrollView];
+    }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-
+    if (!_isMultiDelete) {
+        [super scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+    }
 }
 
 - (void)pullDownToLoadData {

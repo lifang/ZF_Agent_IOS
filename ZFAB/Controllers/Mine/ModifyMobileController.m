@@ -266,7 +266,7 @@
             CGFloat buttonWidth = 100;
             CGFloat space = 10.f;
             _primaryField.frame = CGRectMake(20, (cell.frame.size.height - 30) / 2, kScreenWidth - buttonWidth - 2 * space - 20, 30);
-            _sendButton.frame = CGRectMake(kScreenWidth - 110, (cell.frame.size.height - 30) / 2, 100, 30);
+            _sendButton.frame = CGRectMake(kScreenWidth - buttonWidth - 10, (cell.frame.size.height - 30) / 2, buttonWidth, 30);
             [cell.contentView addSubview:_primaryField];
             [cell.contentView addSubview:_sendButton];
         }

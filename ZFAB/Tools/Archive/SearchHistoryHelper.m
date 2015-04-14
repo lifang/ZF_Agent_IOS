@@ -20,31 +20,61 @@
     return historyDirectory;
 }
 
-+ (NSMutableArray *)getGoodsHistory {
++ (NSString *)pathForHistoryType:(HistoryType)type {
+    NSString *path = nil;
+    switch (type) {
+        case HistoryTypeGood:
+            path = kGoodsHistoryPath;
+            break;
+        case HistoryTypeAfterSaleApply:
+            path = kAfterSaleApplyHistoryPath;
+            break;
+        default:
+            break;
+    }
+    return path;
+}
+
++ (NSString *)keyForHistoryType:(HistoryType)type {
+    NSString *key = nil;
+    switch (type) {
+        case HistoryTypeGood:
+            key = kGoodsKey;
+            break;
+        case HistoryTypeAfterSaleApply:
+            key = kAfterSaleApplyKey;
+            break;
+        default:
+            break;
+    }
+    return key;
+}
+
++ (NSMutableArray *)getHistoryWithType:(HistoryType)type {
     NSMutableArray *historyItems = nil;
     NSString *directory = [[self class] searchHistoyDirectory];
-    NSString *path = [directory stringByAppendingPathComponent:kGoodsHistoryPath];
+    NSString *path = [directory stringByAppendingPathComponent:[[self class] pathForHistoryType:type]];
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         NSMutableData *data = [[NSMutableData alloc] initWithContentsOfFile:path];
         NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-        historyItems = [unarchiver decodeObjectForKey:kGoodsKey];
+        historyItems = [unarchiver decodeObjectForKey:[[self class] keyForHistoryType:type]];
     }
     return historyItems;
 }
 
-+ (void)saveGoodsHistory:(NSMutableArray *)goodsHistory {
++ (void)saveHistory:(NSMutableArray *)historyList forType:(HistoryType)type {
     NSString *directory = [[self class] searchHistoyDirectory];
-    NSString *path = [directory stringByAppendingPathComponent:kGoodsHistoryPath];
+    NSString *path = [directory stringByAppendingPathComponent:[[self class] pathForHistoryType:type]];
     NSMutableData *data = [[NSMutableData alloc] init];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-    [archiver encodeObject:goodsHistory forKey:kGoodsKey];
+    [archiver encodeObject:historyList forKey:[[self class] keyForHistoryType:type]];
     [archiver finishEncoding];
     [data writeToFile:path atomically:YES];
 }
 
-+ (void)removeGoodsHistory {
++ (void)removeHistoryWithType:(HistoryType)type {
     NSString *directory = [[self class] searchHistoyDirectory];
-    NSString *path = [directory stringByAppendingPathComponent:kGoodsHistoryPath];
+    NSString *path = [directory stringByAppendingPathComponent:[[self class] pathForHistoryType:type]];
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
     }

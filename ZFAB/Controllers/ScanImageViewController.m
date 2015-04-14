@@ -69,7 +69,7 @@
         
         ImageScrollView *imagescroll = [[ImageScrollView alloc] initWithFrame:(CGRect){contentOffset,self.imagesScrollView.bounds.size}];
         [imagescroll setContentWithFrame:rect];
-        [imagescroll setImage:imageView.image];
+        [imagescroll setImage:imageView.image]; 
         [self.imagesScrollView addSubview:imagescroll];
         imagescroll.tapDelegate = self;
         [self performSelector:@selector(setOriginFrame:) withObject:imagescroll afterDelay:0.1f];

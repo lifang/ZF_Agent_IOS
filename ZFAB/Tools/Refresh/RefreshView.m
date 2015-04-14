@@ -94,7 +94,7 @@
                 _circleView.progress = 0.f;
                 [_circleView setNeedsDisplay];
             }
-            CGFloat offsetY = fabsf(scrollView.contentOffset.y);
+            CGFloat offsetY = fabs(scrollView.contentOffset.y);
             if (offsetY > 30) {
                 offsetY = offsetY > maxOffsetForDownRefresh ? maxOffsetForDownRefresh : offsetY;
                 _circleView.progress = (offsetY - 30) / (maxOffsetForDownRefresh - 30);
@@ -119,7 +119,7 @@
                 _circleView.progress = 0.f;
                 [_circleView setNeedsDisplay];
             }
-            CGFloat offsetY = fabsf(scrollView.contentSize.height - scrollView.bounds.size.height - scrollView.contentOffset.y);
+            CGFloat offsetY = fabs(scrollView.contentSize.height - scrollView.bounds.size.height - scrollView.contentOffset.y);
             if (offsetY > 30) {
                 offsetY = offsetY > maxOffsetForDownRefresh ? maxOffsetForDownRefresh : offsetY;
                 _circleView.progress = (offsetY - 30) / (maxOffsetForDownRefresh - 30);
@@ -151,7 +151,7 @@
                 [_delegate refreshViewDidEndTrackingForRefresh:self];
             }
             [self setRefreshState:RefreshLoading];
-            CGFloat offsetY = fabsf(scrollView.contentOffset.y);
+            CGFloat offsetY = fabs(scrollView.contentOffset.y);
             offsetY = offsetY > maxOffsetForDownRefresh ? maxOffsetForDownRefresh : offsetY;
             if (_circleView.progress == 0.f) {
                 _circleView.progress = offsetY / maxOffsetForDownRefresh;
@@ -169,7 +169,7 @@
                 [_delegate refreshViewDidEndTrackingForRefresh:self];
             }
             [self setRefreshState:RefreshLoading];
-            CGFloat offsetY = fabsf(scrollView.contentSize.height - scrollView.bounds.size.height - scrollView.contentOffset.y);
+            CGFloat offsetY = fabs(scrollView.contentSize.height - scrollView.bounds.size.height - scrollView.contentOffset.y);
             offsetY = offsetY > maxOffsetForDownRefresh ? maxOffsetForDownRefresh : offsetY;
             if (_circleView.progress == 0.f) {
                 _circleView.progress = offsetY / maxOffsetForDownRefresh;

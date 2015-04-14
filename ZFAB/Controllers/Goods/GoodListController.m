@@ -269,6 +269,7 @@
     SearchViewController *searchC = [[SearchViewController alloc] init];
     searchC.delegate = self;
     searchC.keyword = _keyword;
+    searchC.type = HistoryTypeGood;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:searchC];
     [NavigationBarAttr setNavigationBarStyle:nav];
     [self presentViewController:nav animated:NO completion:nil];

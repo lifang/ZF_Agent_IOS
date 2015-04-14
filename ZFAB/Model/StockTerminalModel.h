@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-    TerminalStatusNone = 0,
-    TerminalStatusOpened,       //已开通
-    TerminalStatusPartOpened,   //部分开通
-    TerminalStatusUnOpened,     //未开通
-    TerminalStatusCanceled,     //已注销
-    TerminalStatusStopped,      //已停用
-}TerminalStatus;
+    StockTerminalStatusNone = 0,
+    StockTerminalStatusOpened,       //已开通
+    StockTerminalStatusPartOpened,   //部分开通
+    StockTerminalStatusUnOpened,     //未开通
+    StockTerminalStatusCanceled,     //已注销
+    StockTerminalStatusStopped,      //已停用
+}StockTerminalStatus;
 
 /*库存终端列表*/
 @interface StockTerminalModel : NSObject
@@ -28,7 +28,7 @@ typedef enum {
 
 @property (nonatomic, strong) NSString *terminalNumber;
 
-@property (nonatomic, assign) TerminalStatus openStatus;
+@property (nonatomic, assign) StockTerminalStatus openStatus;
 
 - (id)initWithParseDictionary:(NSDictionary *)dict;
 

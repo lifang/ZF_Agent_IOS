@@ -18,6 +18,7 @@
 }
 
 - (void)setSearchBarStyle {
+    self.enablesReturnKeyAutomatically = NO;
     [self setImage:kImageName(@"good_search.png") forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     NSArray *subviews = nil;
     if (kDeviceVersion >= 7.0) {
