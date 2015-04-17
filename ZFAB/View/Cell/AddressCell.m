@@ -71,7 +71,7 @@
     _defaultLabel.backgroundColor = [UIColor clearColor];
     _defaultLabel.font = [UIFont systemFontOfSize:10.f];
     _defaultLabel.textAlignment = NSTextAlignmentCenter;
-    _defaultLabel.textColor = kColor(255, 102, 36, 1);
+    _defaultLabel.textColor = kMainColor;
     _defaultLabel.text = @"【默认】";
     [self.contentView addSubview:_defaultLabel];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_defaultLabel

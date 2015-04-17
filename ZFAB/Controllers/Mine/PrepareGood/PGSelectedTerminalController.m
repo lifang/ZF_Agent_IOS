@@ -10,6 +10,7 @@
 #import "PGInputTerminalController.h"
 #import "PGFilterPOSController.h"
 #import "PGFilterChannelController.h"
+#import "MBProgressHUD.h"
 
 @interface PGSelectedTerminalController ()<UITableViewDataSource,UITableViewDelegate,PGFilterPOSDelegate,PGFilterChannelDelegate,PGTerminalDelegate>
 
@@ -23,7 +24,7 @@
 
 @property (nonatomic, strong) ChannelListModel *selectedChannel;
 
-@property (nonatomic, strong) NSArray *terminalList;
+@property (nonatomic, strong) NSMutableArray *terminalList;
 
 @end
 
@@ -105,7 +106,28 @@
 #pragma mark - Action
 
 - (IBAction)selectedTerminal:(id)sender {
-    
+    if (!_selectedPOS.ID) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择POS机";
+        return;
+    }
+    if (!_selectedChannel.channelID) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择支付通道";
+        return;
+    }
+    PGTerminalListController *listC = [[PGTerminalListController alloc] init];
+    listC.channelID = _selectedChannel.channelID;
+    listC.POSID = _selectedPOS.ID;
+    listC.terminalFilter = _terminalList;
+    listC.filterType = _filterType;
+    [self.navigationController pushViewController:listC animated:YES];
 }
 
 #pragma mark - UITableView
@@ -200,7 +222,7 @@
 #pragma mark - PGTerminalDelegate
 
 - (void)getTerminalListString:(NSString *)terminalListString {
-    _terminalList = [terminalListString componentsSeparatedByString:@"\n"];
+    _terminalList = [NSMutableArray arrayWithArray:[terminalListString componentsSeparatedByString:@"\n"]];
     [_tableView reloadData];
 }
 

@@ -18,4 +18,6 @@
 
 @property (nonatomic, assign) id<TradeTerminalDelegate>delegate;
 
+@property (nonatomic, strong) NSString *terminalNumber;
+
 @end

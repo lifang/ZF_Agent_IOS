@@ -16,6 +16,7 @@
 #import "GoodListModel.h"
 #import "GoodListCell.h"
 #import "SearchViewController.h"
+#import "GoodDetailController.h"
 
 @interface GoodListController ()<SortViewDelegate,UISearchBarDelegate,SearchDelegate>
 
@@ -261,6 +262,15 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return kGoodCellHeight;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    GoodListModel *model = [_dataItem objectAtIndex:indexPath.row];
+    GoodDetailController *detailC = [[GoodDetailController alloc] init];
+    detailC.supplyType = _supplyType;
+    detailC.goodID = model.goodID;
+    [self.navigationController pushViewController:detailC animated:YES];
 }
 
 #pragma mark - UISearchBar

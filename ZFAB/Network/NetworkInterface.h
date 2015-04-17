@@ -12,7 +12,7 @@
 
 typedef enum {
     RequestTokenOverdue = -3,   //token失效
-//    RequestShortInventory = -2, //库存不足
+    RequestShortInventory = -2, //库存不足
     RequestFail = -1,           //请求错误
     RequestSuccess = 1,         //请求成功
 }RequestCode;
@@ -157,6 +157,15 @@ static NSString *s_goodList_method = @"good/list";
 //39.商品详细
 static NSString *s_goodDetail_method = @"good/goodinfo";
 
+//40.支付通道详细
+static NSString *s_channelDetail_method = @"paychannel/info";
+
+//41.评论列表
+static NSString *s_commentList_method = @"comment/list";
+
+//42.创建订单
+static NSString *s_createOrder_method = @"order/agent";
+
 //43.库存管理列表
 static NSString *s_stockList_method = @"stock/list";
 
@@ -175,11 +184,29 @@ static NSString *s_subAgent_method = @"preparegood/getsonagent";
 //48.配货列表
 static NSString *s_prepareGoodList_method = @"preparegood/list";
 
+//49.配货详情
+static NSString *s_prepareGoodDetail_method = @"preparegood/info";
+
 //50.配货POS列表
 static NSString *s_prepareGoodPOS_method = @"preparegood/getgoodlist";
 
 //51.配货支付通道列表
 static NSString *s_prepareGoodChannel_method = @"preparegood/getpaychannellist";
+
+//52.配货筛选终端
+static NSString *s_prepareGoodFilter_method = @"preparegood/getterminalslist";
+
+//53.配货
+static NSString *s_prepareGood_method = @"preparegood/add";
+
+//54.调货列表
+static NSString *s_transferGoodList_method = @"exchangegood/list";
+
+//55.调货详情
+static NSString *s_transferGoodDetail_method = @"exchangegood/info";
+
+//57.调货
+static NSString *s_transferGood_method = @"exchangegood/add";
 
 //58.交易流水——获取终端
 static NSString *s_tradeTerminalList_method = @"trade/record/getTerminals";
@@ -189,6 +216,12 @@ static NSString *s_tradeAgentList_method = @"trade/record/getAgents";
 
 //60.交易流水——查询交易流水
 static NSString *s_tradeRecord_method = @"trade/record/getTradeRecords";
+
+//61.交易流水——交易流水详情
+static NSString *s_tradeDetail_method = @"trade/getTradeRecord";
+
+//62.交易流水——统计交易流水
+static NSString *s_tradeStatist_method = @"trade/getTradeStatistics";
 
 //63.我的消息——列表
 static NSString *s_messageList_method = @"message/receiver/getAll";
@@ -675,6 +708,64 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                        finished:(requestDidFinished)finish;
 
 /*!
+ @abstract 40.支付通道详细
+ @param token     登录返回
+ @param channelID   支付通道id
+ @result finish  请求回调结果
+ */
++ (void)getChannelDetailWithToken:(NSString *)token
+                        channelID:(NSString *)channelID
+                         finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 41.商品评论列表
+ @param token     登录返回
+ @param goodID   商品id
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getCommentListWithToken:(NSString *)token
+                         goodID:(NSString *)goodID
+                           page:(int)page
+                           rows:(int)rows
+                       finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 42.创建订单
+ @param agentID     代理商id
+ @param token       登录返回
+ @param userID      选择的用户id，默认为登录返回的agentUserID
+ @param createUserID  登录返回的id
+ @param belongID    agentUserID
+ @param confirmType  OrderConfirmType类型
+ @param goodID     商品id
+ @param channelID  支付通道id
+ @param count      数量
+ @param addressID   地址id
+ @param comment     留言
+ @param needInvoice 是否需要发票 0.不要 1.要
+ @param invoiceType 发票类型 0.公司 1.个人
+ @param invoiceTitle  发票抬头
+ @result finish  请求回调结果
+ */
++ (void)createOrderFromGoodBuyWithAgentID:(NSString *)agentID
+                                    token:(NSString *)token
+                                   userID:(NSString *)userID
+                             createUserID:(NSString *)createUserID
+                                 belongID:(NSString *)belongID
+                              confirmType:(int)confirmType
+                                   goodID:(NSString *)goodID
+                                channelID:(NSString *)channelID
+                                    count:(int)count
+                                addressID:(NSString *)addressID
+                                  comment:(NSString *)comment
+                              needInvoice:(int)needInvoice
+                              invoiceType:(int)invoiceType
+                              invoiceInfo:(NSString *)invoiceTitle
+                                 finished:(requestDidFinished)finish;
+
+/*!
  @abstract 43.库存管理列表
  @param agentID     代理商ID
  @param token    登录返回
@@ -771,6 +862,16 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                              finished:(requestDidFinished)finish;
 
 /*!
+ @abstract 49.配货详情
+ @param token    登录返回
+ @param prepareID  配货id
+ @result finish  请求回调结果
+ */
++ (void)getPrepareGoodDetailWithToken:(NSString *)token
+                            prapareID:(NSString *)prepareID
+                             finished:(requestDidFinished)finish;
+
+/*!
  @abstract 50.配货——POS列表
  @param agentID  代理商id
  @param token    登录返回
@@ -789,6 +890,89 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
 + (void)getPrepareGoodChannelWithAgentID:(NSString *)agentID
                                    token:(NSString *)token
                                 finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 52.配货——筛选终端
+ @param agentID  代理商id
+ @param token    登录返回
+ @param channelID  支付通道id
+ @param goodID    pos机id
+ @param terminalNumbers  终端号数组
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getPrepareGoodTerminalListWithAgentID:(NSString *)agentID
+                                        token:(NSString *)token
+                                    channelID:(NSString *)channelID
+                                       goodID:(NSString *)goodID
+                              terminalNumbers:(NSArray *)terminalNumbers
+                                         page:(int)page
+                                         rows:(int)rows
+                                     finished:(requestDidFinished)finish;
+/*!
+ @abstract 53.配货
+ @param userID  登录id
+ @param token    登录返回
+ @param subAgentID  下级代理商id
+ @param channelID  支付通道id
+ @param goodID    pos机id
+ @param terminalList  终端号数组
+ @result finish  请求回调结果
+ */
++ (void)prepareGoodWithUserID:(NSString *)userID
+                        token:(NSString *)token
+                   subAgentID:(NSString *)subAgentID
+                    channelID:(NSString *)channelID
+                       goodID:(NSString *)goodID
+                 terminalList:(NSArray *)terminalList
+                     finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 54.调货列表
+ @param agentID     代理商ID
+ @param token    登录返回
+ @param subAgentID  下级代理商id
+ @param startTime   开始时间
+ @param endTime     结束时间
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getTransferGoodListWithAgentID:(NSString *)agentID
+                                 token:(NSString *)token
+                            subAgentID:(NSString *)subAgentID
+                             startTime:(NSString *)startTime
+                               endTime:(NSString *)endTime
+                                  page:(int)page
+                                  rows:(int)rows
+                              finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 55.调货详情
+ @param token    登录返回
+ @param transferID  配货id
+ @result finish  请求回调结果
+ */
++ (void)getTransferGoodDetailWithToken:(NSString *)token
+                            transferID:(NSString *)transferID
+                              finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 57.调货
+ @param userID   登录id
+ @param token    登录返回
+ @param fromAgentID  被调货代理商id
+ @param toAgentID    调货代理商id
+ @param terminalList 终端号数组
+ @result finish  请求回调结果
+ */
++ (void)transferGoodWithUserID:(NSString *)userID
+                         token:(NSString *)token
+                   fromAgentID:(NSString *)fromAgentID
+                     toAgentID:(NSString *)toAgentID
+                  terminalList:(NSArray *)terminalList
+                      finished:(requestDidFinished)finish;
 
 /*!
  @abstract 58.交易流水——获取终端列表
@@ -833,6 +1017,42 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                              page:(int)page
                              rows:(int)rows
                          finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 61.交易流水——详情
+ @param agentID  代理商id
+ @param token    登录返回
+ @param tradeID  交易id
+ @param profit   1.无分润  2.有分润
+ @result finish  请求回调结果
+ */
++ (void)getTradeDetailWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                          tradeID:(NSString *)tradeID
+                        hasProfit:(int)profit
+                         finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 62.交易流水——统计
+ @param agentID  代理商id
+ @param token    登录返回
+ @param tradeType  交易类型
+ @param terminalNumber  终端号
+ @param subAgentID  下级代理商
+ @param startTime   开始时间
+ @param endTime     结束时间
+ @param profit   1.无分润  2.有分润
+ @result finish  请求回调结果
+ */
++ (void)getTradeStatistWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+                         tradeType:(TradeType)tradeType
+                        subAgentID:(NSString *)subAgentID
+                    terminalNumber:(NSString *)terminalNumber
+                         startTime:(NSString *)startTime
+                           endTime:(NSString *)endTime
+                         hasProfit:(int)profit
+                          finished:(requestDidFinished)finish;
 
 /*!
  @abstract 63.我的消息列表

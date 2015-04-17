@@ -9,6 +9,7 @@
 #import "AgentManagerController.h"
 #import "SubAgentListController.h"
 #import "PrepareGoodManagerController.h"
+#import "TransferGoodManagerController.h"
 
 @interface AgentManagerController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -128,7 +129,9 @@
         }
             break;
         case 2: {
-            
+            //调货
+            TransferGoodManagerController *transferC = [[TransferGoodManagerController alloc] init];
+            [self.navigationController pushViewController:transferC animated:YES];
         }
             break;
         default:

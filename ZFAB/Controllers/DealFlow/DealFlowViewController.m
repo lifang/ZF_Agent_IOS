@@ -12,6 +12,9 @@
 #import "TradeTerminalController.h"
 #import "TradeAgentController.h"
 #import "AppDelegate.h"
+#import "TradeCell.h"
+#import "TradeDetailController.h"
+#import "StatisticTradeController.h"
 
 typedef enum {
     TimeStart = 0,
@@ -179,7 +182,7 @@ typedef enum {
                     if (!isMore) {
                         [_tradeRecords removeAllObjects];
                     }
-                    id list = [object objectForKey:@"result"];
+                    id list = [[object objectForKey:@"result"] objectForKey:@"list"];
                     if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
                         self.page++;
@@ -212,9 +215,15 @@ typedef enum {
 #pragma mark - Data
 
 - (void)parseTradeListDataWithDictionary:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
         return;
     }
+    NSArray *tradeList = [[dict objectForKey:@"result"] objectForKey:@"list"];
+    for (int i = 0; i < [tradeList count]; i++) {
+        TradeModel *trade = [[TradeModel alloc] initWithParseDictionary:[tradeList objectAtIndex:i]];
+        [_tradeRecords addObject:trade];
+    }
+    [self.tableView reloadData];
 }
 
 #pragma mark - Action
@@ -294,6 +303,12 @@ typedef enum {
         hud.labelText = @"开始时间不能晚于结束时间";
         return;
     }
+    StatisticTradeController *statisticC = [[StatisticTradeController alloc] init];
+    statisticC.startTime = _startTime;
+    statisticC.endTime = _endTime;
+    statisticC.terminalNumber = _terminalNumber;
+    statisticC.tradeType = [self tradeTypeFromIndex:_segmentControl.selectedSegmentIndex];
+    [self.navigationController pushViewController:statisticC animated:YES];
 }
 
 //datePicker滚动时调用方法
@@ -391,7 +406,14 @@ typedef enum {
         }
         case 3: {
             static NSString *cellIdentifier = @"TradeList";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+            TradeCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+            if (cell == nil) {
+                cell = [[TradeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            }
+            TradeModel *trade = [_tradeRecords objectAtIndex:indexPath.row];
+            [cell setContentWithData:trade
+                       withTradeType:[self tradeTypeFromIndex:_segmentControl.selectedSegmentIndex]];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             return cell;
         }
         default:
@@ -427,7 +449,7 @@ typedef enum {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 3) {
-        return 100;
+        return kTradeCellHeight;
     }
     return 44;
 }
@@ -489,6 +511,7 @@ typedef enum {
     if (indexPath.section == 0) {
         //选择终端
         TradeTerminalController *tradeC = [[TradeTerminalController alloc] init];
+        tradeC.terminalNumber = _terminalNumber;
         tradeC.delegate = self;
         [self.navigationController pushViewController:tradeC animated:YES];
     }
@@ -511,6 +534,11 @@ typedef enum {
     }
     else if (indexPath.section == 3) {
         //交易流水
+        TradeModel *trade = [_tradeRecords objectAtIndex:indexPath.row];
+        TradeDetailController *detailC = [[TradeDetailController alloc] init];
+        detailC.tradeID = trade.tradeID;
+        detailC.tradeType = [self tradeTypeFromIndex:_segmentControl.selectedSegmentIndex];
+        [self.navigationController pushViewController:detailC animated:YES];
     }
 }
 

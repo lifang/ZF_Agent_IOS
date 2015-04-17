@@ -8,6 +8,14 @@
 
 #import "CommonViewController.h"
 
+static NSString *PGSelectedTerminalNotification = @"PGSelectedTerminalNotification";
+
+static NSString *kPGTerminal = @"kPGTerminal";
+
+static NSString *kPGChannel = @"kPGChannel";
+
+static NSString *kPGGood = @"kPGGood";
+
 @interface PrepareGoodController : CommonViewController
 
 @property (nonatomic, strong) NSMutableArray *agentList;

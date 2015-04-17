@@ -14,6 +14,7 @@
 #import "GoodAgentListController.h"
 #import "PrepareGoodCell.h"
 #import "PrepareGoodController.h"
+#import "PGDetailController.h"
 
 typedef enum {
     PrepareTimeStart = 1,
@@ -472,8 +473,12 @@ typedef enum {
             [self pickerScrollIn];
         }
     }
-    else if (indexPath.section == 3) {
+    else if (indexPath.section == 2) {
         //配货记录
+        PrepareGoodModel *model = [_prepareList objectAtIndex:indexPath.row];
+        PGDetailController *detailC = [[PGDetailController alloc] init];
+        detailC.prepareID = model.ID;
+        [self.navigationController pushViewController:detailC animated:YES];
     }
 }
 
@@ -533,7 +538,7 @@ typedef enum {
 
 #pragma mark - GoodAgentSelectedDelegate
 
-- (void)getSelectedGoodAgent:(GoodAgentModel *)model {
+- (void)getSelectedGoodAgent:(GoodAgentModel *)model style:(AgentStyle)style {
     _selectedAgent = model;
     [self.tableView reloadData];
 }

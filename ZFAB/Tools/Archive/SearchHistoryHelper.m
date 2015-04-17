@@ -29,6 +29,9 @@
         case HistoryTypeAfterSaleApply:
             path = kAfterSaleApplyHistoryPath;
             break;
+        case HistoryTypePG:
+            path = kPGHistoryPath;
+            break;
         default:
             break;
     }
@@ -43,6 +46,9 @@
             break;
         case HistoryTypeAfterSaleApply:
             key = kAfterSaleApplyKey;
+            break;
+        case HistoryTypePG:
+            key = kPGKey;
             break;
         default:
             break;

@@ -9,9 +9,15 @@
 #import "CommonViewController.h"
 #import "GoodAgentModel.h"
 
+typedef enum {
+    AgentStyleNone = 0,
+    AgentStyleFrom,
+    AgentStyleTo,
+}AgentStyle; //用于调货
+
 @protocol GoodAgentSelectedDelegate <NSObject>
 
-- (void)getSelectedGoodAgent:(GoodAgentModel *)model;
+- (void)getSelectedGoodAgent:(GoodAgentModel *)model style:(AgentStyle)style;
 
 @end
 
@@ -20,5 +26,7 @@
 @property (nonatomic, assign) id<GoodAgentSelectedDelegate>delegate;
 
 @property (nonatomic, strong) NSMutableArray *agentList;
+
+@property (nonatomic, assign) AgentStyle style;
 
 @end

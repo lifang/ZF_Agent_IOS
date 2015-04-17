@@ -36,4 +36,6 @@
 
 - (void)setContentsWithData:(OrderGoodModel *)data;
 
+- (void)setPrimaryPriceWithString:(NSString *)price;
+
 @end

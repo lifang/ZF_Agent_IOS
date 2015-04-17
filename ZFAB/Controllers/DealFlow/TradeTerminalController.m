@@ -100,7 +100,7 @@
     _inputField.leftViewMode = UITextFieldViewModeAlways;
     _inputField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _inputField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    
+    _inputField.text = _terminalNumber;
     [_inputField becomeFirstResponder];
 }
 

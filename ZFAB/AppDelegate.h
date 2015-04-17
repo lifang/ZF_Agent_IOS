@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSString *userID;       //用户id
 @property (nonatomic, strong) NSString *token;
 @property (nonatomic, strong) NSString *cityID;
+@property (nonatomic, assign) BOOL hasProfit;         //是否有分润
 
 @property (nonatomic, strong) RootViewController *rootViewController;
 

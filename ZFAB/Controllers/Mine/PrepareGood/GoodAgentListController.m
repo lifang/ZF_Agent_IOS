@@ -162,8 +162,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     GoodAgentModel *model = [_agentList objectAtIndex:indexPath.row];
-    if (_delegate && [_delegate respondsToSelector:@selector(getSelectedGoodAgent:)]) {
-        [_delegate getSelectedGoodAgent:model];
+    if (_delegate && [_delegate respondsToSelector:@selector(getSelectedGoodAgent:style:)]) {
+        [_delegate getSelectedGoodAgent:model style:_style];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }

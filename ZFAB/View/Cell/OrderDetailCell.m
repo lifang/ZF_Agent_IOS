@@ -208,13 +208,24 @@
 - (void)setContentsWithData:(OrderGoodModel *)data {
     self.nameLabel.text = data.goodName;
     if (_supplyType == SupplyGoodsWholesale) {
-        self.primaryPriceLabel.text = [NSString stringWithFormat:@"原价 ￥%.2f",data.goodPrimaryPrice];
+        [self setPrimaryPriceWithString:[NSString stringWithFormat:@"原价 ￥%.2f",data.goodPrimaryPrice]];
     }
     self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",data.goodActualPirce];
     self.numberLabel.text = [NSString stringWithFormat:@"X %d",data.goodCount];
     self.brandLabel.text = [NSString stringWithFormat:@"品牌型号 %@",data.goodBrand];
     self.channelLabel.text = [NSString stringWithFormat:@"支付通道 %@",data.goodChannel];
     [self.pictureView sd_setImageWithURL:[NSURL URLWithString:data.goodImagePath] placeholderImage:nil];
+}
+
+- (void)setPrimaryPriceWithString:(NSString *)price {
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:price];
+    NSDictionary *normalAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [UIFont systemFontOfSize:12.f],NSFontAttributeName,
+                                [UIColor blackColor],NSForegroundColorAttributeName,
+                                [NSNumber numberWithInt:1],NSStrikethroughStyleAttributeName,
+                                nil];
+    [attrString addAttributes:normalAttr range:NSMakeRange(0, [attrString length])];
+    _primaryPriceLabel.attributedText = attrString;
 }
 
 @end

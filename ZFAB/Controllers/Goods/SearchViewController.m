@@ -52,12 +52,15 @@
     _searchBar.text = _keyword;
     self.navigationItem.titleView = _searchBar;
     [_searchBar becomeFirstResponder];
-    NSString *placeHolder = nil;
+    NSString *placeHolder = @"";
     switch (_type) {
         case HistoryTypeGood:
             placeHolder = @"搜索商品";
             break;
         case HistoryTypeAfterSaleApply:
+            placeHolder = @"搜索终端号";
+            break;
+        case HistoryTypePG:
             placeHolder = @"搜索终端号";
             break;
         default:
@@ -154,7 +157,7 @@
 }
 
 - (void)saveSearchHistory {
-    if (![self.historyItems containsObject:self.searchBar.text]) {
+    if (![self.historyItems containsObject:self.searchBar.text] && self.searchBar.text && ![self.searchBar.text isEqualToString:@""]) {
         [self.historyItems addObject:self.searchBar.text];
         //保存搜索历史到本地
         [SearchHistoryHelper saveHistory:self.historyItems forType:_type];

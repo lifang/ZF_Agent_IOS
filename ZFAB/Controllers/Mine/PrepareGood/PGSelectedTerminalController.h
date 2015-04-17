@@ -7,7 +7,10 @@
 //
 
 #import "CommonViewController.h"
+#import "PGTerminalListController.h"
 
 @interface PGSelectedTerminalController : CommonViewController
+
+@property (nonatomic, assign) FilterType filterType;   //配货还是调货
 
 @end

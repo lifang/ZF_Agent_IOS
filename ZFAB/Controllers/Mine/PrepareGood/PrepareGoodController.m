@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "GoodAgentListController.h"
 #import "PGSelectedTerminalController.h"
+#import "SerialModel.h"
 
 @interface PrepareGoodController ()<UITableViewDataSource,UITableViewDelegate,GoodAgentSelectedDelegate>
 
@@ -19,9 +20,18 @@
 
 @property (nonatomic, strong) GoodAgentModel *selectedAgent;
 
+//选中的终端号数组 通过通知传递
+@property (nonatomic, strong) NSArray *selectedTerminalList;
+@property (nonatomic, strong) NSString *channelID;
+@property (nonatomic, strong) NSString *goodID;
+
 @end
 
 @implementation PrepareGoodController
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,6 +41,10 @@
     if ([_agentList count] <= 0) {
         [self getSubAgent];
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(getFilterTerminal:)
+                                                 name:PGSelectedTerminalNotification
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -133,6 +147,44 @@
     }];
 }
 
+//配货
+- (void)submitPrepareGood {
+    NSMutableArray *terminalNumbers = [[NSMutableArray alloc] init];
+    for (SerialModel *model in _selectedTerminalList) {
+        [terminalNumbers addObject:model.serialNumber];
+    }
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface prepareGoodWithUserID:delegate.userID token:delegate.token subAgentID:_selectedAgent.ID channelID:_channelID goodID:_goodID terminalList:terminalNumbers finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    hud.labelText = @"配货成功";
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
 #pragma mark - Data
 
 - (void)parseSubAgentListWithDictionary:(NSDictionary *)dict {
@@ -150,11 +202,46 @@
     }
 }
 
+- (NSString *)terminalStringWithArray:(NSArray *)terminalList {
+    NSString *names = @"";
+    for (int i = 0; i < [terminalList count]; i++) {
+        SerialModel *model = [terminalList objectAtIndex:i];
+        names = [names stringByAppendingString:model.serialNumber];
+        if (i != [terminalList count] - 1) {
+            names = [names stringByAppendingString:@","];
+        }
+    }
+    return names;
+}
 
 #pragma mark - Action
 
 - (IBAction)submitPrepareGood:(id)sender {
-    
+    if (!_selectedAgent.ID) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择配送代理商";
+        return;
+    }
+    if (!_selectedTerminalList || [_selectedTerminalList count] <= 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择终端号";
+        return;
+    }
+    if (!_channelID || !_goodID) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"终端支付通道或商品为空";
+        return;
+    }
+    [self submitPrepareGood];
 }
 
 #pragma mark - UITableView
@@ -173,6 +260,7 @@
     switch (indexPath.section) {
         case 0: {
             title = @"选择终端号";
+            cell.detailTextLabel.text = [self terminalStringWithArray:_selectedTerminalList];
         }
             break;
         case 1: {
@@ -195,6 +283,7 @@
     switch (indexPath.section) {
         case 0: {
             PGSelectedTerminalController *terminalC = [[PGSelectedTerminalController alloc] init];
+            terminalC.filterType = FilterTypePrepareGood;
             [self.navigationController pushViewController:terminalC animated:YES];
         }
             break;
@@ -220,9 +309,18 @@
 
 #pragma mark - GoodAgentSelectedDelegate
 
-- (void)getSelectedGoodAgent:(GoodAgentModel *)model {
+- (void)getSelectedGoodAgent:(GoodAgentModel *)model style:(AgentStyle)style {
     _selectedAgent = model;
     [self.tableView reloadData];
+}
+
+#pragma mark - NSNotification
+
+- (void)getFilterTerminal:(NSNotification *)notification {
+    _selectedTerminalList = [notification.userInfo objectForKey:kPGTerminal];
+    _channelID = [notification.userInfo objectForKey:kPGChannel];
+    _goodID = [notification.userInfo objectForKey:kPGGood];
+    [_tableView reloadData];
 }
 
 @end

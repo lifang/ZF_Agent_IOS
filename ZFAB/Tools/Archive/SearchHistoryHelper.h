@@ -16,10 +16,14 @@
 #define kAfterSaleApplyHistoryPath  @"AfterSaleApplyHistoryPath"
 #define kAfterSaleApplyKey          @"AfterSaleApply"
 
+#define kPGHistoryPath @"PGHistoryPath"
+#define kPGKey         @"PG"
+
 typedef enum {
     HistoryTypeNone = 0,
     HistoryTypeGood,    //商品搜索历史
     HistoryTypeAfterSaleApply,  //申请售后终端搜索历史
+    HistoryTypePG,      //配货搜索历史
 }HistoryType;
 
 @interface SearchHistoryHelper : NSObject
