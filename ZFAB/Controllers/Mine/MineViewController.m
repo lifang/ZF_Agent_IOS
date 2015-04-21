@@ -11,8 +11,11 @@
 #import "AgentManagerController.h"
 #import "CustomerManagerController.h"
 #import "AppDelegate.h"
+#import "MBProgressHUD.h"
 
-@interface MineViewController ()<UITableViewDataSource,UITableViewDelegate>
+static NSString *s_phoneNumber = @"4000908076";
+
+@interface MineViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -171,23 +174,53 @@
             switch (indexPath.row) {
                 case 0: {
                     //我的信息
-                    PersonInfoController *personC = [[PersonInfoController alloc] init];
-                    personC.hidesBottomBarWhenPushed = YES;
-                    [self.navigationController pushViewController:personC animated:YES];
+                    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+                    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthAR]] boolValue]) {
+                        PersonInfoController *personC = [[PersonInfoController alloc] init];
+                        personC.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:personC animated:YES];
+                    }
+                    else {
+                        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                        hud.customView = [[UIImageView alloc] init];
+                        hud.mode = MBProgressHUDModeCustomView;
+                        [hud hide:YES afterDelay:1.f];
+                        hud.labelText = @"没有代理商资料权限";
+                    }
                 }
                     break;
                 case 1: {
                     //下级代理商管理
-                    AgentManagerController *agentC = [[AgentManagerController alloc] init];
-                    agentC.hidesBottomBarWhenPushed = YES;
-                    [self.navigationController pushViewController:agentC animated:YES];
+                    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+                    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthSubAgent]] boolValue]) {
+                        AgentManagerController *agentC = [[AgentManagerController alloc] init];
+                        agentC.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:agentC animated:YES];
+                    }
+                    else {
+                        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                        hud.customView = [[UIImageView alloc] init];
+                        hud.mode = MBProgressHUDModeCustomView;
+                        [hud hide:YES afterDelay:1.f];
+                        hud.labelText = @"没有管理下级代理商权限";
+                    }
                 }
                     break;
                 case 2: {
                     //我的员工
-                    CustomerManagerController *customerC = [[CustomerManagerController alloc] init];
-                    customerC.hidesBottomBarWhenPushed = YES;
-                    [self.navigationController pushViewController:customerC animated:YES];
+                    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+                    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthEA]] boolValue]) {
+                        CustomerManagerController *customerC = [[CustomerManagerController alloc] init];
+                        customerC.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:customerC animated:YES];
+                    }
+                    else {
+                        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                        hud.customView = [[UIImageView alloc] init];
+                        hud.mode = MBProgressHUDModeCustomView;
+                        [hud hide:YES afterDelay:1.f];
+                        hud.labelText = @"没有员工账号权限";
+                    }
                 }
                     break;
                 default:
@@ -195,7 +228,15 @@
             }
         }
             break;
-            
+        case 1: {
+            UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"拨打电话？"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"取消"
+                                                 destructiveButtonTitle:s_phoneNumber
+                                                      otherButtonTitles:nil];
+            [sheet showFromTabBar:self.tabBarController.tabBar];
+        }
+            break;
         default:
             break;
     }
@@ -206,6 +247,15 @@
 - (IBAction)signOut:(id)sender {
 //    [[AppDelegate shareAppDelegate] loginOut];
     [[[AppDelegate shareAppDelegate] rootViewController] showLoginViewController];
+}
+
+#pragma mark - UIActionSheet
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != actionSheet.cancelButtonIndex) {
+        NSURL *phoneURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",s_phoneNumber]];
+        [[UIApplication sharedApplication] openURL:phoneURL];
+    }
 }
 
 @end

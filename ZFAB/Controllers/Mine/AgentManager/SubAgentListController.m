@@ -13,7 +13,7 @@
 #import "CreateAgentController.h"
 #import "SubAgentDetailController.h"
 
-@interface SubAgentListController ()
+@interface SubAgentListController ()<UpdateDefaultBenefitDelegate>
 
 @property (nonatomic, strong) NSMutableArray *dataItem;
 
@@ -232,6 +232,8 @@
         case 0: {
             //默认分润
             DefaultBenefitController *benefitC = [[DefaultBenefitController alloc] init];
+            benefitC.delegate = self;
+            benefitC.benefit = _defaultBenefit;
             [self.navigationController pushViewController:benefitC animated:YES];
         }
             break;
@@ -296,6 +298,13 @@
 
 - (void)refreshAgentList:(NSNotification *)notification {
     [self performSelector:@selector(firstLoadData) withObject:nil afterDelay:0.1f];
+}
+
+#pragma mark - UpdateBenefitDelegate
+
+- (void)getNewDefaultBenefit:(CGFloat)newBenefit {
+    _defaultBenefit = newBenefit;
+    [self.tableView reloadData];
 }
 
 @end

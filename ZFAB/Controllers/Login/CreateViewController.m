@@ -573,7 +573,7 @@
             cell.imageView.image = kImageName(imageName);
             cell.detailTextLabel.textColor = kMainColor;
             cell.detailTextLabel.font = [UIFont systemFontOfSize:14.f];
-            if ([_registerDict objectForKey:textKey] && ![_registerDict objectForKey:textKey]) {
+            if ([_registerDict objectForKey:textKey] && ![[_registerDict objectForKey:textKey] isEqualToString:@""]) {
                 uploadView.hidden = NO;
                 cell.detailTextLabel.text = nil;
             }

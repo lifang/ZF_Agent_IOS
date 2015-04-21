@@ -113,7 +113,7 @@
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
-    [NetworkInterface getPersonDetailWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getPersonDetailWithAgentUserID:delegate.agentUserID token:delegate.token finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -428,7 +428,7 @@
                 cell.accessoryType = UITableViewCellAccessoryNone;
             }
         }
-        else if (indexPath.section == 2) {
+        else if (indexPath.section == 1) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
             CGRect rect = CGRectMake(kScreenWidth - 40, (cell.frame.size.height - 20) / 2, 20, 20);
             UIImageView *uploadView = [[UIImageView alloc] initWithFrame:rect];
@@ -443,15 +443,15 @@
                     imageName = @"register5.png";
                     hasImage = (_personInfo.cardImagePath && ![_personInfo.cardImagePath isEqualToString:@""]);
                     break;
-                case 1:
-                    titleName = @"营业执照照片";
-                    imageName = @"register2.png";
-                    hasImage = (_personInfo.licenseImagePath && ![_personInfo.licenseImagePath isEqualToString:@""]);
-                    break;
-                case 2:
-                    titleName = @"税务登记证照片";
-                    imageName = @"register3.png";
-                    hasImage = (_personInfo.taxImagePath && ![_personInfo.taxImagePath isEqualToString:@""]);
+//                case 1:
+//                    titleName = @"营业执照照片";
+//                    imageName = @"register2.png";
+//                    hasImage = (_personInfo.licenseImagePath && ![_personInfo.licenseImagePath isEqualToString:@""]);
+//                    break;
+//                case 2:
+//                    titleName = @"税务登记证照片";
+//                    imageName = @"register3.png";
+//                    hasImage = (_personInfo.taxImagePath && ![_personInfo.taxImagePath isEqualToString:@""]);
                     break;
                 default:
                     break;

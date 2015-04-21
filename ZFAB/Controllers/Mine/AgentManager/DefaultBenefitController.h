@@ -8,6 +8,16 @@
 
 #import "CommonViewController.h"
 
+@protocol UpdateDefaultBenefitDelegate <NSObject>
+
+- (void)getNewDefaultBenefit:(CGFloat)newBenefit;
+
+@end
+
 @interface DefaultBenefitController : CommonViewController
+
+@property (nonatomic, assign) CGFloat benefit;
+
+@property (nonatomic, assign) id<UpdateDefaultBenefitDelegate>delegate;
 
 @end

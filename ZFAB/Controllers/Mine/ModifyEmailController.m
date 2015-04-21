@@ -141,7 +141,7 @@
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
-    [NetworkInterface getPersonModifyEmailValidateWithAgentID:delegate.agentID token:delegate.token email:_personInfo.email finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getPersonModifyEmailValidateWithAgentUserID:delegate.agentUserID token:delegate.token email:_personInfo.email finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -174,7 +174,7 @@
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
-    [NetworkInterface modifyPersonEmailWithAgentID:delegate.agentID token:delegate.token newEmail:_modifyField.text validate:_validateField.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface modifyPersonEmailWithAgentUserID:delegate.agentUserID token:delegate.token newEmail:_modifyField.text validate:_validateField.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -303,6 +303,10 @@
             break;
     }
     return height;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - UITextFieldDelegate

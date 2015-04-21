@@ -33,6 +33,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = @"找回密码";
+    [self initAndLayoutUI];
+    [self countDownStart];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -94,7 +97,7 @@
     checkButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
     checkButton.layer.cornerRadius = 4.f;
     checkButton.layer.masksToBounds = YES;
-    [checkButton setBackgroundImage:kImageName(@"orange.png") forState:UIControlStateNormal];
+    [checkButton setBackgroundImage:kImageName(@"blue.png") forState:UIControlStateNormal];
     [checkButton addTarget:self action:@selector(checkValidate:) forControlEvents:UIControlEventTouchUpInside];
     [checkButton setTitle:@"核对验证码" forState:UIControlStateNormal];
     [footerView addSubview:checkButton];
@@ -109,7 +112,7 @@
     submitButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
     submitButton.layer.cornerRadius = 4.f;
     submitButton.layer.masksToBounds = YES;
-    [submitButton setBackgroundImage:kImageName(@"orange.png") forState:UIControlStateNormal];
+    [submitButton setBackgroundImage:kImageName(@"blue.png") forState:UIControlStateNormal];
     [submitButton addTarget:self action:@selector(submitInfo:) forControlEvents:UIControlEventTouchUpInside];
     [submitButton setTitle:@"提交" forState:UIControlStateNormal];
     [footerView addSubview:submitButton];
@@ -344,7 +347,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 //UI更新
                 _countDownButton.userInteractionEnabled = YES;
-                [_countDownButton setBackgroundImage:kImageName(@"orange.png") forState:UIControlStateNormal];
+                [_countDownButton setBackgroundImage:kImageName(@"blue.png") forState:UIControlStateNormal];
                 [_countDownButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 [_countDownButton setTitle:@"发送验证码" forState:UIControlStateNormal];
             });

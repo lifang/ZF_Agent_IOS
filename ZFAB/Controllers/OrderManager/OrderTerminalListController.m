@@ -1,31 +1,26 @@
 //
-//  TMFilterPOSController.m
+//  OrderTerminalListController.m
 //  ZFAB
 //
-//  Created by 徐宝桥 on 15/4/11.
+//  Created by 徐宝桥 on 15/4/21.
 //  Copyright (c) 2015年 ___MyCompanyName___. All rights reserved.
 //
 
-#import "TMFilterPOSController.h"
-#import "NetworkInterface.h"
-#import "AppDelegate.h"
+#import "OrderTerminalListController.h"
 
-@interface TMFilterPOSController ()<UITableViewDataSource,UITableViewDelegate>
+@interface OrderTerminalListController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
 @end
 
-@implementation TMFilterPOSController
+@implementation OrderTerminalListController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"POS机选择";
-    [self initAndLauoutUI];
-    if ([_goodList count] <= 0) {
-        [self getPOSList];
-    }
+    self.title = @"终端列表";
+    [self initAndLayoutUI];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,7 +31,7 @@
 #pragma mark - UI
 
 - (void)setHeaderAndFooterView {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 5.f)];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 10.f)];
     headerView.backgroundColor = [UIColor clearColor];
     self.tableView.tableHeaderView = headerView;
     
@@ -45,7 +40,7 @@
     self.tableView.tableFooterView = footerView;
 }
 
-- (void)initAndLauoutUI {
+- (void)initAndLayoutUI {
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     _tableView.translatesAutoresizingMaskIntoConstraints = NO;
     _tableView.backgroundColor = kColor(244, 243, 243, 1);
@@ -81,57 +76,7 @@
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1.0
                                                            constant:0]];
-}
 
-#pragma mark - Request
-
-- (void)getPOSList {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.labelText = @"加载中...";
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getTerminalManagerPOSListWithAgentUserID:delegate.agentUserID token:delegate.token finished:^(BOOL success, NSData *response) {
-        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.5f];
-        if (success) {
-            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-            if ([object isKindOfClass:[NSDictionary class]]) {
-                NSString *errorCode = [object objectForKey:@"code"];
-                if ([errorCode intValue] == RequestFail) {
-                    //返回错误代码
-                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-                }
-                else if ([errorCode intValue] == RequestSuccess) {
-                    [hud hide:YES];
-                    [self parsePOSListWithDictionary:object];
-                }
-            }
-            else {
-                //返回错误数据
-                hud.labelText = kServiceReturnWrong;
-            }
-        }
-        else {
-            hud.labelText = kNetworkFailed;
-        }
-    }];
-}
-
-#pragma mark - Data
-
-- (void)parsePOSListWithDictionary:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
-        return;
-    }
-    [_goodList removeAllObjects];
-    NSArray *POSList = [dict objectForKey:@"result"];
-    for (int i = 0; i < [POSList count]; i++) {
-        NSDictionary *POSDict = [POSList objectAtIndex:i];
-        POSModel *model = [[POSModel alloc] initWithParseDictionary:POSDict];
-        [_goodList addObject:model];
-    }
-    [_tableView reloadData];
 }
 
 #pragma mark - UITableView
@@ -141,28 +86,25 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_goodList count];
+    return [_terminalList count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *identifier = @"POS";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    static NSString *terminalIdentifier = @"terminalIdentifier";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:terminalIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:terminalIdentifier];
     }
-    POSModel *model = [_goodList objectAtIndex:indexPath.row];
-    cell.textLabel.text = model.title;
-    cell.textLabel.font = [UIFont systemFontOfSize:15.f];
+    NSString *terminal = [_terminalList objectAtIndex:indexPath.row];
+    cell.textLabel.text = terminal;
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:15.f];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    POSModel *model = [_goodList objectAtIndex:indexPath.row];
-    if (_delegate && [_delegate respondsToSelector:@selector(getSelectedPOS:)]) {
-        [_delegate getSelectedPOS:model];
-    }
-    [self.navigationController popViewControllerAnimated:YES];
 }
+
+
 
 @end

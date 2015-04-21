@@ -8,6 +8,8 @@
 
 #import "GoodsViewController.h"
 #import "GoodListController.h"
+#import "AppDelegate.h"
+#import "MBProgressHUD.h"
 
 @interface GoodsViewController ()
 
@@ -118,18 +120,38 @@
 #pragma mark - Action
 //批购
 - (IBAction)goToWholesale:(id)sender {
-    GoodListController *listC = [[GoodListController alloc] init];
-    listC.supplyType = SupplyGoodsWholesale;
-    listC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:listC animated:YES];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthWholesale]] boolValue]) {
+        GoodListController *listC = [[GoodListController alloc] init];
+        listC.supplyType = SupplyGoodsWholesale;
+        listC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:listC animated:YES];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有批购权限";
+    }
 }
 
 //代购
 - (IBAction)goToProcurement:(id)sender {
-    GoodListController *listC = [[GoodListController alloc] init];
-    listC.supplyType = SupplyGoodsProcurement;
-    listC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:listC animated:YES];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthProcurement]] boolValue]) {
+        GoodListController *listC = [[GoodListController alloc] init];
+        listC.supplyType = SupplyGoodsProcurement;
+        listC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:listC animated:YES];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有代购权限";
+    }
 }
 
 @end

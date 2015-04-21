@@ -36,6 +36,8 @@
 
 @property (nonatomic, assign) CGFloat actualPrice;   //实付金额
 
+@property (nonatomic, strong) NSString *terminals;
+
 /*批购字段*/
 @property (nonatomic, assign) CGFloat totalDeposit;  //定金总额
 

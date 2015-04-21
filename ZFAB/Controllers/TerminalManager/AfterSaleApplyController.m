@@ -137,7 +137,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getAddressListWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getAddressListWithAgentUserID:delegate.agentUserID token:delegate.token finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -171,7 +171,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface submitAfterSaleApplyWithUserID:delegate.userID token:delegate.token terminalCount:[_selectedTerminalList count] address:_defaultAddress.address receiver:_defaultAddress.addressReceiver phoneNumber:_defaultAddress.addressPhone reason:_textView.text terminalList:terminalString finished:^(BOOL success, NSData *response) {
+    [NetworkInterface submitAfterSaleApplyWithUserID:delegate.agentUserID token:delegate.token terminalCount:[_selectedTerminalList count] address:_defaultAddress.address receiver:_defaultAddress.addressReceiver phoneNumber:_defaultAddress.addressPhone reason:_textView.text terminalList:terminalString finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;

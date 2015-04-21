@@ -255,7 +255,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getOrderListWithAgentID:delegate.agentID token:delegate.token orderType:_currentType keyword:self.searchInfo status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getOrderListWithAgentUserID:delegate.agentUserID token:delegate.token orderType:_currentType keyword:self.searchInfo status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -468,9 +468,28 @@
 #pragma mark - Action
 
 - (IBAction)goGood:(id)sender {
-    GoodListController *listC = [[GoodListController alloc] init];
-    listC.supplyType = _supplyType;
-    [self.navigationController pushViewController:listC animated:YES];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if (_supplyType == SupplyGoodsWholesale &&
+        ![[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthWholesale]] boolValue]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有批购权限";
+    }
+    else if (_supplyType == SupplyGoodsProcurement &&
+             ![[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthProcurement]] boolValue]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有代购权限";
+    }
+    else {
+        GoodListController *listC = [[GoodListController alloc] init];
+        listC.supplyType = _supplyType;
+        [self.navigationController pushViewController:listC animated:YES];
+    }
 }
 
 - (IBAction)typeChanged:(id)sender {
@@ -627,6 +646,7 @@
     detailC.supplyType = _supplyType;
     detailC.orderID = model.orderID;
     detailC.goodID = model.orderGood.goodID;
+    detailC.goodName = model.orderGood.goodName;
     detailC.fromType = PayWayFromNone;
     [self.navigationController pushViewController:detailC animated:YES];
 }
@@ -705,14 +725,26 @@
     payC.orderID = model.orderID;
     payC.totalPrice = model.totalDeposit;
     payC.fromType = PayWayFromOrderWholesale;
+    payC.goodID = model.orderGood.goodID;
+    payC.goodName = model.orderGood.goodName;
     [self.navigationController pushViewController:payC animated:YES];
 }
 
 - (void)orderCellWholesaleRepeat:(OrderModel *)model {
-    GoodDetailController *detailC = [[GoodDetailController alloc] init];
-    detailC.supplyType = SupplyGoodsWholesale;
-    detailC.goodID = model.orderGood.goodID;
-    [self.navigationController pushViewController:detailC animated:YES];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthWholesale]] boolValue]) {
+        GoodDetailController *detailC = [[GoodDetailController alloc] init];
+        detailC.supplyType = SupplyGoodsWholesale;
+        detailC.goodID = model.orderGood.goodID;
+        [self.navigationController pushViewController:detailC animated:YES];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有批购权限";
+    }
 }
 
 //代购
@@ -732,14 +764,26 @@
     payC.orderID = model.orderID;
     payC.totalPrice = model.actualMoney;
     payC.fromType = PayWayFromOrderProcurement;
+    payC.goodID = model.orderGood.goodID;
+    payC.goodName = model.orderGood.goodName;
     [self.navigationController pushViewController:payC animated:YES];
 }
 
 - (void)orderCellProcurementRepeat:(OrderModel *)model {
-    GoodDetailController *detailC = [[GoodDetailController alloc] init];
-    detailC.supplyType = SupplyGoodsProcurement;
-    detailC.goodID = model.orderGood.goodID;
-    [self.navigationController pushViewController:detailC animated:YES];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthProcurement]] boolValue]) {
+        GoodDetailController *detailC = [[GoodDetailController alloc] init];
+        detailC.supplyType = SupplyGoodsProcurement;
+        detailC.goodID = model.orderGood.goodID;
+        [self.navigationController pushViewController:detailC animated:YES];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有代购权限";
+    }
 }
 
 #pragma mark - AlertView
@@ -788,6 +832,8 @@
             payC.orderID = _selectedOrder.orderID;
             payC.totalPrice = [textField.text floatValue];
             payC.fromType = PayWayFromOrderWholesale;
+            payC.goodID = _selectedOrder.orderGood.goodID;
+            payC.goodName = _selectedOrder.orderGood.goodName;
             [self.navigationController pushViewController:payC animated:YES];
         }
     }

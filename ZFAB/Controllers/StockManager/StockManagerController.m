@@ -209,10 +209,20 @@
 }
 
 - (void)stockCellGoWholesale:(StockListModel *)model {
-    GoodDetailController *detailC = [[GoodDetailController alloc] init];
-    detailC.supplyType = SupplyGoodsWholesale;
-    detailC.goodID = model.stockGoodID;
-    [self.navigationController pushViewController:detailC animated:YES];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthWholesale]] boolValue]) {
+        GoodDetailController *detailC = [[GoodDetailController alloc] init];
+        detailC.supplyType = SupplyGoodsWholesale;
+        detailC.goodID = model.stockGoodID;
+        [self.navigationController pushViewController:detailC animated:YES];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有批购权限";
+    }
 }
 
 @end

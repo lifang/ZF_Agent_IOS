@@ -99,6 +99,7 @@
                     PayWayViewController *payC = [[PayWayViewController alloc] init];
                     payC.orderID = orderID;
                     payC.goodID = _goodDetail.goodID;
+                    payC.goodName = _goodDetail.goodName;
                     payC.totalPrice = [self getSummaryPrice];
                     payC.fromType = PayWayFromGoodProcurementBuy;
                     [self.navigationController pushViewController:payC animated:YES];

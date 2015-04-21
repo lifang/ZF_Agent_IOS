@@ -219,6 +219,7 @@
 #pragma mark - Action
 
 - (IBAction)moduleSelected:(id)sender {
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
     ModuleView *moduleView = (ModuleView *)sender;
     switch (moduleView.tag) {
         case ModuleBuy: {
@@ -237,37 +238,82 @@
             break;
         case ModuleStockManager: {
             //库存管理
-            StockManagerController *stockC = [[StockManagerController alloc] init];
-            stockC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:stockC animated:YES];
+            if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthStock]] boolValue]) {
+                StockManagerController *stockC = [[StockManagerController alloc] init];
+                stockC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:stockC animated:YES];
+            }
+            else {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"没有库存权限";
+            }
         }
             break;
         case ModuletDealFlow: {
             //交易流水
-            DealFlowViewController *flowC = [[DealFlowViewController alloc] init];
-            flowC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:flowC animated:YES];
+            if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthT_B]] boolValue]) {
+                DealFlowViewController *flowC = [[DealFlowViewController alloc] init];
+                flowC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:flowC animated:YES];
+            }
+            else {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"没有交易流水权限";
+            }
         }
             break;
         case ModuleTerminalManager: {
             //终端管理
-            TerminalManagerController *terminalC = [[TerminalManagerController alloc] init];
-            terminalC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:terminalC animated:YES];
+            if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthTM_CS]] boolValue]) {
+                TerminalManagerController *terminalC = [[TerminalManagerController alloc] init];
+                terminalC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:terminalC animated:YES];
+            }
+            else {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"没有终端管理权限";
+            }
         }
             break;
         case ModuleUserManager: {
             //用户管理
-            UserManagerController *userC = [[UserManagerController alloc] init];
-            userC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:userC animated:YES];
+            if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthUM]] boolValue]) {
+                UserManagerController *userC = [[UserManagerController alloc] init];
+                userC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:userC animated:YES];
+            }
+            else {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"没有用户管理权限";
+            }
         }
             break;
         case ModuleAfterSale: {
             //售后记录
-            CSMenuController *csC = [[CSMenuController alloc] init];
-            csC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:csC animated:YES];
+            if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthTM_CS]] boolValue]) {
+                CSMenuController *csC = [[CSMenuController alloc] init];
+                csC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:csC animated:YES];
+            }
+            else {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"没有售后记录权限";
+            }
         }
             break;
         case ModuleOpenApply: {

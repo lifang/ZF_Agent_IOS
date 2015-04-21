@@ -90,6 +90,7 @@
     _inputField.backgroundColor = [UIColor clearColor];
     _inputField.delegate = self;
     _inputField.placeholder = @"1";
+    _inputField.text = [NSString stringWithFormat:@"%.1f",_benefit];
     _inputField.font = [UIFont systemFontOfSize:15.f];
     UIView *oldView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     _inputField.leftView = oldView;
@@ -125,6 +126,9 @@
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
+                    if (_delegate && [_delegate respondsToSelector:@selector(getNewDefaultBenefit:)]) {
+                        [_delegate getNewDefaultBenefit:[_inputField.text floatValue]];
+                    }
                     [self.navigationController popViewControllerAnimated:YES];
                 }
             }

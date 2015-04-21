@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "NetworkInterface.h"
+#import <AlipaySDK/AlipaySDK.h>
 
 @interface AppDelegate ()
 
@@ -57,6 +57,22 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    NSLog(@"%@",url);
+    if ([url.host isEqualToString:@"safepay"]) {
+        NSLog(@"!!!");
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            for (NSString *key in resultDic) {
+                NSLog(@"%@->%@",key,[resultDic objectForKey:key]);
+            }
+        }];
+    }
+    return YES;
+}
+
 #pragma mark - Data
 
 - (void)setStatisticData {
@@ -88,6 +104,12 @@
                 int authIndex = [[object objectForKey:@"role_id"] intValue];
                 [_authDict setObject:[NSNumber numberWithBool:YES] forKey:[NSNumber numberWithInt:authIndex]];
             }
+        }
+    }
+    if ([[dict objectForKey:@"parent_id"] intValue] == 0) {
+        //一级代理商
+        for (int i = 1; i < 10; i++) {
+            [_authDict setObject:[NSNumber numberWithBool:YES] forKey:[NSNumber numberWithInt:i]];
         }
     }
 }

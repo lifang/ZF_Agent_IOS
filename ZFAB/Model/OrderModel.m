@@ -75,7 +75,8 @@
         }
         
         //批购字段
-        _shipmentCount = [[dict objectForKey:@"quantity"] intValue];
+        _shipmentCount = [[dict objectForKey:@"shipped_quantity"] intValue];
+        _totalCount = [[dict objectForKey:@"total_quantity"] intValue];
         _orderDeposit = [[dict objectForKey:@"zhifu_dingjin"] floatValue] / 100;
         _totalDeposit = [[dict objectForKey:@"price_dingjin"] floatValue] / 100;
         _remainingMoney = [[dict objectForKey:@"shengyu_price"] floatValue] / 100;

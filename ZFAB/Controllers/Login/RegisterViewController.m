@@ -129,22 +129,21 @@
                                   finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.3f];
+        [hud hide:YES afterDelay:1.f];
         if (success) {
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
             if ([object isKindOfClass:[NSDictionary class]]) {
                 [hud hide:YES];
                 int errorCode = [[object objectForKey:@"code"] intValue];
                 if (errorCode == RequestFail) {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                                    message:[object objectForKey:@"message"]
-                                                                   delegate:nil
-                                                          cancelButtonTitle:@"确定"
-                                                          otherButtonTitles:nil];
-                    [alert show];
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
                 else if (errorCode == RequestSuccess) {
                     NSLog(@"success = %@",[object objectForKey:@"message"]);
+                    hud.labelText = @"注册成功";
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                    
                 }
             }
             else {

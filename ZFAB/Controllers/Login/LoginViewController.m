@@ -384,8 +384,8 @@
         [alert show];
         return;
     }
-//    [self userLogin];
-    [[AppDelegate shareRootViewController] showMainViewController];
+    [self userLogin];
+//    [[AppDelegate shareRootViewController] showMainViewController];
     
 }
 

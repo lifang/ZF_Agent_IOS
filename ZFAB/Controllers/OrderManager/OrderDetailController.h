@@ -20,6 +20,7 @@ typedef enum {
 
 //再次批购 代购需要此字段
 @property (nonatomic, strong) NSString *goodID;
+@property (nonatomic, strong) NSString *goodName;
 
 @property (nonatomic, strong) NSString *orderID;
 

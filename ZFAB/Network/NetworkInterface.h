@@ -121,6 +121,9 @@ static NSString *s_merchantList_method = @"terminal/getMerchants";
 //20.终端管理——获取终端列表
 static NSString *s_terminalList_method = @"terminal/getTerminalList";
 
+//25.终端管理——添加用户验证码
+static NSString *s_addUserValidate_method = @"terminal/sendPhoneVerificationCodeReg";
+
 //26.终端管理——添加用户
 static NSString *s_addUser_method = @"terminal/addCustomer";
 
@@ -373,6 +376,9 @@ static NSString *s_homeImageList_method = @"index/sysshufflingfigure";
 //订单信息
 static NSString *s_orderConfirm_method = @"order/payOrder";
 
+//支付成功修改订单
+static NSString *s_orderPaySuccess_method = @"pay/alipayback";
+
 @interface NetworkInterface : NSObject
 
 /*!
@@ -551,14 +557,16 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
 
 /*!
  @abstract 18.申请开通——获取商户列表
- @param agentID     代理商ID
  @param token    登录返回
+ @param terminalID  终端id
+ @param merchantName  搜索
  @param page     分页参数 页
  @param rows     分页参数 行
  @result finish  请求回调结果
  */
-+ (void)getMerchantListWithAgentID:(NSString *)agentID
-                             token:(NSString *)token
++ (void)getMerchantListWithToken:(NSString *)token
+                      terminalID:(NSString *)terminalID
+                         keyword:(NSString *)merchantName
                               page:(int)page
                               rows:(int)rows
                           finished:(requestDidFinished)finish;
@@ -580,6 +588,14 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
                               page:(int)page
                               rows:(int)rows
                           finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 25.添加用户手机验证码
+ @param mobileNumber  手机号
+ @result finish  请求回调结果
+ */
++ (void)sendBindingValidateWithMobileNumber:(NSString *)mobileNumber
+                                   finished:(requestDidFinished)finish;
 
 /*!
  @abstract 26.终端管理——添加用户
@@ -613,21 +629,25 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
 
 /*!
  @abstract 28.终端管理——申请售后根据终端号筛选
+ @param agentID  代理商id
  @param token    登录返回
  @param terminalList  终端号数组
  @result finish  请求回调结果
  */
-+ (void)getTerminalManagerTerminalWithToken:(NSString *)token
-                               terminalList:(NSArray *)terminalList
-                                   finished:(requestDidFinished)finish;
++ (void)getTerminalManagerTerminalWithAgentID:(NSString *)agentID
+                                        token:(NSString *)token
+                                 terminalList:(NSArray *)terminalList
+                                     finished:(requestDidFinished)finish;
 
 /*!
  @abstract 29.终端管理——根据支付通道查询
+ @param agentID  代理商id
  @param token    登录返回
  @param terminalList  终端号数组
  @result finish  请求回调结果
  */
-+ (void)getTerminalManagerUseChannelWithToken:(NSString *)token
++ (void)getTerminalManagerUseChannelWithAgentID:(NSString *)agentID
+                                          token:(NSString *)token
                                      posTitle:(NSString *)posTitle
                                     channelID:(NSString *)channelID
                                      maxPrice:(CGFloat)maxPrice
@@ -636,13 +656,13 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
 
 /*!
  @abstract 30.终端管理——POS机列表
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @result finish  请求回调结果
  */
-+ (void)getTerminalManagerPOSListWithAgent:(NSString *)agentID
-                                     token:(NSString *)token
-                                  finished:(requestDidFinished)finish;
++ (void)getTerminalManagerPOSListWithAgentUserID:(NSString *)agentUserID
+                                           token:(NSString *)token
+                                        finished:(requestDidFinished)finish;
 
 /*!
  @abstract 31.终端管理——支付通道
@@ -676,13 +696,13 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
 
 /*!
  @abstract 34.用户管理——获取用户列表
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @param page     分页参数 页
  @param rows     分页参数 行
  @result finish  请求回调结果
  */
-+ (void)getUserListWithAgentID:(NSString *)agentID
++ (void)getUserListWithAgentUserID:(NSString *)agentUserID
                          token:(NSString *)token
                           page:(int)page
                           rows:(int)rows
@@ -1124,69 +1144,69 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
 
 /*!
  @abstract 63.我的消息列表
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @param page     分页参数 页
  @param rows     分页参数 行
  @result finish  请求回调结果
  */
-+ (void)getMyMessageListWithAgentID:(NSString *)agentID
-                              token:(NSString *)token
-                               page:(int)page
-                               rows:(int)rows
-                           finished:(requestDidFinished)finish;
++ (void)getMyMessageListWithAgentUserID:(NSString *)agentUserID
+                                  token:(NSString *)token
+                                   page:(int)page
+                                   rows:(int)rows
+                               finished:(requestDidFinished)finish;
 
 /*!
  @abstract 64.我的消息详情
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @param messageID  消息id
  @result finish  请求回调结果
  */
-+ (void)getMyMessageDetailWithAgentID:(NSString *)agentID
-                                token:(NSString *)token
-                            messageID:(NSString *)messageID
-                             finished:(requestDidFinished)finish;
++ (void)getMyMessageDetailWithAgentUserID:(NSString *)agentUserID
+                                    token:(NSString *)token
+                                messageID:(NSString *)messageID
+                                 finished:(requestDidFinished)finish;
 
 /*!
  @abstract 65.我的消息单删
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @param messageID  消息id
  @result finish  请求回调结果
  */
-+ (void)deleteSingleMessageWithAgentID:(NSString *)agentID
-                                 token:(NSString *)token
-                             messageID:(NSString *)messageID
-                              finished:(requestDidFinished)finish;
++ (void)deleteSingleMessageWithAgentUserID:(NSString *)agentUserID
+                                     token:(NSString *)token
+                                 messageID:(NSString *)messageID
+                                  finished:(requestDidFinished)finish;
 
 /*!
  @abstract 66.我的消息多删
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @param messageIDs  消息id数组
  @result finish  请求回调结果
  */
-+ (void)deleteMultiMessageWithAgentID:(NSString *)agentID
++ (void)deleteMultiMessageWithAgentUserID:(NSString *)agentUserID
                                 token:(NSString *)token
                            messageIDs:(NSArray *)messageIDs
                              finished:(requestDidFinished)finish;
 
 /*!
  @abstract 67.我的消息批量已读
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @param messageIDs  消息id数组
  @result finish  请求回调结果
  */
-+ (void)readMultiMessageWithAgentID:(NSString *)agentID
-                              token:(NSString *)token
-                         messageIDs:(NSArray *)messageIDs
-                           finished:(requestDidFinished)finish;
++ (void)readMultiMessageWithAgentUserID:(NSString *)agentUserID
+                                  token:(NSString *)token
+                             messageIDs:(NSArray *)messageIDs
+                               finished:(requestDidFinished)finish;
 
 /*!
  @abstract 68.订单管理——列表
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @param orderType  订单类型
  @param keyword    关键字
@@ -1195,14 +1215,14 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
  @param rows     分页参数 行
  @result finish  请求回调结果
  */
-+ (void)getOrderListWithAgentID:(NSString *)agentID
-                          token:(NSString *)token
-                      orderType:(OrderType)orderType
-                        keyword:(NSString *)keyword
-                         status:(int)status
-                           page:(int)page
-                           rows:(int)rows
-                       finished:(requestDidFinished)finish;
++ (void)getOrderListWithAgentUserID:(NSString *)agentUserID
+                              token:(NSString *)token
+                          orderType:(OrderType)orderType
+                            keyword:(NSString *)keyword
+                             status:(int)status
+                               page:(int)page
+                               rows:(int)rows
+                           finished:(requestDidFinished)finish;
 
 /*!
  @abstract 69.订单管理——批购  72.代购
@@ -1238,7 +1258,7 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
 
 /*!
  @abstract 74.售后单列表  77.注销记录列表 81.更新记录列表
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @param type     售后类型
  @param keyword  搜索关键字
@@ -1247,14 +1267,14 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
  @param rows     分页参数 行
  @result finish  请求回调结果
  */
-+ (void)getCSListWithAgentID:(NSString *)agentID
-                       token:(NSString *)token
-                      csType:(CSType)type
-                     keyword:(NSString *)keyword
-                      status:(int)status
-                        page:(int)page
-                        rows:(int)rows
-                    finished:(requestDidFinished)finish;
++ (void)getCSListWithAgentUserID:(NSString *)agentUserID
+                           token:(NSString *)token
+                          csType:(CSType)type
+                         keyword:(NSString *)keyword
+                          status:(int)status
+                            page:(int)page
+                            rows:(int)rows
+                        finished:(requestDidFinished)finish;
 
 /*!
  @abstract 75.售后单取消申请  78.注销记录取消申请 83.更新记录取消申请
@@ -1292,25 +1312,25 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
 
 /*!
  @abstract 84.我的信息——获取详情
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @result finish  请求回调结果
  */
-+ (void)getPersonDetailWithAgentID:(NSString *)agentID
-                             token:(NSString *)token
-                          finished:(requestDidFinished)finish;
++ (void)getPersonDetailWithAgentUserID:(NSString *)agentUserID
+                                 token:(NSString *)token
+                              finished:(requestDidFinished)finish;
 
 /*!
  @abstract 85.我的信息——获取修改手机验证码
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @param phoneNumber  手机号
  @result finish  请求回调结果
  */
-+ (void)getPersonModifyMobileValidateWithAgentID:(NSString *)agentID
-                                           token:(NSString *)token
-                                     phoneNumber:(NSString *)phoneNumber
-                                        finished:(requestDidFinished)finish;
++ (void)getPersonModifyMobileValidateWithAgentUserID:(NSString *)agentUserID
+                                               token:(NSString *)token
+                                         phoneNumber:(NSString *)phoneNumber
+                                            finished:(requestDidFinished)finish;
 
 /*!
  @abstract 86.我的信息——修改手机
@@ -1320,7 +1340,7 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
  @param validate  验证码
  @result finish  请求回调结果
  */
-+ (void)modifyPersonMobileWithAgentID:(NSString *)agentID
++ (void)modifyPersonMobileWithAgentUserID:(NSString *)agentUserID
                                 token:(NSString *)token
                        newPhoneNumber:(NSString *)phoneNumber
                              validate:(NSString *)validate
@@ -1328,57 +1348,57 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
 
 /*!
  @abstract 87.我的信息——获取修改邮箱验证码
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @param email    邮箱
  @result finish  请求回调结果
  */
-+ (void)getPersonModifyEmailValidateWithAgentID:(NSString *)agentID
-                                          token:(NSString *)token
-                                          email:(NSString *)email
-                                       finished:(requestDidFinished)finish;
++ (void)getPersonModifyEmailValidateWithAgentUserID:(NSString *)agentUserID
+                                              token:(NSString *)token
+                                              email:(NSString *)email
+                                           finished:(requestDidFinished)finish;
 
 /*!
  @abstract 88.我的信息——修改邮箱
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @param email    新邮箱
  @param validate 验证码
  @result finish  请求回调结果
  */
-+ (void)modifyPersonEmailWithAgentID:(NSString *)agentID
-                               token:(NSString *)token
-                            newEmail:(NSString *)email
-                            validate:(NSString *)validate
-                            finished:(requestDidFinished)finish;
++ (void)modifyPersonEmailWithAgentUserID:(NSString *)agentUserID
+                                   token:(NSString *)token
+                                newEmail:(NSString *)email
+                                validate:(NSString *)validate
+                                finished:(requestDidFinished)finish;
 
 /*!
  @abstract 89.我的信息——修改密码
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @param primaryPassword   原密码
  @param newPassword   新密码
  @result finish  请求回调结果
  */
-+ (void)modifyPasswordWithAgentID:(NSString *)agentID
-                            token:(NSString *)token
-                  primaryPassword:(NSString *)primaryPassword
-                      newPassword:(NSString *)newPassword
-                         finished:(requestDidFinished)finish;
++ (void)modifyPasswordWithAgentUserID:(NSString *)agentUserID
+                                token:(NSString *)token
+                      primaryPassword:(NSString *)primaryPassword
+                          newPassword:(NSString *)newPassword
+                             finished:(requestDidFinished)finish;
 
 /*!
  @abstract 90.我的信息——地址列表
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @result finish  请求回调结果
  */
-+ (void)getAddressListWithAgentID:(NSString *)agentID
-                            token:(NSString *)token
-                         finished:(requestDidFinished)finish;
++ (void)getAddressListWithAgentUserID:(NSString *)agentUserID
+                                token:(NSString *)token
+                             finished:(requestDidFinished)finish;
 
 /*!
  @abstract 91.我的信息——新增地址
- @param agentID  代理商id
+ @param agentUserID  代理商对应的用户id
  @param token    登录返回
  @param cityID   城市id
  @param receiverName   收件人姓名
@@ -1388,15 +1408,15 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
  @param addressType    是否默认地址
  @result finish  请求回调结果
  */
-+ (void)addAddressWithAgentID:(NSString *)agentID
-                        token:(NSString *)token
-                       cityID:(NSString *)cityID
-                 receiverName:(NSString *)receiverName
-                  phoneNumber:(NSString *)phoneNumber
-                      zipCode:(NSString *)zipCode
-                      address:(NSString *)address
-                    isDefault:(AddressType)addressType
-                     finished:(requestDidFinished)finish;
++ (void)addAddressWithAgentUserID:(NSString *)agentUserID
+                            token:(NSString *)token
+                           cityID:(NSString *)cityID
+                     receiverName:(NSString *)receiverName
+                      phoneNumber:(NSString *)phoneNumber
+                          zipCode:(NSString *)zipCode
+                          address:(NSString *)address
+                        isDefault:(AddressType)addressType
+                         finished:(requestDidFinished)finish;
 
 /*!
  @abstract 92.我的信息——批量删除地址
@@ -1411,7 +1431,6 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
 /*!
  @abstract 92.a.修改地址
  @param token       登录返回
- @param userID       登录返回id
  @param addressID   地址ID
  @param cityID    城市id
  @param receiverName   收件人姓名
@@ -1422,7 +1441,6 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
  @result finish  请求回调结果
  */
 + (void)updateAddressWithToken:(NSString *)token
-                        userID:(NSString *)userID
                      addressID:(NSString *)addressID
                         cityID:(NSString *)cityID
                   receiverName:(NSString *)receiverName
@@ -1685,5 +1703,12 @@ static NSString *s_orderConfirm_method = @"order/payOrder";
  */
 + (void)orderConfirmWithOrderID:(NSString *)orderID
                        finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 订单成功支付
+ @result finish  请求回调结果
+ */
++ (void)orderPaySuccessWithOrderID:(NSString *)orderID
+                          finished:(requestDidFinished)finish;
 
 @end

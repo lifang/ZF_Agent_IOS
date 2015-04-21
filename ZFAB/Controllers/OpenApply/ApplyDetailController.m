@@ -843,6 +843,7 @@
             //选择商户
             MerchantSelectedController *selectedC = [[MerchantSelectedController alloc] init];
             selectedC.delegate = self;
+            selectedC.terminalID = _terminalID;
             [self.navigationController pushViewController:selectedC animated:YES];
         }
         else if (indexPath.section == 0 && indexPath.row == 3) {

@@ -80,6 +80,7 @@ static NSString *procurementThirdIdentifier = @"procurementThirdIdentifier";
 
 /*批购字段*/
 @property (nonatomic, assign) int shipmentCount;  //发货数量
+@property (nonatomic, assign) int totalCount;     //总数量
 @property (nonatomic, assign) CGFloat orderDeposit; //已付定金
 @property (nonatomic, assign) CGFloat totalDeposit; //定金总额
 @property (nonatomic, assign) CGFloat remainingMoney; //剩余金额

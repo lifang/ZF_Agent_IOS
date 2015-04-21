@@ -27,4 +27,6 @@ typedef enum {
 
 @property (nonatomic, strong) NSString *goodID;
 
+@property (nonatomic, strong) NSString *goodName;
+
 @end

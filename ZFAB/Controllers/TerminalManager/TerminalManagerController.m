@@ -244,8 +244,18 @@
 }
 
 - (IBAction)bindingTerminal:(id)sender {
-    BindingViewController *bindingC = [[BindingViewController alloc] init];
-    [self.navigationController pushViewController:bindingC animated:YES];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthUM]] boolValue]) {
+        BindingViewController *bindingC = [[BindingViewController alloc] init];
+        [self.navigationController pushViewController:bindingC animated:YES];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有用户管理权限";
+    }
 }
 
 - (IBAction)selectStatus:(id)sender {

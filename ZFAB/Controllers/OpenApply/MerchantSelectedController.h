@@ -20,4 +20,6 @@
 
 @property (nonatomic, assign) id<ApplyMerchantSelectedDelegate>delegate;
 
+@property (nonatomic, strong) NSString *terminalID;
+
 @end

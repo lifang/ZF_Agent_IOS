@@ -41,7 +41,7 @@
             _comment = @"";
         }
         if ([dict objectForKey:@"order_invoce_type"]) {
-            _invoceType = [NSString stringWithFormat:@"%@",[dict objectForKey:@"order_comment"]];
+            _invoceType = [NSString stringWithFormat:@"%@",[dict objectForKey:@"order_invoce_type"]];
         }
         if ([dict objectForKey:@"order_invoce_info"]) {
             _invoceTitle = [NSString stringWithFormat:@"%@",[dict objectForKey:@"order_invoce_info"]];
@@ -63,6 +63,9 @@
         }
         else {
             _createTime = @"";
+        }
+        if ([dict objectForKey:@"terminals"]) {
+            _terminals = [NSString stringWithFormat:@"%@",[dict objectForKey:@"terminals"]];
         }
         _orderStatus = [[dict objectForKey:@"order_status"] intValue];
         _actualPrice = [[dict objectForKey:@"order_totalPrice"] floatValue] / 100;

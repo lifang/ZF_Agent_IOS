@@ -8,6 +8,7 @@
 
 #import "PayWayViewController.h"
 #import "OrderDetailController.h"
+#import "AlipayHelper.h"
 
 @interface PayWayViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
 
@@ -33,6 +34,7 @@
                                                                 target:self
                                                                 action:@selector(showBack:)];
     self.navigationItem.leftBarButtonItem = leftItem;
+    NSLog(@"goodID = %@",_goodID);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -152,6 +154,39 @@
     }];
 }
 
+- (void)updatOrderAfterPay {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface orderPaySuccessWithOrderID:_orderID finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    hud.hidden = YES;
+                    [self showDetail];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+
+}
+
 #pragma mark - Data
 
 - (void)parseOrderDataWithDictionary:(NSDictionary *)dict {
@@ -160,7 +195,12 @@
     }
     id infoDict = [dict objectForKey:@"result"];
     if ([infoDict isKindOfClass:[NSDictionary class]]) {
-        _totalPrice = [[infoDict objectForKey:@"order_totalPrice"] floatValue] / 100;
+        if (_fromType == PayWayFromGoodWholesale || _fromType == PayWayFromOrderWholesale) {
+            _totalPrice = [[infoDict objectForKey:@"price_dingjin"] floatValue] / 100;
+        }
+        else {
+            _totalPrice = [[infoDict objectForKey:@"order_totalPrice"] floatValue] / 100;
+        }
         _payNumber = [infoDict objectForKey:@"order_number"];
     }
     [self initAndLauoutUI];
@@ -176,6 +216,49 @@
                                          destructiveButtonTitle:@"确定"
                                               otherButtonTitles:nil];
     [sheet showInView:self.view];
+}
+
+#pragma mark - Pay
+
+- (void)payWithAlipay {
+    //支付宝
+    if (_payNumber) {
+        [AlipayHelper alipayWithOrderNumber:_payNumber goodName:_goodName totalPrice:_totalPrice payResult:^(NSDictionary *resultDict) {
+            int resultCode = [[resultDict objectForKey:@"resultStatus"] intValue];
+            NSString *tipString = @"";
+            if (resultCode == 9000) {
+//                [self performSelector:@selector(updatOrderAfterPay) withObject:nil afterDelay:0.1f];
+                tipString = @"订单支付成功";
+                [self performSelector:@selector(showDetail) withObject:nil afterDelay:0.5];
+            }
+            else {
+                if (resultCode == 8000) {
+                    tipString = @"正在处理中";
+                }
+                else if (resultCode == 4000) {
+                    tipString = @"订单支付失败";
+                }
+                else if (resultCode == 6001) {
+                    tipString = @"用户中途取消";
+                }
+                else if (resultCode == 6002) {
+                    tipString = @"网络连接出错";
+                }
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = tipString;
+            }
+        }];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"获取订单号失败";
+    }
 }
 
 #pragma mark - UITableView
@@ -216,27 +299,36 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 0) {
+        [self payWithAlipay];
+    }
 }
 
 #pragma mark - UIActionSheet
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != actionSheet.cancelButtonIndex) {
-        OrderDetailController *detailC = [[OrderDetailController alloc] init];
-        detailC.fromType = _fromType;
-        detailC.orderID = _orderID;
-        detailC.goodID = _goodID;
-        if (_fromType == PayWayFromOrderWholesale ||
-            _fromType == PayWayFromGoodWholesale) {
-            detailC.supplyType = SupplyGoodsWholesale;
-        }
-        else if (_fromType == PayWayFromOrderProcurement ||
-                 _fromType == PayWayFromGoodProcurementBuy ||
-                 _fromType == PayWayFromGoodProcurementRent) {
-            detailC.supplyType = SupplyGoodsProcurement;
-        }
-        [self.navigationController pushViewController:detailC animated:YES];
+        [self showDetail];
     }
+}
+
+#pragma mark - 跳转详情
+- (void)showDetail {
+    OrderDetailController *detailC = [[OrderDetailController alloc] init];
+    detailC.fromType = _fromType;
+    detailC.orderID = _orderID;
+    detailC.goodID = _goodID;
+    detailC.goodName = _goodName;
+    if (_fromType == PayWayFromOrderWholesale ||
+        _fromType == PayWayFromGoodWholesale) {
+        detailC.supplyType = SupplyGoodsWholesale;
+    }
+    else if (_fromType == PayWayFromOrderProcurement ||
+             _fromType == PayWayFromGoodProcurementBuy ||
+             _fromType == PayWayFromGoodProcurementRent) {
+        detailC.supplyType = SupplyGoodsProcurement;
+    }
+    [self.navigationController pushViewController:detailC animated:YES];
 }
 
 @end

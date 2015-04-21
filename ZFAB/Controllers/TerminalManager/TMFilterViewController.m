@@ -134,7 +134,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getTerminalManagerUseChannelWithToken:delegate.token posTitle:_selectedPOS.title channelID:_selectedChannel.channelID maxPrice:[_highField.text intValue] minPrice:[_lowField.text intValue] finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getTerminalManagerUseChannelWithAgentID:delegate.agentID token:delegate.token posTitle:_selectedPOS.title channelID:_selectedChannel.channelID maxPrice:[_highField.text intValue] minPrice:[_lowField.text intValue] finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;

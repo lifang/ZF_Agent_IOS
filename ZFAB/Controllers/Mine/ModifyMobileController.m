@@ -142,7 +142,7 @@
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
-    [NetworkInterface getPersonModifyMobileValidateWithAgentID:delegate.agentID token:delegate.token phoneNumber:_personInfo.mobileNumber finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getPersonModifyMobileValidateWithAgentUserID:delegate.agentUserID token:delegate.token phoneNumber:_personInfo.mobileNumber finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -175,7 +175,7 @@
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
-    [NetworkInterface modifyPersonMobileWithAgentID:delegate.agentID token:delegate.token newPhoneNumber:_modifyField.text validate:_validateField.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface modifyPersonMobileWithAgentUserID:delegate.agentUserID token:delegate.token newPhoneNumber:_modifyField.text validate:_validateField.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -304,6 +304,10 @@
             break;
     }
     return height;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - UITextFieldDelegate

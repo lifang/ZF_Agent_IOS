@@ -25,6 +25,12 @@
     _dataItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
     [self firstLoadData];
+    self.historyType = HistoryTypeMerchant;
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:kImageName(@"good_search.png")
+                                                                  style:UIBarButtonItemStyleBordered
+                                                                 target:self
+                                                                 action:@selector(showSearchView)];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,7 +66,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getMerchantListWithAgentID:delegate.agentID token:delegate.token page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getMerchantListWithToken:delegate.token terminalID:_terminalID keyword:self.searchInfo page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -209,6 +215,13 @@
 
 - (void)pullUpToLoadData {
     [self downloadDataWithPage:self.page isMore:YES];
+}
+
+#pragma mark - 搜索
+
+- (void)getSearchKeyword:(NSString *)keyword {
+    self.searchInfo = keyword;
+    [self firstLoadData];
 }
 
 @end
