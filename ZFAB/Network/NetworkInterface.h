@@ -89,7 +89,7 @@ static NSString *s_emailValidate_method = @"agent/sendEmailVerificationCode";
 static NSString *s_findPassword_method = @"agent/updatePassword";
 
 //7.注册图片上传
-static NSString *s_uploadRegisterImage_method = @"comment/upload/tempImage";
+static NSString *s_uploadRegisterImage_method = @"agent/upload/register";
 
 //8 9.申请开通——申请开通列表
 static NSString *s_applyList_method = @"apply/searchApplyList";
@@ -106,8 +106,11 @@ static NSString *s_channelList_method = @"apply/getChannels";
 //13.申请开通——选择银行
 static NSString *s_bank_method = @"apply/chooseBank";
 
+//15.申请开通——添加申请信息
+static NSString *s_openApply_method = @"apply/addOpeningApply";
+
 //16.申请开通——图片上传
-static NSString *s_uploadApplyImage_method = @"comment/upload/tempImage";
+static NSString *s_uploadApplyImage_method = @"apply/upload/tempOpenImg";
 
 //17.申请开通——查看终端详情
 static NSString *s_terminalDetail_method = @"terminal/getApplyDetails";
@@ -116,7 +119,7 @@ static NSString *s_terminalDetail_method = @"terminal/getApplyDetails";
 static NSString *s_merchantList_method = @"terminal/getMerchants";
 
 //20.终端管理——获取终端列表
-static NSString *s_terminalList_method = @"apply/searchApplyList";
+static NSString *s_terminalList_method = @"terminal/getTerminalList";
 
 //26.终端管理——添加用户
 static NSString *s_addUser_method = @"terminal/addCustomer";
@@ -316,8 +319,59 @@ static NSString *s_addressUpdate_method = @"agents/updateAddress";
 //92.下级代理商管理——列表
 static NSString *s_subAgentList_method = @"lowerAgent/list";
 
+//93.下级代理商管理——详情
+static NSString *s_subAgentDetail_method = @"lowerAgent/info";
+
+//94.下级代理商管理——创建
+static NSString *s_subAgentCreate_method = @"lowerAgent/createNew";
+
 //95.下级代理商管理——设置默认分润
 static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
+
+//96.下级代理商管理——获取分润列表
+static NSString *s_subAgentBenefitList_method = @"lowerAgent/getProfitlist";
+
+//97.下级代理商管理——设置分润
+static NSString *s_subAgentBenefitSet_method = @"lowerAgent/saveOrEdit";
+
+//98.下级代理商管理——删除分润
+static NSString *s_subAgentBenefitDelete_method = @"lowerAgent/delChannel";
+
+//99.下级代理商管理——获取支付通道列表
+static NSString *s_subAgentChannelList_method = @"lowerAgent/getChannellist";
+
+//100.下级代理商管理——上传图片
+static NSString *s_subAgentUpload_method = @"lowerAgent/uploadImg";
+
+//101.员工管理——列表
+static NSString *s_customerList_method = @"customerManage/getList";
+
+//102.员工管理——详情
+static NSString *s_customerDetail_method = @"customerManage/getInfo";
+
+//103.员工管理——创建
+static NSString *s_customerCreate_method = @"customerManage/insert";
+
+//104.员工管理——删除
+static NSString *s_customerSingleDelete_method = @"customerManage/deleteOne";
+
+//105.员工管理——多删
+static NSString *s_customerMultiDelete_method = @"customerManage/deleteAll";
+
+//106.员工管理——修改
+static NSString *s_customerModify_method = @"customerManage/edit";
+
+//下级代理商管理——根据支付通道获取消费类型
+static NSString *s_subAgentTradeList_method = @"lowerAgent/getTradelist";
+
+//下级代理商管理——获取默认分润
+static NSString *s_subAgentGetDefault_method = @"lowerAgent/getDefaultProfit";
+
+//首页轮播
+static NSString *s_homeImageList_method = @"index/sysshufflingfigure";
+
+//订单信息
+static NSString *s_orderConfirm_method = @"order/payOrder";
 
 @interface NetworkInterface : NSObject
 
@@ -466,11 +520,23 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                     finished:(requestDidFinished)finish;
 
 /*!
+ @abstract 15.提交申请
+ @param token       登录返回
+ @param paramList   参数数组
+ @result finish  请求回调结果
+ */
++ (void)submitApplyWithToken:(NSString *)token
+                      params:(NSArray *)paramList
+                    finished:(requestDidFinished)finish;
+
+/*!
  @abstract 16.申请开通——上传图片
  @param image       图片
+ @param terminalID  终端ID
  @result finish  请求回调结果
  */
 + (void)uploadApplyImageWithImage:(UIImage *)image
+                       terminalID:(NSString *)terminalID
                          finished:(requestDidFinished)finish;
 
 /*!
@@ -502,6 +568,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
  @param agentID     代理商ID
  @param token    登录返回
  @param keyword  终端号关键字
+ @param status   状态
  @param page     分页参数 页
  @param rows     分页参数 行
  @result finish  请求回调结果
@@ -509,6 +576,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
 + (void)getTerminalListWithAgentID:(NSString *)agentID
                              token:(NSString *)token
                            keyword:(NSString *)keyword
+                            status:(int)status
                               page:(int)page
                               rows:(int)rows
                           finished:(requestDidFinished)finish;
@@ -1343,6 +1411,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
 /*!
  @abstract 92.a.修改地址
  @param token       登录返回
+ @param userID       登录返回id
  @param addressID   地址ID
  @param cityID    城市id
  @param receiverName   收件人姓名
@@ -1353,6 +1422,7 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
  @result finish  请求回调结果
  */
 + (void)updateAddressWithToken:(NSString *)token
+                        userID:(NSString *)userID
                      addressID:(NSString *)addressID
                         cityID:(NSString *)cityID
                   receiverName:(NSString *)receiverName
@@ -1377,6 +1447,59 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                           finished:(requestDidFinished)finish;
 
 /*!
+ @abstract 93.下级代理商管理——详情
+ @param token    登录返回
+ @param subAgentID 下级代理商id
+ @result finish  请求回调结果
+ */
++ (void)getSubAgentDetailWithToken:(NSString *)token
+                        subAgentID:(NSString *)subAgentID
+                          finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 94.下级代理商管理——创建
+ @param agentID      登录代理商id
+ @param token        登录返回
+ @param username      用户名
+ @param password      密码
+ @param encrypt       是否已加密
+ @param agentType     1.公司  2.个人
+ @param companyName   公司名称
+ @param licenseID     公司营业执照号
+ @param taxID         公司税务证号
+ @param legalPersonName  负责人姓名
+ @param legalPersonID    负责人身份证号
+ @param mobileNumber     手机
+ @param email            邮箱
+ @param cityID        城市id
+ @param address       详细地址
+ @param cardImagePath    身份证照片
+ @param licenseImagePath 营业执照照片
+ @param taxImagePath     税务证照片
+ @result finish  请求回调结果
+ */
++ (void)createSubAgentWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                         username:(NSString *)username
+                          password:(NSString *)password
+                           confirm:(NSString *)confirm
+                         agentType:(AgentType)agentType
+                       companyName:(NSString *)companyName
+                         licenseID:(NSString *)licenseID
+                             taxID:(NSString *)taxID
+                   legalPersonName:(NSString *)legalPersonName
+                     legalPersonID:(NSString *)legalPersonID
+                      mobileNumber:(NSString *)mobileNumber
+                             email:(NSString *)email
+                            cityID:(NSString *)cityID
+                     detailAddress:(NSString *)address
+                     cardImagePath:(NSString *)cardImagePath
+                  licenseImagePath:(NSString *)licenseImagePath
+                      taxImagePath:(NSString *)taxImagePath
+                        hasPorfit:(int)hasProfit
+                          finished:(requestDidFinished)finish;
+
+/*!
  @abstract 95.下级代理商管理——设置默认分润
  @param agentID  代理商id
  @param token    登录返回
@@ -1387,5 +1510,180 @@ static NSString *s_subAgentDefaultBenefit_method = @"lowerAgent/changeProfit";
                                token:(NSString *)token
                              precent:(CGFloat)precent
                             finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 96.下级代理商管理——获取分润列表
+ @param token    登录返回
+ @param subAgentID  下级代理商id
+ @result finish  请求回调结果
+ */
++ (void)getBenefitListWithToken:(NSString *)token
+                     subAgentID:(NSString *)subAgentID
+                       finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 97.下级代理商管理——设置分润
+ @param agentID  代理商id
+ @param token    登录返回
+ @param subAgentID  下级代理商id
+ @param channelID   支付通道id
+ @param profit     分润比例
+ @param type     0.修改分润  1.新增分润
+ @result finish  请求回调结果
+ */
++ (void)submitBenefitWithAgentID:(NSString *)agentID
+                           token:(NSString *)token
+                      subAgentID:(NSString *)subAgentID
+                       channelID:(NSString *)channelID
+                          profit:(NSString *)profit
+                            type:(int)benefitType
+                        finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 98.下级代理商管理——删除分润
+ @param agentID  代理商id
+ @param token    登录返回
+ @param subAgentID  下级代理商id
+ @param channelID  支付通道id
+ @result finish  请求回调结果
+ */
++ (void)deleteBenefitWithAgentID:(NSString *)agentID
+                           token:(NSString *)token
+                      subAgentID:(NSString *)subAgentID
+                       channelID:(NSString *)channelID
+                        finished:(requestDidFinished)finish;
+
+
+/*!
+ @abstract 99.下级代理商管理——支付通道
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getAgentChannelListWithToken:(NSString *)token
+                            finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 100.下级代理商管理——上传图片
+ @param image       图片
+ @result finish  请求回调结果
+ */
++ (void)uploadSubAgentImageWithImage:(UIImage *)image
+                            finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 101.员工管理——列表
+ @param agentID  代理商id
+ @param token    登录返回
+ @param page     分页参数 页
+ @param rows     分页参数 行
+ @result finish  请求回调结果
+ */
++ (void)getCustomerListWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
+                              page:(int)page
+                              rows:(int)rows
+                          finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 102.员工管理——详情
+ @param agentID  代理商id
+ @param token    登录返回
+ @param employeeID  员工id
+ @result finish  请求回调结果
+ */
++ (void)getCustomerDetailWitgAgentID:(NSString *)agentID
+                               token:(NSString *)token
+                          employeeID:(NSString *)employeeID
+                            finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 103.员工管理——创建
+ @param agentID  代理商id
+ @param token    登录返回
+ @param realName  真实姓名
+ @param loginName 登录名
+ @param password  密码
+ @param confirmPwd 密码
+ @param authority  权限
+ @result finish  请求回调结果
+ */
++ (void)createCustomerWithAgentID:(NSString *)agentID
+                            token:(NSString *)token
+                         realName:(NSString *)realName
+                        loginName:(NSString *)loginName
+                        passoword:(NSString *)password
+                       confirmPwd:(NSString *)confirmPwd
+                        authority:(NSString *)authority
+                         finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 104.员工管理——单删
+ @param agentID  代理商id
+ @param token    登录返回
+ @param employeeID 删除员工id
+ @result finish  请求回调结果
+ */
++ (void)deleteSingleCustomerWithAgentID:(NSString *)agentID
+                                  token:(NSString *)token
+                             employeeID:(NSString *)employeeID
+                               finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 105.员工管理——多删
+ @param agentID  代理商id
+ @param token    登录返回
+ @param employees 删除员工id 逗号分隔
+ @result finish  请求回调结果
+ */
++ (void)deleteMultiCustomerWithAgentID:(NSString *)agentID
+                                 token:(NSString *)token
+                             employees:(NSString *)employees
+                              finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 106.员工管理——修改
+ @param token    登录返回
+ @param employeeID 员工id
+ @param authority 权限
+ @param password  密码
+ @result finish  请求回调结果
+ */
++ (void)modifyCustomerWithToken:(NSString *)token
+                     employeeID:(NSString *)employeeID
+                      authority:(NSString *)authority
+                       password:(NSString *)password
+                       finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 下级代理商管理——获取消费类型
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getTradeTypeWithToken:(NSString *)token
+                    channelID:(NSString *)channelID
+                     finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 下级代理商管理——获取默认分润
+ @param agentID  代理商id
+ @param token    登录返回
+ @result finish  请求回调结果
+ */
++ (void)getDefaultBenefitWithAgentID:(NSString *)agentID
+                               token:(NSString *)token
+                            finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 首页轮播图
+ @result finish  请求回调结果
+ */
++ (void)getHomeImageListFinished:(requestDidFinished)finish;
+
+/*!
+ @abstract 订单信息
+ @result finish  请求回调结果
+ */
++ (void)orderConfirmWithOrderID:(NSString *)orderID
+                       finished:(requestDidFinished)finish;
 
 @end

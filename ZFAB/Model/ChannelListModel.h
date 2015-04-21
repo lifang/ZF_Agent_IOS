@@ -28,4 +28,7 @@
 //配货换货
 - (id)initWithParsePGChannelDictionary:(NSDictionary *)dict;
 
+//设置分润
+- (id)initWithParseBenefitChannelDictionary:(NSDictionary *)dict;
+
 @end

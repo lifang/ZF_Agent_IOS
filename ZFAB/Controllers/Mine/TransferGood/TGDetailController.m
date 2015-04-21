@@ -89,7 +89,7 @@
     CGFloat rightLabelWidth = 80.f; //右边label宽度
     //配货对象
     UILabel *preprareLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, kScreenWidth - leftSpace - rightSpace, labelHeight)];
-    [self setLabel:preprareLabel withContent:@"配货对象"];
+    [self setLabel:preprareLabel withContent:@"调货对象"];
     //划线
     originY += labelHeight + lineSpace;
     UIView *firstLine = [[UIView alloc] initWithFrame:CGRectMake(leftSpace, originY, kScreenWidth - leftSpace - rightSpace, 1)];
@@ -119,7 +119,7 @@
     //配货日期
     originY += labelHeight + middleSpace;
     UILabel *timeTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, kScreenWidth - leftSpace - rightSpace, labelHeight)];
-    [self setLabel:timeTitleLabel withContent:@"配货日期"];
+    [self setLabel:timeTitleLabel withContent:@"调货日期"];
     //划线
     originY += labelHeight + lineSpace;
     UIView *secondLine = [[UIView alloc] initWithFrame:CGRectMake(leftSpace, originY, kScreenWidth - leftSpace - rightSpace, 1)];

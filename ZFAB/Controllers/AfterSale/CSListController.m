@@ -44,6 +44,13 @@
                                              selector:@selector(refreshCSList:)
                                                  name:RefreshCSListNotification
                                                object:nil];
+    
+    self.historyType = HistoryTypeCS;
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:kImageName(@"good_search.png")
+                                                                  style:UIBarButtonItemStyleBordered
+                                                                 target:self
+                                                                 action:@selector(showSearchView)];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -119,7 +126,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getCSListWithAgentID:delegate.agentID token:delegate.token csType:_csType keyword:nil status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getCSListWithAgentID:delegate.agentID token:delegate.token csType:_csType keyword:self.searchInfo status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -136,7 +143,10 @@
                     if (!isMore) {
                         [_dataItem removeAllObjects];
                     }
-                    id list = [[object objectForKey:@"result"] objectForKey:@"list"];
+                    id list = nil;
+                    if ([[object objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+                        list = [[object objectForKey:@"result"] objectForKey:@"list"];
+                    }
                     if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
                         self.page++;
@@ -395,6 +405,13 @@
 
 - (void)refreshCSList:(NSNotification *)notification {
     [self performSelector:@selector(firstLoadData) withObject:nil afterDelay:0.1f];
+}
+
+#pragma mark - 搜索
+
+- (void)getSearchKeyword:(NSString *)keyword {
+    self.searchInfo = keyword;
+    [self firstLoadData];
 }
 
 @end

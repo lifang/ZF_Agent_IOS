@@ -722,8 +722,9 @@ typedef enum {
     self.statusLabel.text = [_cellData getStatusStringWithSupplyType:_supplyType];
     self.nameLabel.text = _cellData.orderGood.goodName;
     if (_supplyType == SupplyGoodsWholesale) {
-        self.primaryPriceLabel.text = [NSString stringWithFormat:@"原价 ￥%.2f",_cellData.orderGood.goodPrimaryPrice];
-        self.firstLabel.text = [NSString stringWithFormat:@"已付定金:￥%.2f",_cellData.orderDeposit];
+        [self setPrimaryPriceWithString:[NSString stringWithFormat:@"原价 ￥%.2f",_cellData.orderGood.goodPrimaryPrice]]
+         ;
+         self.firstLabel.text = [NSString stringWithFormat:@"已付定金:￥%.2f",_cellData.orderDeposit];
         self.secondLabel.text = [NSString stringWithFormat:@"已发货数量:%d",_cellData.shipmentCount];
         self.thirdLabel.text = [NSString stringWithFormat:@"剩余金额:￥%.2f",_cellData.remainingMoney];
         self.totalLabel.text = [NSString stringWithFormat:@"合计:￥%.2f",_cellData.totalMoney];
@@ -738,6 +739,17 @@ typedef enum {
     self.brandLabel.text = [NSString stringWithFormat:@"品牌型号 %@",_cellData.orderGood.goodBrand];
     self.channelLabel.text = [NSString stringWithFormat:@"支付通道 %@",_cellData.orderGood.goodChannel];
     [self.pictureView sd_setImageWithURL:[NSURL URLWithString:_cellData.orderGood.goodImagePath] placeholderImage:nil];
+}
+
+- (void)setPrimaryPriceWithString:(NSString *)price {
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:price];
+    NSDictionary *normalAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [UIFont systemFontOfSize:12.f],NSFontAttributeName,
+                                [UIColor blackColor],NSForegroundColorAttributeName,
+                                [NSNumber numberWithInt:1],NSStrikethroughStyleAttributeName,
+                                nil];
+    [attrString addAttributes:normalAttr range:NSMakeRange(0, [attrString length])];
+    _primaryPriceLabel.attributedText = attrString;
 }
 
 

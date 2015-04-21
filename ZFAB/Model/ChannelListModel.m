@@ -63,4 +63,16 @@
     return self;
 }
 
+- (id)initWithParseBenefitChannelDictionary:(NSDictionary *)dict {
+    if (self = [super init]) {
+        if ([dict objectForKey:@"id"]) {
+            _channelID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"id"]];
+        }
+        if ([dict objectForKey:@"name"]) {
+            _channelName = [NSString stringWithFormat:@"%@",[dict objectForKey:@"name"]];
+        }
+    }
+    return self;
+}
+
 @end

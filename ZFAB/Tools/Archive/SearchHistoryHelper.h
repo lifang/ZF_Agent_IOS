@@ -19,11 +19,27 @@
 #define kPGHistoryPath @"PGHistoryPath"
 #define kPGKey         @"PG"
 
+#define kOrderHistoryPath @"OrderHistoryPath"
+#define kOrderKey         @"Order"
+
+#define kTMHistoryPath @"TMHistoryPath"
+#define kTMKey         @"TM"
+
+#define kOpenApplyHistoryPath @"OpenApplyHistoryPath"
+#define kOpenApplyKey         @"OpenApply"
+
+#define kCSHistoryPath   @"CSHistoryPath"
+#define kCSKey           @"CS"
+
 typedef enum {
     HistoryTypeNone = 0,
     HistoryTypeGood,    //商品搜索历史
     HistoryTypeAfterSaleApply,  //申请售后终端搜索历史
     HistoryTypePG,      //配货搜索历史
+    HistoryTypeOrder,   //订单搜索
+    HistoryTypeTM,      //终端管理
+    HistoryTypeOpenApply, //开通申请
+    HistoryTypeCS,       //售后
 }HistoryType;
 
 @interface SearchHistoryHelper : NSObject

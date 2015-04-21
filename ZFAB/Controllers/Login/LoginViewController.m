@@ -348,7 +348,7 @@
                 }
                 else if (errorCode == RequestSuccess) {
                     NSLog(@"%@",object);
-//                    [self parseLoginDataWithDictionary:object];
+                    [self parseLoginDataWithDictionary:object];
                 }
             }
             else {
@@ -359,6 +359,17 @@
             hud.labelText = kNetworkFailed;
         }
     }];
+}
+
+#pragma mark - Data
+
+- (void)parseLoginDataWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+        return;
+    }
+    NSDictionary *infoDict = [dict objectForKey:@"result"];
+    [[AppDelegate shareAppDelegate] saveLoginInfo:infoDict];
+    [[AppDelegate shareRootViewController] showMainViewController];
 }
 
 #pragma mark - Action

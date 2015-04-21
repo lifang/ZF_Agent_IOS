@@ -7,6 +7,8 @@
 //
 
 #import "CreateAgentController.h"
+#import "AppDelegate.h"
+#import "SubAgentListController.h"
 
 @interface CreateAgentController ()
 
@@ -98,6 +100,7 @@
 
 - (IBAction)createAgent:(id)sender {
     [self dataValidation];
+    NSLog(@"%@",self.registerDict);
 }
 
 - (IBAction)needBenefit:(id)sender {
@@ -110,5 +113,109 @@
     }
 }
 
+#pragma mark - Request
+
+- (void)uploadPictureWithImage:(UIImage *)image {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"上传中...";
+    [NetworkInterface uploadSubAgentImageWithImage:image finished:^(BOOL success, NSData *response) {
+        NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    hud.labelText = @"上传成功";
+                    [self parseImageUploadInfo:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+- (void)submitForCreate {
+    int benefit = 1;
+    if (_benefitBtn.isSelected) {
+        benefit = 2;
+    }
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"提交中...";
+    [NetworkInterface createSubAgentWithAgentID:delegate.agentID
+                                          token:delegate.token
+                                       username:self.usernameField.text
+                                       password:self.passwordField.text
+                                        confirm:self.confirmField.text
+                                      agentType:self.agentType
+                                    companyName:[self.registerDict objectForKey:key_company]
+                                      licenseID:[self.registerDict objectForKey:key_license]
+                                          taxID:[self.registerDict objectForKey:key_tax]
+                                legalPersonName:[self.registerDict objectForKey:key_person]
+                                  legalPersonID:[self.registerDict objectForKey:key_personCardID]
+                                   mobileNumber:[self.registerDict objectForKey:key_phone]
+                                          email:[self.registerDict objectForKey:key_email]
+                                         cityID:[self.registerDict objectForKey:key_city]
+                                  detailAddress:[self.registerDict objectForKey:key_address]
+                                  cardImagePath:[self.registerDict objectForKey:key_cardImage]
+                               licenseImagePath:[self.registerDict objectForKey:key_licenseImage]
+                                   taxImagePath:[self.registerDict objectForKey:key_taxImage]
+                                      hasPorfit:benefit
+                                       finished:^(BOOL success, NSData *response) {
+        NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    hud.labelText = @"创建成功";
+                    [self.navigationController popViewControllerAnimated:YES];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RefeshAgentListNotification object:nil];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+#pragma mark - Data
+
+- (void)parseImageUploadInfo:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSString class]]) {
+        return;
+    }
+    NSString *urlString = [dict objectForKey:@"result"];
+    if (urlString && ![urlString isEqualToString:@""]) {
+        [self.registerDict setObject:urlString forKey:self.selectedKey];
+    }
+    [self.tableView reloadData];
+}
 
 @end

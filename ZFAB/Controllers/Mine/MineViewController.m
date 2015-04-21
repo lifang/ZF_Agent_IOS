@@ -9,6 +9,8 @@
 #import "MineViewController.h"
 #import "PersonInfoController.h"
 #import "AgentManagerController.h"
+#import "CustomerManagerController.h"
+#import "AppDelegate.h"
 
 @interface MineViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -36,6 +38,19 @@
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20 * kScaling)];
     headerView.backgroundColor = [UIColor clearColor];
     _tableView.tableHeaderView = headerView;
+    
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
+    footerView.backgroundColor = [UIColor clearColor];
+    UIButton *signOut = [UIButton buttonWithType:UIButtonTypeCustom];
+    signOut.frame = CGRectMake(80, 80, kScreenWidth - 160, 40);
+    signOut.layer.cornerRadius = 4;
+    signOut.layer.masksToBounds = YES;
+    signOut.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    [signOut setTitle:@"退出登录" forState:UIControlStateNormal];
+    [signOut setBackgroundImage:[UIImage imageNamed:@"red.png"] forState:UIControlStateNormal];
+    [signOut addTarget:self action:@selector(signOut:) forControlEvents:UIControlEventTouchUpInside];
+    [footerView addSubview:signOut];
+    _tableView.tableFooterView = footerView;
 }
 
 - (void)initAndLauoutUI {
@@ -169,7 +184,10 @@
                 }
                     break;
                 case 2: {
-                    
+                    //我的员工
+                    CustomerManagerController *customerC = [[CustomerManagerController alloc] init];
+                    customerC.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:customerC animated:YES];
                 }
                     break;
                 default:
@@ -181,6 +199,13 @@
         default:
             break;
     }
+}
+
+#pragma mark - Action
+
+- (IBAction)signOut:(id)sender {
+//    [[AppDelegate shareAppDelegate] loginOut];
+    [[[AppDelegate shareAppDelegate] rootViewController] showLoginViewController];
 }
 
 @end

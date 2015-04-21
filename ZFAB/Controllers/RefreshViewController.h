@@ -11,10 +11,10 @@
     上下拉刷新 父类控制器
 
  *****************************/
-#import "CommonViewController.h"
+#import "SearchHelpController.h"
 #import "RefreshView.h"
 
-@interface RefreshViewController : CommonViewController<UITableViewDataSource,UITableViewDelegate,RefreshDelegate>
+@interface RefreshViewController : SearchHelpController<UITableViewDataSource,UITableViewDelegate,RefreshDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 

@@ -36,13 +36,19 @@
     _dataItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
     self.currentStatus = TerminalStatusNone;
+    self.historyType = HistoryTypeTM;
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:kImageName(@"good_search.png")
+                                                                  style:UIBarButtonItemStyleBordered
+                                                                 target:self
+                                                                 action:@selector(showSearchView)];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+//
 #pragma mark - UI
 
 - (void)setHeaderView {
@@ -134,7 +140,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getTerminalListWithAgentID:delegate.agentID token:delegate.token keyword:nil page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getTerminalListWithAgentID:delegate.agentID token:delegate.token keyword:self.searchInfo status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -151,7 +157,10 @@
                     if (!isMore) {
                         [_dataItem removeAllObjects];
                     }
-                    id list = [[object objectForKey:@"result"] objectForKey:@"applyList"];
+                    id list = nil;
+                    if ([[object objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+                        list = [[object objectForKey:@"result"] objectForKey:@"applyList"];
+                    }
                     if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
                         self.page++;
@@ -387,6 +396,13 @@
 
 - (void)pullUpToLoadData {
     [self downloadDataWithPage:self.page isMore:YES];
+}
+
+#pragma mark - 搜索
+
+- (void)getSearchKeyword:(NSString *)keyword {
+    self.searchInfo = keyword;
+    [self firstLoadData];
 }
 
 @end

@@ -622,6 +622,7 @@
                                                                 constant:30.f]];
     _searchBar = [[UISearchBar alloc] init];
     _searchBar.translatesAutoresizingMaskIntoConstraints = NO;
+    _searchBar.enablesReturnKeyAutomatically = NO;
     _searchBar.placeholder = @"代理商名称";
     _searchBar.delegate = self;
     _searchBar.showsCancelButton = YES;
@@ -760,7 +761,10 @@
                     if (!isMore) {
                         [_dataItem removeAllObjects];
                     }
-                    id list = [[object objectForKey:@"result"] objectForKey:@"list"];
+                    id list = nil;
+                    if ([[object objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+                        list = [[object objectForKey:@"result"] objectForKey:@"list"];
+                    }
                     if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
                         self.page++;
@@ -853,10 +857,6 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [_searchBar resignFirstResponder];
     _searchBar.hidden = YES;
-    if (self.searchAgentName && ![self.searchAgentName isEqualToString:@""]) {
-        _searchBar.text = @"";
-        self.searchAgentName = _searchBar.text;
-    }
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {

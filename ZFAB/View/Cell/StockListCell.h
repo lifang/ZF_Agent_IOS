@@ -14,6 +14,8 @@
 
 - (void)stockCellRenameForGood:(StockListModel *)model;
 
+- (void)stockCellGoWholesale:(StockListModel *)model;
+
 @end
 
 #define kStockCellHeight 152.f

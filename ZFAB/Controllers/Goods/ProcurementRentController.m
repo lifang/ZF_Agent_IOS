@@ -136,6 +136,13 @@
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
+                    NSString *orderID = [NSString stringWithFormat:@"%@",[object objectForKey:@"result"]];
+                    PayWayViewController *payC = [[PayWayViewController alloc] init];
+                    payC.orderID = orderID;
+                    payC.goodID = _goodDetail.goodID;
+                    payC.totalPrice = [self getSummaryPrice];
+                    payC.fromType = PayWayFromGoodProcurementRent;
+                    [self.navigationController pushViewController:payC animated:YES];
                 }
             }
             else {

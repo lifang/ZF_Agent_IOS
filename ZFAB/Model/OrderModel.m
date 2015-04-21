@@ -77,6 +77,7 @@
         //批购字段
         _shipmentCount = [[dict objectForKey:@"quantity"] intValue];
         _orderDeposit = [[dict objectForKey:@"zhifu_dingjin"] floatValue] / 100;
+        _totalDeposit = [[dict objectForKey:@"price_dingjin"] floatValue] / 100;
         _remainingMoney = [[dict objectForKey:@"shengyu_price"] floatValue] / 100;
         _totalMoney = [[dict objectForKey:@"actual_price"] floatValue] / 100;
         
@@ -155,8 +156,14 @@
             case WholesaleStatusFinish:
                 statusString = @"已完成";
                 break;
+            case WholesaleStatusReview:
+                statusString = @"已评价";
+                break;
             case WholesaleStatusCancel:
                 statusString = @"已取消";
+                break;
+            case wholesaleStautsClosed:
+                statusString = @"交易关闭";
                 break;
             default:
                 break;

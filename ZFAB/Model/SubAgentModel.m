@@ -27,6 +27,7 @@
         else {
             _createTime = @"";
         }
+        _agentType = [[dict objectForKey:@"types"] intValue];
         _saleCount = [[dict objectForKey:@"soldNum"] intValue];
         _stockCount = [[dict objectForKey:@"allQty"] intValue];
         _openCount = [[dict objectForKey:@"openNum"] intValue];

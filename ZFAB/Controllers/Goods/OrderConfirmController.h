@@ -12,6 +12,7 @@
 #import "NetworkInterface.h"
 #import "AppDelegate.h"
 #import "UserModel.h"
+#import "PayWayViewController.h"
 
 typedef enum {
     BillTypeCompany,

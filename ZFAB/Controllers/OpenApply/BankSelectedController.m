@@ -33,6 +33,7 @@
         [self getBankList];
     }
     _searchItem = [[NSMutableArray alloc] init];
+    [_searchItem addObjectsFromArray:_bankItems];
     [self initAndLayoutUI];
 }
 
@@ -71,7 +72,7 @@
     
     _searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _searchBtn.frame = CGRectMake(kScreenWidth - 40, 10, 24, 24);
-    [_searchBtn setBackgroundImage:kImageName(@"search.png") forState:UIControlStateNormal];
+    [_searchBtn setBackgroundImage:kImageName(@"stocksearch.png") forState:UIControlStateNormal];
     [_searchBtn addTarget:self action:@selector(searchBank:) forControlEvents:UIControlEventTouchUpInside];
     [backView addSubview:_searchBtn];
 }
@@ -163,6 +164,9 @@
             [_bankItems addObject:model];
         }
     }
+    [_searchItem removeAllObjects];
+    [_searchItem addObjectsFromArray:_bankItems];
+    [_tableView reloadData];
 }
 
 - (void)clearStatus {

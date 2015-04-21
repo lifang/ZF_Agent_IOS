@@ -14,7 +14,7 @@
 - (id)initWithParseDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
         if ([dict objectForKey:@"order_id"]) {
-            _orderID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"agentId"]];
+            _orderID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"order_id"]];
         }
         if ([dict objectForKey:@"order_receiver"]) {
             _receiver = [NSString stringWithFormat:@"%@",[dict objectForKey:@"order_receiver"]];

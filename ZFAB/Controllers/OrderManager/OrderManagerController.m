@@ -13,6 +13,10 @@
 #import "OrderCell.h"
 #import "KxMenu.h"
 #import "OrderDetailController.h"
+#import "GoodListController.h"
+#import "PayWayViewController.h"
+#import "GoodDetailController.h"
+#import "RegularFormat.h"
 
 @interface OrderManagerController ()<OrderCellDelegate,UIAlertViewDelegate>
 
@@ -52,6 +56,8 @@
                                              selector:@selector(refreshOrderList:)
                                                  name:RefreshOrderListNotification
                                                object:nil];
+    self.historyType = HistoryTypeOrder;
+    [self initNavigationBarView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,6 +66,28 @@
 }
 
 #pragma mark - UI
+
+- (void)initNavigationBarView {
+    UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    deleteButton.frame = CGRectMake(0, 0, 24, 24);
+    [deleteButton setBackgroundImage:kImageName(@"cart.png") forState:UIControlStateNormal];
+    [deleteButton addTarget:self action:@selector(goGood:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    addButton.frame = CGRectMake(0, 0, 24, 24);
+    [addButton setBackgroundImage:kImageName(@"good_search.png") forState:UIControlStateNormal];
+    [addButton addTarget:self action:@selector(showSearchView) forControlEvents:UIControlEventTouchUpInside];
+    
+    //设置间距
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:nil
+                                                                               action:nil];
+    spaceItem.width = -5;
+    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
+    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithCustomView:addButton];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,deleteItem,addItem, nil];
+}
+
 
 - (void)initAndLayoutUI {
     [self initRefreshViewWithOffset:0];
@@ -227,7 +255,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getOrderListWithAgentID:delegate.agentID token:delegate.token orderType:_currentType keyword:nil status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getOrderListWithAgentID:delegate.agentID token:delegate.token orderType:_currentType keyword:self.searchInfo status:_currentStatus page:page rows:kPageSize finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -244,7 +272,10 @@
                     if (!isMore) {
                         [_orderItem removeAllObjects];
                     }
-                    id list = [[object objectForKey:@"result"] objectForKey:@"list"];
+                    id list = nil;
+                    if ([[object objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+                        list = [[object objectForKey:@"result"] objectForKey:@"list"];
+                    }
                     if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
                         self.page++;
@@ -436,6 +467,12 @@
 
 #pragma mark - Action
 
+- (IBAction)goGood:(id)sender {
+    GoodListController *listC = [[GoodListController alloc] init];
+    listC.supplyType = _supplyType;
+    [self.navigationController pushViewController:listC animated:YES];
+}
+
 - (IBAction)typeChanged:(id)sender {
     self.supplyType = (SupplyGoodsType)([_segmentControl selectedSegmentIndex] + 1);
 }
@@ -589,6 +626,8 @@
     OrderDetailController *detailC = [[OrderDetailController alloc] init];
     detailC.supplyType = _supplyType;
     detailC.orderID = model.orderID;
+    detailC.goodID = model.orderGood.goodID;
+    detailC.fromType = PayWayFromNone;
     [self.navigationController pushViewController:detailC animated:YES];
 }
 
@@ -645,45 +684,111 @@
                                                    delegate:self
                                           cancelButtonTitle:@"取消"
                                           otherButtonTitles:@"确定", nil];
+    alert.tag = AlertTagCancel;
     [alert show];
 }
 
 - (void)orderCellPayWholesaleOrder:(OrderModel *)model {
-    
+    _selectedOrder = model;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                    message:@"填写付款金额"
+                                                   delegate:self
+                                          cancelButtonTitle:@"取消"
+                                          otherButtonTitles:@"确定", nil];
+    alert.tag = AlertTagPayMoney;
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
 }
 
 - (void)orderCellPayDepositOrder:(OrderModel *)model {
-    
+    PayWayViewController *payC = [[PayWayViewController alloc] init];
+    payC.orderID = model.orderID;
+    payC.totalPrice = model.totalDeposit;
+    payC.fromType = PayWayFromOrderWholesale;
+    [self.navigationController pushViewController:payC animated:YES];
 }
 
 - (void)orderCellWholesaleRepeat:(OrderModel *)model {
-    
+    GoodDetailController *detailC = [[GoodDetailController alloc] init];
+    detailC.supplyType = SupplyGoodsWholesale;
+    detailC.goodID = model.orderGood.goodID;
+    [self.navigationController pushViewController:detailC animated:YES];
 }
 
 //代购
 - (void)orderCellCancelProcurementOrder:(OrderModel *)model {
-    
+    _selectedOrder = model;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                    message:@"确定取消此订单？"
+                                                   delegate:self
+                                          cancelButtonTitle:@"取消"
+                                          otherButtonTitles:@"确定", nil];
+    alert.tag = AlertTagCancel;
+    [alert show];
 }
 
 - (void)orderCellPayProcurementOrder:(OrderModel *)model {
-    
+    PayWayViewController *payC = [[PayWayViewController alloc] init];
+    payC.orderID = model.orderID;
+    payC.totalPrice = model.actualMoney;
+    payC.fromType = PayWayFromOrderProcurement;
+    [self.navigationController pushViewController:payC animated:YES];
 }
 
 - (void)orderCellProcurementRepeat:(OrderModel *)model {
-    
+    GoodDetailController *detailC = [[GoodDetailController alloc] init];
+    detailC.supplyType = SupplyGoodsProcurement;
+    detailC.goodID = model.orderGood.goodID;
+    [self.navigationController pushViewController:detailC animated:YES];
 }
 
 #pragma mark - AlertView
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != alertView.cancelButtonIndex) {
-        if (_supplyType == SupplyGoodsWholesale) {
-            //批购
-            [self cancelWholesaleOrder];
+        if (alertView.tag == AlertTagCancel) {
+            //取消订单
+            if (_supplyType == SupplyGoodsWholesale) {
+                //批购
+                [self cancelWholesaleOrder];
+            }
+            else {
+                //代购
+                [self cancelProcurementOrder];
+            }
         }
-        else {
-            //代购
-            [self cancelProcurementOrder];
+        else if (alertView.tag == AlertTagPayMoney) {
+            //支付
+            UITextField *textField = [alertView textFieldAtIndex:0];
+            if (![RegularFormat isFloat:textField.text]) {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"请输入数字";
+                return;
+            }
+            if ([textField.text floatValue] <= 0) {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"输入金额必须大于0";
+                return;
+            }
+            if ([textField.text floatValue] > _selectedOrder.totalMoney) {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"金额必须小于付款金额";
+                return;
+            }
+            PayWayViewController *payC = [[PayWayViewController alloc] init];
+            payC.orderID = _selectedOrder.orderID;
+            payC.totalPrice = [textField.text floatValue];
+            payC.fromType = PayWayFromOrderWholesale;
+            [self.navigationController pushViewController:payC animated:YES];
         }
     }
 }
@@ -692,6 +797,13 @@
 
 - (void)refreshOrderList:(NSNotification *)notification {
     [self performSelector:@selector(firstLoadData) withObject:nil afterDelay:0.1f];
+}
+
+#pragma mark - 搜索
+
+- (void)getSearchKeyword:(NSString *)keyword {
+    self.searchInfo = keyword;
+    [self firstLoadData];
 }
 
 @end

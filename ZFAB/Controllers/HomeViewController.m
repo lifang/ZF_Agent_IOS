@@ -18,10 +18,15 @@
 #import "StockManagerController.h"
 #import "OpenApplyController.h"
 #import "TerminalManagerController.h"
+#import "NetworkInterface.h"
+#import "HomeImageModel.h"
+#import "ChannelWebsiteController.h"
 
 @interface HomeViewController ()
 
 @property (nonatomic, strong) PollingView *pollingView;
+
+@property (nonatomic, strong) NSMutableArray *pictureItem;
 
 @end
 
@@ -31,7 +36,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"首页";
+    _pictureItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
+    [self loadHomeImageList];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -166,6 +173,48 @@
     [self.view addSubview:fifthLine];
 }
 
+#pragma mark - Request
+
+- (void)loadHomeImageList {
+    [NetworkInterface getHomeImageListFinished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [self parseImageDataWithDict:object];
+                }
+            }
+        }
+    }];
+}
+
+#pragma mark - Data
+
+- (void)parseImageDataWithDict:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+        return;
+    }
+    id imageList = [[dict objectForKey:@"result"] objectForKey:@"list"];
+    [_pictureItem removeAllObjects];
+    for (int i = 0; i < [imageList count]; i++) {
+        id imageDict = [imageList objectAtIndex:i];
+        if ([imageDict isKindOfClass:[NSDictionary class]]) {
+            HomeImageModel *model = [[HomeImageModel alloc] initWithParseDictionary:imageDict];
+            [_pictureItem addObject:model];
+        }
+    }
+    NSMutableArray *urlList = [[NSMutableArray alloc] init];
+    for (HomeImageModel *model in _pictureItem) {
+        [urlList addObject:model.pictureURL];
+    }
+    [_pollingView downloadImageWithURLs:urlList target:self action:@selector(tapPicture:)];
+}
+
 
 #pragma mark - Action
 
@@ -230,6 +279,19 @@
             break;
         default:
             break;
+    }
+}
+
+- (void)tapPicture:(UITapGestureRecognizer *)tap {
+    UIImageView *imageView = (UIImageView *)[tap view];
+    NSInteger index = imageView.tag - 1;
+    ChannelWebsiteController *websiteC = [[ChannelWebsiteController alloc] init];
+    if (index >= 0 && index < [_pictureItem count]) {
+        HomeImageModel *imageModel = [_pictureItem objectAtIndex:index];
+        websiteC.title = @"详情";
+        websiteC.urlString = imageModel.websiteURL;
+        websiteC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:websiteC animated:YES];
     }
 }
 

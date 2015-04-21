@@ -11,6 +11,7 @@
 #import "NetworkInterface.h"
 #import "AppDelegate.h"
 #import "RegularFormat.h"
+#import "SelectedAddressController.h"
 
 @interface AddressEditController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
 
@@ -214,7 +215,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface updateAddressWithToken:delegate.token addressID:_address.addressID cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
+    [NetworkInterface updateAddressWithToken:delegate.token userID:delegate.userID addressID:_address.addressID cityID:_selectedCityID receiverName:_nameField.text phoneNumber:_phoneField.text zipCode:_zipField.text address:_detailField.text isDefault:isDefault finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.5f];
@@ -230,6 +231,7 @@
                     [hud hide:YES];
                     hud.labelText = @"地址修改成功";
                     [[NSNotificationCenter defaultCenter] postNotificationName:RefreshAddressListNotification object:nil];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshSelectedAddressNotification object:nil];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
             }
@@ -268,6 +270,7 @@
                     [hud hide:YES];
                     hud.labelText = @"新增地址成功";
                     [[NSNotificationCenter defaultCenter] postNotificationName:RefreshAddressListNotification object:nil];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshSelectedAddressNotification object:nil];
                     [self.navigationController popViewControllerAnimated:YES];
                 }
             }

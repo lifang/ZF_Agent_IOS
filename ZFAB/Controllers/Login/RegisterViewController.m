@@ -73,4 +73,101 @@
     [self dataValidation];
 }
 
+#pragma mark - Request
+
+- (void)uploadPictureWithImage:(UIImage *)image {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"上传中...";
+    [NetworkInterface uploadRegisterImageWithImage:image finished:^(BOOL success, NSData *response) {
+        NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    hud.labelText = @"上传成功";
+                    [self parseImageUploadInfo:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+- (void)submitForCreate {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"正在提交...";
+    [NetworkInterface registerWithUsername:self.usernameField.text
+                                  password:self.passwordField.text
+                          isAlreadyEncrypt:NO
+                                 agentType:self.agentType
+                               companyName:[self.registerDict objectForKey:key_company]
+                                 licenseID:[self.registerDict objectForKey:key_license]
+                                     taxID:[self.registerDict objectForKey:key_tax]
+                           legalPersonName:[self.registerDict objectForKey:key_person]
+                             legalPersonID:[self.registerDict objectForKey:key_personCardID]
+                              mobileNumber:[self.registerDict objectForKey:key_phone]
+                                     email:[self.registerDict objectForKey:key_email]
+                                    cityID:[self.registerDict objectForKey:key_city]
+                             detailAddress:[self.registerDict objectForKey:key_address]
+                             cardImagePath:[self.registerDict objectForKey:key_cardImage]
+                          licenseImagePath:[self.registerDict objectForKey:key_licenseImage]
+                              taxImagePath:[self.registerDict objectForKey:key_taxImage]
+                                  finished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.3f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                [hud hide:YES];
+                int errorCode = [[object objectForKey:@"code"] intValue];
+                if (errorCode == RequestFail) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                                    message:[object objectForKey:@"message"]
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"确定"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
+                else if (errorCode == RequestSuccess) {
+                    NSLog(@"success = %@",[object objectForKey:@"message"]);
+                }
+            }
+            else {
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+#pragma mark - Data
+
+- (void)parseImageUploadInfo:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSString class]]) {
+        return;
+    }
+    NSString *urlString = [dict objectForKey:@"result"];
+    if (urlString && ![urlString isEqualToString:@""]) {
+        [self.registerDict setObject:urlString forKey:self.selectedKey];
+    }
+    [self.tableView reloadData];
+}
+
 @end

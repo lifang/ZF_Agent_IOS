@@ -8,6 +8,7 @@
 
 #import "SelectedAddressController.h"
 #import "AppDelegate.h"
+#import "AddressViewController.h"
 
 @interface SelectedAddressController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -17,6 +18,10 @@
 
 @implementation SelectedAddressController
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -25,6 +30,10 @@
     if ([_addressItems count] <= 0) {
         [self getAddressList];
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshSelectAddressList:)
+                                                 name:RefreshSelectedAddressNotification
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,6 +47,19 @@
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
     headerView.backgroundColor = [UIColor clearColor];
     _tableView.tableHeaderView = headerView;
+    
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 100)];
+    footerView.backgroundColor = [UIColor clearColor];
+    UIButton *addressBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    addressBtn.frame = CGRectMake(80, 20, kScreenWidth - 160, 40);
+    addressBtn.layer.cornerRadius = 4;
+    addressBtn.layer.masksToBounds = YES;
+    addressBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    [addressBtn setTitle:@"地址管理" forState:UIControlStateNormal];
+    [addressBtn setBackgroundImage:[UIImage imageNamed:@"blue.png"] forState:UIControlStateNormal];
+    [addressBtn addTarget:self action:@selector(addressManager:) forControlEvents:UIControlEventTouchUpInside];
+    [footerView addSubview:addressBtn];
+    _tableView.tableFooterView = footerView;
 }
 
 - (void)initAndLayoutUI {
@@ -130,6 +152,13 @@
     [_tableView reloadData];
 }
 
+#pragma mark - Action
+
+- (IBAction)addressManager:(id)sender {
+    AddressViewController *addressC = [[AddressViewController alloc] init];
+    [self.navigationController pushViewController:addressC animated:YES];
+}
+
 #pragma mark - UITableView
 
 
@@ -183,5 +212,11 @@
     }
 }
 
+
+#pragma mark - Notification 
+
+- (void)refreshSelectAddressList:(NSNotification *)notification {
+    [self getAddressList];
+}
 
 @end

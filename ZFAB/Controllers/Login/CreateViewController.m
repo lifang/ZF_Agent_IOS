@@ -9,6 +9,7 @@
 #import "CreateViewController.h"
 #import "RegularFormat.h"
 #import "CityHandle.h"
+#import "NetworkInterface.h"
 
 #define kRegisterInputViewTag   100
 #define kRegisterImageViewTag   101
@@ -41,7 +42,6 @@
 
 @property (nonatomic, strong) NSArray *cityArray;  //pickerView 第二列
 
-@property (nonatomic, strong) NSString *selectedKey; //用于记录点击的是哪一行
 @property (nonatomic, assign) CGRect imageRect;
 
 @end
@@ -121,7 +121,6 @@
     [userView addSubview:userImageView];
     _usernameField.leftView = userView;
     _usernameField.leftViewMode = UITextFieldViewModeAlways;
-    _usernameField.secureTextEntry = YES;
     _usernameField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     
     
@@ -191,7 +190,7 @@
 #pragma mark - Request
 
 - (void)uploadPictureWithImage:(UIImage *)image {
-    
+    //子类重写
 }
 
 #pragma mark - Action
@@ -361,8 +360,12 @@
             return;
         }
     }
+    [self submitForCreate];
 }
 
+- (void)submitForCreate {
+    //子类重写
+}
 
 #pragma mark - UITableView
 
@@ -564,6 +567,7 @@
                 default:
                     break;
             }
+            cell.key = textKey;
             cell.textLabel.text = titleName;
             cell.textLabel.font = [UIFont systemFontOfSize:15.f];
             cell.imageView.image = kImageName(imageName);
@@ -714,12 +718,13 @@
                     default:
                         break;
                 }
+                cell.key = textKey;
                 cell.textLabel.text = titleName;
                 cell.textLabel.font = [UIFont systemFontOfSize:15.f];
                 cell.imageView.image = kImageName(imageName);
                 cell.detailTextLabel.textColor = kMainColor;
                 cell.detailTextLabel.font = [UIFont systemFontOfSize:14.f];
-                if ([_registerDict objectForKey:textKey] && ![_registerDict objectForKey:textKey]) {
+                if ([_registerDict objectForKey:textKey] && ![[_registerDict objectForKey:textKey] isEqualToString:@""]) {
                     uploadView.hidden = NO;
                     cell.detailTextLabel.text = nil;
                 }

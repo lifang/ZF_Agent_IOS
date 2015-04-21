@@ -450,7 +450,9 @@
 }
 
 - (IBAction)goWholesale:(id)sender {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(stockCellGoWholesale:)]) {
+        [_delegate stockCellGoWholesale:_stockModel];
+    }
 }
 
 @end

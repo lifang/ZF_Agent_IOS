@@ -8,6 +8,8 @@
 
 #import "RefreshViewController.h"
 
+static NSString *RefeshAgentListNotification = @"RefeshAgentListNotification";
+
 @interface SubAgentListController : RefreshViewController
 
 @end

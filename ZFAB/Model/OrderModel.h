@@ -24,7 +24,9 @@ typedef enum {
     WholesaleStatusUnPaid = 1,   //未付款
     WholesaleStatusPartPaid,     //已付定金
     WholesaleStatusFinish,       //已完成
-    WholesaleStatusCancel = 5,       //已取消
+    WholesaleStatusReview,       //已评价
+    WholesaleStatusCancel,       //已取消
+    wholesaleStautsClosed,       //交易关闭
 }WholesaleOrderStatus;  //批购订单状态
 
 //批购 取消订单+支付定金
@@ -78,7 +80,8 @@ static NSString *procurementThirdIdentifier = @"procurementThirdIdentifier";
 
 /*批购字段*/
 @property (nonatomic, assign) int shipmentCount;  //发货数量
-@property (nonatomic, assign) CGFloat orderDeposit; //定金
+@property (nonatomic, assign) CGFloat orderDeposit; //已付定金
+@property (nonatomic, assign) CGFloat totalDeposit; //定金总额
 @property (nonatomic, assign) CGFloat remainingMoney; //剩余金额
 @property (nonatomic, assign) CGFloat totalMoney;   //合计
 

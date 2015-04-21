@@ -32,6 +32,18 @@
         case HistoryTypePG:
             path = kPGHistoryPath;
             break;
+        case HistoryTypeOrder:
+            path = kOrderHistoryPath;
+            break;
+        case HistoryTypeTM:
+            path = kTMHistoryPath;
+            break;
+        case HistoryTypeOpenApply:
+            path = kOpenApplyHistoryPath;
+            break;
+        case HistoryTypeCS:
+            path = kCSHistoryPath;
+            break;
         default:
             break;
     }
@@ -49,6 +61,18 @@
             break;
         case HistoryTypePG:
             key = kPGKey;
+            break;
+        case HistoryTypeOrder:
+            key = kOrderKey;
+            break;
+        case HistoryTypeTM:
+            key = kTMKey;
+            break;
+        case HistoryTypeOpenApply:
+            key = kOpenApplyKey;
+            break;
+        case HistoryTypeCS:
+            key = kCSKey;
             break;
         default:
             break;

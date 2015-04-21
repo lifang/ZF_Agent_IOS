@@ -12,6 +12,7 @@
 #import "StockListCell.h"
 #import "StockRenameController.h"
 #import "StockDetailController.h"
+#import "GoodDetailController.h"
 
 @interface StockManagerController ()<StockCellDelegate>
 
@@ -88,7 +89,11 @@
                     if (!isMore) {
                         [_dataItem removeAllObjects];
                     }
-                    id list = [[object objectForKey:@"result"] objectForKey:@"list"];
+                    
+                    id list = nil;
+                    if ([[object objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+                        list = [[object objectForKey:@"result"] objectForKey:@"list"];
+                    }
                     if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
                         self.page++;
@@ -201,6 +206,13 @@
     StockRenameController *renameC = [[StockRenameController alloc] init];
     renameC.stockModel = model;
     [self.navigationController pushViewController:renameC animated:YES];
+}
+
+- (void)stockCellGoWholesale:(StockListModel *)model {
+    GoodDetailController *detailC = [[GoodDetailController alloc] init];
+    detailC.supplyType = SupplyGoodsWholesale;
+    detailC.goodID = model.stockGoodID;
+    [self.navigationController pushViewController:detailC animated:YES];
 }
 
 @end

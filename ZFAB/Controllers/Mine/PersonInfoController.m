@@ -67,19 +67,6 @@
     typeLabel.font = [UIFont boldSystemFontOfSize:15.f];
     typeLabel.text = [NSString stringWithFormat:@"代理商类型：%@",typeString];
     [headerView addSubview:typeLabel];
-    
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 100)];
-    footerView.backgroundColor = [UIColor clearColor];
-    UIButton *signOut = [UIButton buttonWithType:UIButtonTypeCustom];
-    signOut.frame = CGRectMake(80, 20, kScreenWidth - 160, 40);
-    signOut.layer.cornerRadius = 4;
-    signOut.layer.masksToBounds = YES;
-    signOut.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
-    [signOut setTitle:@"退出登录" forState:UIControlStateNormal];
-    [signOut setBackgroundImage:[UIImage imageNamed:@"red.png"] forState:UIControlStateNormal];
-    [signOut addTarget:self action:@selector(signOut:) forControlEvents:UIControlEventTouchUpInside];
-    [footerView addSubview:signOut];
-    _tableView.tableFooterView = footerView;
 }
 
 - (void)initAndLayoutUI {
@@ -157,12 +144,6 @@
             hud.labelText = kNetworkFailed;
         }
     }];
-}
-
-#pragma mark - Action
-
-- (IBAction)signOut:(id)sender {
-    
 }
 
 #pragma mark - UITableView

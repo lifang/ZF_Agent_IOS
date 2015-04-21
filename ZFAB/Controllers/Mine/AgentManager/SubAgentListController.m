@@ -11,14 +11,21 @@
 #import "SubAgentCell.h"
 #import "DefaultBenefitController.h"
 #import "CreateAgentController.h"
+#import "SubAgentDetailController.h"
 
 @interface SubAgentListController ()
 
 @property (nonatomic, strong) NSMutableArray *dataItem;
 
+@property (nonatomic, assign) CGFloat defaultBenefit;
+
 @end
 
 @implementation SubAgentListController
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,6 +34,11 @@
     _dataItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
     [self firstLoadData];
+    [self getDefaultBenefit];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshAgentList:)
+                                                 name:RefeshAgentListNotification
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,7 +87,10 @@
                     if (!isMore) {
                         [_dataItem removeAllObjects];
                     }
-                    id list = [[object objectForKey:@"result"] objectForKey:@"list"];
+                    id list = nil;
+                    if ([[object objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+                        list = [[object objectForKey:@"result"] objectForKey:@"list"];
+                    }
                     if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
                         self.page++;
@@ -101,6 +116,32 @@
         }
         else {
             [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
+        }
+    }];
+}
+
+//获取默认分润
+- (void)getDefaultBenefit {
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface getDefaultBenefitWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+        NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    _defaultBenefit = [[object objectForKey:@"result"] floatValue];
+                    [self.tableView reloadData];
+                }
+            }
+            else {
+                //返回错误数据
+            }
+        }
+        else {
         }
     }];
 }
@@ -150,11 +191,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0 || indexPath.section == 1) {
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
         NSString *titleName = nil;
+        NSString *content = nil;
         switch (indexPath.section) {
             case 0:
                 titleName = @"设置默认分润比例";
+                content = [NSString stringWithFormat:@"%.1f%%",_defaultBenefit];
                 break;
             case 1:
                 titleName = @"创建下级代理商";
@@ -163,7 +206,9 @@
                 break;
         }
         cell.textLabel.text = titleName;
+        cell.detailTextLabel.text = content;
         cell.textLabel.font = [UIFont systemFontOfSize:15.f];
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:14.f];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }
@@ -197,7 +242,10 @@
         }
             break;
         case 2: {
-            
+            SubAgentModel *model = [_dataItem objectAtIndex:indexPath.row];
+            SubAgentDetailController *detailC = [[SubAgentDetailController alloc] init];
+            detailC.subAgent = model;
+            [self.navigationController pushViewController:detailC animated:YES];
         }
             break;
         default:
@@ -242,6 +290,12 @@
 
 - (void)pullUpToLoadData {
     [self downloadDataWithPage:self.page isMore:YES];
+}
+
+#pragma mark - NSNotification
+
+- (void)refreshAgentList:(NSNotification *)notification {
+    [self performSelector:@selector(firstLoadData) withObject:nil afterDelay:0.1f];
 }
 
 @end

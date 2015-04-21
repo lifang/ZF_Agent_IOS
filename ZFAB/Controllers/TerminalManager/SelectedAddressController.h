@@ -9,6 +9,8 @@
 #import "CommonViewController.h"
 #import "AddressCell.h"
 
+static NSString *RefreshSelectedAddressNotification = @"RefreshSelectedAddressNotification";
+
 @protocol SelectedAddressDelegate <NSObject>
 
 - (void)getSelectedAddress:(AddressModel *)addressModel;

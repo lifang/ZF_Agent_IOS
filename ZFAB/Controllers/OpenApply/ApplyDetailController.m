@@ -292,36 +292,39 @@
 }
 
 - (void)submitApplyInfoWithArray:(NSArray *)params {
-//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//    hud.labelText = @"提交中...";
-//    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-//    [NetworkInterface submitApplyWithToken:delegate.token params:params finished:^(BOOL success, NSData *response) {
-//        NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-//        hud.customView = [[UIImageView alloc] init];
-//        hud.mode = MBProgressHUDModeCustomView;
-//        [hud hide:YES afterDelay:0.5f];
-//        if (success) {
-//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-//            if ([object isKindOfClass:[NSDictionary class]]) {
-//                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
-//                if ([errorCode intValue] == RequestFail) {
-//                    //返回错误代码
-//                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-//                }
-//                else if ([errorCode intValue] == RequestSuccess) {
-//                    hud.labelText = @"添加成功";
-//                    [self.navigationController popViewControllerAnimated:YES];
-//                }
-//            }
-//            else {
-//                //返回错误数据
-//                hud.labelText = kServiceReturnWrong;
-//            }
-//        }
-//        else {
-//            hud.labelText = kNetworkFailed;
-//        }
-//    }];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"提交中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface submitApplyWithToken:delegate.token params:params finished:^(BOOL success, NSData *response) {
+        NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    hud.labelText = @"添加成功";
+                    if ([[self.navigationController childViewControllers] count] >= 2) {
+                        UIViewController *controller = [self.navigationController.childViewControllers objectAtIndex:1];
+                        [self.navigationController popToViewController:controller animated:YES];
+                    }
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
 }
 
 //银行信息
@@ -471,7 +474,7 @@
 - (void)uploadPictureWithImage:(UIImage *)image {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"上传中...";
-    [NetworkInterface uploadApplyImageWithImage:image finished:^(BOOL success, NSData *response) {
+    [NetworkInterface uploadApplyImageWithImage:image terminalID:_terminalID finished:^(BOOL success, NSData *response) {
         NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -815,7 +818,7 @@
                     imageView.hidden = YES;
                     cell.detailTextLabel.text = @"上传照片";
                 }
-                cell.detailTextLabel.textColor = kColor(255, 102, 36, 1);
+                cell.detailTextLabel.textColor = kMainColor;
                 cell.detailTextLabel.font = [UIFont systemFontOfSize:14.f];
             }
             else {

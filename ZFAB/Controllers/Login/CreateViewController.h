@@ -38,6 +38,8 @@ static NSString *key_taxImage = @"key_taxImage";
 @property (nonatomic, strong) UITextField *passwordField;
 @property (nonatomic, strong) UITextField *confirmField;
 
+@property (nonatomic, strong) NSString *selectedKey; //用于记录点击的是哪一行
+
 //代理商类型
 @property (nonatomic, assign) AgentType agentType;
 
@@ -47,5 +49,7 @@ static NSString *key_taxImage = @"key_taxImage";
 
 - (IBAction)typeChanged:(id)sender;
 - (void)dataValidation; //数据验证
+
+- (void)submitForCreate;
 
 @end

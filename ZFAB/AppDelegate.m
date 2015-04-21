@@ -31,15 +31,7 @@
     self.window.rootViewController = _rootViewController;
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     [self.window makeKeyAndVisible];
-    _userID = @"1";
-    _agentUserID = @"1";
-    _agentID = @"80";
-    _token = @"123";
-    _cityID = @"1";
-    _hasProfit = YES;
-//    [NetworkInterface loginWithUsername:@"zqq" password:@"123456" isAlreadyEncrypt:NO finished:^(BOOL success, NSData *response) {
-//        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-//    }];
+    [self setStatisticData];
     return YES;
 }
 
@@ -63,6 +55,53 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - Data
+
+- (void)setStatisticData {
+    _authDict = [[NSMutableDictionary alloc] init];
+    for (int i = 1; i < 10; i++) {
+        [_authDict setObject:[NSNumber numberWithBool:NO] forKey:[NSNumber numberWithInt:i]];
+    }
+    _userID = @"1";
+    _agentUserID = @"1";
+    _agentID = @"1";
+    _token = @"123";
+    _cityID = @"1";
+    _hasProfit = YES;
+}
+
+- (void)saveLoginInfo:(NSDictionary *)dict {
+    self.agentID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"agentId"]];
+    self.userID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"id"]];
+    self.agentUserID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"agentUserId"]];
+    self.cityID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"cityId"]];
+    if ([[dict objectForKey:@"is_have_profit"] intValue] == 2) {
+        self.hasProfit = YES;
+    }
+    id authList = [dict objectForKey:@"machtigingen"];
+    if ([authList isKindOfClass:[NSArray class]]) {
+        for (int i = 0; i < [authList count]; i++) {
+            id object = [authList objectAtIndex:i];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                int authIndex = [[object objectForKey:@"role_id"] intValue];
+                [_authDict setObject:[NSNumber numberWithBool:YES] forKey:[NSNumber numberWithInt:authIndex]];
+            }
+        }
+    }
+}
+
+- (void)loginOut {
+    _agentID = nil;
+    _userID = nil;
+    _agentUserID = nil;
+    _cityID = nil;
+    _hasProfit = NO;
+    [_authDict removeAllObjects];
+    for (int i = 1; i < 10; i++) {
+        [_authDict setObject:[NSNumber numberWithBool:NO] forKey:[NSNumber numberWithInt:i]];
+    }
 }
 
 @end
