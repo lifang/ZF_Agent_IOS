@@ -1684,6 +1684,7 @@
 				TargetAttributes = {
 					773C57C21AC12DE800D99E83 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = X6GEEF4LU9;
 					};
 					773C57DB1AC12DE800D99E83 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -2063,7 +2064,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZFAB/Library/Alipay",
@@ -2082,7 +2084,7 @@
 					"$(PROJECT_DIR)/ZFAB/Library/Alipay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f8c91460-62b2-4577-8a1f-fdade09d86fe";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -2090,7 +2092,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZFAB/Library/Alipay",
@@ -2109,7 +2112,7 @@
 					"$(PROJECT_DIR)/ZFAB/Library/Alipay",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f8c91460-62b2-4577-8a1f-fdade09d86fe";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
