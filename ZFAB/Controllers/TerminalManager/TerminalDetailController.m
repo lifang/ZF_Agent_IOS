@@ -13,6 +13,7 @@
 #import "NetworkInterface.h"
 #import "AppDelegate.h"
 #import "ApplyDetailController.h"
+#import "VideoAuthController.h"
 
 typedef enum {
     TerDetailBtnTopRight = 1,
@@ -981,7 +982,9 @@ typedef enum {
 
 //视频认证
 - (IBAction)videoAuth:(id)sender {
-    
+    VideoAuthController *videoAuthC = [[VideoAuthController alloc] init];
+    videoAuthC.terminalID = _terminalModel.terminalID;
+    [self.navigationController pushViewController:videoAuthC animated:YES];
 }
 
 //开通申请

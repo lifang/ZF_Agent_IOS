@@ -171,7 +171,7 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:username forKey:@"username"];
     }
     if (password) {
-        [paramDict setObject:password forKey:@"password"];
+        [paramDict setObject:[EncryptHelper MD5_encryptWithString:password] forKey:@"password"];
     }
     if (validateCode) {
         [paramDict setObject:validateCode forKey:@"code"];
