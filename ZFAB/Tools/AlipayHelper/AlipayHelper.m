@@ -22,8 +22,8 @@
     order.seller = SellerID;
     order.tradeNO = orderNumber; //订单ID
     order.productName = goodName; //商品标题
-    order.productDescription = @""; //商品描述
-    order.amount = [NSString stringWithFormat:@"%.2f",totalPrice]; //商品价格
+    order.productDescription = goodName; //商品描述
+    order.amount = [NSString stringWithFormat:@"%.2f",0.01f]; //商品价格
     order.notifyURL = @"http://121.40.84.2:8080/ZFMerchant/notify_url.jsp"; //回调URL
     
     order.service = @"mobile.securitypay.pay";

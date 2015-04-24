@@ -76,4 +76,11 @@
     return strLength;
 }
 
++ (BOOL)isCorrectIdentificationCard:(NSString *)string {
+    if ([string length] == 18) {
+        return YES;
+    }
+    return NO;
+}
+
 @end

@@ -58,10 +58,25 @@
             placeHolder = @"搜索商品";
             break;
         case HistoryTypeAfterSaleApply:
-            placeHolder = @"搜索终端号";
+            placeHolder = @"输入终端号";
             break;
         case HistoryTypePG:
-            placeHolder = @"搜索终端号";
+            placeHolder = @"输入终端号";
+            break;
+        case HistoryTypeOrder:
+            placeHolder = @"输入订单号";
+            break;
+        case HistoryTypeTM:
+            placeHolder = @"输入终端号";
+            break;
+        case HistoryTypeOpenApply:
+            placeHolder = @"输入终端号";
+            break;
+        case HistoryTypeCS:
+            placeHolder = @"输入售后记录编号";
+            break;
+        case HistoryTypeMerchant:
+            placeHolder = @"输入商家名";
             break;
         default:
             break;

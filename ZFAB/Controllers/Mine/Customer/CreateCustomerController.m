@@ -474,4 +474,11 @@
     return nil;
 }
 
+#pragma mark - UITextField
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
 @end

@@ -209,8 +209,11 @@
     self.nameLabel.text = data.goodName;
     if (_supplyType == SupplyGoodsWholesale) {
         [self setPrimaryPriceWithString:[NSString stringWithFormat:@"原价 ￥%.2f",data.goodPrimaryPrice]];
+        self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",data.goodActualPirce];
     }
-    self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",data.goodActualPirce];
+    else {
+        self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",data.goodPrimaryPrice];
+    }
     self.numberLabel.text = [NSString stringWithFormat:@"X %d",data.goodCount];
     self.brandLabel.text = [NSString stringWithFormat:@"品牌型号 %@",data.goodBrand];
     self.channelLabel.text = [NSString stringWithFormat:@"支付通道 %@",data.goodChannel];

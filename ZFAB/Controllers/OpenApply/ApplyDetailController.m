@@ -15,6 +15,7 @@
 #import "BankSelectedController.h"
 #import "ChannelSelectedController.h"
 #import "MerchantSelectedController.h"
+#import "RegularFormat.h"
 
 #define kTextViewTag   111
 #define kApplyImageTag 112
@@ -1188,6 +1189,14 @@
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
         hud.labelText = @"请选择支付通道";
+        return;
+    }
+    if (![RegularFormat isCorrectIdentificationCard:[_infoDict objectForKey:key_cardID]]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"身份证输入不合法";
         return;
     }
     for (MaterialModel *model in _applyData.materialList) {

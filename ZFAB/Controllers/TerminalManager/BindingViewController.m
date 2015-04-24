@@ -121,7 +121,8 @@
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
-                    [hud hide:YES];
+                    hud.labelText = @"绑定成功";
+                    [self.navigationController popViewControllerAnimated:YES];
                 }
             }
             else {

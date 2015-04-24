@@ -320,6 +320,8 @@
                                                           attribute:NSLayoutAttributeHeight
                                                          multiplier:0.0
                                                            constant:32.f]];
+    _usernameField.text = @"2833761825@qq.cm";
+    _passwordField.text = @"1991912";
     
 }
 
@@ -386,7 +388,6 @@
     }
     [self userLogin];
 //    [[AppDelegate shareRootViewController] showMainViewController];
-    
 }
 
 - (IBAction)forgetPassword:(id)sender {

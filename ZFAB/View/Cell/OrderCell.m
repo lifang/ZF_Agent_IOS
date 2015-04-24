@@ -728,13 +728,14 @@ typedef enum {
         self.secondLabel.text = [NSString stringWithFormat:@"已发货数量:%d",_cellData.shipmentCount];
         self.thirdLabel.text = [NSString stringWithFormat:@"剩余金额:￥%.2f",_cellData.remainingMoney];
         self.totalLabel.text = [NSString stringWithFormat:@"合计:￥%.2f",_cellData.totalMoney];
+        self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",_cellData.orderGood.goodActualPirce];
     }
     else {
         self.firstLabel.text = [NSString stringWithFormat:@"归属用户:%@",_cellData.belongUser];
         self.secondLabel.text = [NSString stringWithFormat:@"配送费:￥%.2f",_cellData.deliveryMoney];
         self.thirdLabel.text = [NSString stringWithFormat:@"实付:￥%.2f",_cellData.actualMoney];
+        self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",_cellData.orderGood.goodPrimaryPrice];
     }
-    self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",_cellData.orderGood.goodActualPirce];
     self.numberLabel.text = [NSString stringWithFormat:@"X %d",_cellData.orderGood.goodCount];
     self.brandLabel.text = [NSString stringWithFormat:@"品牌型号 %@",_cellData.orderGood.goodBrand];
     self.channelLabel.text = [NSString stringWithFormat:@"支付通道 %@",_cellData.orderGood.goodChannel];

@@ -109,6 +109,13 @@
         ChannelListModel *model = [[ChannelListModel alloc] initWithParsePGChannelDictionary:channelDict];
         [_channelList addObject:model];
     }
+    if ([_channelList count] <= 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有支付通道数据";
+    }
     [_pickerView reloadAllComponents];
 }
 

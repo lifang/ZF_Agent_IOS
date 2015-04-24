@@ -52,6 +52,7 @@ typedef enum {
     _csNumberLabel.backgroundColor = [UIColor clearColor];
     _csNumberLabel.textColor = kColor(117, 117, 117, 1);
     _csNumberLabel.font = [UIFont systemFontOfSize:10.f];
+    _csNumberLabel.adjustsFontSizeToFitWidth = YES;
     [self.contentView addSubview:_csNumberLabel];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_csNumberLabel
                                                                  attribute:NSLayoutAttributeTop

@@ -131,6 +131,13 @@
         POSModel *model = [[POSModel alloc] initWithParsePrepareGoodDictionary:POSDict];
         [_goodList addObject:model];
     }
+    if ([_goodList count] <= 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有数据";
+    }
     [_tableView reloadData];
 }
 

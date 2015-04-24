@@ -9,8 +9,9 @@
 #import "ModifyPasswordController.h"
 #import "NetworkInterface.h"
 #import "AppDelegate.h"
+#import "AppDelegate.h"
 
-@interface ModifyPasswordController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
+@interface ModifyPasswordController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIAlertViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -159,7 +160,7 @@
                 else if ([errorCode intValue] == RequestSuccess) {
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
                                                                     message:@"密码修改成功"
-                                                                   delegate:nil
+                                                                   delegate:self
                                                           cancelButtonTitle:@"确定"
                                                           otherButtonTitles:nil];
                     [alert show];
@@ -271,5 +272,10 @@
     return YES;
 }
 
+#pragma mark - UIAlertView
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    [[[AppDelegate shareAppDelegate] rootViewController] showLoginViewController];
+}
 
 @end
