@@ -231,9 +231,18 @@
             break;
         case ModuleOrderManager: {
             //订单管理
-            OrderManagerController *orderC = [[OrderManagerController alloc] init];
-            orderC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:orderC animated:YES];
+            if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthOrder]] boolValue]) {
+                OrderManagerController *orderC = [[OrderManagerController alloc] init];
+                orderC.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:orderC animated:YES];
+            }
+            else {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"没有订单管理权限";
+            }
         }
             break;
         case ModuleStockManager: {

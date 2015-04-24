@@ -307,7 +307,7 @@ typedef enum {
                     [hud hide:YES];
                     hud.labelText = @"订单取消成功";
                     [[NSNotificationCenter defaultCenter] postNotificationName:RefreshOrderListNotification object:nil];
-                    [self.navigationController popViewControllerAnimated:YES];
+                    [self goPervious:nil];
                 }
             }
             else {
@@ -342,7 +342,7 @@ typedef enum {
                     [hud hide:YES];
                     hud.labelText = @"订单取消成功";
                     [[NSNotificationCenter defaultCenter] postNotificationName:RefreshOrderListNotification object:nil];
-                    [self.navigationController popViewControllerAnimated:YES];
+                    [self goPervious:nil];
                 }
             }
             else {
@@ -818,6 +818,7 @@ typedef enum {
             payC.goodName = _goodName;
             payC.totalPrice = [textField.text floatValue];
             payC.fromType = PayWayFromOrderWholesale;
+            payC.isPayPartMoney = YES; //部分付款
             [self.navigationController pushViewController:payC animated:YES];
         }
     }

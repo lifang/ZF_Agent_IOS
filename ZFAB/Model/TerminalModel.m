@@ -22,6 +22,13 @@
         if ([dict objectForKey:@"appid"]) {
             _appID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"appid"]];
         }
+        int videoAuth = [[dict objectForKey:@"hasVideoVerify"] intValue];
+        if (videoAuth == 1) {
+            _hasVideoAuth = YES;
+        }
+        else {
+            _hasVideoAuth = NO;
+        }
     }
     return self;
 }

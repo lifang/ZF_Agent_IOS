@@ -2051,10 +2051,11 @@ static NSString *HTTP_GET  = @"GET";
 }
 
 //100.
-+ (void)uploadSubAgentImageWithImage:(UIImage *)image
++ (void)uploadSubAgentImageWithAgentID:(NSString *)agentID
+                                 image:(UIImage *)image
                             finished:(requestDidFinished)finish {
     //url
-    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_subAgentUpload_method];
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@/%@",kServiceURL,s_subAgentUpload_method,agentID];
     NetworkRequest *request = [[NetworkRequest alloc] initWithRequestURL:urlString
                                                               httpMethod:HTTP_POST
                                                                 finished:finish];
@@ -2259,6 +2260,19 @@ static NSString *HTTP_GET  = @"GET";
     }
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_orderPaySuccess_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
++ (void)payProcurementWithOrderID:(NSString *)orderID
+                         finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[orderID intValue]] forKey:@"id"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_procurementPay_method];
     [[self class] requestWithURL:urlString
                           params:paramDict
                       httpMethod:HTTP_POST

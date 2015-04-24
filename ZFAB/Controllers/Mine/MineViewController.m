@@ -12,6 +12,7 @@
 #import "CustomerManagerController.h"
 #import "AppDelegate.h"
 #import "MBProgressHUD.h"
+#import "SettingViewController.h"
 
 static NSString *s_phoneNumber = @"4000908076";
 
@@ -28,6 +29,11 @@ static NSString *s_phoneNumber = @"4000908076";
     // Do any additional setup after loading the view.
     self.title = @"我的";
     [self initAndLauoutUI];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:kImageName(@"setting.png")
+                                                                  style:UIBarButtonItemStyleBordered
+                                                                 target:self
+                                                                 action:@selector(goSetting:)];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -94,6 +100,13 @@ static NSString *s_phoneNumber = @"4000908076";
                                                            constant:0]];
 }
 
+#pragma mark - Action
+
+- (IBAction)goSetting:(id)sender {
+    SettingViewController *settingC = [[SettingViewController alloc] init];
+    settingC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:settingC animated:YES];
+}
 
 #pragma mark - UITableView
 
@@ -140,7 +153,7 @@ static NSString *s_phoneNumber = @"4000908076";
             break;
         case 1: {
             if (indexPath.row == 0) {
-                titleName = @"呼叫掌富";
+                titleName = @"呼叫掌富400-090-8076";
                 imageName = @"mine4.png";
             }
         }

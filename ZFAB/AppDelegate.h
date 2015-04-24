@@ -49,7 +49,13 @@ typedef enum {
     AuthEA,             //员工账号
     AuthAR,             //代理商资料
     AuthStock,          //库存
+    AuthOrder,          //订单
 }AuthType; //权限
+
+typedef enum {
+    UserAgent = 2,     //代理商
+    UserEmployee = 6,  //员工
+}UserType;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -61,6 +67,8 @@ typedef enum {
 @property (nonatomic, strong) NSMutableDictionary *authDict;   //权限
 @property (nonatomic, strong) NSString *token;
 @property (nonatomic, strong) NSString *cityID;
+@property (nonatomic, assign) UserType userType;
+@property (nonatomic, assign) BOOL isFirstLevelAgent; //是否一级代理商
 @property (nonatomic, assign) BOOL hasProfit;         //是否有分润
 
 @property (nonatomic, strong) RootViewController *rootViewController;

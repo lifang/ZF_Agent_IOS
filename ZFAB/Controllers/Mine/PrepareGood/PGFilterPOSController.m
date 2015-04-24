@@ -127,9 +127,11 @@
     [_goodList removeAllObjects];
     NSArray *POSList = [dict objectForKey:@"result"];
     for (int i = 0; i < [POSList count]; i++) {
-        NSDictionary *POSDict = [POSList objectAtIndex:i];
-        POSModel *model = [[POSModel alloc] initWithParsePrepareGoodDictionary:POSDict];
-        [_goodList addObject:model];
+        id POSDict = [POSList objectAtIndex:i];
+        if ([POSDict isKindOfClass:[NSDictionary class]]) {
+            POSModel *model = [[POSModel alloc] initWithParsePrepareGoodDictionary:POSDict];
+            [_goodList addObject:model];
+        }
     }
     if ([_goodList count] <= 0) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];

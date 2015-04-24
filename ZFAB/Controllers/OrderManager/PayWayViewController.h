@@ -29,4 +29,7 @@ typedef enum {
 
 @property (nonatomic, strong) NSString *goodName;
 
+//是否是部分付款，批购订单列表+批购详情，若是 支付金额为本地 否则为服务端获取
+@property (nonatomic, assign) BOOL isPayPartMoney;
+
 @end

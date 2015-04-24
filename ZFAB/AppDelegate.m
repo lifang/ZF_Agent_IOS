@@ -77,7 +77,7 @@
 
 - (void)setStatisticData {
     _authDict = [[NSMutableDictionary alloc] init];
-    for (int i = 1; i < 10; i++) {
+    for (int i = 1; i < 11; i++) {
         [_authDict setObject:[NSNumber numberWithBool:NO] forKey:[NSNumber numberWithInt:i]];
     }
     _userID = @"1";
@@ -96,20 +96,33 @@
     if ([[dict objectForKey:@"is_have_profit"] intValue] == 2) {
         self.hasProfit = YES;
     }
-    id authList = [dict objectForKey:@"machtigingen"];
-    if ([authList isKindOfClass:[NSArray class]]) {
-        for (int i = 0; i < [authList count]; i++) {
-            id object = [authList objectAtIndex:i];
-            if ([object isKindOfClass:[NSDictionary class]]) {
-                int authIndex = [[object objectForKey:@"role_id"] intValue];
-                [_authDict setObject:[NSNumber numberWithBool:YES] forKey:[NSNumber numberWithInt:authIndex]];
+    _userType = [[dict objectForKey:@"types"] intValue];
+    if (_userType == UserEmployee) {
+        //员工根据权限表
+        id authList = [dict objectForKey:@"machtigingen"];
+        if ([authList isKindOfClass:[NSArray class]]) {
+            for (int i = 0; i < [authList count]; i++) {
+                id object = [authList objectAtIndex:i];
+                if ([object isKindOfClass:[NSDictionary class]]) {
+                    int authIndex = [[object objectForKey:@"role_id"] intValue];
+                    [_authDict setObject:[NSNumber numberWithBool:YES] forKey:[NSNumber numberWithInt:authIndex]];
+                }
             }
         }
     }
-    if ([[dict objectForKey:@"parent_id"] intValue] == 0) {
-        //一级代理商
-        for (int i = 1; i < 10; i++) {
+    else {
+        for (int i = 1; i < 11; i++) {
             [_authDict setObject:[NSNumber numberWithBool:YES] forKey:[NSNumber numberWithInt:i]];
+        }
+        if ([[dict objectForKey:@"parent_id"] intValue] == 0) {
+            //一级代理商 所有权限
+            _isFirstLevelAgent = YES;
+        }
+        else {
+            //下级代理商 批购 代购 订单无权限
+            [_authDict setObject:[NSNumber numberWithBool:NO] forKey:[NSNumber numberWithInt:AuthWholesale]];
+            [_authDict setObject:[NSNumber numberWithBool:NO] forKey:[NSNumber numberWithInt:AuthProcurement]];
+            [_authDict setObject:[NSNumber numberWithBool:NO] forKey:[NSNumber numberWithInt:AuthOrder]];
         }
     }
 }
@@ -119,9 +132,11 @@
     _userID = nil;
     _agentUserID = nil;
     _cityID = nil;
+    _userType = 0;
     _hasProfit = NO;
+    _isFirstLevelAgent = NO;
     [_authDict removeAllObjects];
-    for (int i = 1; i < 10; i++) {
+    for (int i = 1; i < 11; i++) {
         [_authDict setObject:[NSNumber numberWithBool:NO] forKey:[NSNumber numberWithInt:i]];
     }
 }

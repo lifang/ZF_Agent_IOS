@@ -10,6 +10,7 @@
 #import "CSDataHandle.h"
 #import "RecordView.h"
 #import "ResourceModel.h"
+#import "ChannelWebsiteController.h"
 
 typedef enum {
     OperationBtnFirst = 1,

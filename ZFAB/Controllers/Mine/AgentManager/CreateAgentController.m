@@ -116,9 +116,10 @@
 #pragma mark - Request
 
 - (void)uploadPictureWithImage:(UIImage *)image {
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"上传中...";
-    [NetworkInterface uploadSubAgentImageWithImage:image finished:^(BOOL success, NSData *response) {
+    [NetworkInterface uploadSubAgentImageWithAgentID:delegate.agentID image:image finished:^(BOOL success, NSData *response) {
         NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;

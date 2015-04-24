@@ -20,8 +20,11 @@
     // Configure the view for the selected state
 }
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+- (id)initWithStyle:(UITableViewCellStyle)style
+    reuseIdentifier:(NSString *)reuseIdentifier
+         supplyType:(SupplyGoodsType)type {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        _supplyType = type;
         [self initAndLayoutUI];
     }
     return self;
@@ -163,13 +166,24 @@
                                                                  attribute:NSLayoutAttributeBottom
                                                                 multiplier:1.0
                                                                   constant:vSpace]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_wholesalePriceLabel
-                                                                 attribute:NSLayoutAttributeRight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeRight
-                                                                multiplier:1.0
-                                                                  constant:-rightSpace]];
+    if (_supplyType == SupplyGoodsWholesale) {
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_wholesalePriceLabel
+                                                                     attribute:NSLayoutAttributeRight
+                                                                     relatedBy:NSLayoutRelationEqual
+                                                                        toItem:self.contentView
+                                                                     attribute:NSLayoutAttributeRight
+                                                                    multiplier:1.0
+                                                                      constant:-rightSpace]];
+    }
+    else {
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_wholesalePriceLabel
+                                                                     attribute:NSLayoutAttributeWidth
+                                                                     relatedBy:NSLayoutRelationEqual
+                                                                        toItem:nil
+                                                                     attribute:NSLayoutAttributeWidth
+                                                                    multiplier:1.0
+                                                                      constant:priceWidth]];
+    }
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_wholesalePriceLabel
                                                                  attribute:NSLayoutAttributeHeight
                                                                  relatedBy:NSLayoutRelationEqual
@@ -219,6 +233,10 @@
     _salesVolumeLabel.font = [UIFont systemFontOfSize:12.f];
     _salesVolumeLabel.textColor = kColor(177, 176, 176, 1);
     [self.contentView addSubview:_salesVolumeLabel];
+    UIView *topView = _wholesalePriceLabel;
+    if (_supplyType == SupplyGoodsProcurement) {
+        topView = _primaryPriceLabel;
+    }
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_salesVolumeLabel
                                                                  attribute:NSLayoutAttributeRight
                                                                  relatedBy:NSLayoutRelationEqual
@@ -229,7 +247,7 @@
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_salesVolumeLabel
                                                                  attribute:NSLayoutAttributeTop
                                                                  relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_wholesalePriceLabel
+                                                                    toItem:topView
                                                                  attribute:NSLayoutAttributeBottom
                                                                 multiplier:1.0
                                                                   constant:vSpace]];
@@ -321,30 +339,38 @@
 
 #pragma mark - Data
 
-- (void)setContentWithData:(GoodListModel *)model {
+- (void)setContentWithData:(GoodListModel *)model
+                supplyType:(SupplyGoodsType)supplyType {
     _titleLabel.text = model.goodName;
-    NSString *primaryPrice = [NSString stringWithFormat:@"原价 ￥%.2f",model.goodPrimaryPrice];
-    NSMutableAttributedString *priceAttrString = [[NSMutableAttributedString alloc] initWithString:primaryPrice];
-    NSDictionary *priceAttr = [NSDictionary dictionaryWithObjectsAndKeys:
-                               [UIFont systemFontOfSize:12.f],NSFontAttributeName,
-                               [NSNumber numberWithInt:2],NSStrikethroughStyleAttributeName,
-                               nil];
-    [priceAttrString addAttributes:priceAttr range:NSMakeRange(0, [priceAttrString length])];
-    _primaryPriceLabel.attributedText = priceAttrString;
-    
-    NSString *wholesalePrice = [NSString stringWithFormat:@"批购价：￥%.2f",model.goodWholesalePrice];
-    NSMutableAttributedString *wholesaleAttrString = [[NSMutableAttributedString alloc] initWithString:wholesalePrice];
-    NSDictionary *titleAttr = [NSDictionary dictionaryWithObjectsAndKeys:
-                               [UIFont systemFontOfSize:12.f],NSFontAttributeName,
-                               nil];
-    NSDictionary *contentAttr = [NSDictionary dictionaryWithObjectsAndKeys:
-                                 [UIFont boldSystemFontOfSize:15],NSFontAttributeName,
-                                 kColor(255, 102, 36, 1),NSForegroundColorAttributeName,
-                                 nil];
-    [wholesaleAttrString addAttributes:titleAttr range:NSMakeRange(0, 4)];
-    [wholesaleAttrString addAttributes:contentAttr range:NSMakeRange(4, [wholesaleAttrString length] - 4)];
-    _wholesalePriceLabel.attributedText = wholesaleAttrString;
-    _minWholesaleLabel.text = [NSString stringWithFormat:@"最小起批量：%d件",model.minWholesaleNumber];
+    if (supplyType == SupplyGoodsProcurement) {
+        _wholesalePriceLabel.font = [UIFont boldSystemFontOfSize:15.f];
+        _wholesalePriceLabel.textColor = kColor(255, 102, 36, 1);
+        _wholesalePriceLabel.text = [NSString stringWithFormat:@"￥%.2f",model.goodPrimaryPrice];
+    }
+    else {
+        NSString *primaryPrice = [NSString stringWithFormat:@"原价 ￥%.2f",model.goodPrimaryPrice];
+        NSMutableAttributedString *priceAttrString = [[NSMutableAttributedString alloc] initWithString:primaryPrice];
+        NSDictionary *priceAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [UIFont systemFontOfSize:12.f],NSFontAttributeName,
+                                   [NSNumber numberWithInt:2],NSStrikethroughStyleAttributeName,
+                                   nil];
+        [priceAttrString addAttributes:priceAttr range:NSMakeRange(0, [priceAttrString length])];
+        _primaryPriceLabel.attributedText = priceAttrString;
+        
+        NSString *wholesalePrice = [NSString stringWithFormat:@"批购价：￥%.2f",model.goodWholesalePrice];
+        NSMutableAttributedString *wholesaleAttrString = [[NSMutableAttributedString alloc] initWithString:wholesalePrice];
+        NSDictionary *titleAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [UIFont systemFontOfSize:12.f],NSFontAttributeName,
+                                   nil];
+        NSDictionary *contentAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [UIFont boldSystemFontOfSize:15],NSFontAttributeName,
+                                     kColor(255, 102, 36, 1),NSForegroundColorAttributeName,
+                                     nil];
+        [wholesaleAttrString addAttributes:titleAttr range:NSMakeRange(0, 4)];
+        [wholesaleAttrString addAttributes:contentAttr range:NSMakeRange(4, [wholesaleAttrString length] - 4)];
+        _wholesalePriceLabel.attributedText = wholesaleAttrString;
+        _minWholesaleLabel.text = [NSString stringWithFormat:@"最小起批量：%d件",model.minWholesaleNumber];
+    }
     _salesVolumeLabel.text = [NSString stringWithFormat:@"已售%d",model.goodSaleNumber];
     _brandLabel.text = [NSString stringWithFormat:@"品牌型号   %@%@",model.goodBrand,model.goodModel];
     _channelLabel.text = [NSString stringWithFormat:@"支付通道   %@",model.goodChannel];

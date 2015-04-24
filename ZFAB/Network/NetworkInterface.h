@@ -373,11 +373,14 @@ static NSString *s_subAgentGetDefault_method = @"lowerAgent/getDefaultProfit";
 //首页轮播
 static NSString *s_homeImageList_method = @"index/sysshufflingfigure";
 
-//订单信息
+//批购订单信息
 static NSString *s_orderConfirm_method = @"order/payOrder";
 
 //支付成功修改订单
 static NSString *s_orderPaySuccess_method = @"pay/alipayback";
+
+//代购订单支付
+static NSString *s_procurementPay_method = @"shop/payOrder";
 
 @interface NetworkInterface : NSObject
 
@@ -1585,7 +1588,8 @@ static NSString *s_orderPaySuccess_method = @"pay/alipayback";
  @param image       图片
  @result finish  请求回调结果
  */
-+ (void)uploadSubAgentImageWithImage:(UIImage *)image
++ (void)uploadSubAgentImageWithAgentID:(NSString *)agentID
+                                 image:(UIImage *)image
                             finished:(requestDidFinished)finish;
 
 /*!
@@ -1698,7 +1702,7 @@ static NSString *s_orderPaySuccess_method = @"pay/alipayback";
 + (void)getHomeImageListFinished:(requestDidFinished)finish;
 
 /*!
- @abstract 订单信息
+ @abstract 批购订单信息
  @result finish  请求回调结果
  */
 + (void)orderConfirmWithOrderID:(NSString *)orderID
@@ -1710,5 +1714,12 @@ static NSString *s_orderPaySuccess_method = @"pay/alipayback";
  */
 + (void)orderPaySuccessWithOrderID:(NSString *)orderID
                           finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 代购订单信息
+ @result finish  请求回调结果
+ */
++ (void)payProcurementWithOrderID:(NSString *)orderID
+                         finished:(requestDidFinished)finish;
 
 @end

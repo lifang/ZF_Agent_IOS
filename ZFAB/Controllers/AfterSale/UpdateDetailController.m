@@ -325,6 +325,8 @@
             if (model.path && ![model.path isEqualToString:@""]) {
                 [button setTitleColor:kMainColor forState:UIControlStateNormal];
                 [button setTitleColor:kColor(0, 59, 113, 1) forState:UIControlStateHighlighted];
+                [button addTarget:self action:@selector(scanResource:) forControlEvents:UIControlEventTouchUpInside];
+                button.tag = i + 1;
                 [button setTitle:@"点击查看" forState:UIControlStateNormal];
             }
             else {
@@ -517,6 +519,15 @@
 }
 
 #pragma mark - Action
+
+- (IBAction)scanResource:(id)sender {
+    UIButton *btn = (UIButton *)sender;
+    ResourceModel *model = [self.resources objectAtIndex:btn.tag - 1];
+    ChannelWebsiteController *websiteC = [[ChannelWebsiteController alloc] init];
+    websiteC.title = @"资料详情";
+    websiteC.urlString = model.path;
+    [self.navigationController pushViewController:websiteC animated:YES];
+}
 
 - (IBAction)cancelApply:(id)sender {
     [self cancelApply];

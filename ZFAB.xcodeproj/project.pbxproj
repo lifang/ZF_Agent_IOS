@@ -249,6 +249,7 @@
 		7774815B1AD7A16700E08ECB /* TMTerminalListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774815A1AD7A16700E08ECB /* TMTerminalListController.m */; };
 		7774815E1AD7A4A900E08ECB /* SerialSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774815D1AD7A4A900E08ECB /* SerialSearchCell.m */; };
 		777481611AD7ABA400E08ECB /* TerminalBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 777481601AD7ABA400E08ECB /* TerminalBottomView.m */; };
+		77CC840B1AEA3B0F00A9D5BA /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CC840A1AEA3B0F00A9D5BA /* SettingViewController.m */; };
 		77E05FCF1AE5E8B600B21DA9 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 77E05FCE1AE5E8B600B21DA9 /* AlipaySDK.bundle */; };
 		77E05FD11AE5E8BB00B21DA9 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E05FD01AE5E8BB00B21DA9 /* AlipaySDK.framework */; };
 		77E05FD41AE5E91300B21DA9 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E05FD21AE5E91300B21DA9 /* libcrypto.a */; };
@@ -733,6 +734,8 @@
 		7774815D1AD7A4A900E08ECB /* SerialSearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SerialSearchCell.m; sourceTree = "<group>"; };
 		7774815F1AD7ABA400E08ECB /* TerminalBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalBottomView.h; sourceTree = "<group>"; };
 		777481601AD7ABA400E08ECB /* TerminalBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalBottomView.m; sourceTree = "<group>"; };
+		77CC84091AEA3B0F00A9D5BA /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		77CC840A1AEA3B0F00A9D5BA /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		77E05FCE1AE5E8B600B21DA9 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		77E05FD01AE5E8BB00B21DA9 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		77E05FD21AE5E91300B21DA9 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
@@ -1109,6 +1112,8 @@
 			children = (
 				773C580F1AC140B100D99E83 /* MineViewController.h */,
 				773C58101AC140B100D99E83 /* MineViewController.m */,
+				77CC84091AEA3B0F00A9D5BA /* SettingViewController.h */,
+				77CC840A1AEA3B0F00A9D5BA /* SettingViewController.m */,
 				773F2F041ACC039500ACB139 /* PersonInfoController.h */,
 				773F2F051ACC039500ACB139 /* PersonInfoController.m */,
 				7746EAC91ACCE136009DD425 /* ModifyMobileController.h */,
@@ -2113,6 +2118,7 @@
 				77585F6F1AE2058700A0EAF7 /* BenefitListController.m in Sources */,
 				77E060361AE5E99100B21DA9 /* DataVerifier.m in Sources */,
 				775AABBD1ADE153900FA8AD9 /* GoodDetailModel.m in Sources */,
+				77CC840B1AEA3B0F00A9D5BA /* SettingViewController.m in Sources */,
 				775AABC21ADE373D00FA8AD9 /* GoodButton.m in Sources */,
 				7760DAE41ADCA69E005C607A /* PrepareGoodController.m in Sources */,
 				773E27001AD4D381007CB72D /* CSModel.m in Sources */,

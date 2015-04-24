@@ -7,6 +7,7 @@
 //
 
 #define kGoodCellHeight  136.f
+#import "NetworkInterface.h"
 
 #import <UIKit/UIKit.h>
 #import "UIImageView+WebCache.h"
@@ -31,6 +32,13 @@
 //支付通道
 @property (nonatomic, strong) UILabel *channelLabel;
 
-- (void)setContentWithData:(GoodListModel *)model;
+@property (nonatomic, assign) SupplyGoodsType supplyType;
+
+- (id)initWithStyle:(UITableViewCellStyle)style
+    reuseIdentifier:(NSString *)reuseIdentifier
+         supplyType:(SupplyGoodsType)type;
+
+- (void)setContentWithData:(GoodListModel *)model
+                supplyType:(SupplyGoodsType)supplyType;
 
 @end

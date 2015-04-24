@@ -834,6 +834,7 @@
             payC.fromType = PayWayFromOrderWholesale;
             payC.goodID = _selectedOrder.orderGood.goodID;
             payC.goodName = _selectedOrder.orderGood.goodName;
+            payC.isPayPartMoney = YES;  //部分付款
             [self.navigationController pushViewController:payC animated:YES];
         }
     }

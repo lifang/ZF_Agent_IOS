@@ -105,9 +105,11 @@
     }
     NSArray *list = [dict objectForKey:@"result"];
     for (int i = 0; i < [list count]; i++) {
-        NSDictionary *channelDict = [list objectAtIndex:i];
-        ChannelListModel *model = [[ChannelListModel alloc] initWithParsePGChannelDictionary:channelDict];
-        [_channelList addObject:model];
+        id channelDict = [list objectAtIndex:i];
+        if ([channelDict isKindOfClass:[NSDictionary class]]) {
+            ChannelListModel *model = [[ChannelListModel alloc] initWithParsePGChannelDictionary:channelDict];
+            [_channelList addObject:model];
+        }
     }
     if ([_channelList count] <= 0) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];

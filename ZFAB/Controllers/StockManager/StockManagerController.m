@@ -203,9 +203,19 @@
 #pragma mark - StockCellDelegate
 
 - (void)stockCellRenameForGood:(StockListModel *)model {
-    StockRenameController *renameC = [[StockRenameController alloc] init];
-    renameC.stockModel = model;
-    [self.navigationController pushViewController:renameC animated:YES];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    if (delegate.userType == UserEmployee || (delegate.userType == UserAgent && delegate.isFirstLevelAgent)) {
+        StockRenameController *renameC = [[StockRenameController alloc] init];
+        renameC.stockModel = model;
+        [self.navigationController pushViewController:renameC animated:YES];
+    }
+    else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"没有权限";
+    }
 }
 
 - (void)stockCellGoWholesale:(StockListModel *)model {

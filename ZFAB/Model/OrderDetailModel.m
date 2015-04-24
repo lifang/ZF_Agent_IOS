@@ -53,10 +53,22 @@
             _orderNumber = @"";
         }
         if ([dict objectForKey:@"order_payment_type"]) {
-            _payType = [NSString stringWithFormat:@"%@",[dict objectForKey:@"order_payment_type"]];
+            int payTag = [[dict objectForKey:@"order_payment_type"] intValue];
+            if (payTag == 1) {
+                _payType = @"支付宝";
+            }
+            else if (payTag == 2) {
+                _payType = @"银联";
+            }
+            else if (payTag == 3) {
+                _payType = @"现金";
+            }
+            else {
+                _payType = @"其他";
+            }
         }
         else {
-            _payType = @"";
+            _payType = @"其他";
         }
         if ([dict objectForKey:@"order_createTime"]) {
             _createTime = [NSString stringWithFormat:@"%@",[dict objectForKey:@"order_createTime"]];

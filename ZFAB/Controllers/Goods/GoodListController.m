@@ -256,10 +256,10 @@
     static NSString *goodListIdentifier = @"goodListIdentifier";
     GoodListCell *cell = [tableView dequeueReusableCellWithIdentifier:goodListIdentifier];
     if (cell == nil) {
-        cell = [[GoodListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:goodListIdentifier];
+        cell = [[GoodListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:goodListIdentifier supplyType:_supplyType];
     }
     GoodListModel *model = [_dataItem objectAtIndex:indexPath.row];
-    [cell setContentWithData:model];
+    [cell setContentWithData:model supplyType:_supplyType];
     return cell;
 }
 

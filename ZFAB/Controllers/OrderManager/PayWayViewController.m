@@ -18,6 +18,8 @@
 
 @property (nonatomic, strong) UILabel *priceLabel;
 
+@property (nonatomic, assign) CGFloat remainPrice;  //剩余金额 批购付款用到
+
 @end
 
 @implementation PayWayViewController
@@ -28,12 +30,17 @@
     self.title = @"选择支付方式";
 //    [self initAndLauoutUI];
     self.view.backgroundColor = kColor(244, 243, 243, 1);
-    [self getOrderInfo];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithImage:kImageName(@"back.png")
                                                                  style:UIBarButtonItemStyleBordered
                                                                 target:self
                                                                 action:@selector(showBack:)];
     self.navigationItem.leftBarButtonItem = leftItem;
+    if (_fromType == PayWayFromGoodWholesale || _fromType == PayWayFromOrderWholesale) {
+        [self getWholesaleOrderInfo];
+    }
+    else {
+        [self getProcurementOrderInfo];
+    }
     NSLog(@"goodID = %@",_goodID);
 }
 
@@ -122,7 +129,8 @@
 
 #pragma mark - Request
 
-- (void)getOrderInfo {
+//批购
+- (void)getWholesaleOrderInfo {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     [NetworkInterface orderConfirmWithOrderID:_orderID finished:^(BOOL success, NSData *response) {
@@ -141,6 +149,39 @@
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
                     [self parseOrderDataWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+//代购
+- (void)getProcurementOrderInfo {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface payProcurementWithOrderID:_orderID finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseProcurementDataWithDictionary:object];
                 }
             }
             else {
@@ -188,19 +229,39 @@
 }
 
 #pragma mark - Data
-
+//批购
 - (void)parseOrderDataWithDictionary:(NSDictionary *)dict {
     if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
         return;
     }
     id infoDict = [dict objectForKey:@"result"];
+    CGFloat payMoney = _totalPrice;
     if ([infoDict isKindOfClass:[NSDictionary class]]) {
         if (_fromType == PayWayFromGoodWholesale || _fromType == PayWayFromOrderWholesale) {
-            _totalPrice = [[infoDict objectForKey:@"price_dingjin"] floatValue] / 100;
+            payMoney = [[infoDict objectForKey:@"price_dingjin"] floatValue] / 100;
+            _remainPrice = [[infoDict objectForKey:@"shengyu_price"] floatValue] / 100;
         }
         else {
-            _totalPrice = [[infoDict objectForKey:@"order_totalPrice"] floatValue] / 100;
+            payMoney = [[infoDict objectForKey:@"order_totalPrice"] floatValue] / 100;
         }
+        _payNumber = [infoDict objectForKey:@"order_number"];
+    }
+    [self initAndLauoutUI];
+    if (_isPayPartMoney) {
+        payMoney = _totalPrice;
+    }
+    _priceLabel.text = [NSString stringWithFormat:@"￥%.2f",payMoney];
+    _totalPrice = payMoney;
+}
+
+//代购
+- (void)parseProcurementDataWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+        return;
+    }
+    id infoDict = [dict objectForKey:@"result"];
+    if ([infoDict isKindOfClass:[NSDictionary class]]) {
+        _totalPrice = [[infoDict objectForKey:@"total_price"] floatValue] / 100;
         _payNumber = [infoDict objectForKey:@"order_number"];
     }
     [self initAndLauoutUI];
@@ -223,6 +284,15 @@
 - (void)payWithAlipay {
     //支付宝
     if (_payNumber) {
+        if ((_fromType == PayWayFromGoodWholesale || _fromType == PayWayFromOrderWholesale) && _totalPrice > _remainPrice) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                            message:@"本次支付金额大于剩余金额，请重新支付"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
         [AlipayHelper alipayWithOrderNumber:_payNumber goodName:_goodName totalPrice:_totalPrice payResult:^(NSDictionary *resultDict) {
             int resultCode = [[resultDict objectForKey:@"resultStatus"] intValue];
             NSString *tipString = @"";
