@@ -734,6 +734,76 @@ typedef enum {
     }];
 }
 
+- (void)synchronizeTerminal {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface synchronousTerminalWithTerminalID:_terminalModel.terminalID finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    hud.labelText = @"同步成功";
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
+- (void)findPOSPassword {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    [NetworkInterface findPOSPasswordWithTerminalID:_terminalModel.terminalID finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    id tipInfo = [object objectForKey:@"result"];
+                    if ([tipInfo isKindOfClass:[NSString class]]) {
+                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                                            message:tipInfo
+                                                                           delegate:nil cancelButtonTitle:@"确定"otherButtonTitles:nil];
+                        [alertView show];
+                    }
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
 #pragma mark - Data
 
 - (void)parseTerminalDetailDataWithDictionary:(NSDictionary *)dict {
@@ -985,7 +1055,7 @@ typedef enum {
 
 //同步
 - (IBAction)synchronization:(id)sender {
-    
+    [self synchronizeTerminal];
 }
 
 //视频认证
@@ -1023,7 +1093,7 @@ typedef enum {
 
 //找回POS密码
 - (IBAction)findPassword:(id)sender {
-    
+    [self findPOSPassword];
 }
 
 

@@ -346,6 +346,7 @@
         _wholesalePriceLabel.font = [UIFont boldSystemFontOfSize:15.f];
         _wholesalePriceLabel.textColor = kColor(255, 102, 36, 1);
         _wholesalePriceLabel.text = [NSString stringWithFormat:@"￥%.2f",model.goodPrimaryPrice];
+        _salesVolumeLabel.text = [NSString stringWithFormat:@"已售%d",model.procurementSaleNumber];
     }
     else {
         NSString *primaryPrice = [NSString stringWithFormat:@"原价 ￥%.2f",model.goodPrimaryPrice];
@@ -370,8 +371,8 @@
         [wholesaleAttrString addAttributes:contentAttr range:NSMakeRange(4, [wholesaleAttrString length] - 4)];
         _wholesalePriceLabel.attributedText = wholesaleAttrString;
         _minWholesaleLabel.text = [NSString stringWithFormat:@"最小起批量：%d件",model.minWholesaleNumber];
+        _salesVolumeLabel.text = [NSString stringWithFormat:@"已售%d",model.wholesaleSaleNumber];
     }
-    _salesVolumeLabel.text = [NSString stringWithFormat:@"已售%d",model.goodSaleNumber];
     _brandLabel.text = [NSString stringWithFormat:@"品牌型号   %@%@",model.goodBrand,model.goodModel];
     _channelLabel.text = [NSString stringWithFormat:@"支付通道   %@",model.goodChannel];
     [_pictureView sd_setImageWithURL:[NSURL URLWithString:model.goodImagePath]];

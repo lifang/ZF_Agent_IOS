@@ -25,6 +25,7 @@
 + (void)alipayWithOrderNumber:(NSString *)orderNumber
                      goodName:(NSString *)goodName
                    totalPrice:(CGFloat)totalPrice
+                  isWholesale:(BOOL)isWholesale
                     payResult:(CompletionBlock)payResult;
 
 @end

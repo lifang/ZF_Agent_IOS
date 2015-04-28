@@ -11,6 +11,7 @@
 #import "FindPasswordController.h"
 #import "RegisterViewController.h"
 #import "NetworkInterface.h"
+#import "UserArchiveHelper.h"
 
 @interface LoginViewController ()<UITextFieldDelegate>
 
@@ -30,6 +31,13 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     [self initAndLayoutUI];
+    CGFloat topHeight = self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height;
+    self.primaryPoint = CGPointMake(0, self.view.frame.origin.y + topHeight);
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self fillingUser];
+    [super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -119,7 +127,7 @@
     _usernameField.borderStyle = UITextBorderStyleNone;
     _usernameField.background = kImageName(@"login_textback.png");
     _usernameField.delegate = self;
-    NSMutableAttributedString *usernameString = [[NSMutableAttributedString alloc] initWithString:@"请输入手机/邮箱"];
+    NSMutableAttributedString *usernameString = [[NSMutableAttributedString alloc] initWithString:@"使用id登录"];
     [usernameString addAttributes:textDict range:NSMakeRange(0, [usernameString length])];
     _usernameField.attributedPlaceholder = usernameString;
     _usernameField.font = [UIFont systemFontOfSize:15.f];
@@ -320,9 +328,6 @@
                                                           attribute:NSLayoutAttributeHeight
                                                          multiplier:0.0
                                                            constant:32.f]];
-    _usernameField.text = @"2833761825@qq.cm";
-    _passwordField.text = @"1991912";
-    
 }
 
 
@@ -371,6 +376,7 @@
         return;
     }
     NSDictionary *infoDict = [dict objectForKey:@"result"];
+    [self saveLoginUser];
     [[AppDelegate shareAppDelegate] saveLoginInfo:infoDict];
     [[AppDelegate shareRootViewController] showMainViewController];
 }
@@ -401,11 +407,59 @@
     [self.navigationController pushViewController:registerC animated:YES];
 }
 
+#pragma mark - 数据处理
+
+//初始化完成后查找上次登录的用户
+- (void)fillingUser {
+    LoginUserModel *user = [UserArchiveHelper getLastestUser];
+    if (user) {
+        _usernameField.text = user.username;
+        _passwordField.text = user.password;
+    }
+}
+
+//保存登录用户
+- (void)saveLoginUser {
+    LoginUserModel *user = [[LoginUserModel alloc] init];
+    user.username = _usernameField.text;
+    user.password = _passwordField.text;
+    [UserArchiveHelper savePasswordForUser:user];
+}
+
 #pragma mark - UITextField
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    self.editingField = textField;
+    return YES;
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    self.editingField = nil;
     [textField resignFirstResponder];
     return YES;
+}
+
+#pragma mark - 键盘
+
+- (void)handleKeyboardDidShow:(NSNotification *)paramNotification {
+    //获取键盘高度
+    CGRect keyboardRect = [[[paramNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect fieldRect = [[self.editingField superview] convertRect:self.editingField.frame toView:self.view];
+    CGFloat topHeight = self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height;
+    CGFloat offsetY = keyboardRect.size.height - (kScreenHeight - topHeight - fieldRect.origin.y - fieldRect.size.height);
+    if (offsetY > 0 && self.offset == 0) {
+        self.offset = offsetY;
+        [UIView animateWithDuration:0.3f animations:^{
+            self.view.frame = CGRectMake(self.primaryPoint.x, self.primaryPoint.y - offsetY, self.view.bounds.size.width, self.view.bounds.size.height);
+        }];
+    }
+}
+
+- (void)handleKeyboardDidHidden {
+    self.offset = 0;
+    [UIView animateWithDuration:0.3f animations:^{
+        self.view.frame = CGRectMake(self.primaryPoint.x, self.primaryPoint.y, self.view.bounds.size.width, self.view.bounds.size.height);
+    }];
 }
 
 

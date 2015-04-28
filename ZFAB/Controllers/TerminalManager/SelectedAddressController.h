@@ -25,4 +25,6 @@ static NSString *RefreshSelectedAddressNotification = @"RefreshSelectedAddressNo
 
 @property (nonatomic, strong) NSMutableArray *addressItems;
 
+@property (nonatomic, strong) NSString *userID;  //获取哪一个用户的地址
+
 @end

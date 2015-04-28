@@ -22,12 +22,17 @@ typedef enum {
 typedef enum {
     WholesaleStatusAll = -1,
     WholesaleStatusUnPaid = 1,   //未付款
-    WholesaleStatusPartPaid,     //已付定金
+    WholesaleStatusPaid,         //已付款
     WholesaleStatusFinish,       //已完成
     WholesaleStatusReview,       //已评价
     WholesaleStatusCancel,       //已取消
     wholesaleStautsClosed,       //交易关闭
 }WholesaleOrderStatus;  //批购订单状态
+
+typedef enum {
+    DepositUnpaid = 1,   //未付定金
+    DepositPaid = 2,         //已付定金
+}DepositStatus;    //定金支付状态
 
 //批购 取消订单+支付定金
 static NSString *wholesaleUnpaidIdentifier = @"wholesaleUnpaidIdentifier";
@@ -74,7 +79,9 @@ static NSString *procurementThirdIdentifier = @"procurementThirdIdentifier";
 
 @property (nonatomic, strong) NSString *orderTime;
 
-@property (nonatomic, assign) int status;
+@property (nonatomic, assign) int status;    //订单状态
+
+@property (nonatomic, assign) int payStatus; //定金状态
 
 @property (nonatomic, strong) OrderGoodModel *orderGood;
 

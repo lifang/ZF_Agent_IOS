@@ -157,9 +157,9 @@
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
     switch (indexPath.section) {
         case 0: {
-            _textView.frame = CGRectMake(10, 0, kScreenWidth - 20, 180);
+            _textView.frame = CGRectMake(10, 0, kScreenWidth - 20, 160);
             _placeholderLabel.frame = CGRectMake(15, 7, kScreenWidth - 20, 20.f);
-            _tipLabel.frame = CGRectMake(10, 180, kScreenWidth - 20, 20);
+            _tipLabel.frame = CGRectMake(10, 160, kScreenWidth - 20, 20);
             [cell.contentView addSubview:_textView];
             [cell.contentView addSubview:_placeholderLabel];
             [cell.contentView addSubview:_tipLabel];
@@ -175,7 +175,7 @@
     CGFloat height = 0.f;
     switch (indexPath.section) {
         case 0:
-            height = 200;
+            height = 180;
             break;
         default:
             break;

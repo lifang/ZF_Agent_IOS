@@ -31,11 +31,6 @@
     // Do any additional setup after loading the view.
     self.title = _subAgent.agentName;
     self.view.backgroundColor = kColor(244, 243, 243, 1);
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"设置分润"
-                                                                  style:UIBarButtonItemStyleBordered
-                                                                 target:self
-                                                                 action:@selector(setBenefit:)];
-    self.navigationItem.rightBarButtonItem = rightItem;
     [self getSubAgentDetail];
 }
 
@@ -148,6 +143,46 @@
     }];
 }
 
+- (void)setHasBenefit {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"提交中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    int benefit = 1;
+    if (_benefitBtn.isSelected) {
+        benefit = 2;
+    }
+    [NetworkInterface setHasBenefitWithAgentID:delegate.agentID subAgentID:_subAgent.agentID hasBenefit:benefit finished:^(BOOL success, NSData *response) {
+        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [object objectForKey:@"code"];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    hud.labelText = @"设置成功";
+                    [self showButtonStatus];
+                    _agentDetail.hasProfit = _benefitBtn.isSelected;
+                    [self showSettingBenefitItem];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
 #pragma mark - Data
 
 - (void)parseAgentDetailWithDictionary:(NSDictionary *)dict {
@@ -163,7 +198,30 @@
         _typeLabel.text = @"代理商类型：个人";
     }
     if (_agentDetail.hasProfit) {
-        [self needBenefit:nil];
+        [self showButtonStatus];
+    }
+}
+
+- (void)showSettingBenefitItem {
+    if (_benefitBtn.isSelected) {
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"设置分润"
+                                                                      style:UIBarButtonItemStyleBordered
+                                                                     target:self
+                                                                     action:@selector(setBenefit:)];
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+    else {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+}
+
+- (void)showButtonStatus {
+    _benefitBtn.selected = !_benefitBtn.selected;
+    if (_benefitBtn.isSelected) {
+        [_benefitBtn setBackgroundImage:kImageName(@"btn_selected.png") forState:UIControlStateNormal];
+    }
+    else {
+        [_benefitBtn setBackgroundImage:kImageName(@"btn_unselected.png") forState:UIControlStateNormal];
     }
 }
 
@@ -176,13 +234,7 @@
 }
 
 - (IBAction)needBenefit:(id)sender {
-    _benefitBtn.selected = !_benefitBtn.selected;
-    if (_benefitBtn.isSelected) {
-        [_benefitBtn setBackgroundImage:kImageName(@"btn_selected.png") forState:UIControlStateNormal];
-    }
-    else {
-        [_benefitBtn setBackgroundImage:kImageName(@"btn_unselected.png") forState:UIControlStateNormal];
-    }
+    [self setHasBenefit];
 }
 
 #pragma mark - UITableView

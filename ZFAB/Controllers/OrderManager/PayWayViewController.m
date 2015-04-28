@@ -9,6 +9,7 @@
 #import "PayWayViewController.h"
 #import "OrderDetailController.h"
 #import "AlipayHelper.h"
+#import "OrderManagerController.h"
 
 @interface PayWayViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
 
@@ -293,12 +294,17 @@
             [alert show];
             return;
         }
-        [AlipayHelper alipayWithOrderNumber:_payNumber goodName:_goodName totalPrice:_totalPrice payResult:^(NSDictionary *resultDict) {
+        BOOL isWholesale = NO;
+        if (_fromType == PayWayFromGoodWholesale || _fromType == PayWayFromOrderWholesale) {
+            isWholesale = YES;
+        }
+        [AlipayHelper alipayWithOrderNumber:_payNumber goodName:_goodName totalPrice:_totalPrice isWholesale:isWholesale payResult:^(NSDictionary *resultDict) {
             int resultCode = [[resultDict objectForKey:@"resultStatus"] intValue];
             NSString *tipString = @"";
             if (resultCode == 9000) {
 //                [self performSelector:@selector(updatOrderAfterPay) withObject:nil afterDelay:0.1f];
                 tipString = @"订单支付成功";
+                [[NSNotificationCenter defaultCenter] postNotificationName:RefreshOrderListNotification object:nil];
                 [self performSelector:@selector(showDetail) withObject:nil afterDelay:0.5];
             }
             else {
@@ -371,6 +377,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
         [self payWithAlipay];
+    }
+    else if (indexPath.section == 1) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"尚未接入银联支付";
     }
 }
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 ___MyCompanyName___. All rights reserved.
 //
 
-#import "CommonViewController.h"
+#import "RefreshViewController.h"
 #import "BankModel.h"
 
 @protocol BankSelectedDelegate <NSObject>
@@ -15,10 +15,14 @@
 
 @end
 
-@interface BankSelectedController : CommonViewController
+@interface BankSelectedController : RefreshViewController
 
 @property (nonatomic, assign) id<BankSelectedDelegate>delegate;
 
-@property (nonatomic, strong) NSMutableArray *bankItems;
+@property (nonatomic, strong) NSMutableArray *dataItem;
+
+@property (nonatomic, strong) NSString *terminalID;
+
+@property (nonatomic, strong) NSString *key;
 
 @end

@@ -322,9 +322,9 @@
             break;
         case 2: {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-            _textView.frame = CGRectMake(10, 0, kScreenWidth - 20, 180);
+            _textView.frame = CGRectMake(10, 0, kScreenWidth - 20, 160);
             _placeholderLabel.frame = CGRectMake(15, 7, kScreenWidth - 20, 20.f);
-            _tipLabel.frame = CGRectMake(10, 180, kScreenWidth - 20, 20);
+            _tipLabel.frame = CGRectMake(10, 160, kScreenWidth - 20, 20);
             [cell.contentView addSubview:_textView];
             [cell.contentView addSubview:_placeholderLabel];
             [cell.contentView addSubview:_tipLabel];
@@ -346,7 +346,7 @@
             height = 80.f;
             break;
         case 2:
-            height = 200.f;
+            height = 180.f;
             break;
         default:
             break;
@@ -427,5 +427,33 @@
     _selectedTerminalList = [notification.userInfo objectForKey:kTMTermainalList];
     [_tableView reloadData];
 }
+
+#pragma mark - 键盘
+
+- (void)handleKeyboardDidShow:(NSNotification *)paramNotification {
+    //获取键盘高度
+    CGRect keyboardRect = [[[paramNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect fieldRect = [[_textView superview] convertRect:_textView.frame toView:self.view];
+    CGFloat topHeight = self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height;
+    CGFloat offsetY = keyboardRect.size.height - (kScreenHeight - topHeight - fieldRect.origin.y - fieldRect.size.height);
+    if (offsetY > 0 && self.offset == 0) {
+        self.primaryPoint = self.tableView.contentOffset;
+        self.offset = offsetY;
+        [self.tableView setContentOffset:CGPointMake(0, self.primaryPoint.y + self.offset) animated:YES];
+    }
+}
+
+- (void)handleKeyboardDidHidden {
+    [self.tableView setContentOffset:CGPointMake(0, self.primaryPoint.y) animated:YES];
+    self.offset = 0;
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    if (_textView.isFirstResponder) {
+        self.offset = 0;
+        [_textView resignFirstResponder];
+    }
+}
+
 
 @end

@@ -34,6 +34,8 @@
 
 @property (nonatomic, assign) int orderStatus;
 
+@property (nonatomic, assign) int payStatus;         //定金状态
+
 @property (nonatomic, assign) CGFloat actualPrice;   //实付金额
 
 @property (nonatomic, strong) NSString *terminals;

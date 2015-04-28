@@ -12,16 +12,16 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-    TradeStatusUnPaid = 1,   //待付款
-    TradeStatusFinish,       //交易完成
+    TradeStatusFinish = 1,       //交易完成
     TradeStatusFail,         //交易失败
+    TradeStatusWaiting,      //交易结果待确认
 }TradeStatus; //交易流水状态
 
 @interface TradeModel : NSObject
 
 //交易流水id
 @property (nonatomic, strong) NSString *tradeID;
-//交易状态（1.待付款 2.交易完成 3.交易失败）
+//交易状态（1.交易完成 2.交易失败 3.交易结果待确认）
 @property (nonatomic, strong) NSString *tradeStatus;
 //终端号
 @property (nonatomic, strong) NSString *terminalNumber;

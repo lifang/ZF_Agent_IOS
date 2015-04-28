@@ -431,7 +431,7 @@
             case WholesaleStatusUnPaid:
                 title = @"未付款";
                 break;
-            case WholesaleStatusPartPaid:
+            case WholesaleStatusPaid:
                 title = @"已付定金";
                 break;
             case WholesaleStatusFinish:
@@ -579,12 +579,12 @@
                                                action:@selector(selectStatus:)
                                         selectedTitle:_statusLabel.text
                                                   tag:WholesaleStatusUnPaid],
-                                 [KxMenuItem menuItem:[self stringForOrderStatus:WholesaleStatusPartPaid]
+                                 [KxMenuItem menuItem:[self stringForOrderStatus:WholesaleStatusPaid]
                                                 image:nil
                                                target:self
                                                action:@selector(selectStatus:)
                                         selectedTitle:_statusLabel.text
-                                                  tag:WholesaleStatusPartPaid],
+                                                  tag:WholesaleStatusPaid],
                                  [KxMenuItem menuItem:[self stringForOrderStatus:WholesaleStatusFinish]
                                                 image:nil
                                                target:self
@@ -632,7 +632,7 @@
     NSString *identifier = [model getCellIdentifierWithSupplyType:_supplyType];
     OrderCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
-        cell =[[ OrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier supplyType:_supplyType];
+        cell = [[ OrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier supplyType:_supplyType];
     }
     cell.delegate = self;
     [cell setContentsWithData:model];
@@ -843,6 +843,7 @@
 #pragma mark - NSNotification
 
 - (void)refreshOrderList:(NSNotification *)notification {
+    NSLog(@"!!!!");
     [self performSelector:@selector(firstLoadData) withObject:nil afterDelay:0.1f];
 }
 

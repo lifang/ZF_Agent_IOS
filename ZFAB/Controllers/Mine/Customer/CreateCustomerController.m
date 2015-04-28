@@ -45,8 +45,8 @@
         [self getCustomerDetail];
         _realnameField.userInteractionEnabled = NO;
         _usernameField.userInteractionEnabled = NO;
-        _passwordField.userInteractionEnabled = NO;
-        _confirmField.userInteractionEnabled = NO;
+//        _passwordField.userInteractionEnabled = NO;
+//        _confirmField.userInteractionEnabled = NO;
     }
     else {
         self.title = @"创建员工账号";
@@ -226,7 +226,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface modifyCustomerWithToken:delegate.token employeeID:_customer.ID authority:authString password:@"" finished:^(BOOL success, NSData *response) {
+    [NetworkInterface modifyCustomerWithToken:delegate.token employeeID:_customer.ID authority:authString password:_passwordField.text finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -340,12 +340,40 @@
             hud.labelText = @"两次输入的密码不一致";
             return;
         }
+        if ([_passwordField.text length] < 6 || [_passwordField.text length] > 20) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"密码长度为6-20位字符";
+            return;
+        }
         [_realnameField becomeFirstResponder];
         [_realnameField resignFirstResponder];
         [self createCustomer];
-
     }
     else {
+        [_passwordField becomeFirstResponder];
+        [_passwordField resignFirstResponder];
+        if ((_passwordField.text && ![_passwordField.text isEqualToString:@""]) ||
+            (_confirmField.text && ![_confirmField.text isEqualToString:@""])) {
+            if (![_confirmField.text isEqualToString:_passwordField.text]) {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"两次输入的密码不一致";
+                return;
+            }
+            if ([_passwordField.text length] < 6 || [_passwordField.text length] > 20) {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"密码长度为6-20位字符";
+                return;
+            }
+        }
         [self modifyCustomer];
     }
 }

@@ -9,6 +9,7 @@
 #import "TradeDetailController.h"
 #import "AppDelegate.h"
 #import "TradeModel.h"
+#import "StringFormat.h"
 
 @interface TradeDetailController ()
 
@@ -405,23 +406,23 @@
     terminalLabel.text = [NSString stringWithFormat:@"终   端   号   %@",_terminalNumber];
     switch (_tradeType) {
         case TradeTypeTransfer:
-            payFromLabel.text = [NSString stringWithFormat:@"付 款 账 号   %@",_payFromAccount];
-            payToLabel.text = [NSString stringWithFormat:@"收 款 账 号   %@",_payToAccount];
+            payFromLabel.text = [NSString stringWithFormat:@"付 款 账 号   %@",[StringFormat serectAccountString:_payFromAccount]];
+            payToLabel.text = [NSString stringWithFormat:@"收 款 账 号   %@",[StringFormat serectAccountString:_payToAccount]];
             break;
         case TradeTypeConsume:
             payFromLabel.text = [NSString stringWithFormat:@"结 算 时 间   %@",_payedTime];
             payToLabel.text = [NSString stringWithFormat:@"手   续   费   %.2f",_tradePoundage];
             break;
         case TradeTypeRepayment:
-            payFromLabel.text = [NSString stringWithFormat:@"付 款 账 号   %@",_payFromAccount];
-            payToLabel.text = [NSString stringWithFormat:@"转 入 账 号   %@",_payToAccount];
+            payFromLabel.text = [NSString stringWithFormat:@"付 款 账 号   %@",[StringFormat serectAccountString:_payFromAccount]];
+            payToLabel.text = [NSString stringWithFormat:@"转 入 账 号   %@",[StringFormat serectAccountString:_payToAccount]];
             break;
         case TradeTypeLife:
-            payFromLabel.text = [NSString stringWithFormat:@"账   户   名   %@",_accountName];
-            payToLabel.text = [NSString stringWithFormat:@"账 户 号 码   %@",_accountNumber];
+            payFromLabel.text = [NSString stringWithFormat:@"账   户   名   %@",[StringFormat serectNameString:_accountName]];
+            payToLabel.text = [NSString stringWithFormat:@"账 户 号 码   %@",[StringFormat serectAccountString:_accountNumber]];
             break;
         case TradeTypeTelephoneFare:
-            payFromLabel.text = [NSString stringWithFormat:@"手 机 号 码   %@",_phoneNumber];
+            payFromLabel.text = [NSString stringWithFormat:@"手 机 号 码   %@",[StringFormat serectAccountString:_phoneNumber]];
             break;
         default:
             break;
@@ -625,14 +626,14 @@
     NSString *tradeStatus = nil;
     int index = [indexString intValue];
     switch (index) {
-        case TradeStatusUnPaid:
-            tradeStatus = @"未付款";
-            break;
         case TradeStatusFinish:
             tradeStatus = @"交易完成";
             break;
         case TradeStatusFail:
             tradeStatus = @"交易失败";
+            break;
+        case TradeStatusWaiting:
+            tradeStatus = @"交易结果待确认";
             break;
         default:
             break;

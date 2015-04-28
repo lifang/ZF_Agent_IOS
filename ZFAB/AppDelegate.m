@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <AlipaySDK/AlipaySDK.h>
+#import "UserArchiveHelper.h"
 
 @interface AppDelegate ()
 
@@ -128,16 +129,25 @@
 }
 
 - (void)loginOut {
-    _agentID = nil;
-    _userID = nil;
-    _agentUserID = nil;
-    _cityID = nil;
-    _userType = 0;
+    _agentID = @"";
+    _userID = @"";
+    _agentUserID = @"";
+    _cityID = @"";
+    _userType = 2;
     _hasProfit = NO;
     _isFirstLevelAgent = NO;
     [_authDict removeAllObjects];
     for (int i = 1; i < 11; i++) {
         [_authDict setObject:[NSNumber numberWithBool:NO] forKey:[NSNumber numberWithInt:i]];
+    }
+    [self deleteUserPassword];
+}
+
+- (void)deleteUserPassword {
+    LoginUserModel *user = [UserArchiveHelper getLastestUser];
+    if (user) {
+        user.password = nil;
+        [UserArchiveHelper savePasswordForUser:user];
     }
 }
 

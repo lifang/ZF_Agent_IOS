@@ -65,6 +65,7 @@
             _orderTime = @"";
         }
         _status = [[dict objectForKey:@"order_status"] intValue];
+        _payStatus = [[dict objectForKey:@"pay_status"] intValue];
         
         id goodList = [dict objectForKey:@"order_goodsList"];
         if ([goodList isKindOfClass:[NSArray class]] && [goodList count] > 0) {
@@ -102,10 +103,15 @@
     if (supplyType == SupplyGoodsWholesale) {
         switch (_status) {
             case WholesaleStatusUnPaid:
-                identifier = wholesaleUnpaidIdentifier;
+                if (_payStatus == DepositPaid) {
+                    identifier = wholesaleDepositIdentifier;
+                }
+                else {
+                    identifier = wholesaleUnpaidIdentifier;
+                }
                 break;
-            case WholesaleStatusPartPaid:
-                identifier = wholesaleDepositIdentifier;
+            case WholesaleStatusPaid:
+                identifier = wholesaleCancelIdentifier;
                 break;
             case WholesaleStatusFinish:
                 identifier = wholesaleFinishIdentifier;
@@ -149,10 +155,15 @@
     if (supplyType == SupplyGoodsWholesale) {
         switch (_status) {
             case WholesaleStatusUnPaid:
-                statusString = @"未付款";
+                if (_payStatus == DepositPaid) {
+                    statusString = @"已付定金";
+                }
+                else {
+                    statusString = @"未付款";
+                }
                 break;
-            case WholesaleStatusPartPaid:
-                statusString = @"已付定金";
+            case WholesaleStatusPaid:
+                statusString = @"已付款";
                 break;
             case WholesaleStatusFinish:
                 statusString = @"已完成";

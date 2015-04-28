@@ -121,6 +121,9 @@ static NSString *s_merchantList_method = @"terminal/getMerchants";
 //20.终端管理——获取终端列表
 static NSString *s_terminalList_method = @"terminal/getTerminalList";
 
+//23.终端管理——同步
+static NSString *s_synchronous_method = @"terminal/synchronous";
+
 //25.终端管理——添加用户验证码
 static NSString *s_addUserValidate_method = @"terminal/sendPhoneVerificationCodeReg";
 
@@ -382,6 +385,12 @@ static NSString *s_orderPaySuccess_method = @"pay/alipayback";
 //代购订单支付
 static NSString *s_procurementPay_method = @"shop/payOrder";
 
+//设置是否分润
+static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
+
+//找回POS机密码
+static NSString *s_findPOS_method = @"terminal/encryption";
+
 @interface NetworkInterface : NSObject
 
 /*!
@@ -521,11 +530,17 @@ static NSString *s_procurementPay_method = @"shop/payOrder";
 /*!
  @abstract 13.申请开通——选择银行
  @param token    登录返回
+ @param terminalID  终端号
  @param keyword  关键字
+ @param page     分页参数 页
+ @param rows     分页参数 行
  @result finish  请求回调结果
  */
 + (void)getBankListWithToken:(NSString *)token
+                  terminalID:(NSString *)terminalID
                      keyword:(NSString *)keyword
+                        page:(int)page
+                        rows:(int)rows
                     finished:(requestDidFinished)finish;
 
 /*!
@@ -593,6 +608,14 @@ static NSString *s_procurementPay_method = @"shop/payOrder";
                           finished:(requestDidFinished)finish;
 
 /*!
+ @abstract 23.终端管理——同步
+ @param terminalID  终端号
+ @result finish  请求回调结果
+ */
++ (void)synchronousTerminalWithTerminalID:(NSString *)terminalID
+                                 finished:(requestDidFinished)finish;
+
+/*!
  @abstract 25.添加用户手机验证码
  @param mobileNumber  手机号
  @result finish  请求回调结果
@@ -606,7 +629,8 @@ static NSString *s_procurementPay_method = @"shop/payOrder";
  @param token    登录返回
  @param name     用户名
  @param password 密码
- @param codeNumber   验证码
+ @param phoneNumber  手机号
+ @param codeNumber  验证码
  @param cityID   城市id
  @result finish  请求回调结果
  */
@@ -614,6 +638,7 @@ static NSString *s_procurementPay_method = @"shop/payOrder";
                      token:(NSString *)token
                   username:(NSString *)name
                   password:(NSString *)password
+               phoneNumber:(NSString *)phoneNumber
                 codeNumber:(NSString *)codeNumber
                     cityID:(NSString *)cityID
                   finished:(requestDidFinished)finish;
@@ -1721,5 +1746,25 @@ static NSString *s_procurementPay_method = @"shop/payOrder";
  */
 + (void)payProcurementWithOrderID:(NSString *)orderID
                          finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 设置是否分润
+ @param agentID  代理商id
+ @param subAgentID    登录返回
+ @param benefit  1.无 2.有
+ @result finish  请求回调结果
+ */
++ (void)setHasBenefitWithAgentID:(NSString *)agentID
+                      subAgentID:(NSString *)subAgentID
+                      hasBenefit:(int)benefit
+                        finished:(requestDidFinished)finish;
+
+/*!
+ @abstract 找回POS机密码
+ @param terminalID  终端id
+ @result finish  请求回调结果
+ */
++ (void)findPOSPasswordWithTerminalID:(NSString *)terminalID
+                             finished:(requestDidFinished)finish;
 
 @end

@@ -48,7 +48,8 @@
         _isRent = [[dict objectForKey:@"has_lease"] boolValue];
         _goodPrimaryPrice = [[dict objectForKey:@"retail_price"] floatValue] / 100;
         _goodWholesalePrice = [[dict objectForKey:@"purchase_price"] floatValue] / 100;
-        _goodSaleNumber = [[dict objectForKey:@"volume_number"] intValue];
+        _wholesaleSaleNumber = [[dict objectForKey:@"purchase_number"] intValue];
+        _procurementSaleNumber = [[dict objectForKey:@"volume_number"] intValue];
         _minWholesaleNumber = [[dict objectForKey:@"floor_purchase_quantity"] intValue];
     }
     return self;

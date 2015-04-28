@@ -10,11 +10,15 @@
 #import "Order.h"
 #import "DataSigner.h"
 
+static NSString *whalesaleCallBackURL = @"http://121.40.84.2:28080/ZFAgent/deposit_app_notify_url.jsp";
+static NSString *procurementCallBackURL = @"http://121.40.84.2:28080/ZFAgent/notify_url.jsp";
+
 @implementation AlipayHelper
 
 + (void)alipayWithOrderNumber:(NSString *)orderNumber
                      goodName:(NSString *)goodName
                    totalPrice:(CGFloat)totalPrice
+                  isWholesale:(BOOL)isWholesale
                     payResult:(CompletionBlock)payResult {
     //将商品信息赋予AlixPayOrder的成员变量
     Order *order = [[Order alloc] init];
@@ -24,7 +28,12 @@
     order.productName = goodName; //商品标题
     order.productDescription = goodName; //商品描述
     order.amount = [NSString stringWithFormat:@"%.2f",0.01f]; //商品价格
-    order.notifyURL = @"http://121.40.84.2:8080/ZFMerchant/notify_url.jsp"; //回调URL
+    if (isWholesale) {
+        order.notifyURL = whalesaleCallBackURL; //回调URL
+    }
+    else {
+        order.notifyURL = procurementCallBackURL;
+    }
     
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";

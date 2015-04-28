@@ -15,4 +15,10 @@
                    withFont:(UIFont *)font
                       width:(CGFloat)width;
 
+//账户隐藏倒数5-8位
++ (NSString *)serectAccountString:(NSString *)string;
+
+//名字隐藏第二位
++ (NSString *)serectNameString:(NSString *)string;
+
 @end

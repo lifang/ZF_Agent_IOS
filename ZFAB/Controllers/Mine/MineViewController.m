@@ -258,7 +258,7 @@ static NSString *s_phoneNumber = @"4000908076";
 #pragma mark - Action
 
 - (IBAction)signOut:(id)sender {
-//    [[AppDelegate shareAppDelegate] loginOut];
+    [[AppDelegate shareAppDelegate] loginOut];
     [[[AppDelegate shareAppDelegate] rootViewController] showLoginViewController];
 }
 

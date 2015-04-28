@@ -212,6 +212,14 @@
         hud.labelText = @"两次输入的密码不一致";
         return;
     }
+    if ([_passwordField.text length] < 6 || [_passwordField.text length] > 20) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"密码长度为6-20位字符";
+        return;
+    }
     [_oldPasswordField becomeFirstResponder];
     [_oldPasswordField resignFirstResponder];
     [self modifyPassword];

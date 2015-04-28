@@ -93,22 +93,35 @@ typedef enum {
         //批购
         if (_orderDetail.orderStatus == WholesaleStatusUnPaid) {
             //未付款
-            UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelWholesaleOrder:) style:OrderDetailBtnStyleFirst];
-            cancelBtn.frame = CGRectMake(middleSpace, 12, btnWidth, btnHeight);
-            UIButton *depositBtn = [self buttonWithTitle:@"支付定金" action:@selector(payDeposit:) style:OrderDetailBtnStyleSecond];
-            depositBtn.frame = CGRectMake(btnWidth + 3 * middleSpace, 12, btnWidth, btnHeight);
-            [_detailFooterView addSubview:cancelBtn];
-            [_detailFooterView addSubview:depositBtn];
+            if (_orderDetail.payStatus == DepositPaid) {
+                //已付定金
+                UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelWholesaleOrder:) style:OrderDetailBtnStyleFirst];
+                cancelBtn.frame = CGRectMake(middleSpace, 12, btnWidth, btnHeight);
+                UIButton *payBtn = [self buttonWithTitle:@"付款" action:@selector(payWholesaleOrder:) style:OrderDetailBtnStyleSecond];
+                payBtn.frame = CGRectMake(btnWidth + 3 * middleSpace, 12, btnWidth, btnHeight);
+                [_detailFooterView addSubview:cancelBtn];
+                [_detailFooterView addSubview:payBtn];
+                
+            }
+            else {
+                //未付定金
+                UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelWholesaleOrder:) style:OrderDetailBtnStyleFirst];
+                cancelBtn.frame = CGRectMake(middleSpace, 12, btnWidth, btnHeight);
+                UIButton *depositBtn = [self buttonWithTitle:@"支付定金" action:@selector(payDeposit:) style:OrderDetailBtnStyleSecond];
+                depositBtn.frame = CGRectMake(btnWidth + 3 * middleSpace, 12, btnWidth, btnHeight);
+                [_detailFooterView addSubview:cancelBtn];
+                [_detailFooterView addSubview:depositBtn];
+            }
         }
-        else if (_orderDetail.orderStatus == WholesaleStatusPartPaid) {
-            //已付定金
-            UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelWholesaleOrder:) style:OrderDetailBtnStyleFirst];
-            cancelBtn.frame = CGRectMake(middleSpace, 12, btnWidth, btnHeight);
-            UIButton *payBtn = [self buttonWithTitle:@"付款" action:@selector(payWholesaleOrder:) style:OrderDetailBtnStyleSecond];
-            payBtn.frame = CGRectMake(btnWidth + 3 * middleSpace, 12, btnWidth, btnHeight);
-            [_detailFooterView addSubview:cancelBtn];
-            [_detailFooterView addSubview:payBtn];
-        }
+//        else if (_orderDetail.orderStatus == WholesaleStatusPartPaid) {
+//            //已付定金
+//            UIButton *cancelBtn = [self buttonWithTitle:@"取消订单" action:@selector(cancelWholesaleOrder:) style:OrderDetailBtnStyleFirst];
+//            cancelBtn.frame = CGRectMake(middleSpace, 12, btnWidth, btnHeight);
+//            UIButton *payBtn = [self buttonWithTitle:@"付款" action:@selector(payWholesaleOrder:) style:OrderDetailBtnStyleSecond];
+//            payBtn.frame = CGRectMake(btnWidth + 3 * middleSpace, 12, btnWidth, btnHeight);
+//            [_detailFooterView addSubview:cancelBtn];
+//            [_detailFooterView addSubview:payBtn];
+//        }
         else if (_orderDetail.orderStatus == WholesaleStatusFinish) {
             //再次批购
             UIButton *repeatBtn = [self buttonWithTitle:@"再次批购" action:@selector(repeatWholesale:) style:OrderDetailBtnStyleSecond];
@@ -140,8 +153,7 @@ typedef enum {
 
 - (void)initAndLayoutUI {
     CGFloat footerHeight = 0.f;
-    if ((_supplyType == SupplyGoodsWholesale && (_orderDetail.orderStatus == WholesaleStatusUnPaid ||
-                                                 _orderDetail.orderStatus == WholesaleStatusPartPaid ||
+    if ((_supplyType == SupplyGoodsWholesale && (_orderDetail.orderStatus == WholesaleStatusUnPaid  ||
                                                  _orderDetail.orderStatus == WholesaleStatusFinish)) ||
         (_supplyType == SupplyGoodsProcurement && (_orderDetail.orderStatus == ProcurementStatusUnPaid ||
                                                    _orderDetail.orderStatus == ProcurementStatusSend ||
@@ -527,7 +539,8 @@ typedef enum {
                      (status == ProcurementStatusSend ||
                       status == ProcurementStatusReview)) ||
                     (_supplyType == SupplyGoodsWholesale &&
-                     (status == WholesaleStatusPartPaid ||
+                     ((status == WholesaleStatusUnPaid && _orderDetail.payStatus == DepositPaid) ||
+                      status == WholesaleStatusPaid ||
                       status == WholesaleStatusFinish ||
                       status == WholesaleStatusReview))) {
                     UIButton *terminalBtn = [UIButton buttonWithType:UIButtonTypeCustom];

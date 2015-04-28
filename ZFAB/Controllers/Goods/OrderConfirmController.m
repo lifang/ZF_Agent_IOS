@@ -31,7 +31,8 @@
     _addressItem = [[NSMutableArray alloc] init];
     _billType = BillTypeCompany;
     [self initAndLauoutUI];
-    [self getAddressList];
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [self getAddressListWithUserID:delegate.agentUserID];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -296,11 +297,11 @@
 
 #pragma mark - Request
 
-- (void)getAddressList {
+- (void)getAddressListWithUserID:(NSString *)userID {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getAddressListWithAgentUserID:delegate.agentUserID token:delegate.token finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getAddressListWithAgentUserID:userID token:delegate.token finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -405,6 +406,7 @@
     SelectedAddressController *addressC = [[SelectedAddressController alloc] init];
     addressC.addressItems = _addressItem;
     addressC.addressID = _defaultAddress.addressID;
+    addressC.userID = _defaultUser.userID;
     addressC.delegate = self;
     [self.navigationController pushViewController:addressC animated:YES];
 }
@@ -468,6 +470,10 @@
 - (void)selectedUser:(UserModel *)model {
     _defaultUser = model;
     [self updateContentsForUser];
+    //获取选中用户的地址
+    [_addressItem removeAllObjects];
+    _defaultAddress = nil;
+    [self getAddressListWithUserID:model.userID];
 }
 
 @end

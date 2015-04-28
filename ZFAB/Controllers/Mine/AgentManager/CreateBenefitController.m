@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "TradeTypeModel.h"
 #import "EditBenefitController.h"
+#import "BenefitListController.h"
 
 @interface CreateBenefitController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -164,6 +165,7 @@
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
                     [self.navigationController popViewControllerAnimated:YES];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RefreshBenefitListNotification object:nil];
                 }
             }
             else {

@@ -269,13 +269,21 @@ static NSString *HTTP_GET  = @"GET";
 
 //13.
 + (void)getBankListWithToken:(NSString *)token
+                  terminalID:(NSString *)terminalID
                      keyword:(NSString *)keyword
+                        page:(int)page
+                        rows:(int)rows
                     finished:(requestDidFinished)finish {
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
-    if (keyword) {
-        [paramDict setObject:keyword forKey:@"bankName"];
+    if (terminalID) {
+        [paramDict setObject:[NSNumber numberWithInt:[terminalID intValue]] forKey:@"terminalId"];
     }
+    if (keyword) {
+        [paramDict setObject:keyword forKey:@"keyword"];
+    }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"pageSize"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_bank_method];
     [[self class] requestWithURL:urlString
@@ -381,6 +389,22 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
+//23.
++ (void)synchronousTerminalWithTerminalID:(NSString *)terminalID
+                                 finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (terminalID) {
+        [paramDict setObject:[NSNumber numberWithInt:[terminalID intValue]] forKey:@"terminalId"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_synchronous_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
 //25.
 + (void)sendBindingValidateWithMobileNumber:(NSString *)mobileNumber
                                    finished:(requestDidFinished)finish {
@@ -402,6 +426,7 @@ static NSString *HTTP_GET  = @"GET";
                      token:(NSString *)token
                   username:(NSString *)name
                   password:(NSString *)password
+                phoneNumber:(NSString *)phoneNumber
                 codeNumber:(NSString *)codeNumber
                     cityID:(NSString *)cityID
                   finished:(requestDidFinished)finish {
@@ -414,8 +439,11 @@ static NSString *HTTP_GET  = @"GET";
     if (password) {
         [paramDict setObject:[EncryptHelper MD5_encryptWithString:password] forKey:@"password"];
     }
+    if (phoneNumber) {
+        [paramDict setObject:phoneNumber forKey:@"codeNumber"];
+    }
     if (codeNumber) {
-        [paramDict setObject:codeNumber forKey:@"codeNumber"];
+        [paramDict setObject:codeNumber forKey:@"code"];
     }
     [paramDict setObject:[NSNumber numberWithInt:[cityID intValue]] forKey:@"cityId"];
 
@@ -2187,7 +2215,7 @@ static NSString *HTTP_GET  = @"GET";
     if (employeeID) {
         [paramDict setObject:employeeID forKey:@"customerId"];
     }
-    if (password) {
+    if (password && ![password isEqualToString:@""]) {
         [paramDict setObject:[EncryptHelper MD5_encryptWithString:password] forKey:@"pwd"];
     }
     if (authority) {
@@ -2273,6 +2301,36 @@ static NSString *HTTP_GET  = @"GET";
     [paramDict setObject:[NSNumber numberWithInt:[orderID intValue]] forKey:@"id"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_procurementPay_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
++ (void)setHasBenefitWithAgentID:(NSString *)agentID
+                      subAgentID:(NSString *)subAgentID
+                      hasBenefit:(int)benefit
+                        finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentsId"];
+    [paramDict setObject:[NSNumber numberWithInt:[subAgentID intValue]] forKey:@"sonAgentsId"];
+    [paramDict setObject:[NSNumber numberWithInt:benefit] forKey:@"isProfit"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_setHasBenefit_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
++ (void)findPOSPasswordWithTerminalID:(NSString *)terminalID
+                             finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[terminalID intValue]] forKey:@"terminalid"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_findPOS_method];
     [[self class] requestWithURL:urlString
                           params:paramDict
                       httpMethod:HTTP_POST

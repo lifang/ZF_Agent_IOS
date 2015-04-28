@@ -12,13 +12,9 @@
 
 @interface BankSelectedController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 
-@property (nonatomic, strong) UITableView *tableView;
-
 @property (nonatomic, strong) UITextField *bankField;
 
 @property (nonatomic, strong) UIButton *searchBtn;
-
-@property (nonatomic, strong) NSMutableArray *searchItem; //搜索结果
 
 @end
 
@@ -28,12 +24,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"选择银行";
-    if (!_bankItems) {
-        _bankItems = [[NSMutableArray alloc] init];
-        [self getBankList];
-    }
-    _searchItem = [[NSMutableArray alloc] init];
-    [_searchItem addObjectsFromArray:_bankItems];
+    _dataItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
 }
 
@@ -47,7 +38,7 @@
 - (void)setHeaderAndFooterView {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 84)];
     headerView.backgroundColor = [UIColor clearColor];
-    _tableView.tableHeaderView = headerView;
+    self.tableView.tableHeaderView = headerView;
     
     CGFloat backHeight = 44.f;
     
@@ -78,64 +69,51 @@
 }
 
 - (void)initAndLayoutUI {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-    _tableView.translatesAutoresizingMaskIntoConstraints = NO;
-    _tableView.backgroundColor = kColor(244, 243, 243, 1);
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
+    [self initRefreshViewWithOffset:0];
     [self setHeaderAndFooterView];
-    [self.view addSubview:_tableView];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeTop
-                                                         multiplier:1.0
-                                                           constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
-                                                          attribute:NSLayoutAttributeLeft
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeLeft
-                                                         multiplier:1.0
-                                                           constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
-                                                          attribute:NSLayoutAttributeRight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeRight
-                                                         multiplier:1.0
-                                                           constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
-                                                          attribute:NSLayoutAttributeBottom
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeBottom
-                                                         multiplier:1.0
-                                                           constant:0]];
 }
 
 #pragma mark - Request
 
-- (void)getBankList {
+- (void)firstLoadData {
+    self.page = 1;
+    [self downloadDataWithPage:self.page isMore:NO];
+}
+
+- (void)downloadDataWithPage:(int)page isMore:(BOOL)isMore {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getBankListWithToken:delegate.token keyword:nil finished:^(BOOL success, NSData *response) {
-        NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+    [NetworkInterface getBankListWithToken:delegate.token terminalID:_terminalID keyword:_bankField.text page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.5f];
+        [hud hide:YES afterDelay:0.3f];
         if (success) {
+            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
             if ([object isKindOfClass:[NSDictionary class]]) {
-                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                NSString *errorCode = [object objectForKey:@"code"];
                 if ([errorCode intValue] == RequestFail) {
                     //返回错误代码
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
-                    [hud hide:YES];
+                    if (!isMore) {
+                        [_dataItem removeAllObjects];
+                    }
+                    id list = nil;
+                    if ([[object objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+                        list = [[object objectForKey:@"result"] objectForKey:@"content"];
+                    }
+                    if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
+                        //有数据
+                        self.page++;
+                        [hud hide:YES];
+                    }
+                    else {
+                        //无数据
+                        hud.labelText = @"没有更多数据了...";
+                    }
                     [self parseBankListWithDictionary:object];
                 }
             }
@@ -147,30 +125,36 @@
         else {
             hud.labelText = kNetworkFailed;
         }
+        if (!isMore) {
+            [self refreshViewFinishedLoadingWithDirection:PullFromTop];
+        }
+        else {
+            [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
+        }
     }];
 }
 
 #pragma mark - Data
 
 - (void)parseBankListWithDictionary:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
         return;
     }
-    NSArray *bankList = [dict objectForKey:@"result"];
-    for (int i = 0; i < [bankList count]; i++) {
-        id bankDict = [bankList objectAtIndex:i];
-        if ([bankDict isKindOfClass:[NSDictionary class]]) {
-            BankModel *model = [[BankModel alloc] initWithParseDictionary:bankDict];
-            [_bankItems addObject:model];
+    id bankList = [[dict objectForKey:@"result"] objectForKey:@"content"];
+    if ([bankList isKindOfClass:[NSArray class]]) {
+        for (int i = 0; i < [bankList count]; i++) {
+            id bankDict = [bankList objectAtIndex:i];
+            if ([bankDict isKindOfClass:[NSDictionary class]]) {
+                BankModel *model = [[BankModel alloc] initWithParseDictionary:bankDict];
+                [_dataItem addObject:model];
+            }
         }
     }
-    [_searchItem removeAllObjects];
-    [_searchItem addObjectsFromArray:_bankItems];
-    [_tableView reloadData];
+    [self.tableView reloadData];
 }
 
 - (void)clearStatus {
-    for (BankModel *model in _searchItem) {
+    for (BankModel *model in _dataItem) {
         model.isSelected = NO;
     }
 }
@@ -178,13 +162,16 @@
 #pragma mark - Action
 
 - (IBAction)searchBank:(id)sender {
-    [_searchItem removeAllObjects];
-    for (BankModel *model in _bankItems) {
-        if ([model.bankName rangeOfString:_bankField.text].length != 0) {
-            [_searchItem addObject:model];
-        }
+    [_bankField resignFirstResponder];
+    if (!_bankField.text || [_bankField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请输入银行名";
+        return;
     }
-    [_tableView reloadData];
+    [self firstLoadData];
 }
 
 #pragma mark - UITableView
@@ -194,7 +181,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_searchItem count];
+    return [_dataItem count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -203,8 +190,10 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    BankModel *model = [_searchItem objectAtIndex:indexPath.row];
+    BankModel *model = [_dataItem objectAtIndex:indexPath.row];
     cell.textLabel.text = model.bankName;
+    cell.textLabel.font = [UIFont systemFontOfSize:14.f];
+    cell.textLabel.numberOfLines = 2;
     cell.imageView.image = kImageName(@"btn_selected");
     if (model.isSelected) {
         cell.imageView.hidden = NO;
@@ -218,9 +207,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self clearStatus];
-    BankModel *model = [_searchItem objectAtIndex:indexPath.row];
+    BankModel *model = [_dataItem objectAtIndex:indexPath.row];
     model.isSelected = YES;
-    [_tableView reloadData];
+    [self.tableView reloadData];
     if (_delegate && [_delegate respondsToSelector:@selector(getSelectedBank:)]) {
         [_delegate getSelectedBank:model];
     }
@@ -233,7 +222,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        if ([_searchItem count] <= 0) {
+        if ([_dataItem count] <= 0) {
             return nil;
         }
         else {
@@ -262,6 +251,10 @@
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.001f;
+}
+
 #pragma mark - UITextField
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -270,5 +263,14 @@
     return YES;
 }
 
+#pragma mark - 上下拉刷新重写
+
+- (void)pullDownToLoadData {
+    [self firstLoadData];
+}
+
+- (void)pullUpToLoadData {
+    [self downloadDataWithPage:self.page isMore:YES];
+}
 
 @end

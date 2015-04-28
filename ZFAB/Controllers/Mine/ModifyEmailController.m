@@ -309,11 +309,44 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-#pragma mark - UITextFieldDelegate
+#pragma mark - UITextField
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    self.editingField = textField;
+    return YES;
+}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    self.editingField = nil;
     [textField resignFirstResponder];
     return YES;
+}
+
+#pragma mark - 键盘
+
+- (void)handleKeyboardDidShow:(NSNotification *)paramNotification {
+    //获取键盘高度
+    CGRect keyboardRect = [[[paramNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect fieldRect = [[self.editingField superview] convertRect:self.editingField.frame toView:self.view];
+    CGFloat topHeight = self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height;
+    CGFloat offsetY = keyboardRect.size.height - (kScreenHeight - topHeight - fieldRect.origin.y - fieldRect.size.height);
+    if (offsetY > 0 && self.offset == 0) {
+        self.primaryPoint = self.tableView.contentOffset;
+        self.offset = offsetY;
+        [self.tableView setContentOffset:CGPointMake(0, self.primaryPoint.y + self.offset) animated:YES];
+    }
+}
+
+- (void)handleKeyboardDidHidden {
+    [self.tableView setContentOffset:CGPointMake(0, self.primaryPoint.y) animated:YES];
+    self.offset = 0;
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    if (self.editingField) {
+        self.offset = 0;
+        [self.editingField resignFirstResponder];
+    }
 }
 
 

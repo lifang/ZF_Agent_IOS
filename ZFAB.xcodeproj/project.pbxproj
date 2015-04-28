@@ -10,6 +10,8 @@
 		772A9C5A1AC3C8B1002A0B72 /* FindPasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772A9C591AC3C8B1002A0B72 /* FindPasswordController.m */; };
 		772A9C5E1AC3C95C002A0B72 /* RegularFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 772A9C5D1AC3C95C002A0B72 /* RegularFormat.m */; };
 		772A9C641AC4260A002A0B72 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772A9C631AC4260A002A0B72 /* RegisterViewController.m */; };
+		773292FB1AEF23700038942C /* LoginUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 773292FA1AEF23700038942C /* LoginUserModel.m */; };
+		773292FE1AEF24360038942C /* UserArchiveHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 773292FD1AEF24360038942C /* UserArchiveHelper.m */; };
 		77374DDE1ACE268B00E74A20 /* CreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77374DDD1ACE268B00E74A20 /* CreateViewController.m */; };
 		77374DE11ACE299C00E74A20 /* CreateAgentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77374DE01ACE299C00E74A20 /* CreateAgentController.m */; };
 		77374DE41ACE443400E74A20 /* ScanImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77374DE31ACE443400E74A20 /* ScanImageViewController.m */; };
@@ -284,6 +286,10 @@
 		772A9C5D1AC3C95C002A0B72 /* RegularFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegularFormat.m; sourceTree = "<group>"; };
 		772A9C621AC4260A002A0B72 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		772A9C631AC4260A002A0B72 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		773292F91AEF23700038942C /* LoginUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginUserModel.h; sourceTree = "<group>"; };
+		773292FA1AEF23700038942C /* LoginUserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUserModel.m; sourceTree = "<group>"; };
+		773292FC1AEF24360038942C /* UserArchiveHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserArchiveHelper.h; sourceTree = "<group>"; };
+		773292FD1AEF24360038942C /* UserArchiveHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserArchiveHelper.m; sourceTree = "<group>"; };
 		77374DDC1ACE268B00E74A20 /* CreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateViewController.h; sourceTree = "<group>"; };
 		77374DDD1ACE268B00E74A20 /* CreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateViewController.m; sourceTree = "<group>"; };
 		77374DDF1ACE299C00E74A20 /* CreateAgentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateAgentController.h; sourceTree = "<group>"; };
@@ -1274,6 +1280,8 @@
 			children = (
 				773F4F381ACA49D900C5A59A /* SearchHistoryHelper.h */,
 				773F4F391ACA49D900C5A59A /* SearchHistoryHelper.m */,
+				773292FC1AEF24360038942C /* UserArchiveHelper.h */,
+				773292FD1AEF24360038942C /* UserArchiveHelper.m */,
 			);
 			path = Archive;
 			sourceTree = "<group>";
@@ -1633,6 +1641,8 @@
 				77585F7D1AE24A8000A0EAF7 /* TradeTypeModel.m */,
 				775EDD5D1AE51E9C0021D81E /* HomeImageModel.h */,
 				775EDD5E1AE51E9C0021D81E /* HomeImageModel.m */,
+				773292F91AEF23700038942C /* LoginUserModel.h */,
+				773292FA1AEF23700038942C /* LoginUserModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1989,6 +1999,7 @@
 				77551EF01ADBACFD008B2730 /* PrepareGoodManagerController.m in Sources */,
 				773C58411AC145DA00D99E83 /* SDWebImageDownloaderOperation.m in Sources */,
 				775AABE11ADE565C00FA8AD9 /* WholesaleOrderController.m in Sources */,
+				773292FE1AEF24360038942C /* UserArchiveHelper.m in Sources */,
 				77551EE51ADB7170008B2730 /* UserListViewController.m in Sources */,
 				773C58111AC140B100D99E83 /* MineViewController.m in Sources */,
 				7766A4461AC9201B00DCBD76 /* MultipleDeleteCell.m in Sources */,
@@ -2021,6 +2032,7 @@
 				7745CF301AD3D1F4003DB9FA /* OrderDetailCell.m in Sources */,
 				777481581AD79FEE00E08ECB /* SerialModel.m in Sources */,
 				773C58151AC1451C00D99E83 /* PollingView.m in Sources */,
+				773292FB1AEF23700038942C /* LoginUserModel.m in Sources */,
 				774F11D71AE0B42D00ED26C4 /* TradeDetailController.m in Sources */,
 				77551EF61ADBC7B6008B2730 /* GoodAgentListController.m in Sources */,
 				77E060381AE5E99100B21DA9 /* NSDataEx.m in Sources */,

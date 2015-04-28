@@ -213,7 +213,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface addUserWithAgentID:delegate.agentID token:delegate.token username:_usernameField.text password:_passwordField.text codeNumber:_validateField.text cityID:_cityID finished:^(BOOL success, NSData *response) {
+    [NetworkInterface addUserWithAgentID:delegate.agentID token:delegate.token username:_usernameField.text password:_passwordField.text phoneNumber:_mobileField.text codeNumber:_validateField.text cityID:_cityID finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
@@ -309,6 +309,14 @@
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
         hud.labelText = @"两次密码不一致";
+        return;
+    }
+    if ([_passwordField.text length] < 6 || [_passwordField.text length] > 20) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"密码长度必须为6-20个字符";
         return;
     }
     [self addUser];
