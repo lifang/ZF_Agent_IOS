@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D9BD7561AEF31690007B7B4 /* iphone1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D9BD7551AEF31690007B7B4 /* iphone1@2x.png */; };
+		0D9BD7581AEF316E0007B7B4 /* iphone2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D9BD7571AEF316E0007B7B4 /* iphone2@2x.png */; };
+		0D9BD75A1AEF31730007B7B4 /* iphone3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D9BD7591AEF31730007B7B4 /* iphone3@2x.png */; };
+		0D9BD75C1AEF31790007B7B4 /* iphone4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D9BD75B1AEF31790007B7B4 /* iphone4@2x.png */; };
 		772A9C5A1AC3C8B1002A0B72 /* FindPasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772A9C591AC3C8B1002A0B72 /* FindPasswordController.m */; };
 		772A9C5E1AC3C95C002A0B72 /* RegularFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 772A9C5D1AC3C95C002A0B72 /* RegularFormat.m */; };
 		772A9C641AC4260A002A0B72 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772A9C631AC4260A002A0B72 /* RegisterViewController.m */; };
@@ -278,6 +282,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0D9BD7551AEF31690007B7B4 /* iphone1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone1@2x.png"; sourceTree = "<group>"; };
+		0D9BD7571AEF316E0007B7B4 /* iphone2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone2@2x.png"; sourceTree = "<group>"; };
+		0D9BD7591AEF31730007B7B4 /* iphone3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone3@2x.png"; sourceTree = "<group>"; };
+		0D9BD75B1AEF31790007B7B4 /* iphone4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone4@2x.png"; sourceTree = "<group>"; };
 		772A9C581AC3C8B1002A0B72 /* FindPasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordController.h; sourceTree = "<group>"; };
 		772A9C591AC3C8B1002A0B72 /* FindPasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPasswordController.m; sourceTree = "<group>"; };
 		772A9C5C1AC3C95C002A0B72 /* RegularFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegularFormat.h; sourceTree = "<group>"; };
@@ -895,6 +903,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D9BD7541AEF30CF0007B7B4 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				0D9BD7551AEF31690007B7B4 /* iphone1@2x.png */,
+				0D9BD7571AEF316E0007B7B4 /* iphone2@2x.png */,
+				0D9BD7591AEF31730007B7B4 /* iphone3@2x.png */,
+				0D9BD75B1AEF31790007B7B4 /* iphone4@2x.png */,
+			);
+			name = Image;
+			path = Network;
+			sourceTree = "<group>";
+		};
 		772A9C5B1AC3C95C002A0B72 /* Regular */ = {
 			isa = PBXGroup;
 			children = (
@@ -943,6 +963,7 @@
 				773C58121AC144FB00D99E83 /* View */,
 				7766A43F1AC91C8300DCBD76 /* Model */,
 				773C58191AC145CB00D99E83 /* Library */,
+				0D9BD7541AEF30CF0007B7B4 /* Image */,
 				773FDAA71AC258440029E224 /* Network */,
 				773C57D31AC12DE800D99E83 /* Images.xcassets */,
 				773C57D51AC12DE800D99E83 /* LaunchScreen.xib */,
@@ -1876,10 +1897,11 @@
 				TargetAttributes = {
 					773C57C21AC12DE800D99E83 = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = 63FVWL9TD6;
+						DevelopmentTeam = X6GEEF4LU9;
 					};
 					773C57DB1AC12DE800D99E83 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = X6GEEF4LU9;
 						TestTargetID = 773C57C21AC12DE800D99E83;
 					};
 				};
@@ -1908,9 +1930,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D9BD7581AEF316E0007B7B4 /* iphone2@2x.png in Resources */,
 				7746EAC81ACCD768009DD425 /* city.js in Resources */,
+				0D9BD75C1AEF31790007B7B4 /* iphone4@2x.png in Resources */,
+				0D9BD75A1AEF31730007B7B4 /* iphone3@2x.png in Resources */,
 				773C57D71AC12DE800D99E83 /* LaunchScreen.xib in Resources */,
 				77E05FCF1AE5E8B600B21DA9 /* AlipaySDK.bundle in Resources */,
+				0D9BD7561AEF31690007B7B4 /* iphone1@2x.png in Resources */,
 				773C57D41AC12DE800D99E83 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2323,6 +2349,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -2334,7 +2361,7 @@
 				INFOPLIST_FILE = ZFABTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f8c91460-62b2-4577-8a1f-fdade09d86fe";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZFAB.app/ZFAB";
 			};
 			name = Debug;
@@ -2344,6 +2371,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -2351,7 +2379,7 @@
 				INFOPLIST_FILE = ZFABTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f8c91460-62b2-4577-8a1f-fdade09d86fe";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZFAB.app/ZFAB";
 			};
 			name = Release;
