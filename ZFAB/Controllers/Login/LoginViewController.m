@@ -19,6 +19,10 @@
 
 @property (nonatomic, strong) UITextField *passwordField;
 
+@property (nonatomic, strong) UIImageView *backgroundView;
+@property (nonatomic, strong) UIView *GuideView;
+
+
 @end
 
 @implementation LoginViewController
@@ -31,6 +35,16 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     [self initAndLayoutUI];
+    
+    //判断是不是第一次启动应用
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"])
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
+        NSLog(@"第一次启动");
+        
+        [self setGuideUI];
+    }
+    
     CGFloat topHeight = self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height;
     self.primaryPoint = CGPointMake(0, self.view.frame.origin.y + topHeight);
 }
@@ -53,32 +67,32 @@
     CGFloat rightSpace = 30.f;
     CGFloat textFieldHeight = 44.f;
     
-    UIImageView *backgroundView = [[UIImageView alloc] init];
-    backgroundView.image = kImageName(@"login_back.png");
-    backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:backgroundView];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:backgroundView
+    _backgroundView = [[UIImageView alloc] init];
+    _backgroundView.image = kImageName(@"login_back.png");
+    _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:_backgroundView];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundView
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeTop
                                                          multiplier:1.0
                                                            constant:0.f]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:backgroundView
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundView
                                                           attribute:NSLayoutAttributeLeft
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeLeft
                                                          multiplier:1.0
                                                            constant:0.f]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:backgroundView
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundView
                                                           attribute:NSLayoutAttributeRight
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeRight
                                                          multiplier:1.0
                                                            constant:0.f]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:backgroundView
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_backgroundView
                                                           attribute:NSLayoutAttributeBottom
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
@@ -328,6 +342,88 @@
                                                           attribute:NSLayoutAttributeHeight
                                                          multiplier:0.0
                                                            constant:32.f]];
+}
+
+
+-(void)setGuideUI
+{
+    
+    [[self navigationController] setNavigationBarHidden:YES animated:NO];
+
+      float wide=[[UIScreen mainScreen] bounds].size.width;
+      float high=[[UIScreen mainScreen] bounds].size.height;
+   
+
+    _GuideView = [[UIView alloc]init];
+    _GuideView.frame = CGRectMake(0, 0, wide, high);
+    _GuideView.backgroundColor = [UIColor whiteColor];
+   // [_backgroundView addSubview:_GuideView];
+    [self.view addSubview:_GuideView];
+    
+    NSArray *arr=[NSArray arrayWithObjects:@"iphone1",@"iphone2",@"iphone3",@"iphone4", nil];
+    //数组内存放的是我要显示的假引导页面图片
+    UIScrollView *scrollView=[[UIScrollView alloc] initWithFrame:self.view.bounds];
+    scrollView.contentSize=CGSizeMake(wide*arr.count, high);
+    scrollView.pagingEnabled=YES;
+    scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.showsHorizontalScrollIndicator = NO;
+    
+    [_GuideView addSubview:scrollView];
+    for (int i=0; i<arr.count; i++) {
+        UIImageView *img=[[UIImageView alloc] initWithFrame:CGRectMake(i*wide, 0, wide, high)];
+        img.image=[UIImage imageNamed:arr[i]];
+        [scrollView addSubview:img];
+    }
+    
+    UIButton *applyBtn=[[UIButton alloc] init];
+    applyBtn.frame=CGRectMake(24+wide*3, high-60-50, (wide-48-50)/2.0, 50);
+    applyBtn.layer.masksToBounds=YES;
+    applyBtn.layer.borderWidth=1.0;
+    applyBtn.layer.cornerRadius=8.0;
+   // applyBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
+     applyBtn.layer.borderColor=[UIColor colorWithRed:0 green:0.435 blue:0.835 alpha:1].CGColor;
+    [applyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [applyBtn setTitle:@"申请成为代理商" forState:UIControlStateNormal];
+    //[applyBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
+    [applyBtn setBackgroundColor:[UIColor colorWithRed:0 green:0.435 blue:0.835 alpha:1]];
+    [applyBtn addTarget:self action:@selector(applyBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [scrollView addSubview:applyBtn];
+    
+    UIButton *useBtn=[[UIButton alloc] init];
+    useBtn.frame=CGRectMake(24+wide*3+(wide-48-50)/2.0+50, high-60-50, (wide-48-50)/2.0, 50);
+    useBtn.layer.masksToBounds=YES;
+    useBtn.layer.borderWidth=1.0;
+    useBtn.layer.cornerRadius=8.0;
+    useBtn.layer.borderColor=[UIColor colorWithRed:0 green:0.435 blue:0.835 alpha:1].CGColor;
+    [useBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [useBtn setTitle:@"马上使用" forState:UIControlStateNormal];
+   // [useBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
+    [useBtn setBackgroundColor:[UIColor colorWithRed:0 green:0.435 blue:0.835 alpha:1]];
+    [useBtn addTarget:self action:@selector(useBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [scrollView addSubview:useBtn];
+    
+    
+}
+
+-(void)useBtnClick:(id)sender
+{
+    [_GuideView removeFromSuperview];
+    [[self navigationController] setNavigationBarHidden:NO animated:NO];
+    
+}
+
+-(void)applyBtnClick:(id)sender
+{
+    [_GuideView removeFromSuperview];
+    [[self navigationController] setNavigationBarHidden:NO animated:NO];
+    [self gotoregister];
+    
+}
+
+-(void)gotoregister
+{
+    RegisterViewController *registerV = [[RegisterViewController alloc]init];
+    [self.navigationController pushViewController:registerV animated:YES];
 }
 
 
