@@ -143,7 +143,6 @@
                     NSLog(@"success = %@",[object objectForKey:@"message"]);
                     hud.labelText = @"注册成功";
                     [self.navigationController popToRootViewControllerAnimated:YES];
-                    
                 }
             }
             else {

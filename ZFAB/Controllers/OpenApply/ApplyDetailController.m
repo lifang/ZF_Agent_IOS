@@ -263,7 +263,7 @@
         NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.5f];
+        [hud hide:YES afterDelay:1.f];
         if (success) {
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
             if ([object isKindOfClass:[NSDictionary class]]) {
@@ -271,6 +271,7 @@
                 if ([errorCode intValue] == RequestFail) {
                     //返回错误代码
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                    [self.navigationController popViewControllerAnimated:YES];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
@@ -822,10 +823,20 @@
             [self.navigationController pushViewController:bankC animated:YES];
         }
         else if (indexPath.section == 1 && indexPath.row == 5) {
-            //选择支付通道
-            ChannelSelectedController *channelC = [[ChannelSelectedController alloc] init];
-            channelC.delegate = self;
-            [self.navigationController pushViewController:channelC animated:YES];
+            if (!_applyData.terminalChannelID || [_applyData.terminalChannelID isEqualToString:@""]) {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"获取终端支付通道失败";
+            }
+            else {
+                //选择支付通道
+                ChannelSelectedController *channelC = [[ChannelSelectedController alloc] init];
+                channelC.delegate = self;
+                channelC.channelID = _applyData.terminalChannelID;
+                [self.navigationController pushViewController:channelC animated:YES];
+            }
         }
         else {
             ApplyInfoCell *cell = (ApplyInfoCell *)[_tableView cellForRowAtIndexPath:indexPath];

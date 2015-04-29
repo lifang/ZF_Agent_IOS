@@ -391,6 +391,7 @@ static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
 //找回POS机密码
 static NSString *s_findPOS_method = @"terminal/encryption";
 
+
 @interface NetworkInterface : NSObject
 
 /*!
@@ -645,12 +646,14 @@ static NSString *s_findPOS_method = @"terminal/encryption";
 
 /*!
  @abstract 27.终端管理——绑定终端
+ @param agentID  代理商id
  @param token    登录返回
  @param userID   选择用户的id
  @param terminalNumber  终端号
  @result finish  请求回调结果
  */
-+ (void)bindingTerminalWithToken:(NSString *)token
++ (void)bindingTerminalWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
                           userID:(NSString *)userID
                   terminalNumber:(NSString *)terminalNumber
                         finished:(requestDidFinished)finish;
@@ -1766,5 +1769,8 @@ static NSString *s_findPOS_method = @"terminal/encryption";
  */
 + (void)findPOSPasswordWithTerminalID:(NSString *)terminalID
                              finished:(requestDidFinished)finish;
+
++ (void)beginVideoAuthWithTerminalID:(NSString *)terminalID
+                            finished:(requestDidFinished)finish;
 
 @end

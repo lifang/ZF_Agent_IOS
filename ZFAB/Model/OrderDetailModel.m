@@ -84,6 +84,7 @@
         _actualPrice = [[dict objectForKey:@"order_totalPrice"] floatValue] / 100;
         _totalDeposit = [[dict objectForKey:@"total_dingjin"] floatValue] / 100;
         _paidDeposit = [[dict objectForKey:@"zhifu_dingjin"] floatValue] / 100;
+        _remainingMoney = [[dict objectForKey:@"shengyu_price"] floatValue] / 100;
         _totalCount = [[dict objectForKey:@"total_quantity"] intValue];
         _shipmentCount = [[dict objectForKey:@"shipped_quantity"] intValue];
         _proTotalCount = [[dict objectForKey:@"order_totalNum"] intValue];

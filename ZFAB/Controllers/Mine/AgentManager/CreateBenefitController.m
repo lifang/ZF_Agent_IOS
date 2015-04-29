@@ -137,6 +137,14 @@
 }
 
 - (void)submitAddBenefit {
+    if ([_tradeList count] <= 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"该通道无分润类型";
+        return;
+    }
     NSString *benefitString = @"";
     for (int i = 0; i < [_tradeList count]; i++) {
         TradeTypeModel *model = [_tradeList objectAtIndex:i];

@@ -45,6 +45,8 @@
 
 @property (nonatomic, assign) CGFloat paidDeposit;   //已付定金
 
+@property (nonatomic, assign) CGFloat remainingMoney; //剩余金额
+
 @property (nonatomic, assign) int totalCount;        //总数量
 
 @property (nonatomic, assign) int shipmentCount;     //已发货数量

@@ -290,7 +290,7 @@ static NSString *HTTP_GET  = @"GET";
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     if (terminalID) {
-        [paramDict setObject:[NSNumber numberWithInt:[terminalID intValue]] forKey:@"terminalId"];
+        [paramDict setObject:terminalID forKey:@"terminalId"];
     }
     if (keyword) {
         [paramDict setObject:keyword forKey:@"keyword"];
@@ -469,12 +469,14 @@ static NSString *HTTP_GET  = @"GET";
 }
 
 //27.
-+ (void)bindingTerminalWithToken:(NSString *)token
++ (void)bindingTerminalWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
                           userID:(NSString *)userID
                   terminalNumber:(NSString *)terminalNumber
                         finished:(requestDidFinished)finish {
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
     [paramDict setObject:[NSNumber numberWithInt:[userID intValue]] forKey:@"userId"];
     if (terminalNumber) {
         [paramDict setObject:terminalNumber forKey:@"terminalsNum"];
@@ -2348,6 +2350,20 @@ static NSString *HTTP_GET  = @"GET";
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_findPOS_method];
     [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
++ (void)beginVideoAuthWithTerminalID:(NSString *)terminalID
+                            finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (terminalID) {
+        [paramDict setObject:terminalID forKey:@"terminalId"];
+    }
+    //url
+    [[self class] requestWithURL:kVideoServiceURL
                           params:paramDict
                       httpMethod:HTTP_POST
                         finished:finish];

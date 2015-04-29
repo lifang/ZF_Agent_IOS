@@ -25,6 +25,7 @@
 #import "AnyChatDefine.h"
 #import "AnyChatErrorCode.h"
 
+#import "MBProgressHUD.h"
 #import "AppDelegate.h"
 
 @interface VideoAuthController ()<AnyChatNotifyMessageDelegate>
@@ -90,7 +91,7 @@
 - (void)initUI {
     _remoteVideoSurface = [[UIImageView alloc] init];
     _remoteVideoSurface.translatesAutoresizingMaskIntoConstraints = NO;
-    _remoteVideoSurface.backgroundColor = [UIColor lightGrayColor];
+    _remoteVideoSurface.backgroundColor = kColor(244, 243, 243, 1);
     [self.view addSubview:_remoteVideoSurface];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_remoteVideoSurface
                                                           attribute:NSLayoutAttributeTop
@@ -182,7 +183,7 @@
 
 //连接服务器消息
 - (void)OnAnyChatConnect:(BOOL)bSuccess {
-    
+
 }
 
 //用户登录
@@ -231,6 +232,11 @@
 
 //网络断开
 - (void)OnAnyChatLinkClose:(int)dwErrorCode {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.customView = [[UIImageView alloc] init];
+    hud.mode = MBProgressHUDModeCustomView;
+    [hud hide:YES afterDelay:2.f];
+    hud.labelText = @"网络连接断开";
     [self FinishVideoChat];
 }
 
@@ -252,8 +258,8 @@
     [AnyChatPlatform UserCameraControl:-1 : YES];
     // request other user video
     [AnyChatPlatform UserSpeakControl: userid:YES];
-    [AnyChatPlatform SetVideoPos:userid :_remoteVideoSurface :0 :0 :0 :0];
-    [AnyChatPlatform UserCameraControl:userid : YES];
+//    [AnyChatPlatform SetVideoPos:userid :_remoteVideoSurface :0 :0 :0 :0];
+//    [AnyChatPlatform UserCameraControl:userid : YES];
     
     //远程视频显示时随设备的方向改变而旋转（参数为int型， 0表示关闭， 1 开启[默认]，视频旋转时需要参考本地视频设备方向参数）
     [AnyChatPlatform SetSDKOptionInt:BRAC_SO_LOCALVIDEO_ORIENTATION : self.interfaceOrientation];
