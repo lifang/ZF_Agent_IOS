@@ -830,8 +830,9 @@
         else if (indexPath.section == 0 && indexPath.row == 4) {
             //选择城市
             [self pickerScrollIn];
-            [_usernameField becomeFirstResponder];
-            [_usernameField resignFirstResponder];
+//            [_usernameField becomeFirstResponder];
+//            [_usernameField resignFirstResponder];
+            [self.editingField resignFirstResponder];
         }
         else if (indexPath.section == 1) {
             //图片
@@ -1037,8 +1038,10 @@
 }
 
 - (void)handleKeyboardDidHidden {
-    [self.tableView setContentOffset:CGPointMake(0, self.primaryPoint.y) animated:YES];
-    self.offset = 0;
+    if (self.offset != 0) {
+        [self.tableView setContentOffset:CGPointMake(0, self.primaryPoint.y) animated:YES];
+        self.offset = 0;
+    }
 }
 
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {

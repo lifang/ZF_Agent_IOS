@@ -148,7 +148,8 @@
     hud.labelText = @"提交中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     int benefit = 1;
-    if (_benefitBtn.isSelected) {
+    if (!_benefitBtn.isSelected) {
+        //请求成功才修改按钮状态 因此是反的
         benefit = 2;
     }
     [NetworkInterface setHasBenefitWithAgentID:delegate.agentID subAgentID:_subAgent.agentID hasBenefit:benefit finished:^(BOOL success, NSData *response) {
@@ -167,9 +168,12 @@
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
                     hud.labelText = @"设置成功";
-                    [self showButtonStatus];
-                    _agentDetail.hasProfit = _benefitBtn.isSelected;
-                    [self showSettingBenefitItem];
+                    BOOL isSelected = NO;
+                    if (benefit == 2) {
+                        isSelected = YES;
+                    }
+                    [self showButtonStatusWithSelected:isSelected];
+                    _agentDetail.hasProfit = isSelected;
                 }
             }
             else {
@@ -198,7 +202,7 @@
         _typeLabel.text = @"代理商类型：个人";
     }
     if (_agentDetail.hasProfit) {
-        [self showButtonStatus];
+        [self showButtonStatusWithSelected:YES];
     }
 }
 
@@ -215,14 +219,15 @@
     }
 }
 
-- (void)showButtonStatus {
-    _benefitBtn.selected = !_benefitBtn.selected;
+- (void)showButtonStatusWithSelected:(BOOL)selected {
+    _benefitBtn.selected = selected;
     if (_benefitBtn.isSelected) {
         [_benefitBtn setBackgroundImage:kImageName(@"btn_selected.png") forState:UIControlStateNormal];
     }
     else {
         [_benefitBtn setBackgroundImage:kImageName(@"btn_unselected.png") forState:UIControlStateNormal];
     }
+    [self showSettingBenefitItem];
 }
 
 #pragma mark - Action

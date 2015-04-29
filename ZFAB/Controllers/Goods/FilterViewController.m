@@ -410,8 +410,10 @@
 }
 
 - (void)handleKeyboardDidHidden {
-    [self.tableView setContentOffset:CGPointMake(0, self.primaryPoint.y) animated:YES];
-    self.offset = 0;
+    if (self.offset != 0) {
+        [self.tableView setContentOffset:CGPointMake(0, self.primaryPoint.y) animated:YES];
+        self.offset = 0;
+    }
 }
 
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {

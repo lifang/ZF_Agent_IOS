@@ -35,7 +35,7 @@
                     _rateID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"id"]];
                 }
                 if ([dict objectForKey:@"service_rate"]) {
-                    _ratePercent = [[dict objectForKey:@"service_rate"] floatValue];
+                    _ratePercent = [[dict objectForKey:@"service_rate"] floatValue] / 10;
                 }
                 if ([dict objectForKey:@"name"]) {
                     _rateName = [NSString stringWithFormat:@"%@",[dict objectForKey:@"name"]];
@@ -47,7 +47,7 @@
                 break;
             case GoodRateStand: {
                 if ([dict objectForKey:@"standard_rate"]) {
-                    _ratePercent = [[dict objectForKey:@"standard_rate"] floatValue];
+                    _ratePercent = [[dict objectForKey:@"standard_rate"] floatValue] / 10;
                 }
                 if ([dict objectForKey:@"name"]) {
                     _rateName = [NSString stringWithFormat:@"%@",[dict objectForKey:@"name"]];
@@ -59,7 +59,7 @@
                 break;
             case GoodRateOther: {
                 if ([dict objectForKey:@"terminal_rate"]) {
-                    _ratePercent = [[dict objectForKey:@"terminal_rate"] floatValue];
+                    _ratePercent = [[dict objectForKey:@"terminal_rate"] floatValue] / 10;
                 }
                 if ([dict objectForKey:@"trade_value"]) {
                     _rateName = [NSString stringWithFormat:@"%@",[dict objectForKey:@"trade_value"]];

@@ -53,7 +53,7 @@
                                                   object:nil];
 }
 
-//监听事件
+//监听事件  子类重写
 - (void)handleKeyboardDidShow:(NSNotification*)paramNotification {
 
 }

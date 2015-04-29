@@ -552,10 +552,12 @@
 }
 
 - (void)handleKeyboardDidHidden {
-    self.offset = 0;
-    [UIView animateWithDuration:0.3f animations:^{
-        self.view.frame = CGRectMake(self.primaryPoint.x, self.primaryPoint.y, self.view.bounds.size.width, self.view.bounds.size.height);
-    }];
+    if (self.offset != 0) {
+        self.offset = 0;
+        [UIView animateWithDuration:0.3f animations:^{
+            self.view.frame = CGRectMake(self.primaryPoint.x, self.primaryPoint.y, self.view.bounds.size.width, self.view.bounds.size.height);
+        }];
+    }
 }
 
 
