@@ -2366,15 +2366,13 @@ static NSString *HTTP_GET  = @"GET";
 + (void)beginVideoAuthWithTerminalID:(NSString *)terminalID
                             finished:(requestDidFinished)finish {
     //参数
-    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
-    if (terminalID) {
-        [paramDict setObject:[NSNumber numberWithInt:[terminalID intValue]] forKey:@"terminalId"];
-    }
-    //url
-    [[self class] requestWithURL:kVideoServiceURL
-                          params:paramDict
-                      httpMethod:HTTP_POST
-                        finished:finish];
+    NSString *param = [NSString stringWithFormat:@"terminalId=%@",terminalID];
+    NSData *postData = [param dataUsingEncoding:NSUTF8StringEncoding];
+    NetworkRequest *request = [[NetworkRequest alloc] initWithRequestURL:kVideoServiceURL
+                                                              httpMethod:HTTP_POST
+                                                                finished:finish];
+    [request setFormPostBody:postData];
+    [request start];
 }
 
 @end
