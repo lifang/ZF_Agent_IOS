@@ -31,6 +31,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"登录";
+    [NSThread sleepForTimeInterval:3.0]; //LaunchImage 延长3秒
+    
     if (kDeviceVersion >= 7.0) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
@@ -376,13 +378,14 @@
     }
     
     UIButton *applyBtn=[[UIButton alloc] init];
-    applyBtn.frame=CGRectMake(24+wide*3, high-60-50, (wide-48-50)/2.0, 50);
+    applyBtn.frame=CGRectMake(20+wide*3, high-50-40, (wide-40-40)/2.0, 40);
     applyBtn.layer.masksToBounds=YES;
     applyBtn.layer.borderWidth=1.0;
     applyBtn.layer.cornerRadius=8.0;
    // applyBtn.layer.borderColor=[UIColor colorWithHexString:@"006fd5"].CGColor;
      applyBtn.layer.borderColor=[UIColor colorWithRed:0 green:0.435 blue:0.835 alpha:1].CGColor;
     [applyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    applyBtn.titleLabel.font = [UIFont systemFontOfSize:15.f];
     [applyBtn setTitle:@"申请成为代理商" forState:UIControlStateNormal];
     //[applyBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
     [applyBtn setBackgroundColor:[UIColor colorWithRed:0 green:0.435 blue:0.835 alpha:1]];
@@ -390,12 +393,13 @@
     [scrollView addSubview:applyBtn];
     
     UIButton *useBtn=[[UIButton alloc] init];
-    useBtn.frame=CGRectMake(24+wide*3+(wide-48-50)/2.0+50, high-60-50, (wide-48-50)/2.0, 50);
+    useBtn.frame=CGRectMake(20+wide*3+(wide-40-40)/2.0+40, high-50-40, (wide-40-40)/2.0, 40);
     useBtn.layer.masksToBounds=YES;
     useBtn.layer.borderWidth=1.0;
     useBtn.layer.cornerRadius=8.0;
     useBtn.layer.borderColor=[UIColor colorWithRed:0 green:0.435 blue:0.835 alpha:1].CGColor;
     [useBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+     useBtn.titleLabel.font = [UIFont systemFontOfSize:15.f];
     [useBtn setTitle:@"马上使用" forState:UIControlStateNormal];
    // [useBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
     [useBtn setBackgroundColor:[UIColor colorWithRed:0 green:0.435 blue:0.835 alpha:1]];
