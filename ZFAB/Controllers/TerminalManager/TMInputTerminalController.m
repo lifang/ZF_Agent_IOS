@@ -171,6 +171,7 @@
     }
     TMTerminalListController *listC = [[TMTerminalListController alloc] init];
     listC.terminalList = searchList;
+    listC.fromInput = YES;
     [self.navigationController pushViewController:listC animated:YES];
 }
 

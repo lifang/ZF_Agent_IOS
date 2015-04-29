@@ -515,11 +515,14 @@ static NSString *HTTP_GET  = @"GET";
 //28.
 + (void)getTerminalManagerUseChannelWithAgentID:(NSString *)agentID
                                           token:(NSString *)token
-                                     posTitle:(NSString *)posTitle
-                                    channelID:(NSString *)channelID
-                                     maxPrice:(CGFloat)maxPrice
-                                     minPrice:(CGFloat)minPrice
-                                     finished:(requestDidFinished)finish {
+                                       posTitle:(NSString *)posTitle
+                                      channelID:(NSString *)channelID
+                                        keyword:(NSString *)keyword
+                                       maxPrice:(CGFloat)maxPrice
+                                       minPrice:(CGFloat)minPrice
+                                           page:(int)page
+                                           rows:(int)rows
+                                       finished:(requestDidFinished)finish {
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     if (agentID) {
@@ -531,12 +534,17 @@ static NSString *HTTP_GET  = @"GET";
     if (channelID) {
         [paramDict setObject:[NSNumber numberWithInt:[channelID intValue]] forKey:@"channelsId"];
     }
+    if (keyword) {
+        [paramDict setObject:keyword forKey:@"serialNum"];
+    }
     if (maxPrice > 0) {
         [paramDict setObject:[NSNumber numberWithFloat:maxPrice] forKey:@"maxPrice"];
     }
     if (minPrice > 0) {
         [paramDict setObject:[NSNumber numberWithFloat:minPrice] forKey:@"minPrice"];
     }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_TMSearchUseChannel_method];
     [[self class] requestWithURL:urlString
@@ -2360,7 +2368,7 @@ static NSString *HTTP_GET  = @"GET";
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     if (terminalID) {
-        [paramDict setObject:terminalID forKey:@"terminalId"];
+        [paramDict setObject:[NSNumber numberWithInt:[terminalID intValue]] forKey:@"terminalId"];
     }
     //url
     [[self class] requestWithURL:kVideoServiceURL

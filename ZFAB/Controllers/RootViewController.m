@@ -47,7 +47,6 @@
         [_mainController removeFromParentViewController];
         _mainController = nil;
     }
-    [self.view bringSubviewToFront:_loginNav.view];
 }
 
 - (void)showMainViewController {

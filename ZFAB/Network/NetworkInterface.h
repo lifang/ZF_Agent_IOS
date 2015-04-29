@@ -674,15 +674,24 @@ static NSString *s_findPOS_method = @"terminal/encryption";
  @abstract 29.终端管理——根据支付通道查询
  @param agentID  代理商id
  @param token    登录返回
- @param terminalList  终端号数组
+ @param posTitle  pos机
+ @param channelID  支付通道id
+ @param keyword
+ @param maxPrice
+ @param minPrice
+ @param page     分页参数 页
+ @param rows     分页参数 行
  @result finish  请求回调结果
  */
 + (void)getTerminalManagerUseChannelWithAgentID:(NSString *)agentID
                                           token:(NSString *)token
-                                     posTitle:(NSString *)posTitle
-                                    channelID:(NSString *)channelID
-                                     maxPrice:(CGFloat)maxPrice
-                                     minPrice:(CGFloat)minPrice
+                                       posTitle:(NSString *)posTitle
+                                      channelID:(NSString *)channelID
+                                        keyword:(NSString *)keyword
+                                       maxPrice:(CGFloat)maxPrice
+                                       minPrice:(CGFloat)minPrice
+                                           page:(int)page
+                                           rows:(int)rows
                                      finished:(requestDidFinished)finish;
 
 /*!

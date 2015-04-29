@@ -128,60 +128,60 @@
     _highField.delegate = self;
 }
 
-#pragma mark - Request
+//#pragma mark - Request
+//
+//- (void)searchWithFilterInfo {
+//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//    hud.labelText = @"加载中...";
+//    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+//    [NetworkInterface getTerminalManagerUseChannelWithAgentID:delegate.agentID token:delegate.token posTitle:_selectedPOS.title channelID:_selectedChannel.channelID maxPrice:[_highField.text intValue] minPrice:[_lowField.text intValue] finished:^(BOOL success, NSData *response) {
+//        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+//        hud.customView = [[UIImageView alloc] init];
+//        hud.mode = MBProgressHUDModeCustomView;
+//        [hud hide:YES afterDelay:0.5f];
+//        if (success) {
+//            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+//            if ([object isKindOfClass:[NSDictionary class]]) {
+//                NSString *errorCode = [object objectForKey:@"code"];
+//                if ([errorCode intValue] == RequestFail) {
+//                    //返回错误代码
+//                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+//                }
+//                else if ([errorCode intValue] == RequestSuccess) {
+//                    [hud hide:YES];
+//                    [self parseSearchListWithData:object];
+//                }
+//            }
+//            else {
+//                //返回错误数据
+//                hud.labelText = kServiceReturnWrong;
+//            }
+//        }
+//        else {
+//            hud.labelText = kNetworkFailed;
+//        }
+//    }];
+//}
 
-- (void)searchWithFilterInfo {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.labelText = @"加载中...";
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getTerminalManagerUseChannelWithAgentID:delegate.agentID token:delegate.token posTitle:_selectedPOS.title channelID:_selectedChannel.channelID maxPrice:[_highField.text intValue] minPrice:[_lowField.text intValue] finished:^(BOOL success, NSData *response) {
-        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.5f];
-        if (success) {
-            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
-            if ([object isKindOfClass:[NSDictionary class]]) {
-                NSString *errorCode = [object objectForKey:@"code"];
-                if ([errorCode intValue] == RequestFail) {
-                    //返回错误代码
-                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
-                }
-                else if ([errorCode intValue] == RequestSuccess) {
-                    [hud hide:YES];
-                    [self parseSearchListWithData:object];
-                }
-            }
-            else {
-                //返回错误数据
-                hud.labelText = kServiceReturnWrong;
-            }
-        }
-        else {
-            hud.labelText = kNetworkFailed;
-        }
-    }];
-}
-
-#pragma mark - Data
-
-- (void)parseSearchListWithData:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
-        return;
-    }
-    NSMutableArray *searchList = [[NSMutableArray alloc] init];
-    NSArray *serialList = [dict objectForKey:@"result"];
-    for (int i = 0; i < [serialList count]; i++) {
-        id serialDict = [serialList objectAtIndex:i];
-        if ([serialDict isKindOfClass:[NSDictionary class]]) {
-            SerialModel *model = [[SerialModel alloc] initWithParseDictionary:serialDict];
-            [searchList addObject:model];
-        }
-    }
-    TMTerminalListController *listC = [[TMTerminalListController alloc] init];
-    listC.terminalList = searchList;
-    [self.navigationController pushViewController:listC animated:YES];
-}
+//#pragma mark - Data
+//
+//- (void)parseSearchListWithData:(NSDictionary *)dict {
+//    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+//        return;
+//    }
+//    NSMutableArray *searchList = [[NSMutableArray alloc] init];
+//    NSArray *serialList = [dict objectForKey:@"result"];
+//    for (int i = 0; i < [serialList count]; i++) {
+//        id serialDict = [serialList objectAtIndex:i];
+//        if ([serialDict isKindOfClass:[NSDictionary class]]) {
+//            SerialModel *model = [[SerialModel alloc] initWithParseDictionary:serialDict];
+//            [searchList addObject:model];
+//        }
+//    }
+//    TMTerminalListController *listC = [[TMTerminalListController alloc] init];
+//    listC.terminalList = searchList;
+//    [self.navigationController pushViewController:listC animated:YES];
+//}
 
 
 #pragma mark - Action
@@ -206,7 +206,14 @@
         hud.labelText = @"最低价不能超过最高价";
         return;
     }
-    [self searchWithFilterInfo];
+//    [self searchWithFilterInfo];
+    TMTerminalListController *listC = [[TMTerminalListController alloc] init];
+    listC.POSName = _selectedPOS.title;
+    listC.channellID = _selectedChannel.channelID;
+    listC.maxPrice = [_highField.text floatValue];
+    listC.minPrice = [_lowField.text floatValue];
+    listC.fromInput = NO;
+    [self.navigationController pushViewController:listC animated:YES];
 }
 
 #pragma mark - UITableView
