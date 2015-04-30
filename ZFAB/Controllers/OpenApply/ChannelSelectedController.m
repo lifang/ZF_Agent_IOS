@@ -115,7 +115,9 @@
     for (int i = 0; i < [list count]; i++) {
         NSDictionary *channelDict = [list objectAtIndex:i];
         ChannelListModel *model = [[ChannelListModel alloc] initWithParseDictionary:channelDict];
-        [_channelItems addObject:model];
+        if ([model.channelID isEqualToString:_channelID]) {
+            [_channelItems addObject:model];
+        }
     }
     [_pickerView reloadAllComponents];
 }

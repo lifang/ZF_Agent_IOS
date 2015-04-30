@@ -61,6 +61,7 @@ typedef enum {
 @property (nonatomic, strong) NSString *modelNumber;
 @property (nonatomic, strong) NSString *terminalNumber;
 @property (nonatomic, strong) NSString *channelName;
+@property (nonatomic, strong) NSString *terminalChannelID;
 
 //已上传的基本信息
 @property (nonatomic, strong) NSString *personName;

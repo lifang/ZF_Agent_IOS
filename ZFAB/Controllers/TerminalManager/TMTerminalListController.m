@@ -19,7 +19,6 @@
 @interface TMTerminalListController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate,SerialCellDelegate,TerminalBottomDelegate,SearchDelegate>
 
 @property (nonatomic, strong) ZFSearchBar *searchBar;
-@property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) UILabel *tipLabel;  //记录筛选数据条数
 
@@ -34,10 +33,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    if (!_terminalList) {
-        _terminalList = [[NSMutableArray alloc] init];
-    }
     [self initAndLayoutUI];
+    if (!_fromInput) {
+        _terminalList = [[NSMutableArray alloc] init];
+        [self firstLoadData];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -118,41 +118,51 @@
                                                          multiplier:0.0
                                                            constant:60.f]];
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-    _tableView.translatesAutoresizingMaskIntoConstraints = NO;
-    _tableView.backgroundColor = kColor(244, 243, 243, 1);
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.tableView.backgroundColor = kColor(244, 243, 243, 1);
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     [self setHeaderAndFooterView];
-    [self.view addSubview:_tableView];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
+    [self.view addSubview:self.tableView];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeTop
                                                          multiplier:1.0
                                                            constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
                                                           attribute:NSLayoutAttributeLeft
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeLeft
                                                          multiplier:1.0
                                                            constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
                                                           attribute:NSLayoutAttributeRight
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeRight
                                                          multiplier:1.0
                                                            constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.tableView
                                                           attribute:NSLayoutAttributeBottom
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:_bottomView
                                                           attribute:NSLayoutAttributeTop
                                                          multiplier:1.0
                                                            constant:0]];
+    self.topRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(0, -80, self.view.bounds.size.width, 80)];
+    self.topRefreshView.direction = PullFromTop;
+    self.topRefreshView.delegate = self;
+    [self.tableView addSubview:self.topRefreshView];
+    
+    self.bottomRefreshView = [[RefreshView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 60)];
+    self.bottomRefreshView.direction = PullFromBottom;
+    self.bottomRefreshView.delegate = self;
+    self.bottomRefreshView.hidden = YES;
+    [self.tableView addSubview:self.bottomRefreshView];
 }
 
 #pragma mark - UISearchBar
@@ -170,20 +180,21 @@
 
 #pragma mark - Request
 
-- (void)searchTerminal {
-    NSMutableArray *terminals = [[NSMutableArray alloc] init];
-    if (_keyword && ![_keyword isEqualToString:@""]) {
-        [terminals addObject:_keyword];
-    }
+- (void)firstLoadData {
+    self.page = 1;
+    [self downloadDataWithPage:self.page isMore:NO];
+}
+
+- (void)downloadDataWithPage:(int)page isMore:(BOOL)isMore {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getTerminalManagerTerminalWithAgentID:delegate.agentID token:delegate.token terminalList:terminals finished:^(BOOL success, NSData *response) {
-        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+    [NetworkInterface getTerminalManagerUseChannelWithAgentID:delegate.agentID token:delegate.token posTitle:_POSName channelID:_channellID keyword:_keyword maxPrice:_maxPrice minPrice:_minPrice page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.5f];
+        [hud hide:YES afterDelay:0.3f];
         if (success) {
+            NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
             if ([object isKindOfClass:[NSDictionary class]]) {
                 NSString *errorCode = [object objectForKey:@"code"];
@@ -192,7 +203,22 @@
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
-                    [hud hide:YES];
+                    if (!isMore) {
+                        [_terminalList removeAllObjects];
+                    }
+                    id list = nil;
+                    if ([[object objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+                        list = [[object objectForKey:@"result"] objectForKey:@"applyList"];
+                    }
+                    if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
+                        //有数据
+                        self.page++;
+                        [hud hide:YES];
+                    }
+                    else {
+                        //无数据
+                        hud.labelText = @"没有更多数据了...";
+                    }
                     [self parseSearchListWithData:object];
                 }
             }
@@ -203,6 +229,12 @@
         }
         else {
             hud.labelText = kNetworkFailed;
+        }
+        if (!isMore) {
+            [self refreshViewFinishedLoadingWithDirection:PullFromTop];
+        }
+        else {
+            [self refreshViewFinishedLoadingWithDirection:PullFromBottom];
         }
     }];
 }
@@ -222,7 +254,7 @@
             [_terminalList addObject:model];
         }
     }
-    [_tableView reloadData];
+    [self.tableView reloadData];
     [self refreshSelectedInfo];
 }
 
@@ -325,7 +357,7 @@
     for (SerialModel *model in _terminalList) {
         model.isSelected = isSelected;
     }
-    [_tableView reloadData];
+    [self.tableView reloadData];
     [self refreshSelectedInfo];
 }
 
@@ -334,7 +366,30 @@
 - (void)getSearchKeyword:(NSString *)keyword {
     _keyword = keyword;
     _searchBar.text = _keyword;
-    [self searchTerminal];
+    _fromInput = NO;
+    [self firstLoadData];
+}
+
+#pragma mark - 上下拉刷新重写
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (!_fromInput) {
+        [super scrollViewDidScroll:scrollView];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!_fromInput) {
+        [super scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+    }
+}
+
+- (void)pullDownToLoadData {
+    [self firstLoadData];
+}
+
+- (void)pullUpToLoadData {
+    [self downloadDataWithPage:self.page isMore:YES];
 }
 
 @end

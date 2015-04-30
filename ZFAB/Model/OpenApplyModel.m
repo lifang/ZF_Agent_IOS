@@ -92,6 +92,9 @@
             if ([terminalDict objectForKey:@"channelName"]) {
                 _channelName = [NSString stringWithFormat:@"%@",[terminalDict objectForKey:@"channelName"]];
             }
+            if ([terminalDict objectForKey:@"channelId"]) {
+                _terminalChannelID = [NSString stringWithFormat:@"%@",[terminalDict objectForKey:@"channelId"]];
+            }
         }
         id primaryDict = [dict objectForKey:@"openingInfos"];
         if ([primaryDict isKindOfClass:[NSDictionary class]]) {

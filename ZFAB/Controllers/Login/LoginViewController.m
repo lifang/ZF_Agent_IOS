@@ -31,7 +31,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"登录";
-    [NSThread sleepForTimeInterval:3.0]; //LaunchImage 延长3秒
+//    [NSThread sleepForTimeInterval:3.0]; //LaunchImage 延长3秒
     
     if (kDeviceVersion >= 7.0) {
         self.edgesForExtendedLayout = UIRectEdgeNone;

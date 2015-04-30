@@ -290,7 +290,7 @@ static NSString *HTTP_GET  = @"GET";
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     if (terminalID) {
-        [paramDict setObject:[NSNumber numberWithInt:[terminalID intValue]] forKey:@"terminalId"];
+        [paramDict setObject:terminalID forKey:@"terminalId"];
     }
     if (keyword) {
         [paramDict setObject:keyword forKey:@"keyword"];
@@ -469,12 +469,14 @@ static NSString *HTTP_GET  = @"GET";
 }
 
 //27.
-+ (void)bindingTerminalWithToken:(NSString *)token
++ (void)bindingTerminalWithAgentID:(NSString *)agentID
+                             token:(NSString *)token
                           userID:(NSString *)userID
                   terminalNumber:(NSString *)terminalNumber
                         finished:(requestDidFinished)finish {
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[agentID intValue]] forKey:@"agentId"];
     [paramDict setObject:[NSNumber numberWithInt:[userID intValue]] forKey:@"userId"];
     if (terminalNumber) {
         [paramDict setObject:terminalNumber forKey:@"terminalsNum"];
@@ -513,11 +515,14 @@ static NSString *HTTP_GET  = @"GET";
 //28.
 + (void)getTerminalManagerUseChannelWithAgentID:(NSString *)agentID
                                           token:(NSString *)token
-                                     posTitle:(NSString *)posTitle
-                                    channelID:(NSString *)channelID
-                                     maxPrice:(CGFloat)maxPrice
-                                     minPrice:(CGFloat)minPrice
-                                     finished:(requestDidFinished)finish {
+                                       posTitle:(NSString *)posTitle
+                                      channelID:(NSString *)channelID
+                                        keyword:(NSString *)keyword
+                                       maxPrice:(CGFloat)maxPrice
+                                       minPrice:(CGFloat)minPrice
+                                           page:(int)page
+                                           rows:(int)rows
+                                       finished:(requestDidFinished)finish {
     //参数
     NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
     if (agentID) {
@@ -529,12 +534,17 @@ static NSString *HTTP_GET  = @"GET";
     if (channelID) {
         [paramDict setObject:[NSNumber numberWithInt:[channelID intValue]] forKey:@"channelsId"];
     }
+    if (keyword) {
+        [paramDict setObject:keyword forKey:@"serialNum"];
+    }
     if (maxPrice > 0) {
         [paramDict setObject:[NSNumber numberWithFloat:maxPrice] forKey:@"maxPrice"];
     }
     if (minPrice > 0) {
         [paramDict setObject:[NSNumber numberWithFloat:minPrice] forKey:@"minPrice"];
     }
+    [paramDict setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [paramDict setObject:[NSNumber numberWithInt:rows] forKey:@"rows"];
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_TMSearchUseChannel_method];
     [[self class] requestWithURL:urlString
@@ -2351,6 +2361,18 @@ static NSString *HTTP_GET  = @"GET";
                           params:paramDict
                       httpMethod:HTTP_POST
                         finished:finish];
+}
+
++ (void)beginVideoAuthWithTerminalID:(NSString *)terminalID
+                            finished:(requestDidFinished)finish {
+    //参数
+    NSString *param = [NSString stringWithFormat:@"terminalId=%@",terminalID];
+    NSData *postData = [param dataUsingEncoding:NSUTF8StringEncoding];
+    NetworkRequest *request = [[NetworkRequest alloc] initWithRequestURL:kVideoServiceURL
+                                                              httpMethod:HTTP_POST
+                                                                finished:finish];
+    [request setFormPostBody:postData];
+    [request start];
 }
 
 @end

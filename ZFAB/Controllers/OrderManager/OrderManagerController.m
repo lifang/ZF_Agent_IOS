@@ -820,7 +820,7 @@
                 hud.labelText = @"输入金额必须大于0";
                 return;
             }
-            if ([textField.text floatValue] > _selectedOrder.totalMoney) {
+            if ([textField.text floatValue] > _selectedOrder.remainingMoney) {
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                 hud.customView = [[UIImageView alloc] init];
                 hud.mode = MBProgressHUDModeCustomView;

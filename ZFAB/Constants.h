@@ -30,6 +30,10 @@
 #define kVideoAuthIP      @"121.40.64.120"   //线上
 #define kVideoAuthPort  8906
 
+//视频提示地址
+//#define kVideoServiceURL @"http://121.40.84.2:8180/zfmanager/notice/video"  
+#define kVideoServiceURL @"http://admin.ebank007.com/notice/video"   //线上
+
 //支付地址
 //#define kWhalesaleCallBackURL   @"http://121.40.84.2:28080/ZFAgent/deposit_app_notify_url.jsp"
 //#define kProcurementCallBackURL @"http://121.40.84.2:28080/ZFAgent/app_notify_url.jsp"
@@ -38,7 +42,6 @@
 #define kProcurementCallBackURL  @"http://agent.ebank007.com/app_notify_url.jsp"
 
 #define kImageName(name) [UIImage imageNamed:name]
-
 
 
 #define kServiceReturnWrong  @"服务端数据返回错误"

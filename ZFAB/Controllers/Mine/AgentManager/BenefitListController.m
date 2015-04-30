@@ -346,7 +346,7 @@
         }
         TradeTypeModel *tradeModel = [model.tradeList objectAtIndex:indexPath.row - 1];
         cell.textLabel.text = tradeModel.tradeName;
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%.f%%",tradeModel.percent];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%.1f%%",tradeModel.percent];
         cell.detailTextLabel.font = [UIFont systemFontOfSize:14.f];
         cell.textLabel.font = [UIFont systemFontOfSize:15.f];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

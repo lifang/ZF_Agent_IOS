@@ -20,4 +20,6 @@
 
 @property (nonatomic, assign) id<ChannelSelectedDelegate>delegate;
 
+@property (nonatomic, strong) NSString *channelID;
+
 @end

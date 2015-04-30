@@ -865,13 +865,15 @@
         return;
     }
     RegisterCell *cell = (RegisterCell *)[[textField superview] superview];
-    CGRect rect = cell.textLabel.frame;
-    [cell.textLabel sizeToFit];
-    rect.size.width = cell.textLabel.frame.size.width;
-    cell.textLabel.frame = rect;
-    CGFloat originX = cell.textLabel.frame.origin.x + cell.textLabel.frame.size.width;
-    CGFloat width = kScreenWidth - originX - 20 > 170 ? 170 : kScreenWidth - originX - 20;
-    textField.frame = CGRectMake(kScreenWidth - width - 20, 0, width, cell.contentView.frame.size.height);
+    if (cell) {
+        CGRect rect = cell.textLabel.frame;
+        [cell.textLabel sizeToFit];
+        rect.size.width = cell.textLabel.frame.size.width;
+        cell.textLabel.frame = rect;
+        CGFloat originX = cell.textLabel.frame.origin.x + cell.textLabel.frame.size.width;
+        CGFloat width = kScreenWidth - originX - 20 > 170 ? 170 : kScreenWidth - originX - 20;
+        textField.frame = CGRectMake(kScreenWidth - width - 20, 0, width, cell.contentView.frame.size.height);
+    }
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {

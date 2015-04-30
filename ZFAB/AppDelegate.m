@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "UserArchiveHelper.h"
+#import "NetworkInterface.h"
 
 @interface AppDelegate ()
 
@@ -33,6 +34,9 @@
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     [self.window makeKeyAndVisible];
     [self setStatisticData];
+//    [NetworkInterface beginVideoAuthWithTerminalID:@"7429" finished:^(BOOL success, NSData *response) {
+//        NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+//    }];
     return YES;
 }
 

@@ -109,7 +109,7 @@
     _inputField.leftView = oldView;
     _inputField.leftViewMode = UITextFieldViewModeAlways;
     _inputField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    _inputField.text = [NSString stringWithFormat:@"%.f",_tradeModel.percent];
+    _inputField.text = [NSString stringWithFormat:@"%.1f",_tradeModel.percent];
     
     _precentLabel = [[UILabel alloc] init];
     _precentLabel.backgroundColor = [UIColor clearColor];
