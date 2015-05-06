@@ -378,7 +378,8 @@
     }
     
     UIButton *applyBtn=[[UIButton alloc] init];
-    applyBtn.frame=CGRectMake(20+wide*3, high-50-40, (wide-40-40)/2.0, 40);
+   // applyBtn.frame=CGRectMake(20+wide*3, high-50-40, (wide-40-40)/2.0, 40);
+     applyBtn.frame=CGRectMake(20+wide*3, high-50-high/12.0, (wide-40-40)/2.0, high/12.0);
     applyBtn.layer.masksToBounds=YES;
     applyBtn.layer.borderWidth=1.0;
     applyBtn.layer.cornerRadius=8.0;
@@ -393,7 +394,8 @@
     [scrollView addSubview:applyBtn];
     
     UIButton *useBtn=[[UIButton alloc] init];
-    useBtn.frame=CGRectMake(20+wide*3+(wide-40-40)/2.0+40, high-50-40, (wide-40-40)/2.0, 40);
+    //useBtn.frame=CGRectMake(20+wide*3+(wide-40-40)/2.0+40, high-50-40, (wide-40-40)/2.0, 40);
+    useBtn.frame=CGRectMake(20+wide*3+(wide-40-40)/2.0+40, high-50-high/12.0, (wide-40-40)/2.0, high/12.0);
     useBtn.layer.masksToBounds=YES;
     useBtn.layer.borderWidth=1.0;
     useBtn.layer.cornerRadius=8.0;
