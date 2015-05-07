@@ -519,7 +519,7 @@
             [dict setObject:@"" forKey:@"0"];
         }
         CGFloat rate = model.rateTerminal;
-        if ([model.rateName isEqualToString:@"消费"]) {
+        if (model.rateType == RateTypeConsume) {
             rate = model.rateService + model.rateBase;
         }
         [dict setObject:[NSString stringWithFormat:@"%.1f‰",rate] forKey:@"1"];

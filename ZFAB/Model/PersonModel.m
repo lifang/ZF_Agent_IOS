@@ -24,8 +24,8 @@
         else {
             _companyName = @"";
         }
-        if ([dict objectForKey:@"license_no_pic_path"]) {
-            _licenseNumber = [NSString stringWithFormat:@"%@",[dict objectForKey:@"license_no_pic_path"]];
+        if ([dict objectForKey:@"business_license"]) {
+            _licenseNumber = [NSString stringWithFormat:@"%@",[dict objectForKey:@"business_license"]];
         }
         else {
             _licenseNumber = @"";

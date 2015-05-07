@@ -30,6 +30,9 @@
         if ([dict objectForKey:@"status"]) {
             _rateStatus = (RateStatus)[[dict objectForKey:@"status"] intValue];
         }
+        if ([dict objectForKey:@"trade_type"]) {
+            _rateType = (RateType)[[dict objectForKey:@"trade_type"] intValue];
+        }
     }
     return self;
 }
