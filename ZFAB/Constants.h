@@ -36,8 +36,8 @@
 //#define kVideoServiceURL @"http://admin.ebank007.com/notice/video"   //线上
 
 //支付地址
-#define kWhalesaleCallBackURL   @"http://121.40.64.167:9090/ZFAgent/deposit_app_notify_url.jsp"
-#define kProcurementCallBackURL @"http://121.40.64.167:9090/ZFAgent/app_notify_url.jsp"
+#define kWhalesaleCallBackURL   @"http://121.40.64.167:9090/deposit_app_notify_url.jsp"
+#define kProcurementCallBackURL @"http://121.40.64.167:9090/app_notify_url.jsp"
 //线上
 //#define kWhalesaleCallBackURL    @"http://agent.ebank007.com/deposit_app_notify_url.jsp"
 //#define kProcurementCallBackURL  @"http://agent.ebank007.com/app_notify_url.jsp"

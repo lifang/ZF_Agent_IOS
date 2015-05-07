@@ -169,7 +169,7 @@
     [AnyChatPlatform SetSDKOptionInt:BRAC_SO_LOCALVIDEO_APPLYPARAM :1];
     
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [AnyChatPlatform Login:delegate.userID :@"x"];
+    [AnyChatPlatform Login:delegate.agentUserID :@"x"];
 }
 
 #pragma mark - NSNotification

@@ -854,9 +854,9 @@ static NSString *HTTP_GET  = @"GET";
     }
     [paramDict setObject:[NSNumber numberWithInt:needInvoice] forKey:@"isNeedInvoice"];
     if (needInvoice == 1) {
-        [paramDict setObject:[NSNumber numberWithInt:invoiceType] forKey:@"invoice_type"];
+        [paramDict setObject:[NSNumber numberWithInt:invoiceType] forKey:@"invoiceType"];
         if (invoiceTitle) {
-            [paramDict setObject:invoiceTitle forKey:@"invoice_info"];
+            [paramDict setObject:invoiceTitle forKey:@"invoiceInfo"];
         }
     }
     //url

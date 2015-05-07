@@ -232,7 +232,7 @@
     rateLabel.backgroundColor = [UIColor clearColor];
     rateLabel.font = [UIFont systemFontOfSize:15.f];
     rateLabel.textAlignment = NSTextAlignmentCenter;
-    rateLabel.text = [NSString stringWithFormat:@"%.f‰",rate];
+    rateLabel.text = [NSString stringWithFormat:@"%.1f‰",rate];
     [_scrollView addSubview:rateLabel];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:rateLabel
                                                           attribute:NSLayoutAttributeTop
