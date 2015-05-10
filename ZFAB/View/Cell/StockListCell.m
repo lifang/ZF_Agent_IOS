@@ -175,66 +175,66 @@
                                                                  attribute:NSLayoutAttributeNotAnAttribute
                                                                 multiplier:0.0
                                                                   constant:20.f]];
-    _nameButton = [self buttonWithTitle:@"商品更名" action:@selector(changeName:)];
-    [self.contentView addSubview:_nameButton];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
-                                                                 attribute:NSLayoutAttributeRight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeRight
-                                                                multiplier:1.0
-                                                                  constant:-rightSpace]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
-                                                                 attribute:NSLayoutAttributeTop
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeTop
-                                                                multiplier:1.0
-                                                                  constant:topSpace]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:nil
-                                                                 attribute:NSLayoutAttributeNotAnAttribute
-                                                                multiplier:1.0
-                                                                  constant:btnWidth]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:nil
-                                                                 attribute:NSLayoutAttributeNotAnAttribute
-                                                                multiplier:0.0
-                                                                  constant:24.f]];
-    _wholesaleButton = [self buttonWithTitle:@"去批购" action:@selector(goWholesale:)];
-    [self.contentView addSubview:_wholesaleButton];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_wholesaleButton
-                                                                 attribute:NSLayoutAttributeRight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeRight
-                                                                multiplier:1.0
-                                                                  constant:-rightSpace]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_wholesaleButton
-                                                                 attribute:NSLayoutAttributeTop
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_nameButton
-                                                                 attribute:NSLayoutAttributeBottom
-                                                                multiplier:1.0
-                                                                  constant:10.f]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_wholesaleButton
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:nil
-                                                                 attribute:NSLayoutAttributeNotAnAttribute
-                                                                multiplier:1.0
-                                                                  constant:btnWidth]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_wholesaleButton
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:nil
-                                                                 attribute:NSLayoutAttributeNotAnAttribute
-                                                                multiplier:0.0
-                                                                  constant:24.f]];
+//    _nameButton = [self buttonWithTitle:@"商品更名" action:@selector(changeName:)];
+//    [self.contentView addSubview:_nameButton];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
+//                                                                 attribute:NSLayoutAttributeRight
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:self.contentView
+//                                                                 attribute:NSLayoutAttributeRight
+//                                                                multiplier:1.0
+//                                                                  constant:-rightSpace]];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
+//                                                                 attribute:NSLayoutAttributeTop
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:self.contentView
+//                                                                 attribute:NSLayoutAttributeTop
+//                                                                multiplier:1.0
+//                                                                  constant:topSpace]];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
+//                                                                 attribute:NSLayoutAttributeWidth
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:nil
+//                                                                 attribute:NSLayoutAttributeNotAnAttribute
+//                                                                multiplier:1.0
+//                                                                  constant:btnWidth]];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
+//                                                                 attribute:NSLayoutAttributeHeight
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:nil
+//                                                                 attribute:NSLayoutAttributeNotAnAttribute
+//                                                                multiplier:0.0
+//                                                                  constant:24.f]];
+//    _wholesaleButton = [self buttonWithTitle:@"去批购" action:@selector(goWholesale:)];
+//    [self.contentView addSubview:_wholesaleButton];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_wholesaleButton
+//                                                                 attribute:NSLayoutAttributeRight
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:self.contentView
+//                                                                 attribute:NSLayoutAttributeRight
+//                                                                multiplier:1.0
+//                                                                  constant:-rightSpace]];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_wholesaleButton
+//                                                                 attribute:NSLayoutAttributeTop
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:_nameButton
+//                                                                 attribute:NSLayoutAttributeBottom
+//                                                                multiplier:1.0
+//                                                                  constant:10.f]];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_wholesaleButton
+//                                                                 attribute:NSLayoutAttributeWidth
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:nil
+//                                                                 attribute:NSLayoutAttributeNotAnAttribute
+//                                                                multiplier:1.0
+//                                                                  constant:btnWidth]];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_wholesaleButton
+//                                                                 attribute:NSLayoutAttributeHeight
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:nil
+//                                                                 attribute:NSLayoutAttributeNotAnAttribute
+//                                                                multiplier:0.0
+//                                                                  constant:24.f]];
     [self initNumberView];
 }
 

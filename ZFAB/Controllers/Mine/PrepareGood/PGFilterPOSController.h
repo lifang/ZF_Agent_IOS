@@ -21,4 +21,6 @@
 
 @property (nonatomic, strong) NSMutableArray *goodList;
 
+@property (nonatomic, strong) NSString *selectedAgentID;
+
 @end

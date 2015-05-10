@@ -89,7 +89,12 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getPrepareGoodPOSWithAgentID:delegate.agentID token:delegate.token finished:^(BOOL success, NSData *response) {
+    NSString *agentID = delegate.agentID;
+    if (_selectedAgentID) {
+        //调货下级代理商
+        agentID = _selectedAgentID;
+    }
+    [NetworkInterface getPrepareGoodPOSWithAgentID:agentID token:delegate.token finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;

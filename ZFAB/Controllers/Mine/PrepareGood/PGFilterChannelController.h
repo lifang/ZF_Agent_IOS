@@ -21,4 +21,6 @@
 
 @property (nonatomic, strong) NSMutableArray *channelList;
 
+@property (nonatomic, strong) NSString *selectedAgentID;
+
 @end

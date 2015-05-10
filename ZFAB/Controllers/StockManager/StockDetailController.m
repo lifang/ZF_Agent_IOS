@@ -298,46 +298,46 @@
                                                            attribute:NSLayoutAttributeNotAnAttribute
                                                           multiplier:0.0
                                                             constant:20.f]];
-    _nameButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _nameButton.translatesAutoresizingMaskIntoConstraints = NO;
-    _nameButton.layer.cornerRadius = 4;
-    _nameButton.layer.masksToBounds = YES;
-    _nameButton.layer.borderWidth = 1.f;
-    _nameButton.layer.borderColor = kMainColor.CGColor;
-    [_nameButton setTitleColor:kMainColor forState:UIControlStateNormal];
-    [_nameButton setTitleColor:kColor(0, 59, 113, 1) forState:UIControlStateHighlighted];
-    _nameButton.titleLabel.font = [UIFont boldSystemFontOfSize:10.f];
-    [_nameButton setTitle:@"商品更名" forState:UIControlStateNormal];
-    [_nameButton addTarget:self action:@selector(changeName:) forControlEvents:UIControlEventTouchUpInside];
-    [headerView addSubview:_nameButton];
-    [headerView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
-                                                           attribute:NSLayoutAttributeRight
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:headerView
-                                                           attribute:NSLayoutAttributeRight
-                                                          multiplier:1.0
-                                                            constant:-rightSpace]];
-    [headerView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
-                                                           attribute:NSLayoutAttributeTop
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:headerView
-                                                           attribute:NSLayoutAttributeTop
-                                                          multiplier:1.0
-                                                            constant:topSpace]];
-    [headerView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
-                                                           attribute:NSLayoutAttributeWidth
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:nil
-                                                           attribute:NSLayoutAttributeNotAnAttribute
-                                                          multiplier:1.0
-                                                            constant:btnWidth]];
-    [headerView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
-                                                           attribute:NSLayoutAttributeHeight
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:nil
-                                                           attribute:NSLayoutAttributeNotAnAttribute
-                                                          multiplier:0.0
-                                                            constant:24.f]];
+//    _nameButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    _nameButton.translatesAutoresizingMaskIntoConstraints = NO;
+//    _nameButton.layer.cornerRadius = 4;
+//    _nameButton.layer.masksToBounds = YES;
+//    _nameButton.layer.borderWidth = 1.f;
+//    _nameButton.layer.borderColor = kMainColor.CGColor;
+//    [_nameButton setTitleColor:kMainColor forState:UIControlStateNormal];
+//    [_nameButton setTitleColor:kColor(0, 59, 113, 1) forState:UIControlStateHighlighted];
+//    _nameButton.titleLabel.font = [UIFont boldSystemFontOfSize:10.f];
+//    [_nameButton setTitle:@"商品更名" forState:UIControlStateNormal];
+//    [_nameButton addTarget:self action:@selector(changeName:) forControlEvents:UIControlEventTouchUpInside];
+//    [headerView addSubview:_nameButton];
+//    [headerView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
+//                                                           attribute:NSLayoutAttributeRight
+//                                                           relatedBy:NSLayoutRelationEqual
+//                                                              toItem:headerView
+//                                                           attribute:NSLayoutAttributeRight
+//                                                          multiplier:1.0
+//                                                            constant:-rightSpace]];
+//    [headerView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
+//                                                           attribute:NSLayoutAttributeTop
+//                                                           relatedBy:NSLayoutRelationEqual
+//                                                              toItem:headerView
+//                                                           attribute:NSLayoutAttributeTop
+//                                                          multiplier:1.0
+//                                                            constant:topSpace]];
+//    [headerView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
+//                                                           attribute:NSLayoutAttributeWidth
+//                                                           relatedBy:NSLayoutRelationEqual
+//                                                              toItem:nil
+//                                                           attribute:NSLayoutAttributeNotAnAttribute
+//                                                          multiplier:1.0
+//                                                            constant:btnWidth]];
+//    [headerView addConstraint:[NSLayoutConstraint constraintWithItem:_nameButton
+//                                                           attribute:NSLayoutAttributeHeight
+//                                                           relatedBy:NSLayoutRelationEqual
+//                                                              toItem:nil
+//                                                           attribute:NSLayoutAttributeNotAnAttribute
+//                                                          multiplier:0.0
+//                                                            constant:24.f]];
     
     CGFloat backHeight = 42.f;
     UIImageView *backView = [[UIImageView alloc] init];

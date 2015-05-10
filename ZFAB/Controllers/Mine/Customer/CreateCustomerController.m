@@ -241,6 +241,7 @@
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
                     hud.labelText = @"保存成功";
+                    [self.navigationController popViewControllerAnimated:YES];
                 }
             }
             else {
@@ -313,6 +314,15 @@
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
         hud.labelText = @"登录ID不能为空";
+        return;
+    }
+    NSArray *authList = [self getSelectedAuthority];
+    if ([authList count] <= 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请选择员工权限";
         return;
     }
     if (_type == CustomerTypeCreate) {

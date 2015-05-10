@@ -7,7 +7,6 @@
 //
 
 #import "TreeNodeInfo.h"
-#import "TreeNode.h"
 
 @implementation TreeNodeInfo
 

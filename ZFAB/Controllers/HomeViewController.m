@@ -226,6 +226,7 @@
             //我要进货
             GoodsViewController *goodC = [[GoodsViewController alloc] init];
             goodC.hidesBottomBarWhenPushed = YES;
+            goodC.navigationItem.title = @"进货";
             [self.navigationController pushViewController:goodC animated:YES];
         }
             break;

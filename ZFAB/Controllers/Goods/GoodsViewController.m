@@ -20,7 +20,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.title = @"进货";
+    if (!self.navigationItem.title) {
+        self.navigationItem.title = @"全部商品";
+    }
     [self initAndLayoutUI];
 }
 
@@ -37,44 +39,44 @@
     CGFloat btnHeight = 80.f;
     CGFloat middleSpace = 20.f;
     
-    UIButton *wholesaleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    wholesaleBtn.translatesAutoresizingMaskIntoConstraints = NO;
-    wholesaleBtn.layer.cornerRadius = 8;
-    wholesaleBtn.layer.masksToBounds = YES;
-    wholesaleBtn.titleLabel.font = [UIFont boldSystemFontOfSize:20.f];
-    [wholesaleBtn setTitle:@"去批购" forState:UIControlStateNormal];
-    [wholesaleBtn setBackgroundImage:[UIImage imageNamed:@"green.png"] forState:UIControlStateNormal];
-    [wholesaleBtn addTarget:self action:@selector(goToWholesale:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:wholesaleBtn];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:wholesaleBtn
-                                                          attribute:NSLayoutAttributeLeft
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeLeft
-                                                         multiplier:1.0
-                                                           constant:leftSpace]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:wholesaleBtn
-                                                          attribute:NSLayoutAttributeRight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeRight
-                                                         multiplier:1.0
-                                                           constant:-leftSpace]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:wholesaleBtn
-                                                          attribute:NSLayoutAttributeCenterY
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeCenterY
-                                                         multiplier:1.0
-                                                           constant:-(btnHeight + middleSpace) / 2 - 49]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:wholesaleBtn
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeHeight
-                                                         multiplier:0.0
-                                                           constant:btnHeight]];
+//    UIButton *wholesaleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    wholesaleBtn.translatesAutoresizingMaskIntoConstraints = NO;
+//    wholesaleBtn.layer.cornerRadius = 8;
+//    wholesaleBtn.layer.masksToBounds = YES;
+//    wholesaleBtn.titleLabel.font = [UIFont boldSystemFontOfSize:20.f];
+//    [wholesaleBtn setTitle:@"去批购" forState:UIControlStateNormal];
+//    [wholesaleBtn setBackgroundImage:[UIImage imageNamed:@"green.png"] forState:UIControlStateNormal];
+//    [wholesaleBtn addTarget:self action:@selector(goToWholesale:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:wholesaleBtn];
+//    
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:wholesaleBtn
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:self.view
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                         multiplier:1.0
+//                                                           constant:leftSpace]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:wholesaleBtn
+//                                                          attribute:NSLayoutAttributeRight
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:self.view
+//                                                          attribute:NSLayoutAttributeRight
+//                                                         multiplier:1.0
+//                                                           constant:-leftSpace]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:wholesaleBtn
+//                                                          attribute:NSLayoutAttributeCenterY
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:self.view
+//                                                          attribute:NSLayoutAttributeCenterY
+//                                                         multiplier:1.0
+//                                                           constant:-(btnHeight + middleSpace) / 2 - 49]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:wholesaleBtn
+//                                                          attribute:NSLayoutAttributeHeight
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:nil
+//                                                          attribute:NSLayoutAttributeHeight
+//                                                         multiplier:0.0
+//                                                           constant:btnHeight]];
     
     UIButton *procurementBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     procurementBtn.translatesAutoresizingMaskIntoConstraints = NO;
@@ -106,7 +108,7 @@
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeCenterY
                                                          multiplier:1.0
-                                                           constant:(btnHeight + middleSpace) / 2 - 49]];
+                                                           constant:0.f]]; //(btnHeight + middleSpace) / 2 - 49
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:procurementBtn
                                                           attribute:NSLayoutAttributeHeight
                                                           relatedBy:NSLayoutRelationEqual

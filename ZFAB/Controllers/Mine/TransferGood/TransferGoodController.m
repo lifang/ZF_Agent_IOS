@@ -301,9 +301,19 @@
         }
             break;
         case 2: {
-            PGSelectedTerminalController *terminalC = [[PGSelectedTerminalController alloc] init];
-            terminalC.filterType = FilterTypeTransferGood;
-            [self.navigationController pushViewController:terminalC animated:YES];
+            if (!_fromAgent.ID || [_fromAgent.ID isEqualToString:@""]) {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"请选择调货代理商";
+            }
+            else {
+                PGSelectedTerminalController *terminalC = [[PGSelectedTerminalController alloc] init];
+                terminalC.filterType = FilterTypeTransferGood;
+                terminalC.selectedAgentID = _fromAgent.ID;
+                [self.navigationController pushViewController:terminalC animated:YES];
+            }
         }
             break;
         default:
@@ -324,6 +334,8 @@
 - (void)getSelectedGoodAgent:(GoodAgentModel *)model style:(AgentStyle)style {
     if (style == AgentStyleFrom) {
         _fromAgent = model;
+        _selectedTerminalList = nil;
+        [_tableView reloadData];
     }
     else if (style == AgentStyleTo) {
         _toAgent = model;

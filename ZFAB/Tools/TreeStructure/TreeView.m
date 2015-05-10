@@ -62,7 +62,7 @@
     NSArray *children = [self childrenForItem:parentTreeNode.item];
     for (id item in children) {
         //初始创建节点折叠
-        BOOL expanded = NO;
+        BOOL expanded = YES;
         //创建一个折叠的子节点 初始时父节点为nil
         TreeNode *treeNode = [[TreeNode alloc] initWithItem:item
                                                      parent:parentTreeNode

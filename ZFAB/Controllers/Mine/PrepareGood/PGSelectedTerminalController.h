@@ -13,4 +13,6 @@
 
 @property (nonatomic, assign) FilterType filterType;   //配货还是调货
 
+@property (nonatomic, strong) NSString *selectedAgentID; //调货的下级代理商
+
 @end

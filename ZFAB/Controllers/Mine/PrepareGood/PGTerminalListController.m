@@ -35,6 +35,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _resultItem = [[NSMutableArray alloc] init];
+    _terminalFilter = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
     [self firstLoadData];
 }
@@ -188,7 +189,12 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getPrepareGoodTerminalListWithAgentID:delegate.agentID token:delegate.token channelID:_channelID goodID:_POSID terminalNumbers:_terminalFilter page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
+    NSString *agentID = delegate.agentID;
+    if (_selectedAgentID) {
+        //调货下级代理商
+        agentID = _selectedAgentID;
+    }
+    [NetworkInterface getPrepareGoodTerminalListWithAgentID:agentID token:delegate.token channelID:_channelID goodID:_POSID terminalNumbers:_terminalFilter page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];

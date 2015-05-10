@@ -127,6 +127,9 @@
     listC.POSID = _selectedPOS.ID;
     listC.terminalFilter = _terminalList;
     listC.filterType = _filterType;
+    if (_filterType == FilterTypeTransferGood) {
+        listC.selectedAgentID = _selectedAgentID;
+    }
     [self.navigationController pushViewController:listC animated:YES];
 }
 
@@ -175,6 +178,9 @@
         case 0: {
             PGInputTerminalController *inputC = [[PGInputTerminalController alloc] init];
             inputC.delegate = self;
+            if (_terminalList) {
+                inputC.searchString = [_terminalList componentsJoinedByString:@"\n"];
+            }
             [self.navigationController pushViewController:inputC animated:YES];
         }
             break;
@@ -182,6 +188,9 @@
             PGFilterPOSController *posC = [[PGFilterPOSController alloc] init];
             posC.delegate = self;
             posC.goodList = _goodList;
+            if (_filterType == FilterTypeTransferGood) {
+                posC.selectedAgentID = _selectedAgentID;
+            }
             [self.navigationController pushViewController:posC animated:YES];
         }
             break;
@@ -189,6 +198,9 @@
             PGFilterChannelController *channelC = [[PGFilterChannelController alloc] init];
             channelC.delegate = self;
             channelC.channelList = _channelList;
+            if (_filterType == FilterTypeTransferGood) {
+                channelC.selectedAgentID = _selectedAgentID;
+            }
             [self.navigationController pushViewController:channelC animated:YES];
         }
             break;

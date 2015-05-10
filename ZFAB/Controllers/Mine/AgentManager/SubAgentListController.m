@@ -94,7 +94,7 @@
                     if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
                         self.page++;
-                        [hud hide:YES];
+                        hud.hidden = YES;
                     }
                     else {
                         //无数据

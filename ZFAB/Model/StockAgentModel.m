@@ -21,13 +21,15 @@
         else {
             _agentName = @"";
         }
-        if ([dict objectForKey:@"lastPrepareTime"]) {
+        if ([dict objectForKey:@"lastPrepareTime"] &&
+            ![[dict objectForKey:@"lastPrepareTime"] isMemberOfClass:[NSNull class]]) {
             _prepareTime = [NSString stringWithFormat:@"%@",[dict objectForKey:@"lastPrepareTime"]];
         }
         else {
             _prepareTime = @"";
         }
-        if ([dict objectForKey:@"lastOpenTime"]) {
+        if ([dict objectForKey:@"lastOpenTime"] &&
+            ![[dict objectForKey:@"lastOpenTime"] isMemberOfClass:[NSNull class]]) {
             _openTime = [NSString stringWithFormat:@"%@",[dict objectForKey:@"lastOpenTime"]];
         }
         else {

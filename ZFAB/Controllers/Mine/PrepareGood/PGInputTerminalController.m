@@ -102,12 +102,15 @@
     _textView.delegate = self;
     _textView.returnKeyType = UIReturnKeyDone;
     _textView.font = [UIFont systemFontOfSize:15.f];
+    _textView.text = _searchString;
     
     _placeholderLabel = [[UILabel alloc] init];
     _placeholderLabel.backgroundColor = [UIColor clearColor];
     _placeholderLabel.textColor = kColor(146, 146, 146, 1);
     _placeholderLabel.font = [UIFont systemFontOfSize:15.f];
-    _placeholderLabel.text = @"请输入终端号，终端号之间回车间隔";
+    if (!_textView.text || [_textView.text isEqualToString:@""]) {
+        _placeholderLabel.text = @"请输入终端号，终端号之间回车间隔";
+    }
     
     _tipLabel = [[UILabel alloc] init];
     _tipLabel.backgroundColor = [UIColor clearColor];

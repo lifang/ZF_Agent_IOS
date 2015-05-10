@@ -112,6 +112,15 @@
     }
 }
 
+- (void)clearAllStatus:(NSArray *)item {
+    for (TreeNodeModel *node in item) {
+        node.isSelected = NO;
+        if (node.children) {
+            [self clearAllStatus:node.children];
+        }
+    }
+}
+
 #pragma mark - Action
 
 - (IBAction)filterFinished:(id)sender {
@@ -196,7 +205,14 @@
     
     if ([treeNodeInfo.childrenTreeNodes count] <= 0) {
         TreeNodeModel *node = (TreeNodeModel *)item;
-        node.isSelected = !node.isSelected;
+        if ([_key isEqualToString:s_category]) {
+            [self clearAllStatus:_dataItem];
+            node.isSelected = !node.isSelected;
+            [_treeView reloadData];
+        }
+        else {
+            node.isSelected = !node.isSelected;
+        }
         if (node.isSelected) {
             cell.imageView.image = kImageName(@"btn_selected.png");
         }

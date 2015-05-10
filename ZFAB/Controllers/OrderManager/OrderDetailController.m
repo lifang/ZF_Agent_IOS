@@ -144,7 +144,7 @@ typedef enum {
                  _orderDetail.orderStatus == ProcurementStatusCancel ||
                  _orderDetail.orderStatus == ProcurementStatusClosed) {
             //再次批购
-            UIButton *repeatBtn = [self buttonWithTitle:@"再次批购" action:@selector(repeatProcurement:) style:OrderDetailBtnStyleSecond];
+            UIButton *repeatBtn = [self buttonWithTitle:@"再次代购" action:@selector(repeatProcurement:) style:OrderDetailBtnStyleSecond];
             repeatBtn.frame = CGRectMake(middleSpace, 12, kScreenWidth - 2 * middleSpace, btnHeight);
             [_detailFooterView addSubview:repeatBtn];
         }
@@ -456,6 +456,7 @@ typedef enum {
                         
                         UILabel *userLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth * 0.6 + 5, 30, kScreenWidth * 0.4 - originX, 20)];
                         [self setLabel:userLabel withString:_orderDetail.belongUser];
+                        [cell.contentView addSubview:userLabel];
                     }
                 }
                     break;
@@ -716,7 +717,13 @@ typedef enum {
 
 //批购
 - (IBAction)cancelWholesaleOrder:(id)sender {
-    [self cancelWholesaleOrder];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                    message:@"确认取消此订单？"
+                                                   delegate:self
+                                          cancelButtonTitle:@"取消"
+                                          otherButtonTitles:@"确定",nil];
+    alert.tag = AlertTagCancel;
+    [alert show];
 }
 
 //支付定金
@@ -762,7 +769,13 @@ typedef enum {
 
 //代购
 - (IBAction)cancelProcurementOrder:(id)sender {
-    [self cancelProcurementOrder];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                    message:@"确认取消此订单？"
+                                                   delegate:self
+                                          cancelButtonTitle:@"取消"
+                                          otherButtonTitles:@"确定",nil];
+    alert.tag = AlertTagCancel;
+    [alert show];
 }
 
 //付款
@@ -833,6 +846,14 @@ typedef enum {
             payC.fromType = PayWayFromOrderWholesale;
             payC.isPayPartMoney = YES; //部分付款
             [self.navigationController pushViewController:payC animated:YES];
+        }
+        else if (alertView.tag == AlertTagCancel) {
+            if (_supplyType == SupplyGoodsWholesale) {
+                [self cancelWholesaleOrder];
+            }
+            else {
+                [self cancelProcurementOrder];
+            }
         }
     }
 }

@@ -83,18 +83,31 @@
             if ([terminalDict objectForKey:@"brandName"]) {
                 _brandName = [NSString stringWithFormat:@"%@",[terminalDict objectForKey:@"brandName"]];
             }
+            else {
+                _brandName = @"";
+            }
             if ([terminalDict objectForKey:@"model_number"]) {
                 _modelNumber = [NSString stringWithFormat:@"%@",[terminalDict objectForKey:@"model_number"]];
+            }
+            else {
+                _modelNumber = @"";
             }
             if ([terminalDict objectForKey:@"serial_num"]) {
                 _terminalNumber = [NSString stringWithFormat:@"%@",[terminalDict objectForKey:@"serial_num"]];
             }
+            else {
+                _terminalNumber = @"";
+            }
             if ([terminalDict objectForKey:@"channelName"]) {
                 _channelName = [NSString stringWithFormat:@"%@",[terminalDict objectForKey:@"channelName"]];
+            }
+            else {
+                _channelName = @"";
             }
             if ([terminalDict objectForKey:@"channelId"]) {
                 _terminalChannelID = [NSString stringWithFormat:@"%@",[terminalDict objectForKey:@"channelId"]];
             }
+            _openType = [[terminalDict objectForKey:@"supportRequirementType"] intValue];
         }
         id primaryDict = [dict objectForKey:@"openingInfos"];
         if ([primaryDict isKindOfClass:[NSDictionary class]]) {

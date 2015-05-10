@@ -18,6 +18,8 @@
 
 @property (nonatomic, assign) BOOL isSelected;
 
+@property (nonatomic, assign) BOOL isExpand;
+
 - (id)initWithDirectoryName:(NSString *)name
                    children:(NSArray *)children
                      nodeID:(NSString *)nodeID;

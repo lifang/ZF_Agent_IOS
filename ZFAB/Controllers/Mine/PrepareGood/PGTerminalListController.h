@@ -25,4 +25,6 @@ typedef enum {
 
 @property (nonatomic, assign) FilterType filterType;
 
+@property (nonatomic, strong) NSString *selectedAgentID;
+
 @end

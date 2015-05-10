@@ -383,14 +383,14 @@
         hud.labelText = @"请填写收件人电话";
         return;
     }
-    if (!_zipField.text || [_zipField.text isEqualToString:@""]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请填写邮编";
-        return;
-    }
+//    if (!_zipField.text || [_zipField.text isEqualToString:@""]) {
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//        hud.customView = [[UIImageView alloc] init];
+//        hud.mode = MBProgressHUDModeCustomView;
+//        [hud hide:YES afterDelay:1.f];
+//        hud.labelText = @"请填写邮编";
+//        return;
+//    }
     if (!_cityField.text || [_cityField.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
@@ -423,7 +423,8 @@
         hud.labelText = @"请填写正确的电话";
         return;
     }
-    if (!([RegularFormat isZipCode:_zipField.text])) {
+    if (!(!_zipField.text || [_zipField.text isEqualToString:@""]) &&
+        !([RegularFormat isZipCode:_zipField.text])) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;

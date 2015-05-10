@@ -18,4 +18,6 @@
 
 @property (nonatomic, assign) id<PGTerminalDelegate>delegate;
 
+@property (nonatomic, strong) NSString *searchString;
+
 @end

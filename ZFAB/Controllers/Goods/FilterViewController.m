@@ -125,11 +125,13 @@
     _lowField.backgroundColor = [UIColor clearColor];
     _lowField.textAlignment = NSTextAlignmentRight;
     _lowField.placeholder = @"0";
+    _lowField.text = @"0";
     _lowField.delegate = self;
     _highField = [[UITextField alloc] init];
     _highField.font = [UIFont systemFontOfSize:14.f];
     _highField.backgroundColor = [UIColor clearColor];
     _highField.placeholder = @"0";
+    _highField.text = @"0";
     _highField.textAlignment = NSTextAlignmentRight;
     _highField.delegate = self;
     

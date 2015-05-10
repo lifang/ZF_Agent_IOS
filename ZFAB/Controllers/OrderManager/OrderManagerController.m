@@ -20,7 +20,7 @@
 
 @interface OrderManagerController ()<OrderCellDelegate,UIAlertViewDelegate>
 
-@property (nonatomic, strong) UISegmentedControl *segmentControl;
+//@property (nonatomic, strong) UISegmentedControl *segmentControl;
 
 @property (nonatomic, assign) SupplyGoodsType supplyType; //批购还是代购订单
 
@@ -51,7 +51,7 @@
     self.title = @"订单管理";
     _orderItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
-    self.supplyType = SupplyGoodsWholesale;
+    self.supplyType = SupplyGoodsProcurement;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refreshOrderList:)
                                                  name:RefreshOrderListNotification
@@ -91,18 +91,18 @@
 
 - (void)initAndLayoutUI {
     [self initRefreshViewWithOffset:0];
-    NSArray *nameArray = [NSArray arrayWithObjects:
-                          @"批购订单",
-                          @"代购订单",
-                          nil];
-    _segmentControl = [[UISegmentedControl alloc] initWithItems:nameArray];
-    _segmentControl.selectedSegmentIndex = 0;
-    _segmentControl.tintColor = kMainColor;
-    [_segmentControl addTarget:self action:@selector(typeChanged:) forControlEvents:UIControlEventValueChanged];
-    NSDictionary *attrDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [UIFont boldSystemFontOfSize:14.f],NSFontAttributeName,
-                              nil];
-    [_segmentControl setTitleTextAttributes:attrDict forState:UIControlStateNormal];
+//    NSArray *nameArray = [NSArray arrayWithObjects:
+//                          @"批购订单",
+//                          @"代购订单",
+//                          nil];
+//    _segmentControl = [[UISegmentedControl alloc] initWithItems:nameArray];
+//    _segmentControl.selectedSegmentIndex = 0;
+//    _segmentControl.tintColor = kMainColor;
+//    [_segmentControl addTarget:self action:@selector(typeChanged:) forControlEvents:UIControlEventValueChanged];
+//    NSDictionary *attrDict = [NSDictionary dictionaryWithObjectsAndKeys:
+//                              [UIFont boldSystemFontOfSize:14.f],NSFontAttributeName,
+//                              nil];
+//    [_segmentControl setTitleTextAttributes:attrDict forState:UIControlStateNormal];
     
     //控件初始化
     _typeButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -141,22 +141,22 @@
 }
 
 - (void)setHeaderAndFooterView {
-    CGFloat headerHeight = 85.f;
+    CGFloat headerHeight = 85.f - 30;
     if (_supplyType == SupplyGoodsProcurement) {
-        headerHeight = 120.f;
+        headerHeight = 120.f - 30;
     }
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, headerHeight)];
     headerView.backgroundColor = [UIColor clearColor];
     self.tableView.tableHeaderView = headerView;
-    CGFloat h_space = 20.f;
-    CGFloat v_space = 10.f;
-    _segmentControl.frame = CGRectMake(h_space, v_space, kScreenWidth - h_space * 2, 30);
-    [headerView addSubview:_segmentControl];
+//    CGFloat h_space = 20.f;
+//    CGFloat v_space = 10.f;
+//    _segmentControl.frame = CGRectMake(h_space, v_space, kScreenWidth - h_space * 2, 30);
+//    [headerView addSubview:_segmentControl];
     
     if (_supplyType == SupplyGoodsWholesale) {
         UIView *statusBackView = [self getHeaderBackView];
         CGRect rect = statusBackView.frame;
-        rect.origin.y = 50.f;
+        rect.origin.y = 50.f - 40;
         statusBackView.frame = rect;
         [headerView addSubview:statusBackView];
         
@@ -169,7 +169,7 @@
     else if (_supplyType == SupplyGoodsProcurement) {
         UIView *typeBackView = [self getHeaderBackView];
         CGRect rect = typeBackView.frame;
-        rect.origin.y = 50.f;
+        rect.origin.y = 50.f - 40;
         typeBackView.frame = rect;
         [headerView addSubview:typeBackView];
         
@@ -493,7 +493,7 @@
 }
 
 - (IBAction)typeChanged:(id)sender {
-    self.supplyType = (SupplyGoodsType)([_segmentControl selectedSegmentIndex] + 1);
+//    self.supplyType = (SupplyGoodsType)([_segmentControl selectedSegmentIndex] + 1);
 }
 
 - (IBAction)showOrderType:(id)sender {

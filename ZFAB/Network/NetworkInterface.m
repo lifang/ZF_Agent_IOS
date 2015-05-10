@@ -725,8 +725,8 @@ static NSString *HTTP_GET  = @"GET";
     if (brandID) {
         [paramDict setObject:brandID forKey:@"brandsId"];
     }
-    if (category) {
-        [paramDict setObject:category forKey:@"category"];
+    if ([category count] >= 1) {
+        [paramDict setObject:[category objectAtIndex:0] forKey:@"category"];
     }
     if (channelID) {
         [paramDict setObject:channelID forKey:@"payChannelId"];
@@ -1203,7 +1203,7 @@ static NSString *HTTP_GET  = @"GET";
         [paramDict setObject:[NSNumber numberWithInt:[toAgentID intValue]] forKey:@"toAgentId"];
     }
     if (terminalList) {
-        [paramDict setObject:terminalList forKey:@"serial_nums"];
+        [paramDict setObject:terminalList forKey:@"serialNums"];
     }
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_transferGood_method];

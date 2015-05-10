@@ -75,6 +75,8 @@
 
 @property (nonatomic, assign) CGRect imageRect;
 
+@property (nonatomic, assign) BOOL alreadyInitUI;
+
 //无作用 就是用来去掉cell中输入框的输入状态
 @property (nonatomic, strong) UITextField *tempField;
 
@@ -86,12 +88,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"开通申请";
+    self.view.backgroundColor = kColor(244, 243, 243, 1);
     _applyType = OpenApplyPublic;
     _infoDict = [[NSMutableDictionary alloc] init];
     _tempField = [[UITextField alloc] init];
     _tempField.hidden = YES;
     [self.view addSubview:_tempField];
-    [self initAndLayoutUI];
+//    [self initAndLayoutUI];
     [self beginApply];
 }
 
@@ -106,10 +109,33 @@
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 150)];
     headerView.backgroundColor = kColor(234, 234, 234, 1);
     _tableView.tableHeaderView = headerView;
-    NSArray *nameArray = [NSArray arrayWithObjects:
-                          @"对公",
-                          @"对私",
-                          nil];
+    NSArray *nameArray = nil;
+    switch (_applyData.openType) {
+        case OpenTypePrivate: {
+            nameArray = [NSArray arrayWithObjects:
+                         @"对私",
+                         nil];
+            _applyType = OpenApplyPrivate;
+        }
+            break;
+        case OpenTypePublic: {
+            nameArray = [NSArray arrayWithObjects:
+                         @"对公",
+                         nil];
+            _applyType = OpenApplyPublic;
+        }
+            break;
+        case OpenTypeAll: {
+           nameArray = [NSArray arrayWithObjects:
+                        @"对公",
+                        @"对私",
+                        nil];
+            _applyType = OpenApplyPublic;
+        }
+            break;
+        default:
+            break;
+    }
     CGFloat h_space = 20.f;
     CGFloat v_space = 10.f;
     _segmentControl = [[UISegmentedControl alloc] initWithItems:nameArray];
@@ -170,10 +196,18 @@
     _channelLabel.font = [UIFont systemFontOfSize:14.f];
     [view addSubview:_channelLabel];
     
+    _brandLabel.text = [NSString stringWithFormat:@"POS品牌   %@",_applyData.brandName];
+    _modelLabel.text = [NSString stringWithFormat:@"POS型号   %@",_applyData.modelNumber];
+    _terminalLabel.text = [NSString stringWithFormat:@"终  端  号   %@",_applyData.terminalNumber];
+    _channelLabel.text = [NSString stringWithFormat:@"支付通道   %@",_applyData.channelName];
     return view;
 }
 
 - (void)initAndLayoutUI {
+    if (_alreadyInitUI) {
+        return;
+    }
+    _alreadyInitUI = YES;
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     _tableView.translatesAutoresizingMaskIntoConstraints = NO;
     _tableView.backgroundColor = kColor(244, 243, 243, 1);
@@ -276,6 +310,7 @@
                 else if ([errorCode intValue] == RequestSuccess) {
                     [hud hide:YES];
                     [self parseApplyDataWithDictionary:object];
+                    [self initAndLayoutUI];
                 }
             }
             else {
@@ -334,10 +369,6 @@
     NSDictionary *applyDict = [dict objectForKey:@"result"];
     OpenApplyModel *model = [[OpenApplyModel alloc] initWithParseDictionary:applyDict];
     _applyData = model;
-    _brandLabel.text = [NSString stringWithFormat:@"POS品牌   %@",_applyData.brandName];
-    _modelLabel.text = [NSString stringWithFormat:@"POS型号   %@",_applyData.modelNumber];
-    _terminalLabel.text = [NSString stringWithFormat:@"终  端  号   %@",_applyData.terminalNumber];
-    _channelLabel.text = [NSString stringWithFormat:@"支付通道   %@",_applyData.channelName];
     [self setPrimaryData];
     [_tableView reloadData];
 }
@@ -541,7 +572,12 @@
             row = 9;
             break;
         case 1:
-            row = 6;
+            if (_applyType == OpenTypePublic) {
+                row = 6;
+            }
+            else {
+                row = 4;
+            }
             break;
         case 2:
             row = [_applyData.materialList count];
@@ -674,22 +710,34 @@
                     titleName = @"结算银行卡号";
                     break;
                 case 3:
-                    textKey = key_taxID;
-                    titleName = @"税务登记证号";
+                    if (_applyType == OpenTypePublic) {
+                        textKey = key_taxID;
+                        titleName = @"税务登记证号";
+                    }
+                    else {
+                        textKey = key_channel;
+                        titleName = @"支付通道";
+                    }
                     break;
                 case 4:
-                    textKey = key_organID;
-                    titleName = @"组织机构号";
+                    if (_applyType == OpenTypePublic) {
+                        textKey = key_organID;
+                        titleName = @"组织机构号";
+                    }
                     break;
                 case 5:
-                    textKey = key_channel;
-                    titleName = @"支付通道";
+                    if (_applyType == OpenTypePublic) {
+                        textKey = key_channel;
+                        titleName = @"支付通道";
+                    }
                     break;
                 default:
                     break;
             }
             textFiled.key = textKey;
-            if (indexPath.row == 1 || indexPath.row == 5) {
+            if (indexPath.row == 1 ||
+                (indexPath.row == 5 && _applyType == OpenTypePublic) ||
+                (indexPath.row == 3 && _applyType == OpenTypePrivate)) {
                 CGRect rect = CGRectMake(kScreenWidth - 180, (cell.frame.size.height - 30) / 2, 150, 30);
                 textFiled.frame = rect;
                 textFiled.userInteractionEnabled = NO;
@@ -822,7 +870,8 @@
             bankC.terminalID = _terminalID;
             [self.navigationController pushViewController:bankC animated:YES];
         }
-        else if (indexPath.section == 1 && indexPath.row == 5) {
+        else if ((indexPath.section == 1 && indexPath.row == 5 && _applyType == OpenTypePublic) ||
+                 (indexPath.section == 1 && indexPath.row == 3 && _applyType == OpenTypePrivate)) {
             if (!_applyData.terminalChannelID || [_applyData.terminalChannelID isEqualToString:@""]) {
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                 hud.customView = [[UIImageView alloc] init];
@@ -1049,6 +1098,14 @@
 //    [_tempField becomeFirstResponder];
 //    [_tempField resignFirstResponder];
     [self.editingField resignFirstResponder];
+    if (_applyData.openType == OpenTypeNone) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"未获取到终端开通类型";
+        return;
+    }
     if (![_infoDict objectForKey:key_name]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
@@ -1137,21 +1194,23 @@
         hud.labelText = @"请填写结算银行账户";
         return;
     }
-    if (![_infoDict objectForKey:key_taxID]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请填写税务登记证号";
-        return;
-    }
-    if (![_infoDict objectForKey:key_organID]) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.customView = [[UIImageView alloc] init];
-        hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请填写组织机构号";
-        return;
+    if (_applyType == OpenTypePublic) {
+        if (![_infoDict objectForKey:key_taxID]) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"请填写税务登记证号";
+            return;
+        }
+        if (![_infoDict objectForKey:key_organID]) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"请填写组织机构号";
+            return;
+        }
     }
     if (!_channelID || !_billID) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -1240,6 +1299,7 @@
     if (model.merchantPersonName && ![model.merchantPersonName isEqualToString:@""]) {
         [_infoDict setObject:model.merchantPersonName forKey:key_selected];
         [_infoDict setObject:model.merchantPersonName forKey:key_name];
+        [_infoDict setObject:model.merchantPersonName forKey:key_bank];
     }
     if (model.merchantName && ![model.merchantName isEqualToString:@""]) {
         [_infoDict setObject:model.merchantName forKey:key_merchantName];
@@ -1299,6 +1359,11 @@
 - (void)textFieldDidEndEditing:(ApplyTextField *)textField {
     if (textField.text && ![textField.text isEqualToString:@""]) {
         [_infoDict setObject:textField.text forKey:textField.key];
+        if ([textField.key isEqualToString:key_name] &&
+            (![_infoDict objectForKey:key_bank] || [[_infoDict objectForKey:key_bank] isEqualToString:@""])) {
+            [_infoDict setObject:textField.text forKey:key_bank];
+            [_tableView reloadData];
+        }
     }
 }
 

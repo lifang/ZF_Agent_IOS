@@ -14,7 +14,7 @@
 #import "MBProgressHUD.h"
 #import "SettingViewController.h"
 
-static NSString *s_phoneNumber = @"4000908076";
+static NSString *s_phoneNumber = @"40000090876";
 
 @interface MineViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
 
@@ -153,7 +153,7 @@ static NSString *s_phoneNumber = @"4000908076";
             break;
         case 1: {
             if (indexPath.row == 0) {
-                titleName = @"呼叫掌富400-090-8076";
+                titleName = @"呼叫掌富400-009-0876";
                 imageName = @"mine4.png";
             }
         }

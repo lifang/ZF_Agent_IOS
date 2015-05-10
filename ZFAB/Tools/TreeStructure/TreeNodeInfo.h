@@ -11,8 +11,7 @@
  */
 
 #import <Foundation/Foundation.h>
-
-@class TreeNode;
+#import "TreeNode.h"
 
 @interface TreeNodeInfo : NSObject
 
