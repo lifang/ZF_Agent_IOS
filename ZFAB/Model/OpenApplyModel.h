@@ -81,9 +81,10 @@ typedef enum {
 @property (nonatomic, strong) NSString *phoneNumber;
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *cityID;
-@property (nonatomic, strong) NSString *bankName;
-@property (nonatomic, strong) NSString *bankNumber;
-@property (nonatomic, strong) NSString *bankAccount;
+@property (nonatomic, strong) NSString *bankTitleName; //银行名
+@property (nonatomic, strong) NSString *bankName;  //银行账户名
+@property (nonatomic, strong) NSString *bankNumber;    //银行卡号
+@property (nonatomic, strong) NSString *bankAccount;   //银行代码
 @property (nonatomic, strong) NSString *taxID;
 @property (nonatomic, strong) NSString *organID;
 @property (nonatomic, strong) NSString *channelID;

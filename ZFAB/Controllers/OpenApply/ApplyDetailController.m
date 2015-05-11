@@ -72,6 +72,7 @@
 @property (nonatomic, strong) NSString *merchantID;
 @property (nonatomic, strong) NSString *channelID; //支付通道ID
 @property (nonatomic, strong) NSString *billID;    //结算日期ID
+@property (nonatomic, strong) NSString *bankTitleName; //银行名
 
 @property (nonatomic, assign) CGRect imageRect;
 
@@ -342,7 +343,7 @@
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
-                    hud.labelText = @"添加成功";
+                    hud.labelText = @"信息提交成功";
                     if ([[self.navigationController childViewControllers] count] >= 2) {
                         UIViewController *controller = [self.navigationController.childViewControllers objectAtIndex:1];
                         [self.navigationController popToViewController:controller animated:YES];
@@ -416,6 +417,7 @@
     }
     _channelID = _applyData.channelID;
     _billID = _applyData.billingID;
+    _bankTitleName = _applyData.bankTitleName;
     
     [_infoDict setObject:[NSNumber numberWithInt:_applyData.sex] forKey:key_sex];
     _merchantID = _applyData.merchantID;
@@ -702,11 +704,11 @@
                     titleName = @"结算银行账号名";
                     break;
                 case 1:
-                    textKey = key_bankID;
-                    titleName = @"结算银行代码";
+                    textKey = key_bankAccount;
+                    titleName = @"结算银行名称";
                     break;
                 case 2:
-                    textKey = key_bankAccount;
+                    textKey = key_bankID;
                     titleName = @"结算银行卡号";
                     break;
                 case 3:
@@ -749,8 +751,13 @@
                 textFiled.userInteractionEnabled = YES;
                 cell.accessoryType = UITableViewCellAccessoryNone;
             }
-            if ([_infoDict objectForKey:textKey]) {
-                textFiled.text = [_infoDict objectForKey:textKey];
+            if (indexPath.row == 1) {
+                textFiled.text = _bankTitleName;
+            }
+            else {
+                if ([_infoDict objectForKey:textKey]) {
+                    textFiled.text = [_infoDict objectForKey:textKey];
+                }
             }
             cell.key = textKey;
             cell.textLabel.text = titleName;
@@ -1097,6 +1104,7 @@
 - (IBAction)submitApply:(id)sender {
 //    [_tempField becomeFirstResponder];
 //    [_tempField resignFirstResponder];
+    NSLog(@"%@",_infoDict);
     [self.editingField resignFirstResponder];
     if (_applyData.openType == OpenTypeNone) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -1175,7 +1183,7 @@
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请填写结算银行名称";
+        hud.labelText = @"请填写结算银行账号名";
         return;
     }
     if (![_infoDict objectForKey:key_bankID]) {
@@ -1183,15 +1191,15 @@
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请填写结算银行代码";
+        hud.labelText = @"请填写结算银行卡号";
         return;
     }
-    if (![_infoDict objectForKey:key_bankAccount]) {
+    if (![_infoDict objectForKey:key_bankAccount] || !_bankTitleName) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"请填写结算银行账户";
+        hud.labelText = @"请填写结算银行名称";
         return;
     }
     if (_applyType == OpenTypePublic) {
@@ -1266,11 +1274,16 @@
     [params setObject:[NSNumber numberWithInt:[[_infoDict objectForKey:key_location] intValue]] forKey:@"cityId"];
     [params setObject:[NSNumber numberWithInt:[_channelID intValue]] forKey:@"channel"];
     [params setObject:[NSNumber numberWithInt:[_billID intValue]] forKey:@"billingId"];
-    [params setObject:[_infoDict objectForKey:key_bankAccount] forKey:@"bankNum"];
-    [params setObject:[_infoDict objectForKey:key_bank] forKey:@"bankName"];
-    [params setObject:[_infoDict objectForKey:key_bankID] forKey:@"bankCode"];
-    [params setObject:[_infoDict objectForKey:key_organID] forKey:@"organizationNo"];
-    [params setObject:[_infoDict objectForKey:key_taxID] forKey:@"registeredNo"];
+    [params setObject:[_infoDict objectForKey:key_bankAccount] forKey:@"bankCode"]; //银行代码
+    [params setObject:[_infoDict objectForKey:key_bank] forKey:@"bankName"];        //账户名
+    [params setObject:[_infoDict objectForKey:key_bankID] forKey:@"bankNum"];       //卡号
+    if (_bankTitleName) {
+        [params setObject:_bankTitleName forKey:@"bank_name"];
+    }
+    if (_applyType == OpenApplyPublic) {
+        [params setObject:[_infoDict objectForKey:key_organID] forKey:@"organizationNo"];
+        [params setObject:[_infoDict objectForKey:key_taxID] forKey:@"registeredNo"];
+    }
     
     [paramList addObject:params];
     for (MaterialModel *model in _applyData.materialList) {
@@ -1325,6 +1338,7 @@
     if (model) {
         //此处没有保存对象 因为infoDict的值都为NSString，防止报错
         [_infoDict setObject:model.bankCode forKey:_selectedKey];
+        _bankTitleName = model.bankName;
         [_tableView reloadData];
     }
 }
