@@ -32,6 +32,8 @@
 
 - (void)refreshViewFinishedLoadingWithDirection:(PullDirection)direction;
 
+- (void)updateFooterViewFrame;
+
 //下拉刷新
 - (void)pullDownToLoadData;
 //上拉加载更多

@@ -192,7 +192,7 @@
     }
     BankModel *model = [_dataItem objectAtIndex:indexPath.row];
     cell.textLabel.text = model.bankName;
-    cell.textLabel.font = [UIFont systemFontOfSize:14.f];
+//    cell.textLabel.font = [UIFont systemFontOfSize:14.f];
     cell.textLabel.numberOfLines = 2;
     cell.imageView.image = kImageName(@"btn_selected");
     if (model.isSelected) {
@@ -271,6 +271,13 @@
 
 - (void)pullUpToLoadData {
     [self downloadDataWithPage:self.page isMore:YES];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (self.bottomRefreshView.frame.origin.y != scrollView.contentSize.height) {
+        [self updateFooterViewFrame];
+    }
+    [super scrollViewDidScroll:scrollView];
 }
 
 @end
