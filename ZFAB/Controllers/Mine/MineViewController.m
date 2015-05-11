@@ -14,7 +14,7 @@
 #import "MBProgressHUD.h"
 #import "SettingViewController.h"
 
-static NSString *s_phoneNumber = @"40000090876";
+static NSString *s_phoneNumber = @"4000090876";
 
 @interface MineViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
 

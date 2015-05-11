@@ -6,10 +6,10 @@
 //  Copyright (c) 2015年 ___MyCompanyName___. All rights reserved.
 //
 
-#import "CommonViewController.h"
+#import "ScanImageViewController.h"
 #import "SubAgentModel.h"
 
-@interface SubAgentDetailController : CommonViewController
+@interface SubAgentDetailController : ScanImageViewController
 
 @property (nonatomic, strong) SubAgentModel *subAgent;
 

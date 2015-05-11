@@ -145,12 +145,12 @@
     if ([[treeNode treeNodeInfo].children count] == 0) {
         return;
     }
-    if (treeNode.expanded) {
-        [self collapseCellForTreeNode:treeNode];
-    }
-    else {
-        [self expandCellForTreeNode:treeNode];
-    }
+//    if (treeNode.expanded) {
+//        [self collapseCellForTreeNode:treeNode];
+//    }
+//    else {
+//        [self expandCellForTreeNode:treeNode];
+//    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {

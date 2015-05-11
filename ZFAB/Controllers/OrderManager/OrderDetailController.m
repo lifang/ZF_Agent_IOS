@@ -42,7 +42,7 @@ typedef enum {
         self.title = @"批购订单详情";
     }
     else {
-        self.title = @"代购订单详情";
+        self.title = @"采购订单详情";
     }
     self.view.backgroundColor = kColor(244, 243, 243, 1);
     [self downloadDetail];
@@ -144,7 +144,7 @@ typedef enum {
                  _orderDetail.orderStatus == ProcurementStatusCancel ||
                  _orderDetail.orderStatus == ProcurementStatusClosed) {
             //再次批购
-            UIButton *repeatBtn = [self buttonWithTitle:@"再次代购" action:@selector(repeatProcurement:) style:OrderDetailBtnStyleSecond];
+            UIButton *repeatBtn = [self buttonWithTitle:@"再次采购" action:@selector(repeatProcurement:) style:OrderDetailBtnStyleSecond];
             repeatBtn.frame = CGRectMake(middleSpace, 12, kScreenWidth - 2 * middleSpace, btnHeight);
             [_detailFooterView addSubview:repeatBtn];
         }
@@ -803,7 +803,7 @@ typedef enum {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.f];
-        hud.labelText = @"没有代购权限";
+        hud.labelText = @"没有采购权限";
     }
 }
 

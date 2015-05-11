@@ -173,6 +173,40 @@
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 }
 
+//倒计时
+- (void)countDownStart {
+    __block int timeout = kCoolDownTime; //倒计时时间
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0 * NSEC_PER_SEC, 0); //每秒执行
+    dispatch_source_set_event_handler(_timer, ^{
+        if(timeout <= 0){
+            //倒计时结束，关闭
+            dispatch_source_cancel(_timer);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //UI更新
+                _sendButton.userInteractionEnabled = YES;
+                [_sendButton setBackgroundImage:kImageName(@"light_red.png") forState:UIControlStateNormal];
+                [_sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [_sendButton setTitle:@"发送验证码" forState:UIControlStateNormal];
+            });
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _sendButton.userInteractionEnabled = NO;
+                NSString *title = [NSString stringWithFormat:@"%d秒后重新获取",timeout];
+                [_sendButton setBackgroundImage:nil forState:UIControlStateNormal];
+                [_sendButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                [_sendButton setTitle:title forState:UIControlStateNormal];
+                
+            });
+            timeout--;
+            
+        }
+    });
+    dispatch_resume(_timer);
+}
+
 #pragma mark - Request
 
 - (void)sendMobileValidate {
@@ -182,7 +216,7 @@
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.5f];
+        [hud hide:YES afterDelay:1.f];
         if (success) {
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
             if ([object isKindOfClass:[NSDictionary class]]) {
@@ -192,9 +226,10 @@
                     hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
                 }
                 else if ([errorCode intValue] == RequestSuccess) {
-                    [hud hide:YES];
                     if ([[object objectForKey:@"result"] isKindOfClass:[NSString class]]) {
+                        hud.labelText = @"验证码发送成功";
                         _validate = [object objectForKey:@"result"];
+                        [self countDownStart];
                     }
                 }
             }
@@ -323,6 +358,7 @@
 }
 
 - (IBAction)sendValidate:(id)sender {
+    [self.editingField resignFirstResponder];
     if (!_mobileField.text || [_mobileField.text isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];

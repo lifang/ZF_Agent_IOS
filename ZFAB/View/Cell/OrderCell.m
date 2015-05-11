@@ -538,7 +538,7 @@ typedef enum {
     else if ([_identifier isEqualToString:procurementSecondIdentifier]) {
         //代购 已发货 已取消 交易关闭
         [self addLine];
-        UIButton *repeatBtn = [self buttonWithTitle:@"再次代购" action:@selector(repeatProcurement:) style:orderBtnStyleSecond];
+        UIButton *repeatBtn = [self buttonWithTitle:@"再次采购" action:@selector(repeatProcurement:) style:orderBtnStyleSecond];
         [self.contentView addSubview:repeatBtn];
         [self layoutButton:repeatBtn location:BtnPositionMiddle];
     }

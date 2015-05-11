@@ -1023,7 +1023,6 @@
     [self uploadPictureWithImage:editImage];
 }
 
-
 #pragma mark - 键盘
 
 - (void)handleKeyboardDidShow:(NSNotification *)paramNotification {

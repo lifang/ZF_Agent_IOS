@@ -18,6 +18,8 @@
 
 @property (nonatomic, assign) NSInteger totalPage;
 
+@property (nonatomic, strong) NSTimer *timer;
+
 - (void)downloadImageWithURLs:(NSArray *)urlArray
                        target:(id)target
                      action:(SEL)action;

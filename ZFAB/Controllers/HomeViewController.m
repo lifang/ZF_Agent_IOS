@@ -21,6 +21,7 @@
 #import "NetworkInterface.h"
 #import "HomeImageModel.h"
 #import "ChannelWebsiteController.h"
+#import "GoodListController.h"
 
 @interface HomeViewController ()
 
@@ -224,10 +225,25 @@
     switch (moduleView.tag) {
         case ModuleBuy: {
             //我要进货
-            GoodsViewController *goodC = [[GoodsViewController alloc] init];
-            goodC.hidesBottomBarWhenPushed = YES;
-            goodC.navigationItem.title = @"进货";
-            [self.navigationController pushViewController:goodC animated:YES];
+//            GoodsViewController *goodC = [[GoodsViewController alloc] init];
+//            goodC.hidesBottomBarWhenPushed = YES;
+//            goodC.navigationItem.title = @"进货";
+//            [self.navigationController pushViewController:goodC animated:YES];
+            
+            AppDelegate *delegate = [AppDelegate shareAppDelegate];
+            if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthProcurement]] boolValue]) {
+                GoodListController *listC = [[GoodListController alloc] init];
+                listC.hidesBottomBarWhenPushed = YES;
+                listC.supplyType = SupplyGoodsProcurement;
+                [self.navigationController pushViewController:listC animated:YES];
+            }
+            else {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.customView = [[UIImageView alloc] init];
+                hud.mode = MBProgressHUDModeCustomView;
+                [hud hide:YES afterDelay:1.f];
+                hud.labelText = @"没有采购权限";
+            }
         }
             break;
         case ModuleOrderManager: {

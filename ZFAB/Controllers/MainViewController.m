@@ -12,6 +12,8 @@
 #import "GoodsViewController.h"
 #import "MessageViewController.h"
 #import "MineViewController.h"
+#import "GoodListController.h"
+#import "AppDelegate.h"
 
 @interface MainViewController ()
 
@@ -44,11 +46,18 @@
                                              selectedImage:kImageName(@"tabbar1_selected.png")];
     UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:homeC];
     
-    GoodsViewController *goodC = [[GoodsViewController alloc] init];
-    goodC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"全部商品"
+//    GoodsViewController *goodC = [[GoodsViewController alloc] init];
+//    goodC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"全部商品"
+//                                                     image:kImageName(@"tabbar2.png")
+//                                             selectedImage:kImageName(@"tabbar2_selected.png")];
+//    UINavigationController *goodNav = [[UINavigationController alloc] initWithRootViewController:goodC];
+    
+    GoodListController *listC = [[GoodListController alloc] init];
+    listC.supplyType = SupplyGoodsProcurement;
+    listC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"全部商品"
                                                      image:kImageName(@"tabbar2.png")
                                              selectedImage:kImageName(@"tabbar2_selected.png")];
-    UINavigationController *goodNav = [[UINavigationController alloc] initWithRootViewController:goodC];
+    UINavigationController *goodNav = [[UINavigationController alloc] initWithRootViewController:listC];
     
     MessageViewController *messageC = [[MessageViewController alloc] init];
     messageC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"我的消息"
@@ -72,5 +81,21 @@
     self.viewControllers = [NSArray arrayWithObjects:homeNav,goodNav,messageNav,mineNav, nil];
 }
 
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    UIViewController *controller = [viewController.childViewControllers firstObject];
+    if ([controller isMemberOfClass:[GoodListController class]]) {
+        if (![[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthProcurement]] boolValue]) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.customView = [[UIImageView alloc] init];
+            hud.mode = MBProgressHUDModeCustomView;
+            [hud hide:YES afterDelay:1.f];
+            hud.labelText = @"没有采购权限";
+            return NO;
+        }
+        return YES;
+    }
+    return YES;
+}
 
 @end

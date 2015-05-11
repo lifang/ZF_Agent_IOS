@@ -276,6 +276,10 @@
     [self.navigationController pushViewController:detailC animated:YES];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.001f;
+}
+
 #pragma mark - UISearchBar
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {

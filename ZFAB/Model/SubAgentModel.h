@@ -18,11 +18,11 @@
 
 @property (nonatomic, assign) int agentType;
 
-@property (nonatomic, assign) int saleCount;
+@property (nonatomic, assign) int saleCount;   //已售数量
 
-@property (nonatomic, assign) int stockCount;
+@property (nonatomic, assign) int stockCount;   //剩余数量
 
-@property (nonatomic, assign) int openCount;
+@property (nonatomic, assign) int openCount;    //开通数量
 
 - (id)initWithParseDictionary:(NSDictionary *)dict;
 

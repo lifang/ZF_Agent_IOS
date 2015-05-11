@@ -58,8 +58,33 @@
         [_scrollView addSubview:imageView];
         rect.origin.x += self.bounds.size.width;
     }
+    [self startTimer];
 }
 
+- (void)nextImage {
+    NSInteger currentPage = _pageControl.currentPage;
+    if (currentPage == _totalPage - 1) {
+        currentPage = 0;
+    }
+    else {
+        currentPage ++;
+    }
+    CGFloat offsetX = currentPage * self.bounds.size.width;
+    [_scrollView setContentOffset:CGPointMake(offsetX, 0) animated:YES];
+}
+
+- (void)startTimer {
+    _timer = [NSTimer scheduledTimerWithTimeInterval:3.f
+                                              target:self
+                                            selector:@selector(nextImage)
+                                            userInfo:nil
+                                             repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+}
+
+- (void)endTimer {
+    [_timer invalidate];
+}
 
 #pragma mark - UIScrollView
 
@@ -67,6 +92,14 @@
     if (scrollView == _scrollView) {
         _pageControl.currentPage = scrollView.contentOffset.x / scrollView.frame.size.width;
     }
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    [self endTimer];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [self startTimer];
 }
 
 @end

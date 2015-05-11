@@ -12,6 +12,8 @@
 #import "SubAgentDetailModel.h"
 #import "BenefitListController.h"
 
+#define kSAImageTag   101
+
 @interface SubAgentDetailController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -21,6 +23,8 @@
 @property (nonatomic, strong) UIButton *benefitBtn;
 
 @property (nonatomic, strong) SubAgentDetailModel *agentDetail;
+
+@property (nonatomic, assign) CGRect imageRect;
 
 @end
 
@@ -395,6 +399,7 @@
             CGRect rect = CGRectMake(kScreenWidth - 40, (cell.frame.size.height - 20) / 2, 20, 20);
             UIImageView *uploadView = [[UIImageView alloc] initWithFrame:rect];
             uploadView.image = kImageName(@"upload.png");
+            uploadView.tag = kSAImageTag;
             [cell.contentView addSubview:uploadView];
             NSString *titleName = nil;
             NSString *imageName = nil;
@@ -542,6 +547,7 @@
             CGRect rect = CGRectMake(kScreenWidth - 40, (cell.frame.size.height - 20) / 2, 20, 20);
             UIImageView *uploadView = [[UIImageView alloc] initWithFrame:rect];
             uploadView.image = kImageName(@"upload.png");
+            uploadView.tag = kSAImageTag;
             [cell.contentView addSubview:uploadView];
             NSString *titleName = nil;
             NSString *imageName = nil;
@@ -634,6 +640,40 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    BOOL hasImage = NO;
+    NSString *urlString = nil;
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:kSAImageTag];
+    _imageRect = [[imageView superview] convertRect:imageView.frame toView:self.view];
+    if (_agentDetail.agentType == AgentTypeCompany)  {
+        if (indexPath.section == 2) {
+            switch (indexPath.row) {
+                case 0:
+                    hasImage = (_agentDetail.cardImagePath && ![_agentDetail.cardImagePath isEqualToString:@""]);
+                    urlString = _agentDetail.cardImagePath;
+                    break;
+                case 1:
+                    hasImage = (_agentDetail.licenseImagePath && ![_agentDetail.licenseImagePath isEqualToString:@""]);
+                    urlString = _agentDetail.licenseImagePath;
+                    break;
+                case 2:
+                    hasImage = (_agentDetail.taxImagePath && ![_agentDetail.taxImagePath isEqualToString:@""]);
+                    urlString = _agentDetail.taxImagePath;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    else {
+        if (indexPath.section == 1 && indexPath.row == 0) {
+            hasImage = (_agentDetail.cardImagePath && ![_agentDetail.cardImagePath isEqualToString:@""]);
+            urlString = _agentDetail.cardImagePath;
+        }
+    }
+    if (urlString) {
+        [self showDetailImageWithURL:urlString imageRect:self.imageRect];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

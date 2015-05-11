@@ -186,7 +186,7 @@ static CGFloat topImageHeight = 160.f;
         [butBtn setTitle:@"立即批购" forState:UIControlStateNormal];
     }
     else {
-        [butBtn setTitle:@"立即代购" forState:UIControlStateNormal];
+        [butBtn setTitle:@"立即采购" forState:UIControlStateNormal];
     }
     butBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
     [butBtn addTarget:self action:@selector(goBuy:) forControlEvents:UIControlEventTouchUpInside];

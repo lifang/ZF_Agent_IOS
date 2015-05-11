@@ -29,7 +29,7 @@
         }
         _agentType = [[dict objectForKey:@"types"] intValue];
         _saleCount = [[dict objectForKey:@"soldNum"] intValue];
-        _stockCount = [[dict objectForKey:@"allQty"] intValue];
+        _stockCount = [[dict objectForKey:@"allQty"] intValue] - _saleCount;
         _openCount = [[dict objectForKey:@"openNum"] intValue];
     }
     return self;

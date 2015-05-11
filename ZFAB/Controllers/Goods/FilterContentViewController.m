@@ -175,9 +175,10 @@
         cell.imageView.image = kImageName(@"btn_unselected.png");
     }
     if ([treeNodeInfo.childrenTreeNodes count] > 0) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 16, 10)];
-        imageView.image = [UIImage imageNamed:@"arrow_down.png"];
-        cell.accessoryView = imageView;
+//        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 16, 10)];
+//        imageView.image = [UIImage imageNamed:@"arrow_down.png"];
+//        cell.accessoryView = imageView;
+        cell.accessoryView = nil;
     }
     else {
         cell.accessoryView = nil;
@@ -186,24 +187,24 @@
 }
 
 - (void)treeView:(TreeView *)treeView didSelectRowForCell:(UITableViewCell *)cell ofItem:(id)item treeNodeInfo:(TreeNodeInfo *)treeNodeInfo {
-    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];
-    if (treeNodeInfo.expanded) {
-        animation.values = [NSArray arrayWithObjects:
-                            [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI, 0, 0, 1)],
-                            [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI / 2, 0, 0, 1)],
-                            [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0, 0, 0, 1)],nil];
-    }
-    else {
-        animation.values = [NSArray arrayWithObjects:
-                            [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0, 0, 0, 1)],
-                            [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI / 2, 0, 0, 1)],
-                            [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI, 0, 0, 1)],nil];
-    }
-    animation.removedOnCompletion = NO;
-    animation.fillMode = kCAFillModeForwards;
-    [cell.accessoryView.layer addAnimation:animation forKey:@"transform"];
+//    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];
+//    if (treeNodeInfo.expanded) {
+//        animation.values = [NSArray arrayWithObjects:
+//                            [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI, 0, 0, 1)],
+//                            [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI / 2, 0, 0, 1)],
+//                            [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0, 0, 0, 1)],nil];
+//    }
+//    else {
+//        animation.values = [NSArray arrayWithObjects:
+//                            [NSValue valueWithCATransform3D:CATransform3DMakeRotation(0, 0, 0, 1)],
+//                            [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI / 2, 0, 0, 1)],
+//                            [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI, 0, 0, 1)],nil];
+//    }
+//    animation.removedOnCompletion = NO;
+//    animation.fillMode = kCAFillModeForwards;
+//    [cell.accessoryView.layer addAnimation:animation forKey:@"transform"];
     
-    if ([treeNodeInfo.childrenTreeNodes count] <= 0) {
+//    if ([treeNodeInfo.childrenTreeNodes count] <= 0) {
         TreeNodeModel *node = (TreeNodeModel *)item;
         if ([_key isEqualToString:s_category]) {
             [self clearAllStatus:_dataItem];
@@ -219,7 +220,7 @@
         else {
             cell.imageView.image = kImageName(@"btn_unselected.png");
         }
-    }
+//    }
 }
 
 - (NSInteger)treeView:(TreeView *)treeView indentationLevelForRowForItem:(id)item treeNodeInfo:(TreeNodeInfo *)treeNodeInfo {
