@@ -85,7 +85,7 @@
                     }
                     id list = nil;
                     if ([[object objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
-                        list = [[object objectForKey:@"result"] objectForKey:@"terminalList"];
+                        list = [[object objectForKey:@"result"] objectForKey:@"merchaneList"];
                     }
                     if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
@@ -155,7 +155,7 @@
     if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
         return;
     }
-    id merchantList = [[dict objectForKey:@"result"] objectForKey:@"terminalList"];
+    id merchantList = [[dict objectForKey:@"result"] objectForKey:@"merchaneList"];
     if ([merchantList isKindOfClass:[NSArray class]]) {
         for (int i = 0; i < [merchantList count]; i++) {
             id merchantDict = [merchantList objectAtIndex:i];
