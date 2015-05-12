@@ -87,7 +87,7 @@
     [NetworkInterface getBankListWithToken:delegate.token terminalID:_terminalID keyword:_bankField.text page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.3f];
+        [hud hide:YES afterDelay:1.f];
         if (success) {
             NSLog(@"!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
@@ -192,7 +192,7 @@
     }
     BankModel *model = [_dataItem objectAtIndex:indexPath.row];
     cell.textLabel.text = model.bankName;
-//    cell.textLabel.font = [UIFont systemFontOfSize:14.f];
+    cell.textLabel.font = [UIFont systemFontOfSize:15.f];
     cell.textLabel.numberOfLines = 2;
     cell.imageView.image = kImageName(@"btn_selected");
     if (model.isSelected) {

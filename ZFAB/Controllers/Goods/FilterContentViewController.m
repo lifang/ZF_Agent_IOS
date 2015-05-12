@@ -121,6 +121,16 @@
     }
 }
 
+- (void)deselectAll {
+    for (TreeNodeModel *node in _dataItem) {
+        if ([node.nodeID isEqualToString:kNoneFilterID] && node.isSelected) {
+            node.isSelected = NO;
+            [_treeView reloadData];
+            break;
+        }
+    }
+}
+
 #pragma mark - Action
 
 - (IBAction)filterFinished:(id)sender {
@@ -215,6 +225,15 @@
             node.isSelected = !node.isSelected;
         }
         if (node.isSelected) {
+            if (![node.nodeID isEqualToString:kNoneFilterID]) {
+                //取消全部按钮选中
+                [self deselectAll];
+            }
+            else {
+                NSMutableArray *selectItem = [[NSMutableArray alloc] initWithArray:_dataItem];
+                [self removeFilterIfContainAll:selectItem];
+                [_treeView reloadData];
+            }
             cell.imageView.image = kImageName(@"btn_selected.png");
         }
         else {

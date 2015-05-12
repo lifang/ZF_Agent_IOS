@@ -12,10 +12,13 @@
 #import "OpenApplyCell.h"
 #import "ApplyDetailController.h"
 #import "TerminalDetailController.h"
+#import "ProtocolView.h"
 
-@interface OpenApplyController ()<OpenApplyCellDelegate>
+@interface OpenApplyController ()<OpenApplyCellDelegate,ProtocolAgreeDelegate>
 
 @property (nonatomic, strong) NSMutableArray *dataItem;
+
+@property (nonatomic, strong) TerminalModel *selectedModel;
 
 @end
 
@@ -205,10 +208,11 @@
 #pragma mark - OpenApplyCellDelegate
 
 - (void)openApplyCellOpenWithData:(TerminalModel *)data {
-    ApplyDetailController *detailC = [[ApplyDetailController alloc] init];
-    detailC.terminalID = data.terminalID;
-    detailC.openStatus = OpenStatusNew;
-    [self.navigationController pushViewController:detailC animated:YES];
+    ProtocolView *protocolView = [[ProtocolView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) string:data.protocol];
+    protocolView.delegate = self;
+    [[AppDelegate shareAppDelegate].window addSubview:protocolView];
+    
+    _selectedModel = data;
 }
 
 - (void)openApplyCellReopenWithData:(TerminalModel *)data {
@@ -223,6 +227,26 @@
 - (void)getSearchKeyword:(NSString *)keyword {
     self.searchInfo = keyword;
     [self firstLoadData];
+}
+
+#pragma mark - ProcotolAgreeDelegate
+
+- (void)protocolView:(ProtocolView *)view agreeProtocolWithStatus:(BOOL)isSelected {
+    if (!isSelected) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[AppDelegate shareAppDelegate].window animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.5f];
+        hud.labelText = @"请仔细阅读开通协议，并接受协议";
+        return;
+    }
+    else {
+        [view removeFromSuperview];
+        ApplyDetailController *detailC = [[ApplyDetailController alloc] init];
+        detailC.terminalID = _selectedModel.terminalID;
+        detailC.openStatus = OpenStatusNew;
+        [self.navigationController pushViewController:detailC animated:YES];
+    }
 }
 
 @end

@@ -17,6 +17,7 @@
 #import "GoodDetailController.h"
 #import "GoodListController.h"
 #import "OrderTerminalListController.h"
+#import "OrderLogisticController.h"
 
 typedef enum {
     OrderDetailBtnStyleFirst = 1,
@@ -512,7 +513,7 @@ typedef enum {
                 //订单类型
                 NSString *orderType = @"批购";
                 if (_supplyType == SupplyGoodsProcurement) {
-                    orderType = @"代购";
+                    orderType = [_orderDetail getOrderType];
                 }
                 UILabel *orderTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, 30, kScreenWidth - originX * 2 - btnWidth, 20)];
                 orderTypeLabel.backgroundColor = [UIColor clearColor];
@@ -556,6 +557,19 @@ typedef enum {
                     [terminalBtn setTitle:@"查看终端号" forState:UIControlStateNormal];
                     [terminalBtn addTarget:self action:@selector(scanTerminalNumber:) forControlEvents:UIControlEventTouchUpInside];
                     [cell.contentView addSubview:terminalBtn];
+                         
+                    UIButton *logistBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                    logistBtn.frame = CGRectMake(kScreenWidth - btnWidth - 10, 50, btnWidth, 30);
+                    logistBtn.layer.cornerRadius = 4;
+                    logistBtn.layer.masksToBounds = YES;
+                    logistBtn.layer.borderWidth = 1.f;
+                    logistBtn.layer.borderColor = kMainColor.CGColor;
+                    [logistBtn setTitleColor:kMainColor forState:UIControlStateNormal];
+                    [logistBtn setTitleColor:kColor(0, 59, 113, 1) forState:UIControlStateHighlighted];
+                    logistBtn.titleLabel.font = [UIFont boldSystemFontOfSize:10.f];
+                    [logistBtn setTitle:@"查看物流" forState:UIControlStateNormal];
+                    [logistBtn addTarget:self action:@selector(scanLogistic:) forControlEvents:UIControlEventTouchUpInside];
+                    [cell.contentView addSubview:logistBtn];
                 }
             }
             else if (indexPath.row == [_orderDetail.goodList count] + 1) {
@@ -674,6 +688,13 @@ typedef enum {
         listC.terminalList = terminalList;
         [self.navigationController pushViewController:listC animated:YES];
     }
+}
+
+- (IBAction)scanLogistic:(id)sender {
+    OrderLogisticController *logisticC = [[OrderLogisticController alloc] init];
+    logisticC.logisticCompany = _orderDetail.logisticCompany;
+    logisticC.logisticNumber = _orderDetail.logisticNumber;
+    [self.navigationController pushViewController:logisticC animated:YES];
 }
 
 - (IBAction)goPervious:(id)sender {

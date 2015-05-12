@@ -24,6 +24,7 @@
         if ([dict objectForKey:@"Title"]) {
             _title = [NSString stringWithFormat:@"%@",[dict objectForKey:@"Title"]];
         }
+        _saleNumber = [[dict objectForKey:@"volume_number"] intValue];
     }
     return self;
 }

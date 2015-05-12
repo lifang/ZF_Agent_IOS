@@ -152,6 +152,9 @@
 		77551EF91ADBD34F008B2730 /* PrepareGoodModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77551EF81ADBD34F008B2730 /* PrepareGoodModel.m */; };
 		77551EFC1ADBD5A3008B2730 /* PrepareGoodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77551EFB1ADBD5A3008B2730 /* PrepareGoodCell.m */; };
 		77582DE91AE67FA300E29980 /* OrderTerminalListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77582DE81AE67FA300E29980 /* OrderTerminalListController.m */; };
+		775845B61B01E18900F08B76 /* CooperationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775845B51B01E18900F08B76 /* CooperationViewController.m */; };
+		775845B91B01F6DD00F08B76 /* ProtocolView.m in Sources */ = {isa = PBXBuildFile; fileRef = 775845B81B01F6DD00F08B76 /* ProtocolView.m */; };
+		775845BC1B0238CD00F08B76 /* OrderLogisticController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775845BB1B0238CD00F08B76 /* OrderLogisticController.m */; };
 		77585F691AE1EB3500A0EAF7 /* SubAgentDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77585F681AE1EB3500A0EAF7 /* SubAgentDetailController.m */; };
 		77585F6C1AE1F5A700A0EAF7 /* SubAgentDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77585F6B1AE1F5A700A0EAF7 /* SubAgentDetailModel.m */; };
 		77585F6F1AE2058700A0EAF7 /* BenefitListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77585F6E1AE2058700A0EAF7 /* BenefitListController.m */; };
@@ -572,6 +575,12 @@
 		77551EFB1ADBD5A3008B2730 /* PrepareGoodCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrepareGoodCell.m; sourceTree = "<group>"; };
 		77582DE71AE67FA300E29980 /* OrderTerminalListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderTerminalListController.h; sourceTree = "<group>"; };
 		77582DE81AE67FA300E29980 /* OrderTerminalListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderTerminalListController.m; sourceTree = "<group>"; };
+		775845B41B01E18900F08B76 /* CooperationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CooperationViewController.h; sourceTree = "<group>"; };
+		775845B51B01E18900F08B76 /* CooperationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CooperationViewController.m; sourceTree = "<group>"; };
+		775845B71B01F6DD00F08B76 /* ProtocolView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolView.h; sourceTree = "<group>"; };
+		775845B81B01F6DD00F08B76 /* ProtocolView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtocolView.m; sourceTree = "<group>"; };
+		775845BA1B0238CD00F08B76 /* OrderLogisticController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderLogisticController.h; sourceTree = "<group>"; };
+		775845BB1B0238CD00F08B76 /* OrderLogisticController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderLogisticController.m; sourceTree = "<group>"; };
 		77585F671AE1EB3500A0EAF7 /* SubAgentDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubAgentDetailController.h; sourceTree = "<group>"; };
 		77585F681AE1EB3500A0EAF7 /* SubAgentDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubAgentDetailController.m; sourceTree = "<group>"; };
 		77585F6A1AE1F5A700A0EAF7 /* SubAgentDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubAgentDetailModel.h; sourceTree = "<group>"; };
@@ -1060,6 +1069,8 @@
 				77374DDD1ACE268B00E74A20 /* CreateViewController.m */,
 				772A9C621AC4260A002A0B72 /* RegisterViewController.h */,
 				772A9C631AC4260A002A0B72 /* RegisterViewController.m */,
+				775845B41B01E18900F08B76 /* CooperationViewController.h */,
+				775845B51B01E18900F08B76 /* CooperationViewController.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1192,6 +1203,8 @@
 				775AABBF1ADE373D00FA8AD9 /* GoodButton.m */,
 				775AABC01ADE373D00FA8AD9 /* InterestView.h */,
 				775AABC11ADE373D00FA8AD9 /* InterestView.m */,
+				775845B71B01F6DD00F08B76 /* ProtocolView.h */,
+				775845B81B01F6DD00F08B76 /* ProtocolView.m */,
 				7766A4431AC9200300DCBD76 /* Cell */,
 			);
 			path = View;
@@ -1408,6 +1421,8 @@
 				7745CF231AD3B286003DB9FA /* OrderDetailController.m */,
 				77582DE71AE67FA300E29980 /* OrderTerminalListController.h */,
 				77582DE81AE67FA300E29980 /* OrderTerminalListController.m */,
+				775845BA1B0238CD00F08B76 /* OrderLogisticController.h */,
+				775845BB1B0238CD00F08B76 /* OrderLogisticController.m */,
 				775EDD5A1AE4CAC40021D81E /* PayWayViewController.h */,
 				775EDD5B1AE4CAC40021D81E /* PayWayViewController.m */,
 			);
@@ -2033,6 +2048,7 @@
 				77374DE11ACE299C00E74A20 /* CreateAgentController.m in Sources */,
 				77582DE91AE67FA300E29980 /* OrderTerminalListController.m in Sources */,
 				77551EF01ADBACFD008B2730 /* PrepareGoodManagerController.m in Sources */,
+				775845B91B01F6DD00F08B76 /* ProtocolView.m in Sources */,
 				773C58411AC145DA00D99E83 /* SDWebImageDownloaderOperation.m in Sources */,
 				775AABE11ADE565C00FA8AD9 /* WholesaleOrderController.m in Sources */,
 				773292FE1AEF24360038942C /* UserArchiveHelper.m in Sources */,
@@ -2052,6 +2068,7 @@
 				7745CF1E1AD36F52003DB9FA /* OrderModel.m in Sources */,
 				773C583D1AC145DA00D99E83 /* SDImageCache.m in Sources */,
 				774F11D41AE0A66900ED26C4 /* TradeCell.m in Sources */,
+				775845BC1B0238CD00F08B76 /* OrderLogisticController.m in Sources */,
 				77585F7E1AE24A8000A0EAF7 /* TradeTypeModel.m in Sources */,
 				7746EAD11ACD06DC009DD425 /* ModifyPasswordController.m in Sources */,
 				773C58021AC13AE500D99E83 /* NavigationBarAttr.m in Sources */,
@@ -2059,6 +2076,7 @@
 				7766A4681AC970AC00DCBD76 /* FilterViewController.m in Sources */,
 				773C580D1AC1409A00D99E83 /* MessageViewController.m in Sources */,
 				775EDD5F1AE51E9C0021D81E /* HomeImageModel.m in Sources */,
+				775845B61B01E18900F08B76 /* CooperationViewController.m in Sources */,
 				77374DE71ACE5B1C00E74A20 /* TradeTerminalController.m in Sources */,
 				7746EADE1ACD1E97009DD425 /* AgentManagerController.m in Sources */,
 				7766A4651AC964C700DCBD76 /* TreeView.m in Sources */,

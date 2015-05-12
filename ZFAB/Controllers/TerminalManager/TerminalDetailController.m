@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "ApplyDetailController.h"
 #import "VideoAuthController.h"
+#import "ProtocolView.h"
 
 typedef enum {
     TerDetailBtnTopRight = 1,
@@ -22,7 +23,7 @@ typedef enum {
     TerDetailBtnBottomLeft,
 }TerDetailBtnPosition;
 
-@interface TerminalDetailController ()
+@interface TerminalDetailController ()<ProtocolAgreeDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 
@@ -741,7 +742,7 @@ typedef enum {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
-        [hud hide:YES afterDelay:0.5f];
+        [hud hide:YES afterDelay:1.f];
         if (success) {
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
             if ([object isKindOfClass:[NSDictionary class]]) {
@@ -1091,15 +1092,18 @@ typedef enum {
 
 //开通申请
 - (IBAction)openApply:(id)sender {
-    ApplyDetailController *detail = [[ApplyDetailController alloc] init];
-    detail.terminalID = _terminalModel.terminalID;
-    if (_terminalModel.status == TerminalStatusPartOpened) {
-        detail.openStatus = OpenStatusReopen;
-    }
-    else {
-        detail.openStatus = OpenStatusNew;
-    }
-    [self.navigationController pushViewController:detail animated:YES];
+    ProtocolView *protocolView = [[ProtocolView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) string:_terminalModel.protocol];
+    protocolView.delegate = self;
+    [[AppDelegate shareAppDelegate].window addSubview:protocolView];
+//    ApplyDetailController *detail = [[ApplyDetailController alloc] init];
+//    detail.terminalID = _terminalModel.terminalID;
+//    if (_terminalModel.status == TerminalStatusPartOpened) {
+//        detail.openStatus = OpenStatusReopen;
+//    }
+//    else {
+//        detail.openStatus = OpenStatusNew;
+//    }
+//    [self.navigationController pushViewController:detail animated:YES];
 }
 
 //重新开通申请
@@ -1118,6 +1122,31 @@ typedef enum {
 //找回POS密码
 - (IBAction)findPassword:(id)sender {
     [self findPOSPassword];
+}
+
+#pragma mark - ProcotolAgreeDelegate
+
+- (void)protocolView:(ProtocolView *)view agreeProtocolWithStatus:(BOOL)isSelected{
+    if (!isSelected) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[AppDelegate shareAppDelegate].window animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.5f];
+        hud.labelText = @"请仔细阅读开通协议，并接受协议";
+        return;
+    }
+    else {
+        [view removeFromSuperview];
+        ApplyDetailController *detail = [[ApplyDetailController alloc] init];
+        detail.terminalID = _terminalModel.terminalID;
+        if (_terminalModel.status == TerminalStatusPartOpened) {
+            detail.openStatus = OpenStatusReopen;
+        }
+        else {
+            detail.openStatus = OpenStatusNew;
+        }
+        [self.navigationController pushViewController:detail animated:YES];
+    }
 }
 
 

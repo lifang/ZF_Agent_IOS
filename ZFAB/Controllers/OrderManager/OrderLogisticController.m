@@ -1,25 +1,25 @@
 //
-//  OrderTerminalListController.m
+//  OrderLogisticController.m
 //  ZFAB
 //
-//  Created by 徐宝桥 on 15/4/21.
+//  Created by 徐宝桥 on 15/5/12.
 //  Copyright (c) 2015年 ___MyCompanyName___. All rights reserved.
 //
 
-#import "OrderTerminalListController.h"
+#import "OrderLogisticController.h"
 
-@interface OrderTerminalListController ()<UITableViewDataSource,UITableViewDelegate>
+@interface OrderLogisticController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
 @end
 
-@implementation OrderTerminalListController
+@implementation OrderLogisticController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"终端列表";
+    self.title = @"查看物流";
     [self initAndLayoutUI];
 }
 
@@ -76,7 +76,7 @@
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1.0
                                                            constant:0]];
-
+    
 }
 
 #pragma mark - UITableView
@@ -86,18 +86,20 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_terminalList count];
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *terminalIdentifier = @"terminalIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:terminalIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:terminalIdentifier];
-    }
-    NSString *terminal = [_terminalList objectAtIndex:indexPath.row];
-    cell.textLabel.text = terminal;
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     cell.textLabel.font = [UIFont boldSystemFontOfSize:15.f];
+    NSString *content = @"";
+    if (indexPath.row == 0) {
+        content = [NSString stringWithFormat:@"物流公司：%@",_logisticCompany];
+    }
+    else if (indexPath.row == 1) {
+        content = [NSString stringWithFormat:@"物流单号：%@",_logisticNumber];
+    }
+    cell.textLabel.text = content;
     return cell;
 }
 
@@ -116,5 +118,6 @@
         [cell setLayoutMargins:UIEdgeInsetsZero];
     }
 }
+
 
 @end

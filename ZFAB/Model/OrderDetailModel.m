@@ -52,6 +52,18 @@
         else {
             _orderNumber = @"";
         }
+        if ([dict objectForKey:@"logistics_name"]) {
+            _logisticCompany = [NSString stringWithFormat:@"%@",[dict objectForKey:@"logistics_name"]];
+        }
+        else {
+            _logisticCompany = @"";
+        }
+        if ([dict objectForKey:@"logistics_number"]) {
+            _logisticNumber = [NSString stringWithFormat:@"%@",[dict objectForKey:@"logistics_number"]];
+        }
+        else {
+            _logisticNumber = @"";
+        }
         if ([dict objectForKey:@"order_payment_type"]) {
             int payTag = [[dict objectForKey:@"order_payment_type"] intValue];
             if (payTag == 1) {
@@ -88,6 +100,7 @@
         _totalCount = [[dict objectForKey:@"total_quantity"] intValue];
         _shipmentCount = [[dict objectForKey:@"shipped_quantity"] intValue];
         _proTotalCount = [[dict objectForKey:@"order_totalNum"] intValue];
+        _orderType = [[dict objectForKey:@"order_type"] intValue];
         
         if ([dict objectForKey:@"guishu_user"]) {
             _belongUser = [NSString stringWithFormat:@"%@",[dict objectForKey:@"guishu_user"]];
@@ -174,6 +187,17 @@
         }
     }
     return statusString;
+}
+
+- (NSString *)getOrderType {
+    NSString *orderTypeString = @"其他";
+    if (_orderType == 3) {
+        orderTypeString = @"购买";
+    }
+    else if (_orderType == 4) {
+        orderTypeString = @"租赁";
+    }
+    return orderTypeString;
 }
 
 @end

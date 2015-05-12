@@ -245,10 +245,16 @@ static CGFloat topImageHeight = 160.f;
     if (_supplyType != SupplyGoodsWholesale) {
         minWholesaleWidth = 0.f;
     }
-    UILabel *summaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, kScreenWidth - leftSpace - rightSpace - minWholesaleWidth, labelHeight)];
+    
+    CGFloat secondTitleHeight = [StringFormat heightForComment:_detailModel.detailName
+                                                  withFont:[UIFont systemFontOfSize:13.f]
+                                                     width:kScreenWidth - leftSpace - rightSpace - minWholesaleWidth];
+    secondTitleHeight = secondTitleHeight < labelHeight ? labelHeight : secondTitleHeight;
+    UILabel *summaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, kScreenWidth - leftSpace - rightSpace - minWholesaleWidth, secondTitleHeight)];
     summaryLabel.backgroundColor = [UIColor clearColor];
     summaryLabel.font = [UIFont systemFontOfSize:13.f];
     summaryLabel.textColor = [UIColor lightGrayColor];
+    summaryLabel.numberOfLines = 0;
     summaryLabel.text = _detailModel.detailName;
     [_mainScrollView addSubview:summaryLabel];
     
@@ -262,7 +268,7 @@ static CGFloat topImageHeight = 160.f;
         [_mainScrollView addSubview:minWholesaleLabel];
     }
     
-    originY += vSpace + labelHeight;
+    originY += vSpace + secondTitleHeight;
     //品牌
     UILabel *brandTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, leftLabelWidth, labelHeight)];
     [self setLabel:brandTitleLabel withTitle:@"品牌" font:[UIFont systemFontOfSize:13.f]];
@@ -392,9 +398,12 @@ static CGFloat topImageHeight = 160.f;
     
     //厂家简介
     originY += vSpace + labelHeight;
-    CGFloat summaryHeight = 40.f;
+    CGFloat summaryHeight = [StringFormat heightForComment:_detailModel.defaultChannel.channelFactoryDescription
+                                                  withFont:[UIFont systemFontOfSize:13.f]
+                                                     width:kScreenWidth - leftSpace - rightSpace];
+    summaryHeight = summaryHeight < labelHeight ? labelHeight : summaryHeight;
     UILabel *factorySummaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, kScreenWidth - leftSpace - rightSpace, summaryHeight)];
-    factorySummaryLabel.numberOfLines = 2;
+    factorySummaryLabel.numberOfLines = 0;
     [self setLabel:factorySummaryLabel withTitle:_detailModel.defaultChannel.channelFactoryDescription font:[UIFont systemFontOfSize:13.f]];
     factorySummaryLabel.textColor = kColor(102, 102, 102, 1);
     
@@ -417,22 +426,22 @@ static CGFloat topImageHeight = 160.f;
     //品牌型号
     originY += vSpace + 1;
     NSString *brandModel = [NSString stringWithFormat:@"%@%@",_detailModel.goodBrand,_detailModel.goodModel];
-    [self addLabelWithTitle:@"品牌型号" content:brandModel offsetY:originY];
+    CGFloat brandHeight = [self addLabelWithTitle:@"品牌型号" content:brandModel offsetY:originY];
     //外壳
-    originY += vSpace + labelHeight;
-    [self addLabelWithTitle:@"外壳类型" content:_detailModel.goodMaterial offsetY:originY];
+    originY += vSpace + brandHeight;
+    CGFloat outTypeHeight = [self addLabelWithTitle:@"外壳类型" content:_detailModel.goodMaterial offsetY:originY];
     //电池
-    originY += vSpace + labelHeight;
-    [self addLabelWithTitle:@"电池信息" content:_detailModel.goodBattery offsetY:originY];
+    originY += vSpace + outTypeHeight;
+    CGFloat battyHeight = [self addLabelWithTitle:@"电池信息" content:_detailModel.goodBattery offsetY:originY];
     //签购单
-    originY += vSpace +labelHeight;
-    [self addLabelWithTitle:@"签购单打印方式" content:_detailModel.goodSignWay offsetY:originY];
+    originY += vSpace + battyHeight;
+    CGFloat signHeight = [self addLabelWithTitle:@"签购单打印方式" content:_detailModel.goodSignWay offsetY:originY];
     //加密卡
-    originY += vSpace + labelHeight;
-    [self addLabelWithTitle:@"加密卡方式" content:_detailModel.goodEncryptWay offsetY:originY];
+    originY += vSpace + signHeight;
+    CGFloat encryptHeight = [self addLabelWithTitle:@"加密卡方式" content:_detailModel.goodEncryptWay offsetY:originY];
     
     //支付通道信息
-    originY += labelHeight + 10;
+    originY += encryptHeight + 10;
     UILabel *cTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, kScreenWidth - leftSpace - rightSpace, labelHeight)];
     [self setLabel:cTitleLabel withTitle:@"支付通道信息" font:[UIFont systemFontOfSize:13.f]];
     
@@ -449,9 +458,9 @@ static CGFloat topImageHeight = 160.f;
     if (!_detailModel.defaultChannel.supportType) {
         titleString = @"不支持支付区域";
     }
-    [self addLabelWithTitle:titleString content:area offsetY:originY];
+    CGFloat areaHeight = [self addLabelWithTitle:titleString content:area offsetY:originY];
     //注销
-    originY += vSpace +labelHeight;
+    originY += vSpace + areaHeight;
     NSString *cancelString = nil;
     if (_detailModel.defaultChannel.canCanceled) {
         cancelString = @"支持";
@@ -608,7 +617,7 @@ static CGFloat topImageHeight = 160.f;
 
 //POS信息
 
-- (void)addLabelWithTitle:(NSString *)title
+- (CGFloat)addLabelWithTitle:(NSString *)title
                   content:(NSString *)content
                   offsetY:(CGFloat)offsetY {
     CGFloat leftSpace = 20.f;
@@ -619,10 +628,16 @@ static CGFloat topImageHeight = 160.f;
     [self setLabel:titleLabel withTitle:title font:[UIFont systemFontOfSize:14.f]];
     [_mainScrollView addSubview:titleLabel];
     
-    UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(middleLeftSpace, offsetY, kScreenWidth - middleLeftSpace, labelHeight)];
+    CGFloat contentHeight = [StringFormat heightForComment:content
+                                                  withFont:[UIFont systemFontOfSize:14.f]
+                                                     width:kScreenWidth - middleLeftSpace];
+    contentHeight = contentHeight < labelHeight ? labelHeight : contentHeight;
+    
+    UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(middleLeftSpace, offsetY, kScreenWidth - middleLeftSpace, contentHeight)];
+    contentLabel.numberOfLines = 0;
     [self setLabel:contentLabel withTitle:content font:[UIFont systemFontOfSize:14.f]];
     contentLabel.textColor = kColor(144, 143, 143, 1);
-    
+    return contentHeight;
 }
 
 - (void)setLabel:(UILabel *)label withTitle:(NSString *)title font:(UIFont *)font{

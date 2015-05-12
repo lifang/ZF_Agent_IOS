@@ -12,6 +12,7 @@
 #import "RegisterViewController.h"
 #import "NetworkInterface.h"
 #import "UserArchiveHelper.h"
+#import "CooperationViewController.h"
 
 @interface LoginViewController ()<UITextFieldDelegate>
 
@@ -21,7 +22,6 @@
 
 @property (nonatomic, strong) UIImageView *backgroundView;
 @property (nonatomic, strong) UIView *GuideView;
-
 
 @end
 
@@ -507,6 +507,8 @@
 - (IBAction)signUp:(id)sender {
     RegisterViewController *registerC = [[RegisterViewController alloc] init];
     [self.navigationController pushViewController:registerC animated:YES];
+//    CooperationViewController *cooperationC = [[CooperationViewController alloc] init];
+//    [self.navigationController pushViewController:cooperationC animated:YES];
 }
 
 #pragma mark - 数据处理

@@ -28,11 +28,12 @@
     // Do any additional setup after loading the view.
     self.title = @"选择地址";
     [self initAndLayoutUI];
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:kImageName(@"add.png")
-                                                                  style:UIBarButtonItemStyleBordered
-                                                                 target:self
-                                                                 action:@selector(addAddress:)];
-    self.navigationItem.rightBarButtonItem = rightItem;
+//    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:kImageName(@"add.png")
+//                                                                  style:UIBarButtonItemStyleBordered
+//                                                                 target:self
+//                                                                 action:@selector(addAddress:)];
+//    self.navigationItem.rightBarButtonItem = rightItem;
+    [self initNavigationBarView];
     if ([_addressItems count] <= 0) {
         [self getAddressList];
     }
@@ -49,23 +50,56 @@
 
 #pragma mark - UI
 
+- (void)initNavigationBarView {
+    UIButton *editButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    editButton.frame = CGRectMake(0, 0, 24, 24);
+    [editButton setBackgroundImage:kImageName(@"edit.png") forState:UIControlStateNormal];
+    [editButton addTarget:self action:@selector(addressManager:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    addButton.frame = CGRectMake(0, 0, 24, 24);
+    [addButton setBackgroundImage:kImageName(@"add.png") forState:UIControlStateNormal];
+    [addButton addTarget:self action:@selector(addAddress:) forControlEvents:UIControlEventTouchUpInside];
+    
+    //设置间距
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:nil
+                                                                               action:nil];
+    spaceItem.width = -5;
+    UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithCustomView:editButton];
+    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithCustomView:addButton];
+    if (!_userID || [_userID isEqualToString:@""]) {
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,editItem,addItem, nil];
+    }
+    else {
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,addItem, nil];
+    }
+}
+
+
 - (void)setHeaderAndFooterView {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
     headerView.backgroundColor = [UIColor clearColor];
     _tableView.tableHeaderView = headerView;
     
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0.001)];
-//    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 100)];
-//    footerView.backgroundColor = [UIColor clearColor];
-//    UIButton *addressBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    addressBtn.frame = CGRectMake(80, 20, kScreenWidth - 160, 40);
-//    addressBtn.layer.cornerRadius = 4;
-//    addressBtn.layer.masksToBounds = YES;
-//    addressBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
-//    [addressBtn setTitle:@"地址管理" forState:UIControlStateNormal];
-//    [addressBtn setBackgroundImage:[UIImage imageNamed:@"blue.png"] forState:UIControlStateNormal];
-//    [addressBtn addTarget:self action:@selector(addressManager:) forControlEvents:UIControlEventTouchUpInside];
-//    [footerView addSubview:addressBtn];
+    UIView *footerView = nil;
+//    if (!_userID || [_userID isEqualToString:@""]) {
+//        footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 100)];
+//        footerView.backgroundColor = [UIColor clearColor];
+//        UIButton *addressBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        addressBtn.frame = CGRectMake(80, 20, kScreenWidth - 160, 40);
+//        addressBtn.layer.cornerRadius = 4;
+//        addressBtn.layer.masksToBounds = YES;
+//        addressBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+//        [addressBtn setTitle:@"地址管理" forState:UIControlStateNormal];
+//        [addressBtn setBackgroundImage:[UIImage imageNamed:@"blue.png"] forState:UIControlStateNormal];
+//        [addressBtn addTarget:self action:@selector(addressManager:) forControlEvents:UIControlEventTouchUpInside];
+//        [footerView addSubview:addressBtn];
+//    }
+//    else {
+//        footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0.001)];
+//    }
+    footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0.001)];
     _tableView.tableFooterView = footerView;
 }
 

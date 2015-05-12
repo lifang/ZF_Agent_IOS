@@ -19,6 +19,8 @@
 
 @property (nonatomic, strong) NSMutableArray *addressItem;
 
+@property (nonatomic, strong) UIView *billView;
+
 @end
 
 @implementation OrderConfirmController
@@ -114,8 +116,8 @@
     [billLabel addGestureRecognizer:tap];
     [footerView addSubview:billLabel];
     
-    UIView *billView = [self addBillView];
-    [footerView addSubview:billView];
+    [footerView addSubview:self.billView];
+    self.billView.hidden = YES;
 }
 
 - (UIView *)addUserView {
@@ -142,17 +144,20 @@
     return userView;
 }
 
-- (UIView *)addBillView {
+- (UIView *)billView {
+    if (_billView) {
+        return _billView;
+    }
     CGFloat billHeight = 44.f;
-    UIView *billView = [[UIView alloc] initWithFrame:CGRectMake(0, 40, kScreenWidth, billHeight)];
-    billView.backgroundColor = [UIColor whiteColor];
+    _billView = [[UIView alloc] initWithFrame:CGRectMake(0, 40, kScreenWidth, billHeight)];
+    _billView.backgroundColor = [UIColor whiteColor];
     UIView *firstLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0.5)];
     firstLine.backgroundColor = kColor(135, 135, 135, 1);
-    [billView addSubview:firstLine];
+    [_billView addSubview:firstLine];
     
     UIView *secondLine = [[UIView alloc] initWithFrame:CGRectMake(0, billHeight - 0.5, kScreenWidth, 0.5)];
     secondLine.backgroundColor = kColor(135, 135, 135, 1);
-    [billView addSubview:secondLine];
+    [_billView addSubview:secondLine];
     
     _typeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _typeBtn.frame = CGRectMake(10, 0, 60, 44);
@@ -163,16 +168,16 @@
     [_typeBtn addTarget:self action:@selector(billType:) forControlEvents:UIControlEventTouchUpInside];
     _typeBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 50, 0, 0);
     _typeBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
-    [billView addSubview:_typeBtn];
+    [_billView addSubview:_typeBtn];
     
     _billField = [[UITextField alloc] initWithFrame:CGRectMake(80, 0, kScreenWidth - 90, billHeight)];
     _billField.delegate = self;
     _billField.placeholder = @"请输入发票抬头";
     _billField.font = [UIFont systemFontOfSize:14.f];
     _billField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [billView addSubview:_billField];
+    [_billView addSubview:_billField];
     
-    return billView;
+    return _billView;
 }
 
 - (void)initAndLauoutUI {
@@ -414,6 +419,12 @@
 - (IBAction)needBill:(id)sender {
     _billBtn.selected = !_billBtn.selected;
     [self btnSetSelected];
+    if (_billBtn.isSelected) {
+        self.billView.hidden = NO;
+    }
+    else {
+        self.billView.hidden = YES;
+    }
 }
 
 - (IBAction)billType:(id)sender {

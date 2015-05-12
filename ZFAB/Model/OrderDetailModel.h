@@ -40,6 +40,12 @@
 
 @property (nonatomic, strong) NSString *terminals;
 
+@property (nonatomic, assign) int orderType;         //订单类型
+
+@property (nonatomic, strong) NSString *logisticCompany;
+
+@property (nonatomic, strong) NSString *logisticNumber;
+
 /*批购字段*/
 @property (nonatomic, assign) CGFloat totalDeposit;  //定金总额
 
@@ -65,5 +71,7 @@
 - (id)initWithParseDictionary:(NSDictionary *)dict;
 
 - (NSString *)getStatusStringWithSupplyType:(SupplyGoodsType)supplyType;
+
+- (NSString *)getOrderType;
 
 @end

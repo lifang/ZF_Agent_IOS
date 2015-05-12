@@ -179,7 +179,7 @@
     [_pictureView sd_setImageWithURL:[NSURL URLWithString:relativeGood.pictureURL]];
     _titleLabel.text = relativeGood.title;
     _priceLabel.text = [NSString stringWithFormat:@"￥%.2f",relativeGood.price];
-    _countLabel.text = [NSString stringWithFormat:@"已售%@",@"44"];
+    _countLabel.text = [NSString stringWithFormat:@"已售%d",relativeGood.saleNumber];
 }
 
 @end

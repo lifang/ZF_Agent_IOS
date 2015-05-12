@@ -20,6 +20,8 @@
 
 @property (nonatomic, strong) NSString *title;
 
+@property (nonatomic, assign) int saleNumber;
+
 @end
 
 @interface GoodDetailModel : NSObject
