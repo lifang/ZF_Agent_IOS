@@ -28,6 +28,10 @@
 
 @property (nonatomic, strong) NSString *userName;
 
+@property (nonatomic, strong) NSString *phone;
+
+@property (nonatomic, strong) NSString *email;
+
 - (id)initWithParseDictionary:(NSDictionary *)dict;
 
 @end

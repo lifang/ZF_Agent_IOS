@@ -660,7 +660,7 @@ typedef enum {
 #pragma mark - Action
 
 - (IBAction)scanTerminalNumber:(id)sender {
-    NSArray *terminalList = [_orderDetail.terminals componentsSeparatedByString:@","];
+    NSArray *terminalList = [_orderDetail.terminals componentsSeparatedByString:@" "];
     if ([terminalList count] <= 0 || [_orderDetail.terminals isEqualToString:@""]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];

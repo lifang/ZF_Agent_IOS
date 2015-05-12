@@ -164,7 +164,16 @@
     }
     UserModel *model = [_dataItem objectAtIndex:indexPath.row];
     cell.textLabel.font = [UIFont systemFontOfSize:15.f];
-    cell.textLabel.text = model.userName;
+    NSString *content = model.userName;
+    if (!model.userName || [model.userName isEqualToString:@""]) {
+        if (model.phone && ![model.phone isEqualToString:@""]) {
+            content = model.phone;
+        }
+        else {
+            content = model.email;
+        }
+    }
+    cell.textLabel.text = content;
     return cell;
 }
 

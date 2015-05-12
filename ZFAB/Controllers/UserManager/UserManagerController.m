@@ -332,7 +332,16 @@
         cell = [[MultipleDeleteCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:userIdentifier];
     }
     UserModel *model = [_dataItem objectAtIndex:indexPath.row];
-    cell.textLabel.text = model.userName;
+    NSString *content = model.userName;
+    if (!model.userName || [model.userName isEqualToString:@""]) {
+        if (model.phone && ![model.phone isEqualToString:@""]) {
+            content = model.phone;
+        }
+        else {
+            content = model.email;
+        }
+    }
+    cell.textLabel.text = content;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }

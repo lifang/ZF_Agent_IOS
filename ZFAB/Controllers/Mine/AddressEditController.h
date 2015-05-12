@@ -22,4 +22,6 @@ static NSString *RefreshAddressListNotification = @"RefreshAddressListNotificati
 
 @property (nonatomic, strong) AddressModel *address;
 
+@property (nonatomic, strong) NSString *userID;  //获取哪一个用户的地址
+
 @end

@@ -43,6 +43,18 @@
         else {
             _userName = @"";
         }
+        if ([dict objectForKey:@"phone"]) {
+            _phone = [NSString stringWithFormat:@"%@",[dict objectForKey:@"phone"]];
+        }
+        else {
+            _phone = @"";
+        }
+        if ([dict objectForKey:@"email"]) {
+            _email = [NSString stringWithFormat:@"%@",[dict objectForKey:@"email"]];
+        }
+        else {
+            _email = @"";
+        }
     }
     return self;
 }

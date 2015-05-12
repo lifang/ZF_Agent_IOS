@@ -9,6 +9,7 @@
 #import "SelectedAddressController.h"
 #import "AppDelegate.h"
 #import "AddressViewController.h"
+#import "AddressEditController.h"
 
 @interface SelectedAddressController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -27,6 +28,11 @@
     // Do any additional setup after loading the view.
     self.title = @"选择地址";
     [self initAndLayoutUI];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:kImageName(@"add.png")
+                                                                  style:UIBarButtonItemStyleBordered
+                                                                 target:self
+                                                                 action:@selector(addAddress:)];
+    self.navigationItem.rightBarButtonItem = rightItem;
     if ([_addressItems count] <= 0) {
         [self getAddressList];
     }
@@ -162,6 +168,13 @@
 - (IBAction)addressManager:(id)sender {
     AddressViewController *addressC = [[AddressViewController alloc] init];
     [self.navigationController pushViewController:addressC animated:YES];
+}
+
+- (IBAction)addAddress:(id)sender {
+    AddressEditController *modifyC = [[AddressEditController alloc] init];
+    modifyC.type = AddressAdd;
+    modifyC.userID = _userID;
+    [self.navigationController pushViewController:modifyC animated:YES];
 }
 
 #pragma mark - UITableView
