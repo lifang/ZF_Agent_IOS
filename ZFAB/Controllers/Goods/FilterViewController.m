@@ -125,19 +125,21 @@
     _lowField.backgroundColor = [UIColor clearColor];
     _lowField.textAlignment = NSTextAlignmentRight;
     _lowField.placeholder = @"0";
-    _lowField.text = @"0";
     _lowField.delegate = self;
     _highField = [[UITextField alloc] init];
     _highField.font = [UIFont systemFontOfSize:14.f];
     _highField.backgroundColor = [UIColor clearColor];
     _highField.placeholder = @"0";
-    _highField.text = @"0";
     _highField.textAlignment = NSTextAlignmentRight;
     _highField.delegate = self;
     
     [_switchButton setOn:[[_filterDict objectForKey:s_rent] boolValue]];
-    _lowField.text = [NSString stringWithFormat:@"%d",[[_filterDict objectForKey:s_minPrice] intValue]];
-    _highField.text = [NSString stringWithFormat:@"%d",[[_filterDict objectForKey:s_maxPrice] intValue]];
+    if ([[_filterDict objectForKey:s_minPrice] floatValue] != 0) {
+        _lowField.text = [NSString stringWithFormat:@"%.f",[[_filterDict objectForKey:s_minPrice] floatValue]];
+    }
+    if ([[_filterDict objectForKey:s_maxPrice] floatValue] != 0) {
+        _highField.text = [NSString stringWithFormat:@"%.f",[[_filterDict objectForKey:s_maxPrice] floatValue]];
+    }
 }
 
 #pragma mark - Data
@@ -192,8 +194,20 @@
 #pragma mark - Action
 
 - (IBAction)filterFinished:(id)sender {
-    BOOL maxIsNumber = [RegularFormat isNumber:_highField.text];
-    BOOL minIsNumber = [RegularFormat isNumber:_lowField.text];
+    BOOL maxIsNumber = NO;
+    BOOL minIsNumber = NO;
+    if (!_highField.text || [_highField.text isEqualToString:@""]) {
+        maxIsNumber = YES;
+    }
+    else {
+        maxIsNumber = [RegularFormat isNumber:_highField.text];
+    }
+    if (!_lowField.text || [_lowField.text isEqualToString:@""]) {
+        minIsNumber = YES;
+    }
+    else {
+        minIsNumber = [RegularFormat isNumber:_lowField.text];
+    }
     if (!maxIsNumber || !minIsNumber) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
                                                         message:@"价格必须为正整数，可输入0查询所有数据"
