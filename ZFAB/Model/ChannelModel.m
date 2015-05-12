@@ -100,6 +100,9 @@
         if ([dict objectForKey:@"support_type"]) {
             _supportType = [[dict objectForKey:@"support_type"] boolValue];
         }
+        if ([dict objectForKey:@"opening_datum"]) {
+            _openInfo = [NSString stringWithFormat:@"%@",[dict objectForKey:@"opening_datum"]];
+        }
         id channelFactoryObject = [dict objectForKey:@"pcfactory"];
         if ([channelFactoryObject isKindOfClass:[NSDictionary class]]) {
             if ([channelFactoryObject objectForKey:@"description"]) {

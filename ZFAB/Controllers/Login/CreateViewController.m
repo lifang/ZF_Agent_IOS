@@ -351,24 +351,20 @@
         return;
     }
     if ([_passwordField.text length] < 6 || [_passwordField.text length] > 20) {
-        if (![_registerDict objectForKey:key_tax] || [[_registerDict objectForKey:key_tax] isEqualToString:@""]) {
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-            hud.customView = [[UIImageView alloc] init];
-            hud.mode = MBProgressHUDModeCustomView;
-            [hud hide:YES afterDelay:1.f];
-            hud.labelText = @"密码为6-20位字符";
-            return;
-        }
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"密码为6-20位字符";
+        return;
     }
     if (![_passwordField.text isEqualToString:_confirmField.text]) {
-        if (![_registerDict objectForKey:key_tax] || [[_registerDict objectForKey:key_tax] isEqualToString:@""]) {
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-            hud.customView = [[UIImageView alloc] init];
-            hud.mode = MBProgressHUDModeCustomView;
-            [hud hide:YES afterDelay:1.f];
-            hud.labelText = @"两次密码输入不一致";
-            return;
-        }
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"两次密码输入不一致";
+        return;
     }
     if (![RegularFormat isCorrectIdentificationCard:[_registerDict objectForKey:key_personCardID]]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];

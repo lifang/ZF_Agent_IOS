@@ -25,7 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"代购订单确认";
+    self.title = @"采购订单确认";
     _count = 1;
     [self updatPrice];
     [self initSubView];

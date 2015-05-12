@@ -1371,7 +1371,7 @@
 }
 
 - (void)textFieldDidEndEditing:(ApplyTextField *)textField {
-    if (textField.text && ![textField.text isEqualToString:@""]) {
+    if (textField.text) {
         [_infoDict setObject:textField.text forKey:textField.key];
         if ([textField.key isEqualToString:key_name] &&
             (![_infoDict objectForKey:key_bank] || [[_infoDict objectForKey:key_bank] isEqualToString:@""])) {

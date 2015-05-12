@@ -193,8 +193,8 @@
 - (void)fillStaticData {
     _prepareCountLabel.text = [NSString stringWithFormat:@"配货总量  %d",_stockAgent.totalCount];
     _openCountLabel.text = [NSString stringWithFormat:@"已开通量  %d",_stockAgent.openCount];
-    _prepareTimeLabel.text = [NSString stringWithFormat:@"上次配货日期  %@",_stockAgent.prepareTime];
-    _openTimeLabel.text = [NSString stringWithFormat:@"上次开通日期  %@",_stockAgent.openTime];
+    _prepareTimeLabel.text = [NSString stringWithFormat:@"上次配货日期：  %@",_stockAgent.prepareTime];
+    _openTimeLabel.text = [NSString stringWithFormat:@"上次开通日期：  %@",_stockAgent.openTime];
 }
 
 - (void)parseStockListWithDictionary:(NSDictionary *)dict {

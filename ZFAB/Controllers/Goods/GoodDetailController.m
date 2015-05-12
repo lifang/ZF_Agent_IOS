@@ -40,6 +40,8 @@ static CGFloat topImageHeight = 160.f;
 @property (nonatomic, strong) GoodButton *buyButton;  //代购
 @property (nonatomic, strong) GoodButton *rentButton; //代租赁
 
+@property (nonatomic, strong) UIButton *goOrderBtn;
+
 @property (nonatomic, strong) GoodDetailModel *detailModel;
 
 @property (nonatomic, strong) UILabel *primaryPriceLabel;
@@ -157,11 +159,11 @@ static CGFloat topImageHeight = 160.f;
     _actualPriceLabel.textAlignment = NSTextAlignmentRight;
     
     _buyButton = [GoodButton buttonWithType:UIButtonTypeCustom];
-    [_buyButton setButtonAttrWithTitle:@"代购买"];
+    [_buyButton setButtonAttrWithTitle:@"购买"];
     [_buyButton addTarget:self action:@selector(buyGood:) forControlEvents:UIControlEventTouchUpInside];
     _buyButton.selected = YES;
     _rentButton = [GoodButton buttonWithType:UIButtonTypeCustom];
-    [_rentButton setButtonAttrWithTitle:@"代租赁"];
+    [_rentButton setButtonAttrWithTitle:@"租赁"];
     [_rentButton addTarget:self action:@selector(rentGood:) forControlEvents:UIControlEventTouchUpInside];
     
     [self initImageScanView];
@@ -177,20 +179,20 @@ static CGFloat topImageHeight = 160.f;
     CGFloat btnWidth = kScreenWidth - 2 * middleSpace;
     CGFloat btnHeight = 36.f;
     //立即批购 代购
-    UIButton *butBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    butBtn.frame = CGRectMake(middleSpace, 12, btnWidth, btnHeight);
-    butBtn.layer.cornerRadius = 4.f;
-    butBtn.layer.masksToBounds = YES;
-    [butBtn setBackgroundImage:kImageName(@"blue.png") forState:UIControlStateNormal];
+    _goOrderBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _goOrderBtn.frame = CGRectMake(middleSpace, 12, btnWidth, btnHeight);
+    _goOrderBtn.layer.cornerRadius = 4.f;
+    _goOrderBtn.layer.masksToBounds = YES;
+    [_goOrderBtn setBackgroundImage:kImageName(@"blue.png") forState:UIControlStateNormal];
     if (_supplyType == SupplyGoodsWholesale) {
-        [butBtn setTitle:@"立即批购" forState:UIControlStateNormal];
+        [_goOrderBtn setTitle:@"立即批购" forState:UIControlStateNormal];
     }
     else {
-        [butBtn setTitle:@"立即采购" forState:UIControlStateNormal];
+        [_goOrderBtn setTitle:@"立即采购" forState:UIControlStateNormal];
     }
-    butBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
-    [butBtn addTarget:self action:@selector(goBuy:) forControlEvents:UIControlEventTouchUpInside];
-    [_footerView addSubview:butBtn];
+    _goOrderBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    [_goOrderBtn addTarget:self action:@selector(goBuy:) forControlEvents:UIControlEventTouchUpInside];
+    [_footerView addSubview:_goOrderBtn];
 }
 
 //查看大图
@@ -782,7 +784,9 @@ static CGFloat topImageHeight = 160.f;
     NSLog(@"buy ");
     _buyButton.selected = YES;
     _rentButton.selected = NO;
-    
+    if (_supplyType == SupplyGoodsProcurement) {
+        [_goOrderBtn setTitle:@"立即采购" forState:UIControlStateNormal];
+    }
     [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.procurementPrice + _detailModel.defaultChannel.openCost]];
 }
 
@@ -790,7 +794,9 @@ static CGFloat topImageHeight = 160.f;
     NSLog(@"rent");
     _buyButton.selected = NO;
     _rentButton.selected = YES;
-    
+    if (_supplyType == SupplyGoodsProcurement) {
+        [_goOrderBtn setTitle:@"立即租赁" forState:UIControlStateNormal];
+    }
     [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.deposit + _detailModel.defaultChannel.openCost]];
 }
 

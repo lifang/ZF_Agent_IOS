@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>AAF33A08-D183-4FAD-8AE7-5082AE15E1B1</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>ZFAB</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>02ADDE7DA7B69F45689D21466FF9A338CA7FA345</key>
 		<string>github.com:lifang/ZF_Agent_IOS.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>ZFAB.xcodeproj/project.xcworkspace</string>
+	<string>ZFAB.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>02ADDE7DA7B69F45689D21466FF9A338CA7FA345</key>

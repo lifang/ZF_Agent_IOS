@@ -39,7 +39,7 @@
     
     CGFloat pictureSize = 70.f;  //图片大小
     
-    CGFloat btnWidth = 70.f;
+//    CGFloat btnWidth = 70.f;
     
     //图片框
     _pictureView = [[UIImageView alloc] init];
@@ -99,7 +99,7 @@
                                                                     toItem:self.contentView
                                                                  attribute:NSLayoutAttributeRight
                                                                 multiplier:1.0
-                                                                  constant:-rightSpace - btnWidth]];
+                                                                  constant:-rightSpace]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_titleLabel
                                                                  attribute:NSLayoutAttributeHeight
                                                                  relatedBy:NSLayoutRelationEqual
@@ -133,7 +133,7 @@
                                                                     toItem:self.contentView
                                                                  attribute:NSLayoutAttributeRight
                                                                 multiplier:1.0
-                                                                  constant:-rightSpace - btnWidth]];
+                                                                  constant:-rightSpace]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_brandLabel
                                                                  attribute:NSLayoutAttributeHeight
                                                                  relatedBy:NSLayoutRelationEqual
@@ -167,7 +167,7 @@
                                                                     toItem:self.contentView
                                                                  attribute:NSLayoutAttributeRight
                                                                 multiplier:1.0
-                                                                  constant:-rightSpace - btnWidth]];
+                                                                  constant:-rightSpace]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_channelLabel
                                                                  attribute:NSLayoutAttributeHeight
                                                                  relatedBy:NSLayoutRelationEqual
@@ -412,9 +412,9 @@
 - (void)setContentWithData:(StockListModel *)model {
     _stockModel = model;
     _titleLabel.text = model.stockTitle;
-    NSString *brandString = [NSString stringWithFormat:@"品牌型号   %@%@",model.stockGoodBrand,model.stockGoodModel];
+    NSString *brandString = [NSString stringWithFormat:@"品牌型号：%@%@",model.stockGoodBrand,model.stockGoodModel];
     _brandLabel.attributedText = [self attrStringWithString:brandString];
-    NSString *channelString = [NSString stringWithFormat:@"支付平台   %@",model.stockChannel];
+    NSString *channelString = [NSString stringWithFormat:@"支付平台：%@",model.stockChannel];
     _channelLabel.attributedText = [self attrStringWithString:channelString];
     _historyCountLabel.text = [NSString stringWithFormat:@"%d件",model.historyCount];
     _openCountLabel.text = [NSString stringWithFormat:@"%d件",model.openCount];
@@ -425,7 +425,7 @@
 
 - (NSAttributedString *)attrStringWithString:(NSString *)string {
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:string];
-    if ([string length] < 4) {
+    if ([string length] < 5) {
         return attrString;
     }
     NSDictionary *titleAttr = [NSDictionary dictionaryWithObjectsAndKeys:

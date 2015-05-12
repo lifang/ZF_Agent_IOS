@@ -48,18 +48,18 @@
     headerView.backgroundColor = [UIColor clearColor];
     _tableView.tableHeaderView = headerView;
     
-//        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0.001)];
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 100)];
-    footerView.backgroundColor = [UIColor clearColor];
-    UIButton *addressBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    addressBtn.frame = CGRectMake(80, 20, kScreenWidth - 160, 40);
-    addressBtn.layer.cornerRadius = 4;
-    addressBtn.layer.masksToBounds = YES;
-    addressBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
-    [addressBtn setTitle:@"地址管理" forState:UIControlStateNormal];
-    [addressBtn setBackgroundImage:[UIImage imageNamed:@"blue.png"] forState:UIControlStateNormal];
-    [addressBtn addTarget:self action:@selector(addressManager:) forControlEvents:UIControlEventTouchUpInside];
-    [footerView addSubview:addressBtn];
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0.001)];
+//    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 100)];
+//    footerView.backgroundColor = [UIColor clearColor];
+//    UIButton *addressBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    addressBtn.frame = CGRectMake(80, 20, kScreenWidth - 160, 40);
+//    addressBtn.layer.cornerRadius = 4;
+//    addressBtn.layer.masksToBounds = YES;
+//    addressBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+//    [addressBtn setTitle:@"地址管理" forState:UIControlStateNormal];
+//    [addressBtn setBackgroundImage:[UIImage imageNamed:@"blue.png"] forState:UIControlStateNormal];
+//    [addressBtn addTarget:self action:@selector(addressManager:) forControlEvents:UIControlEventTouchUpInside];
+//    [footerView addSubview:addressBtn];
     _tableView.tableFooterView = footerView;
 }
 

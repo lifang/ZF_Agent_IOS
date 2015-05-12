@@ -162,7 +162,7 @@
     
     CGFloat pictureSize = 70.f;  //图片大小
     
-    CGFloat btnWidth = 70.f;
+//    CGFloat btnWidth = 70.f;
     
     //图片框
     _pictureView = [[UIImageView alloc] init];
@@ -222,7 +222,7 @@
                                                               toItem:headerView
                                                            attribute:NSLayoutAttributeRight
                                                           multiplier:1.0
-                                                            constant:-rightSpace - btnWidth]];
+                                                            constant:-rightSpace]];
     [headerView addConstraint:[NSLayoutConstraint constraintWithItem:_titleLabel
                                                            attribute:NSLayoutAttributeHeight
                                                            relatedBy:NSLayoutRelationEqual
@@ -256,7 +256,7 @@
                                                               toItem:headerView
                                                            attribute:NSLayoutAttributeRight
                                                           multiplier:1.0
-                                                            constant:-rightSpace - btnWidth]];
+                                                            constant:-rightSpace]];
     [headerView addConstraint:[NSLayoutConstraint constraintWithItem:_brandLabel
                                                            attribute:NSLayoutAttributeHeight
                                                            relatedBy:NSLayoutRelationEqual
@@ -290,7 +290,7 @@
                                                               toItem:headerView
                                                            attribute:NSLayoutAttributeRight
                                                           multiplier:1.0
-                                                            constant:-rightSpace - btnWidth]];
+                                                            constant:-rightSpace]];
     [headerView addConstraint:[NSLayoutConstraint constraintWithItem:_channelLabel
                                                            attribute:NSLayoutAttributeHeight
                                                            relatedBy:NSLayoutRelationEqual
@@ -689,7 +689,7 @@
 
 - (NSAttributedString *)attrStringWithString:(NSString *)string {
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:string];
-    if ([string length] < 4) {
+    if ([string length] < 5) {
         return attrString;
     }
     NSDictionary *titleAttr = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -707,9 +707,9 @@
 
 - (void)setDataForUI {
     _titleLabel.text = _stockModel.stockTitle;
-    NSString *brandString = [NSString stringWithFormat:@"品牌型号   %@%@",_stockModel.stockGoodBrand,_stockModel.stockGoodModel];
+    NSString *brandString = [NSString stringWithFormat:@"品牌型号：%@%@",_stockModel.stockGoodBrand,_stockModel.stockGoodModel];
     _brandLabel.attributedText = [self attrStringWithString:brandString];
-    NSString *channelString = [NSString stringWithFormat:@"支付平台   %@",_stockModel.stockChannel];
+    NSString *channelString = [NSString stringWithFormat:@"支付平台：%@",_stockModel.stockChannel];
     _channelLabel.attributedText = [self attrStringWithString:channelString];
     _historyCountLabel.text = [NSString stringWithFormat:@"%d件",_stockModel.historyCount];
     _openCountLabel.text = [NSString stringWithFormat:@"%d件",_stockModel.openCount];

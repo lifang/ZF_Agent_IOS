@@ -454,10 +454,10 @@
             title = @"全部";
             break;
         case OrderTypeProcurementBuy:
-            title = @"代购买";
+            title = @"购买";
             break;
         case OrderTypeProcurementRent:
-            title = @"代租赁";
+            title = @"租赁";
             break;
         default:
             break;

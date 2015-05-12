@@ -71,8 +71,9 @@
 
 - (void)initSubView {
     UIView *topView = nil;
-    topView = [self addRowsWithTitle:@"对个人开通" content:_channelData.privateInfo topView:topView];
-    topView = [self addRowsWithTitle:@"对公开通" content:_channelData.publicInfo topView:topView];
+    topView = [self addRowsWithTitle:@"开通申请材料" content:_channelData.openInfo topView:topView];
+//    topView = [self addRowsWithTitle:@"对个人开通" content:_channelData.privateInfo topView:topView];
+//    topView = [self addRowsWithTitle:@"对公开通" content:_channelData.publicInfo topView:topView];
     
     _scrollView.contentSize = CGSizeMake(kScreenWidth, _viewHeight);
 }
