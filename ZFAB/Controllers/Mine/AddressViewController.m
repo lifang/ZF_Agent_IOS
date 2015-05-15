@@ -10,9 +10,14 @@
 #import "AddressEditController.h"
 #import "AppDelegate.h"
 #import "NetworkInterface.h"
-#import "MultipleDeleteCell.h"
+#import "AddressCell.h"
 
-@interface AddressViewController ()<UITableViewDataSource,UITableViewDelegate>
+typedef enum {
+    AddressSingleDeleteTag = 40,
+    AddressMultiDeleteTag,
+}AddressDeleteTag;
+
+@interface AddressViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -23,6 +28,8 @@
 @property (nonatomic, strong) NSMutableDictionary *selectedItem; //多选的行
 
 @property (nonatomic, strong) UIView *bottomView;
+
+@property (nonatomic, strong) NSIndexPath *deletePath;
 
 @end
 
@@ -348,7 +355,13 @@
 }
 
 - (IBAction)deleteAddress:(id)sender {
-    [self deleteMultiAddress];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                    message:@"确认删除地址？"
+                                                   delegate:self
+                                          cancelButtonTitle:@"取消"
+                                          otherButtonTitles:@"确定", nil];
+    alert.tag = AddressMultiDeleteTag;
+    [alert show];
 }
 
 
@@ -365,26 +378,29 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *identifier = @"Address";
-    MultipleDeleteCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    AddressCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
-        cell = [[MultipleDeleteCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
+        cell = [[AddressCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
     }
     AddressModel *model = [_addressItems objectAtIndex:indexPath.row];
-    NSString *receiver = [NSString stringWithFormat:@"收件人：%@",model.addressReceiver];
-    NSString *totalString = [NSString stringWithFormat:@"%@   %@",receiver,model.addressPhone];
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:totalString];
-    NSDictionary *receiverAttr = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  [UIFont boldSystemFontOfSize:15.f],NSFontAttributeName,
-                                  nil];
-    NSDictionary *phoneAttr = [NSDictionary dictionaryWithObjectsAndKeys:
-                               [UIFont systemFontOfSize:14],NSFontAttributeName,
-                               nil];
-    [attrString addAttributes:receiverAttr range:NSMakeRange(0, [receiver length])];
-    [attrString addAttributes:phoneAttr range:NSMakeRange([receiver length], [attrString length] - [receiver length])];
-    cell.textLabel.attributedText = attrString;
-    cell.detailTextLabel.font = [UIFont systemFontOfSize:14.f];
-    cell.detailTextLabel.numberOfLines = 2;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"收件地址：%@",model.address];
+    cell.selectedImageView.hidden = YES;
+    [cell updateDefaultLayout];
+    [cell setAddressDataWithModel:model];
+//    NSString *receiver = [NSString stringWithFormat:@"收件人：%@",model.addressReceiver];
+//    NSString *totalString = [NSString stringWithFormat:@"%@   %@",receiver,model.addressPhone];
+//    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:totalString];
+//    NSDictionary *receiverAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                  [UIFont boldSystemFontOfSize:15.f],NSFontAttributeName,
+//                                  nil];
+//    NSDictionary *phoneAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+//                               [UIFont systemFontOfSize:14],NSFontAttributeName,
+//                               nil];
+//    [attrString addAttributes:receiverAttr range:NSMakeRange(0, [receiver length])];
+//    [attrString addAttributes:phoneAttr range:NSMakeRange([receiver length], [attrString length] - [receiver length])];
+//    cell.textLabel.attributedText = attrString;
+//    cell.detailTextLabel.font = [UIFont systemFontOfSize:14.f];
+//    cell.detailTextLabel.numberOfLines = 2;
+//    cell.detailTextLabel.text = [NSString stringWithFormat:@"收件地址：%@",model.address];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
@@ -400,7 +416,14 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self deleteSingleAddressWithIndexPath:indexPath];
+        _deletePath = indexPath;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"确认删除地址？"
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                              otherButtonTitles:@"确定", nil];
+        alert.tag = AddressSingleDeleteTag;
+        [alert show];
     }
     else if (editingStyle == 3) {
     }
@@ -426,7 +449,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80.f;
+    return kAddressCellHeight;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -447,5 +470,19 @@
     [self getAddressList];
 }
 
+#pragma mark - UIAlertView
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        if (alertView.tag == AddressSingleDeleteTag) {
+            if (_deletePath) {
+                [self deleteSingleAddressWithIndexPath:_deletePath];
+            }
+        }
+        else if (alertView.tag == AddressMultiDeleteTag) {
+            [self deleteMultiAddress];
+        }
+    }
+}
 
 @end

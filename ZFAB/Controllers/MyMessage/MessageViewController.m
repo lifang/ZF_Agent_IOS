@@ -13,7 +13,12 @@
 #import "MessageModel.h"
 #import "MessageDetailController.h"
 
-@interface MessageViewController ()
+typedef enum {
+    MessageSingleDeleteTag = 30,
+    MessageMultiDeleteTag,
+}MessageDeleteTag;
+
+@interface MessageViewController ()<UIAlertViewDelegate>
 
 @property (nonatomic, assign) BOOL isMultiDelete;
 
@@ -21,6 +26,8 @@
 @property (nonatomic, strong) NSMutableDictionary *selectedItem; //多选的行
 
 @property (nonatomic, strong) UIView *bottomView;
+
+@property (nonatomic, strong) NSIndexPath *deletePath;
 
 @end
 
@@ -376,7 +383,13 @@
 }
 
 - (IBAction)deleteMessage:(id)sender {
-    [self deleteSelectedMessages];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                    message:@"确认删除消息？"
+                                                   delegate:self
+                                          cancelButtonTitle:@"取消"
+                                          otherButtonTitles:@"确定", nil];
+    alert.tag = MessageMultiDeleteTag;
+    [alert show];
 }
 
 #pragma mark - UITableView
@@ -446,7 +459,14 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self deleteSingleMessageWithIndexPath:indexPath];
+        _deletePath = indexPath;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"确认删除消息？"
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                              otherButtonTitles:@"确定", nil];
+        alert.tag = MessageSingleDeleteTag;
+        [alert show];
     }
     else if (editingStyle == 3) {
 
@@ -482,6 +502,21 @@
     if (message) {
         [_messageItems removeObject:message];
         [self.tableView reloadData];
+    }
+}
+
+#pragma mark - UIAlertView
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        if (alertView.tag == MessageSingleDeleteTag) {
+            if (_deletePath) {
+                [self deleteSingleMessageWithIndexPath:_deletePath];
+            }
+        }
+        else if (alertView.tag == MessageMultiDeleteTag) {
+            [self deleteSelectedMessages];
+        }
     }
 }
 

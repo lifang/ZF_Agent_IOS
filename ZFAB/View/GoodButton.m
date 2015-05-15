@@ -22,10 +22,13 @@
     [super setSelected:selected];
     if (selected) {
         self.layer.borderColor = kMainColor.CGColor;
-        [self setTitleColor:kMainColor forState:UIControlStateNormal];
+        [self setBackgroundColor:kMainColor];
+        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        [self setTitleColor:kMainColor forState:UIControlStateNormal];
     }
     else {
         [self setTitleColor:kColor(84, 83, 83, 1) forState:UIControlStateNormal];
+        [self setBackgroundColor:[UIColor clearColor]];
         self.layer.borderColor = kColor(154, 153, 153, 1).CGColor;
     }
 }

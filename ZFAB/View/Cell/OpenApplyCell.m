@@ -248,10 +248,13 @@
     CGFloat btnWidth = (kScreenWidth - 4 * middleSpace) / 2;
     CGFloat btnHeight = 36.f;
     UIButton *openApplyBtn;
-    if ([_identifier isEqualToString:PartOpenedApplyIdentifier]) {
+    if ([_identifier isEqualToString:partOpenedApplyIdentifier]) {
         openApplyBtn = [self buttonWithTitle:@"重新申请开通" action:@selector(openApplyRepeat:)];
     }
-    else if ([_identifier isEqualToString:UnOpenedApplyIdentifier]) {
+    else if ([_identifier isEqualToString:unOpenedApplyFirstIdentifier]) {
+        openApplyBtn = [self buttonWithTitle:@"重新申请开通" action:@selector(openApplyRepeat:)];
+    }
+    else if ([_identifier isEqualToString:unOpenedApplySecondIdentifier]) {
         openApplyBtn = [self buttonWithTitle:@"申请开通" action:@selector(openApply:)];
     }
     [self.contentView addSubview:openApplyBtn];
@@ -314,8 +317,8 @@
 }
 
 - (IBAction)openApplyRepeat:(id)sender {
-    if (_delegate && [_delegate respondsToSelector:@selector(openApplyCellReopenWithData:)]) {
-        [_delegate openApplyCellReopenWithData:_cellData];
+    if (_delegate && [_delegate respondsToSelector:@selector(openApplyCellReopenWithData:identifier:)]) {
+        [_delegate openApplyCellReopenWithData:_cellData identifier:_identifier];
     }
 }
 

@@ -436,78 +436,78 @@ typedef enum {
     openHeight += labelHeight + lineSpace;
     //跟踪记录
     CGFloat recordHeight = 0.f;
-    if ([self.records count] > 0) {
-        UILabel *tipLabel = [[UILabel alloc] init];
-        tipLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        tipLabel.backgroundColor = [UIColor clearColor];
-        tipLabel.textColor = kColor(108, 108, 108, 1);
-        tipLabel.font = [UIFont systemFontOfSize:10.f];
-        tipLabel.text = @"追踪记录：";
-        [_scrollView addSubview:tipLabel];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:tipLabel
-                                                              attribute:NSLayoutAttributeTop
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:openTitleLabel
-                                                              attribute:NSLayoutAttributeBottom
-                                                             multiplier:1.0
-                                                               constant:openHeight + lineSpace]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:tipLabel
-                                                              attribute:NSLayoutAttributeLeft
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeLeft
-                                                             multiplier:1.0
-                                                               constant:leftSpace]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:tipLabel
-                                                              attribute:NSLayoutAttributeRight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeRight
-                                                             multiplier:1.0
-                                                               constant:-rightSpce]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:tipLabel
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1.0
-                                                               constant:labelHeight]];
-        
-        RecordView *recordView = [[RecordView alloc] initWithRecords:self.records
-                                                               width:(kScreenWidth - leftSpace * 2)];
-        recordView.translatesAutoresizingMaskIntoConstraints = NO;
-        recordHeight = [recordView getHeight];
-        [self.scrollView addSubview:recordView];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
-                                                              attribute:NSLayoutAttributeTop
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:openTitleLabel
-                                                              attribute:NSLayoutAttributeBottom
-                                                             multiplier:1.0
-                                                               constant:lineSpace * 2 + openHeight]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
-                                                              attribute:NSLayoutAttributeLeft
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeLeft
-                                                             multiplier:1.0
-                                                               constant:leftSpace]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
-                                                              attribute:NSLayoutAttributeRight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeRight
-                                                             multiplier:1.0
-                                                               constant:-rightSpce]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1.0
-                                                               constant:recordHeight]];
-        [recordView initAndLayoutUI];
-    }
+//    if ([self.records count] > 0) {
+//        UILabel *tipLabel = [[UILabel alloc] init];
+//        tipLabel.translatesAutoresizingMaskIntoConstraints = NO;
+//        tipLabel.backgroundColor = [UIColor clearColor];
+//        tipLabel.textColor = kColor(108, 108, 108, 1);
+//        tipLabel.font = [UIFont systemFontOfSize:10.f];
+//        tipLabel.text = @"追踪记录：";
+//        [_scrollView addSubview:tipLabel];
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:tipLabel
+//                                                              attribute:NSLayoutAttributeTop
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:openTitleLabel
+//                                                              attribute:NSLayoutAttributeBottom
+//                                                             multiplier:1.0
+//                                                               constant:openHeight + lineSpace]];
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:tipLabel
+//                                                              attribute:NSLayoutAttributeLeft
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:self.view
+//                                                              attribute:NSLayoutAttributeLeft
+//                                                             multiplier:1.0
+//                                                               constant:leftSpace]];
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:tipLabel
+//                                                              attribute:NSLayoutAttributeRight
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:self.view
+//                                                              attribute:NSLayoutAttributeRight
+//                                                             multiplier:1.0
+//                                                               constant:-rightSpce]];
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:tipLabel
+//                                                              attribute:NSLayoutAttributeHeight
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:nil
+//                                                              attribute:NSLayoutAttributeNotAnAttribute
+//                                                             multiplier:1.0
+//                                                               constant:labelHeight]];
+//        
+//        RecordView *recordView = [[RecordView alloc] initWithRecords:self.records
+//                                                               width:(kScreenWidth - leftSpace * 2)];
+//        recordView.translatesAutoresizingMaskIntoConstraints = NO;
+//        recordHeight = [recordView getHeight];
+//        [self.scrollView addSubview:recordView];
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
+//                                                              attribute:NSLayoutAttributeTop
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:openTitleLabel
+//                                                              attribute:NSLayoutAttributeBottom
+//                                                             multiplier:1.0
+//                                                               constant:lineSpace * 2 + openHeight]];
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
+//                                                              attribute:NSLayoutAttributeLeft
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:self.view
+//                                                              attribute:NSLayoutAttributeLeft
+//                                                             multiplier:1.0
+//                                                               constant:leftSpace]];
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
+//                                                              attribute:NSLayoutAttributeRight
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:self.view
+//                                                              attribute:NSLayoutAttributeRight
+//                                                             multiplier:1.0
+//                                                               constant:-rightSpce]];
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
+//                                                              attribute:NSLayoutAttributeHeight
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:nil
+//                                                              attribute:NSLayoutAttributeNotAnAttribute
+//                                                             multiplier:1.0
+//                                                               constant:recordHeight]];
+//        [recordView initAndLayoutUI];
+//    }
     self.scrollView.contentSize = CGSizeMake(kScreenWidth, 400 + rateHeight + openHeight + recordHeight);
     terminalTitleLabel.text = @"终端信息";
     openTitleLabel.text = @"开通详情";
@@ -903,62 +903,173 @@ typedef enum {
 }
 
 - (void)addButton {
-    switch (_terminalModel.status) {
-        case TerminalStatusOpened: {
-            if (_terminalModel.appID) {
-                UIButton *findPswBtn = [self buttonWithTitle:@"找回POS密码" action:@selector(findPassword:)];
-                [self layoutButton:findPswBtn position:TerDetailBtnTopRight];
-                if (_terminalModel.hasVideoAuth) {
-                    UIButton *videoAuthBtn = [self buttonWithTitle:@"视频认证" action:@selector(videoAuth:)];
-                    [self layoutButton:videoAuthBtn position:TerDetailBtnBottomRight];
-                }
-            }
-        }
-            break;
-        case TerminalStatusPartOpened: {
+    //已开通
+    if (_terminalModel.status == TerminalStatusOpened) {
+        UIButton *videoAuthBtn = [self buttonWithTitle:@"视频认证" action:@selector(videoAuth:)];
+        UIButton *findPswBtn = [self buttonWithTitle:@"找回POS密码" action:@selector(findPassword:)];
+        if (_terminalModel.appID && ![_terminalModel.appID isEqualToString:@""]) {
             UIButton *synBtn = [self buttonWithTitle:@"同步" action:@selector(synchronization:)];
-            UIButton *openConfirmBtn = [self buttonWithTitle:@"重新申请开通" action:@selector(openConfirm:)];
-            UIButton *videoAuthBtn = [self buttonWithTitle:@"视频认证" action:@selector(videoAuth:)];
-            UIButton *findPswBtn = [self buttonWithTitle:@"找回POS密码" action:@selector(findPassword:)];
-            [self layoutButton:synBtn position:TerDetailBtnTopRight];
-            [self layoutButton:openConfirmBtn position:TerDetailBtnBottomRight];
-            [self layoutButton:findPswBtn position:TerDetailBtnTopLeft];
             if (_terminalModel.hasVideoAuth) {
-                [self layoutButton:videoAuthBtn position:TerDetailBtnBottomLeft];
-            }
-        }
-            break;
-        case TerminalStatusUnOpened: {
-            if (_terminalModel.appID) {
-                UIButton *openApplyBtn = [self buttonWithTitle:@"开通申请" action:@selector(openApply:)];
-                UIButton *videoAuthBtn = [self buttonWithTitle:@"视频认证" action:@selector(videoAuth:)];
-                [self layoutButton:openApplyBtn position:TerDetailBtnTopRight];
-                if (_terminalModel.hasVideoAuth) {
-                    [self layoutButton:videoAuthBtn position:TerDetailBtnBottomRight];
-                }
+                [self layoutButton:synBtn position:TerDetailBtnTopRight];
+                [self layoutButton:findPswBtn position:TerDetailBtnBottomRight];
+                [self layoutButton:videoAuthBtn position:TerDetailBtnTopLeft];
             }
             else {
-                UIButton *synBtn = [self buttonWithTitle:@"同步" action:@selector(synchronization:)];
-                UIButton *openApplyBtn = [self buttonWithTitle:@"开通申请" action:@selector(openApply:)];
-                UIButton *videoAuthBtn = [self buttonWithTitle:@"视频认证" action:@selector(videoAuth:)];
                 [self layoutButton:synBtn position:TerDetailBtnTopRight];
-                [self layoutButton:openApplyBtn position:TerDetailBtnBottomRight];
-                if (_terminalModel.hasVideoAuth) {
-                    [self layoutButton:videoAuthBtn position:TerDetailBtnTopLeft];
-                }
+                [self layoutButton:findPswBtn position:TerDetailBtnBottomRight];
             }
         }
-            break;
-        case TerminalStatusCanceled:
-            break;
-        case TerminalStatusStopped: {
-            UIButton *synBtn = [self buttonWithTitle:@"同步" action:@selector(synchronization:)];
-            [self layoutButton:synBtn position:TerDetailBtnTopRight];
+        else {
+            if (_terminalModel.hasVideoAuth) {
+                [self layoutButton:findPswBtn position:TerDetailBtnTopRight];
+                [self layoutButton:videoAuthBtn position:TerDetailBtnBottomRight];
+            }
+            else {
+                [self layoutButton:findPswBtn position:TerDetailBtnTopRight];
+            }
+            
         }
-            break;
-        default:
-            break;
     }
+    else if (_terminalModel.status == TerminalStatusPartOpened) {
+        //部分开通
+        UIButton *openConfirmBtn = [self buttonWithTitle:@"重新申请开通" action:@selector(openConfirm:)];
+        UIButton *videoAuthBtn = [self buttonWithTitle:@"视频认证" action:@selector(videoAuth:)];
+        UIButton *findPswBtn = [self buttonWithTitle:@"找回POS密码" action:@selector(findPassword:)];
+        if (_terminalModel.appID && ![_terminalModel.appID isEqualToString:@""]) {
+            UIButton *synBtn = [self buttonWithTitle:@"同步" action:@selector(synchronization:)];
+            if (_terminalModel.hasVideoAuth) {
+                [self layoutButton:synBtn position:TerDetailBtnTopRight];
+                [self layoutButton:openConfirmBtn position:TerDetailBtnBottomRight];
+                [self layoutButton:findPswBtn position:TerDetailBtnTopLeft];
+                [self layoutButton:videoAuthBtn position:TerDetailBtnBottomLeft];
+            }
+            else {
+                [self layoutButton:synBtn position:TerDetailBtnTopRight];
+                [self layoutButton:openConfirmBtn position:TerDetailBtnBottomRight];
+                [self layoutButton:findPswBtn position:TerDetailBtnTopLeft];
+            }
+        }
+        else {
+            if (_terminalModel.hasVideoAuth) {
+                [self layoutButton:openConfirmBtn position:TerDetailBtnTopRight];
+                [self layoutButton:findPswBtn position:TerDetailBtnBottomRight];
+                [self layoutButton:videoAuthBtn position:TerDetailBtnTopLeft];
+            }
+            else {
+                [self layoutButton:openConfirmBtn position:TerDetailBtnTopRight];
+                [self layoutButton:findPswBtn position:TerDetailBtnBottomRight];
+            }
+        }
+    }
+    else if (_terminalModel.status == TerminalStatusUnOpened) {
+        //未开通
+        UIButton *openApplyBtn = [self buttonWithTitle:@"开通申请" action:@selector(openApply:)];
+        UIButton *videoAuthBtn = [self buttonWithTitle:@"视频认证" action:@selector(videoAuthNotice:)];
+        UIButton *openConfirmBtn = [self buttonWithTitle:@"重新申请开通" action:@selector(openConfirmNotice:)];
+        if (_terminalModel.appID && ![_terminalModel.appID isEqualToString:@""]) {
+            UIButton *synBtn = [self buttonWithTitle:@"同步" action:@selector(synchronization:)];
+            if (_terminalModel.hasVideoAuth) {
+                [self layoutButton:synBtn position:TerDetailBtnTopRight];
+                [self layoutButton:openConfirmBtn position:TerDetailBtnBottomRight];
+                [self layoutButton:videoAuthBtn position:TerDetailBtnTopLeft];
+            }
+            else {
+                [self layoutButton:synBtn position:TerDetailBtnTopRight];
+                [self layoutButton:openConfirmBtn position:TerDetailBtnBottomRight];
+            }
+        }
+        else {
+            if (_terminalModel.hasVideoAuth) {
+                [self layoutButton:openApplyBtn position:TerDetailBtnTopRight];
+                [self layoutButton:videoAuthBtn position:TerDetailBtnBottomRight];
+            }
+            else {
+                [self layoutButton:openApplyBtn position:TerDetailBtnTopRight];
+            }
+        }
+    }
+    else if (_terminalModel.status == TerminalStatusCanceled) {
+        //已注销
+        UIButton *openConfirmBtn = [self buttonWithTitle:@"重新申请开通" action:@selector(openConfirm:)];
+        UIButton *videoAuthBtn = [self buttonWithTitle:@"视频认证" action:@selector(videoAuth:)];
+        if (_terminalModel.appID && ![_terminalModel.appID isEqualToString:@""]) {
+            UIButton *synBtn = [self buttonWithTitle:@"同步" action:@selector(synchronization:)];
+            if (_terminalModel.hasVideoAuth) {
+                [self layoutButton:synBtn position:TerDetailBtnTopRight];
+                [self layoutButton:openConfirmBtn position:TerDetailBtnBottomRight];
+                [self layoutButton:videoAuthBtn position:TerDetailBtnTopLeft];
+            }
+            else {
+                [self layoutButton:synBtn position:TerDetailBtnTopRight];
+                [self layoutButton:openConfirmBtn position:TerDetailBtnBottomRight];
+            }
+        }
+        else {
+            if (_terminalModel.hasVideoAuth) {
+                [self layoutButton:openConfirmBtn position:TerDetailBtnTopRight];
+                [self layoutButton:videoAuthBtn position:TerDetailBtnBottomRight];
+            }
+            else {
+                [self layoutButton:openConfirmBtn position:TerDetailBtnTopRight];
+            }
+        }
+    }
+//    switch (_terminalModel.status) {
+//        case TerminalStatusOpened: {
+//            if (_terminalModel.appID) {
+//                UIButton *findPswBtn = [self buttonWithTitle:@"找回POS密码" action:@selector(findPassword:)];
+//                [self layoutButton:findPswBtn position:TerDetailBtnTopRight];
+//                if (_terminalModel.hasVideoAuth) {
+//                    UIButton *videoAuthBtn = [self buttonWithTitle:@"视频认证" action:@selector(videoAuth:)];
+//                    [self layoutButton:videoAuthBtn position:TerDetailBtnBottomRight];
+//                }
+//            }
+//        }
+//            break;
+//        case TerminalStatusPartOpened: {
+//            UIButton *synBtn = [self buttonWithTitle:@"同步" action:@selector(synchronization:)];
+//            UIButton *openConfirmBtn = [self buttonWithTitle:@"重新申请开通" action:@selector(openConfirm:)];
+//            UIButton *videoAuthBtn = [self buttonWithTitle:@"视频认证" action:@selector(videoAuth:)];
+//            UIButton *findPswBtn = [self buttonWithTitle:@"找回POS密码" action:@selector(findPassword:)];
+//            [self layoutButton:synBtn position:TerDetailBtnTopRight];
+//            [self layoutButton:openConfirmBtn position:TerDetailBtnBottomRight];
+//            [self layoutButton:findPswBtn position:TerDetailBtnTopLeft];
+//            if (_terminalModel.hasVideoAuth) {
+//                [self layoutButton:videoAuthBtn position:TerDetailBtnBottomLeft];
+//            }
+//        }
+//            break;
+//        case TerminalStatusUnOpened: {
+//            if (_terminalModel.appID) {
+//                UIButton *openApplyBtn = [self buttonWithTitle:@"开通申请" action:@selector(openApply:)];
+//                UIButton *videoAuthBtn = [self buttonWithTitle:@"视频认证" action:@selector(videoAuth:)];
+//                [self layoutButton:openApplyBtn position:TerDetailBtnTopRight];
+//                if (_terminalModel.hasVideoAuth) {
+//                    [self layoutButton:videoAuthBtn position:TerDetailBtnBottomRight];
+//                }
+//            }
+//            else {
+//                UIButton *synBtn = [self buttonWithTitle:@"同步" action:@selector(synchronization:)];
+//                UIButton *openApplyBtn = [self buttonWithTitle:@"开通申请" action:@selector(openApply:)];
+//                UIButton *videoAuthBtn = [self buttonWithTitle:@"视频认证" action:@selector(videoAuth:)];
+//                [self layoutButton:synBtn position:TerDetailBtnTopRight];
+//                [self layoutButton:openApplyBtn position:TerDetailBtnBottomRight];
+//                if (_terminalModel.hasVideoAuth) {
+//                    [self layoutButton:videoAuthBtn position:TerDetailBtnTopLeft];
+//                }
+//            }
+//        }
+//            break;
+//        case TerminalStatusCanceled:
+//            break;
+//        case TerminalStatusStopped: {
+//            UIButton *synBtn = [self buttonWithTitle:@"同步" action:@selector(synchronization:)];
+//            [self layoutButton:synBtn position:TerDetailBtnTopRight];
+//        }
+//            break;
+//        default:
+//            break;
+//    }
 }
 
 - (void)layoutButton:(UIButton *)button position:(TerDetailBtnPosition)position {
@@ -1080,6 +1191,34 @@ typedef enum {
 //同步
 - (IBAction)synchronization:(id)sender {
     [self synchronizeTerminal];
+}
+
+- (IBAction)videoAuthNotice:(id)sender {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.customView = [[UIImageView alloc] init];
+    hud.mode = MBProgressHUDModeCustomView;
+    [hud hide:YES afterDelay:1.f];
+    hud.labelText = @"请先申请开通终端";
+}
+
+- (IBAction)openConfirmNotice:(id)sender {
+    if (_terminalModel.openStatus == 6) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"正在第三方审核,请耐心等待...";
+        return;
+    }
+    ApplyDetailController *detail = [[ApplyDetailController alloc] init];
+    detail.terminalID = _terminalModel.terminalID;
+    if (_terminalModel.status == TerminalStatusPartOpened) {
+        detail.openStatus = OpenStatusReopen;
+    }
+    else {
+        detail.openStatus = OpenStatusNew;
+    }
+    [self.navigationController pushViewController:detail animated:YES];
 }
 
 //视频认证

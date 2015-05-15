@@ -211,7 +211,7 @@
 
 - (void)setContentForReuseIdentifier {
     //自助开通无法查看终端
-    if ([_identifier isEqualToString:OpenedSecondStatusIdentifier]) {
+    if ([_identifier isEqualToString:TMMiddleHeightIdentifier]) {
         _arrowView.hidden = YES;
         //已开通 自助开通
         [self addLine];

@@ -15,6 +15,7 @@
 #import "ModifyEmailController.h"
 #import "ModifyPasswordController.h"
 #import "AddressViewController.h"
+#import "ModifyViewController.h"
 
 @interface PersonInfoController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 
@@ -483,15 +484,25 @@
     if ([_personInfo.type intValue] == AgentTypeCompany) {
         if (indexPath.section == 1 && indexPath.row == 2) {
             //修改手机
-            ModifyMobileController *mobileC = [[ModifyMobileController alloc] init];
-            mobileC.personInfo = _personInfo;
-            [self.navigationController pushViewController:mobileC animated:YES];
+//            ModifyMobileController *mobileC = [[ModifyMobileController alloc] init];
+//            mobileC.personInfo = _personInfo;
+//            [self.navigationController pushViewController:mobileC animated:YES];
+            ModifyViewController *editC = [[ModifyViewController alloc] init];
+            editC.type = ModifyUserMobile;
+            editC.editType = EditViewModify;
+            editC.userInfo = _personInfo;
+            [self.navigationController pushViewController:editC animated:YES];
         }
         else if (indexPath.section == 1 && indexPath.row == 3) {
             //修改邮箱
-            ModifyEmailController *emailC = [[ModifyEmailController alloc] init];
-            emailC.personInfo = _personInfo;
-            [self.navigationController pushViewController:emailC animated:YES];
+//            ModifyEmailController *emailC = [[ModifyEmailController alloc] init];
+//            emailC.personInfo = _personInfo;
+//            [self.navigationController pushViewController:emailC animated:YES];
+            ModifyViewController *editC = [[ModifyViewController alloc] init];
+            editC.type = ModifyUserEmail;
+            editC.editType = EditViewModify;
+            editC.userInfo = _personInfo;
+            [self.navigationController pushViewController:editC animated:YES];
         }
         else if (indexPath.section == 3 && indexPath.row == 1) {
             //修改密码

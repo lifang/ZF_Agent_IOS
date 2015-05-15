@@ -34,12 +34,12 @@
 
 
 //视频提示地址
-#define kVideoServiceURL @"http://121.40.64.120:8080/notice/video"
+#define kVideoServiceURL @"http://121.40.84.2:38080/notice/video"
 //#define kVideoServiceURL @"http://admin.ebank007.com/notice/video"   //线上
 
 //支付地址
-#define kWhalesaleCallBackURL   @"http://121.40.64.167:9090/deposit_app_notify_url.jsp"
-#define kProcurementCallBackURL @"http://121.40.64.167:9090/app_notify_url.jsp"
+#define kWhalesaleCallBackURL   @"http://121.40.84.2:28080/deposit_app_notify_url.jsp"
+#define kProcurementCallBackURL @"http://121.40.84.2:28080/app_notify_url.jsp"
 //线上
 //#define kWhalesaleCallBackURL    @"http://agent.ebank007.com/deposit_app_notify_url.jsp"
 //#define kProcurementCallBackURL  @"http://agent.ebank007.com/app_notify_url.jsp"

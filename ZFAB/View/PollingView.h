@@ -22,6 +22,7 @@
 
 - (void)downloadImageWithURLs:(NSArray *)urlArray
                        target:(id)target
-                     action:(SEL)action;
+                     action:(SEL)action
+                   scaleImage:(BOOL)scaleImage;
 
 @end

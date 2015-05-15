@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "NetworkInterface.h"
 #import "AddressModel.h"
+#import "MultipleDeleteCell.h"
 
 #define kAddressCellHeight 90.f
 
-@interface AddressCell : UITableViewCell
+@interface AddressCell : MultipleDeleteCell
 
 @property (nonatomic, strong) UILabel *receiveLabel;
 @property (nonatomic, strong) UILabel *addressLabel;
@@ -20,6 +21,10 @@
 
 @property (nonatomic, strong) UIImageView *selectedImageView;
 
+@property (nonatomic, strong) NSLayoutConstraint *originYConstraint;
+
 - (void)setAddressDataWithModel:(AddressModel *)addressModel;
+
+- (void)updateDefaultLayout;
 
 @end

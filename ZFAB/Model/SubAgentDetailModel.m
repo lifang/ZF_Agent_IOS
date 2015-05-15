@@ -66,7 +66,7 @@
             _createTime = [NSString stringWithFormat:@"%@",[dict objectForKey:@"created_at"]];
         }
         _saleCount = [[dict objectForKey:@"soldnum"] intValue];
-        _remainCount = [[dict objectForKey:@"allQty"] intValue];
+        _remainCount = [[dict objectForKey:@"allQty"] intValue] - _saleCount;
         _openCount = [[dict objectForKey:@"opennum"] intValue];
     }
     return self;

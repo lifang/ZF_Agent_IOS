@@ -13,8 +13,11 @@
 
 @protocol OpenApplyCellDelegate;
 
-static NSString *UnOpenedApplyIdentifier = @"UnOpenedApplyIdentifier";
-static NSString *PartOpenedApplyIdentifier = @"PartOpenedApplyIdentifier";
+//重新申请开通
+static NSString *unOpenedApplyFirstIdentifier = @"unOpenedApplyFirstIdentifier";
+//申请开通 视频认证弹出提示
+static NSString *unOpenedApplySecondIdentifier = @"unOpenedApplySecondIdentifier";
+static NSString *partOpenedApplyIdentifier = @"partOpenedApplyIdentifier";
 
 @interface OpenApplyCell : UITableViewCell
 
@@ -36,6 +39,6 @@ static NSString *PartOpenedApplyIdentifier = @"PartOpenedApplyIdentifier";
 
 - (void)openApplyCellOpenWithData:(TerminalModel *)data;
 
-- (void)openApplyCellReopenWithData:(TerminalModel *)data;
+- (void)openApplyCellReopenWithData:(TerminalModel *)data identifier:(NSString *)identifier;
 
 @end

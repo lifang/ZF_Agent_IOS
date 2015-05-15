@@ -321,39 +321,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TerminalModel *model = [_dataItem objectAtIndex:indexPath.section];
     NSString *cellIdentifier = nil;
-    switch (model.status) {
-        case TerminalStatusOpened:
-            //已开通
-            if (model.appID) {
-                cellIdentifier = OpenedFirstStatusIdentifier;
-            }
-            else {
-                cellIdentifier = OpenedSecondStatusIdentifier;
-            }
-            break;
-        case TerminalStatusPartOpened:
-            //部分开通
-            cellIdentifier = PartOpenedStatusIdentifier;
-            break;
-        case TerminalStatusUnOpened:
-            //未开通
-            if (model.appID) {
-                cellIdentifier = UnOpenedSecondStatusIdentifier;
-            }
-            else {
-                cellIdentifier = UnOpenedFirstStatusIdentifier;
-            }
-            break;
-        case TerminalStatusCanceled:
-            //已注销
-            cellIdentifier = CanceledStatusIdentifier;
-            break;
-        case TerminalStatusStopped:
-            //已停用
-            cellIdentifier = StoppedStatusIdentifier;
-            break;
-        default:
-            break;
+    if (model.type == 2) {
+        //自助开通
+        cellIdentifier = TMMiddleHeightIdentifier;
+    }
+    else {
+        cellIdentifier = TMShortHeightIdentifier;
     }
     TerminalManagerCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
@@ -365,16 +338,19 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     TerminalModel *model = [_dataItem objectAtIndex:indexPath.section];
-    if (model.status == TerminalStatusOpened && !model.appID) {
+    if (model.type == 2) {
+        //自助开通
         return kTMMiddleCellHeight;
     }
-    return kTMShortCellHeight;
+    else {
+        return kTMShortCellHeight;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     TerminalModel *model = [_dataItem objectAtIndex:indexPath.section];
-    if (model.status == TerminalStatusOpened && !model.appID) {
+    if (model.type == 2) {
         //自助开通无法查看详情
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.customView = [[UIImageView alloc] init];

@@ -2375,4 +2375,59 @@ static NSString *HTTP_GET  = @"GET";
     [request start];
 }
 
++ (void)getGoodImageWithGoodID:(NSString *)goodID
+                      finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[goodID intValue]] forKey:@"goodId"];
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_goodImage_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
++ (void)getRegisterValidateWithMobileNumber:(NSString *)mobileNumber
+                                   finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (mobileNumber) {
+        [paramDict setObject:mobileNumber forKey:@"codeNumber"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_registerValidate_mehtod];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
++ (void)registerCooperationWithUsername:(NSString *)username
+                            phoneNumber:(NSString *)phoneNumber
+                              agentType:(NSString *)agentType
+                                   city:(NSString *)cityInfo
+                               finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    if (username) {
+        [paramDict setObject:username forKey:@"name"];
+    }
+    if (phoneNumber) {
+        [paramDict setObject:phoneNumber forKey:@"phone"];
+    }
+    if (agentType) {
+        [paramDict setObject:agentType forKey:@"agentType"];
+    }
+    if (cityInfo) {
+        [paramDict setObject:cityInfo forKey:@"address"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_cooperation_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
 @end

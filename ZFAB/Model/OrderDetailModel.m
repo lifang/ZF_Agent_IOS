@@ -64,6 +64,7 @@
         else {
             _logisticNumber = @"";
         }
+        _needInvoice = [[dict objectForKey:@"need_invoice"] intValue];
         if ([dict objectForKey:@"order_payment_type"]) {
             int payTag = [[dict objectForKey:@"order_payment_type"] intValue];
             if (payTag == 1) {

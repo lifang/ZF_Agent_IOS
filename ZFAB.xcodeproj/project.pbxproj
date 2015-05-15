@@ -200,6 +200,9 @@
 		7760DAFD1ADCF109005C607A /* TransferGoodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7760DAFC1ADCF109005C607A /* TransferGoodCell.m */; };
 		7760DB001ADCFC09005C607A /* TransferGoodController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7760DAFF1ADCFC09005C607A /* TransferGoodController.m */; };
 		7760DB031ADD2EA1005C607A /* PGDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7760DB021ADD2EA1005C607A /* PGDetailController.m */; };
+		776221661B0594430053C951 /* ModifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776221651B0594430053C951 /* ModifyViewController.m */; };
+		7762216C1B05BBD80053C951 /* GoodImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7762216B1B05BBD80053C951 /* GoodImageController.m */; };
+		7762216F1B060BB20053C951 /* RegisterSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7762216E1B060BB20053C951 /* RegisterSuccessController.m */; };
 		77641D7A1AE8D2480022F31A /* libaudio_processing.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77641D611AE8D2480022F31A /* libaudio_processing.a */; };
 		77641D7B1AE8D2480022F31A /* libaudio_processing_neon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77641D621AE8D2480022F31A /* libaudio_processing_neon.a */; };
 		77641D7C1AE8D2480022F31A /* libaudio_processing_sse2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77641D631AE8D2480022F31A /* libaudio_processing_sse2.a */; };
@@ -671,6 +674,12 @@
 		7760DAFF1ADCFC09005C607A /* TransferGoodController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransferGoodController.m; sourceTree = "<group>"; };
 		7760DB011ADD2EA1005C607A /* PGDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDetailController.h; sourceTree = "<group>"; };
 		7760DB021ADD2EA1005C607A /* PGDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDetailController.m; sourceTree = "<group>"; };
+		776221641B0594430053C951 /* ModifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyViewController.h; sourceTree = "<group>"; };
+		776221651B0594430053C951 /* ModifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyViewController.m; sourceTree = "<group>"; };
+		7762216A1B05BBD80053C951 /* GoodImageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodImageController.h; sourceTree = "<group>"; };
+		7762216B1B05BBD80053C951 /* GoodImageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodImageController.m; sourceTree = "<group>"; };
+		7762216D1B060BB20053C951 /* RegisterSuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterSuccessController.h; sourceTree = "<group>"; };
+		7762216E1B060BB20053C951 /* RegisterSuccessController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterSuccessController.m; sourceTree = "<group>"; };
 		77641D5C1AE8D2480022F31A /* AnyChatDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnyChatDefine.h; sourceTree = "<group>"; };
 		77641D5D1AE8D2480022F31A /* AnyChatErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnyChatErrorCode.h; sourceTree = "<group>"; };
 		77641D5E1AE8D2480022F31A /* AnyChatPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnyChatPlatform.h; sourceTree = "<group>"; };
@@ -1071,6 +1080,8 @@
 				772A9C631AC4260A002A0B72 /* RegisterViewController.m */,
 				775845B41B01E18900F08B76 /* CooperationViewController.h */,
 				775845B51B01E18900F08B76 /* CooperationViewController.m */,
+				7762216D1B060BB20053C951 /* RegisterSuccessController.h */,
+				7762216E1B060BB20053C951 /* RegisterSuccessController.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1118,6 +1129,8 @@
 				773F4F351ACA495000C5A59A /* SearchViewController.m */,
 				775AABB81ADE01DF00FA8AD9 /* GoodDetailController.h */,
 				775AABB91ADE01DF00FA8AD9 /* GoodDetailController.m */,
+				7762216A1B05BBD80053C951 /* GoodImageController.h */,
+				7762216B1B05BBD80053C951 /* GoodImageController.m */,
 				775AABC41ADE3B7200FA8AD9 /* FactoryDetailController.h */,
 				775AABC51ADE3B7200FA8AD9 /* FactoryDetailController.m */,
 				775AABC71ADE3B9900FA8AD9 /* CommentViewController.h */,
@@ -1162,6 +1175,8 @@
 				77CC840A1AEA3B0F00A9D5BA /* SettingViewController.m */,
 				773F2F041ACC039500ACB139 /* PersonInfoController.h */,
 				773F2F051ACC039500ACB139 /* PersonInfoController.m */,
+				776221641B0594430053C951 /* ModifyViewController.h */,
+				776221651B0594430053C951 /* ModifyViewController.m */,
 				7746EAC91ACCE136009DD425 /* ModifyMobileController.h */,
 				7746EACA1ACCE136009DD425 /* ModifyMobileController.m */,
 				7746EACC1ACD04D2009DD425 /* ModifyEmailController.h */,
@@ -2016,6 +2031,7 @@
 				777481551AD7927100E08ECB /* TMInputTerminalController.m in Sources */,
 				7745CF271AD3B557003DB9FA /* OrderDetailModel.m in Sources */,
 				7745CF211AD37B7A003DB9FA /* OrderCell.m in Sources */,
+				776221661B0594430053C951 /* ModifyViewController.m in Sources */,
 				773F140C1AD6103000F9EC92 /* OpenApplyCell.m in Sources */,
 				773F140F1AD6181A00F9EC92 /* ApplyDetailController.m in Sources */,
 				773FDAC01AC2D0000029E224 /* KxMenu.m in Sources */,
@@ -2049,6 +2065,7 @@
 				77582DE91AE67FA300E29980 /* OrderTerminalListController.m in Sources */,
 				77551EF01ADBACFD008B2730 /* PrepareGoodManagerController.m in Sources */,
 				775845B91B01F6DD00F08B76 /* ProtocolView.m in Sources */,
+				7762216F1B060BB20053C951 /* RegisterSuccessController.m in Sources */,
 				773C58411AC145DA00D99E83 /* SDWebImageDownloaderOperation.m in Sources */,
 				775AABE11ADE565C00FA8AD9 /* WholesaleOrderController.m in Sources */,
 				773292FE1AEF24360038942C /* UserArchiveHelper.m in Sources */,
@@ -2177,6 +2194,7 @@
 				773FDAB81AC2A2920029E224 /* CSMenuController.m in Sources */,
 				773C58481AC145DA00D99E83 /* UIImageView+WebCache.m in Sources */,
 				774F11E01AE0DA1600ED26C4 /* PorfitCell.m in Sources */,
+				7762216C1B05BBD80053C951 /* GoodImageController.m in Sources */,
 				7760DAE71ADCA90E005C607A /* PGSelectedTerminalController.m in Sources */,
 				77E060351AE5E99100B21DA9 /* DataSigner.m in Sources */,
 				77E060441AE5F13000B21DA9 /* Order.m in Sources */,

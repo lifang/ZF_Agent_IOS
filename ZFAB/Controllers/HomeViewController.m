@@ -213,7 +213,7 @@
     for (HomeImageModel *model in _pictureItem) {
         [urlList addObject:model.pictureURL];
     }
-    [_pollingView downloadImageWithURLs:urlList target:self action:@selector(tapPicture:)];
+    [_pollingView downloadImageWithURLs:urlList target:self action:@selector(tapPicture:) scaleImage:YES];
 }
 
 

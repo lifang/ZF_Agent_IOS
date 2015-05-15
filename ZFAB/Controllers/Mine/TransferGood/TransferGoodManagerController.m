@@ -99,6 +99,7 @@ typedef enum {
     [_toolbar setItems:[NSArray arrayWithObjects:spaceItem,finishItem, nil]];
     [self.view addSubview:_toolbar];
     _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 216)];
+    _datePicker.backgroundColor = kColor(244, 243, 243, 1);
     [_datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
     _datePicker.datePickerMode = UIDatePickerModeDate;
     [self.view addSubview:self.datePicker];

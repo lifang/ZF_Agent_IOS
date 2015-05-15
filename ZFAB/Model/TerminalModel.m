@@ -35,6 +35,8 @@
         else {
             _protocol = @"无";
         }
+        _type = [[dict objectForKey:@"type"] intValue];
+        _openStatus = [[dict objectForKey:@"appstatus"] intValue];
     }
     return self;
 }

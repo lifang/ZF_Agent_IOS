@@ -70,8 +70,8 @@ typedef enum {
     headerView.backgroundColor = kColor(244, 243, 243, 1);
     self.tableView.tableHeaderView = headerView;
     NSArray *nameArray = [NSArray arrayWithObjects:
-                          @"转账",
                           @"消费",
+                          @"转账",
                           @"还款",
                           @"生活充值",
                           @"话费充值",
@@ -108,6 +108,7 @@ typedef enum {
     [_toolbar setItems:[NSArray arrayWithObjects:spaceItem,finishItem, nil]];
     [self.view addSubview:_toolbar];
     _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, 216)];
+    _datePicker.backgroundColor = kColor(244, 243, 243, 1);
     [_datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
     _datePicker.datePickerMode = UIDatePickerModeDate;
     [self.view addSubview:self.datePicker];
@@ -133,10 +134,10 @@ typedef enum {
     TradeType type = TradeTypeNone;
     switch (index) {
         case 0:
-            type = TradeTypeTransfer;
+            type = TradeTypeConsume;
             break;
         case 1:
-            type = TradeTypeConsume;
+            type = TradeTypeTransfer;
             break;
         case 2:
             type = TradeTypeRepayment;

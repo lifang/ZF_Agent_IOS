@@ -74,13 +74,14 @@
     _defaultLabel.textColor = kMainColor;
     _defaultLabel.text = @"【默认】";
     [self.contentView addSubview:_defaultLabel];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_defaultLabel
-                                                                 attribute:NSLayoutAttributeTop
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_selectedImageView
-                                                                 attribute:NSLayoutAttributeBottom
-                                                                multiplier:1.0
-                                                                  constant:2.f]];
+    _originYConstraint = [NSLayoutConstraint constraintWithItem:_defaultLabel
+                                                      attribute:NSLayoutAttributeTop
+                                                      relatedBy:NSLayoutRelationEqual
+                                                         toItem:_selectedImageView
+                                                      attribute:NSLayoutAttributeBottom
+                                                     multiplier:1.0
+                                                       constant:2.f];
+    [self.contentView addConstraint:_originYConstraint];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_defaultLabel
                                                                  attribute:NSLayoutAttributeLeft
                                                                  relatedBy:NSLayoutRelationEqual
@@ -172,6 +173,18 @@
                                                                  attribute:NSLayoutAttributeNotAnAttribute
                                                                 multiplier:0.0
                                                                   constant:36.f]];
+}
+
+- (void)updateDefaultLayout {
+    [self.contentView removeConstraint:_originYConstraint];
+    _originYConstraint = [NSLayoutConstraint constraintWithItem:_defaultLabel
+                                                      attribute:NSLayoutAttributeTop
+                                                      relatedBy:NSLayoutRelationEqual
+                                                         toItem:self.contentView
+                                                      attribute:NSLayoutAttributeTop
+                                                     multiplier:1.0
+                                                       constant:35.f];
+    [self.contentView addConstraint:_originYConstraint];
 }
 
 #pragma mark - Data

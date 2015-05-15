@@ -30,6 +30,12 @@ typedef enum {
 
 @property (nonatomic, strong) NSString *protocol;
 
+//是否为自助开通 2为自助开通
+@property (nonatomic, assign) int type;
+
+//未开通状态 值为2时 提示
+@property (nonatomic, assign) int openStatus;
+
 /*
  若有值，订单状态为已开通，有视频认证和找回POS密码操作,否则是自助开通
  若有值，订单状态为未开通，无同步操作

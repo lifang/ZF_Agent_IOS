@@ -12,20 +12,8 @@
 #import <UIKit/UIKit.h>
 #import "TerminalModel.h"
 
-//已开通状态一
-static NSString *OpenedFirstStatusIdentifier = @"OpenedFirstStatusIdentifier";
-//已开通状态二
-static NSString *OpenedSecondStatusIdentifier = @"OpenedSecondStatusIdentifier";
-//部分开通
-static NSString *PartOpenedStatusIdentifier = @"PartOpenedStatusIdentifier";
-//未开通状态一
-static NSString *UnOpenedFirstStatusIdentifier = @"UnOpenedFirstStatusIdentifier";
-//未开通状态二
-static NSString *UnOpenedSecondStatusIdentifier = @"UnOpenedSecondStatusIdentifier";
-//已注销
-static NSString *CanceledStatusIdentifier = @"CanceledStatusIdentifier";
-//已停用
-static NSString *StoppedStatusIdentifier = @"StoppedStatusIdentifier";
+static NSString *TMMiddleHeightIdentifier = @"TMMiddleHeightIdentifier";
+static NSString *TMShortHeightIdentifier = @"TMShortHeightIdentifier";
 
 @interface TerminalManagerCell : UITableViewCell
 

@@ -157,11 +157,18 @@
     switch (model.status) {
         case TerminalStatusPartOpened:
             //部分开通
-            cellIdentifier = PartOpenedApplyIdentifier;
+            cellIdentifier = partOpenedApplyIdentifier;
             break;
         case TerminalStatusUnOpened:
             //未开通
-            cellIdentifier = UnOpenedApplyIdentifier;
+            if (model.appID && ![model.appID isEqualToString:@""]) {
+                //重新开通
+                cellIdentifier = unOpenedApplyFirstIdentifier;
+            }
+            else {
+                //申请开通
+                cellIdentifier = unOpenedApplySecondIdentifier;
+            }
             break;
         default:
             break;
@@ -215,7 +222,15 @@
     _selectedModel = data;
 }
 
-- (void)openApplyCellReopenWithData:(TerminalModel *)data {
+- (void)openApplyCellReopenWithData:(TerminalModel *)data identifier:(NSString *)identifier {
+    if ([identifier isEqualToString:unOpenedApplyFirstIdentifier] && data.openStatus == 6) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"正在第三方审核,请耐心等待...";
+        return;
+    }
     ApplyDetailController *detailC = [[ApplyDetailController alloc] init];
     detailC.terminalID = data.terminalID;
     detailC.openStatus = OpenStatusReopen;

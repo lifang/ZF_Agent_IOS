@@ -46,6 +46,8 @@
 
 @property (nonatomic, strong) NSString *logisticNumber;
 
+@property (nonatomic, assign) int needInvoice;
+
 /*批购字段*/
 @property (nonatomic, assign) CGFloat totalDeposit;  //定金总额
 

@@ -37,7 +37,7 @@
     self.view.backgroundColor = kColor(244, 243, 243, 1);
     CGFloat leftSpace = 40.f;
     CGFloat btnHeight = 80.f;
-    CGFloat middleSpace = 20.f;
+//    CGFloat middleSpace = 20.f;
     
 //    UIButton *wholesaleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 //    wholesaleBtn.translatesAutoresizingMaskIntoConstraints = NO;

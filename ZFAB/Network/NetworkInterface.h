@@ -391,6 +391,15 @@ static NSString *s_setHasBenefit_method = @"lowerAgent/setDefaultProfit";
 //找回POS机密码
 static NSString *s_findPOS_method = @"terminal/encryption";
 
+//商品图片
+static NSString *s_goodImage_method = @"good/getGoodImgUrl";
+
+//注册验证码
+static NSString *s_registerValidate_mehtod = @"agent/sendPhoneVerificationCodeReg";
+
+//申请成为合作伙伴
+static NSString *s_cooperation_method = @"agent/getJoin";
+
 
 @interface NetworkInterface : NSObject
 
@@ -1781,5 +1790,17 @@ static NSString *s_findPOS_method = @"terminal/encryption";
 
 + (void)beginVideoAuthWithTerminalID:(NSString *)terminalID
                             finished:(requestDidFinished)finish;
+
++ (void)getGoodImageWithGoodID:(NSString *)goodID
+                      finished:(requestDidFinished)finish;
+
++ (void)getRegisterValidateWithMobileNumber:(NSString *)mobileNumber
+                                   finished:(requestDidFinished)finish;
+
++ (void)registerCooperationWithUsername:(NSString *)username
+                            phoneNumber:(NSString *)phoneNumber
+                              agentType:(NSString *)agentType
+                                   city:(NSString *)cityInfo
+                               finished:(requestDidFinished)finish;
 
 @end

@@ -49,7 +49,7 @@
     CGFloat hearderHeight = 90.f;
     CGFloat orginY = 0.f;
     
-    if (_supplyType == SupplyGoodsProcurement) {
+    if (_supplyType == SupplyGoodsProcurement && _confirmType == OrderConfirmTypeProcurementRent) {
         hearderHeight = 154.f;
         orginY = 64.f;
     }
@@ -58,7 +58,7 @@
     headerView.backgroundColor = kColor(244, 243, 243, 1);
     _tableView.tableHeaderView = headerView;
     
-    if (_supplyType == SupplyGoodsProcurement) {
+    if (_supplyType == SupplyGoodsProcurement && _confirmType == OrderConfirmTypeProcurementRent) {
         UIView *userView = [self addUserView];
         [headerView addSubview:userView];
         UITapGestureRecognizer *userTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectedProcurementUser:)];
@@ -253,7 +253,13 @@
     [self footerViewAddSubview];
     
     _reviewField = [[UITextField alloc] init];
-    _reviewField.borderStyle = UITextBorderStyleLine;
+    _reviewField.borderStyle = UITextBorderStyleNone;
+    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 4, 10)];
+    leftView.backgroundColor = [UIColor clearColor];
+    _reviewField.leftView = leftView;
+    _reviewField.leftViewMode = UITextFieldViewModeAlways;
+    _reviewField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    _reviewField.layer.borderWidth = 1.f;
     _reviewField.delegate = self;
     _reviewField.placeholder = @"留言";
     _reviewField.font = [UIFont systemFontOfSize:14.f];

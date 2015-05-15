@@ -371,46 +371,46 @@
     //417
     CGFloat recordHeight = 0.f;
     //追踪记录
-    if ([self.records count] > 0) {
-        UILabel *tipLabel = [[UILabel alloc] init];
-        [self setLabel:tipLabel withTopView:merchantPhoneLabel middleSpace:resourceHeight + lineSpace];
-        tipLabel.font = [UIFont systemFontOfSize:10.f];
-        tipLabel.text = @"追踪记录：";
-        RecordView *recordView = [[RecordView alloc] initWithRecords:self.records
-                                                               width:(kScreenWidth - leftSpace * 2)];
-        recordView.translatesAutoresizingMaskIntoConstraints = NO;
-        recordHeight = [recordView getHeight];
-        [self.scrollView addSubview:recordView];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
-                                                              attribute:NSLayoutAttributeTop
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:merchantPhoneLabel
-                                                              attribute:NSLayoutAttributeBottom
-                                                             multiplier:1.0
-                                                               constant:lineSpace * 2 + resourceHeight]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
-                                                              attribute:NSLayoutAttributeLeft
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeLeft
-                                                             multiplier:1.0
-                                                               constant:leftSpace]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
-                                                              attribute:NSLayoutAttributeRight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeRight
-                                                             multiplier:1.0
-                                                               constant:-rightSpce]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1.0
-                                                               constant:recordHeight]];
-        [recordView initAndLayoutUI];
-    }
+//    if ([self.records count] > 0) {
+//        UILabel *tipLabel = [[UILabel alloc] init];
+//        [self setLabel:tipLabel withTopView:merchantPhoneLabel middleSpace:resourceHeight + lineSpace];
+//        tipLabel.font = [UIFont systemFontOfSize:10.f];
+//        tipLabel.text = @"追踪记录：";
+//        RecordView *recordView = [[RecordView alloc] initWithRecords:self.records
+//                                                               width:(kScreenWidth - leftSpace * 2)];
+//        recordView.translatesAutoresizingMaskIntoConstraints = NO;
+//        recordHeight = [recordView getHeight];
+//        [self.scrollView addSubview:recordView];
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
+//                                                              attribute:NSLayoutAttributeTop
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:merchantPhoneLabel
+//                                                              attribute:NSLayoutAttributeBottom
+//                                                             multiplier:1.0
+//                                                               constant:lineSpace * 2 + resourceHeight]];
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
+//                                                              attribute:NSLayoutAttributeLeft
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:self.view
+//                                                              attribute:NSLayoutAttributeLeft
+//                                                             multiplier:1.0
+//                                                               constant:leftSpace]];
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
+//                                                              attribute:NSLayoutAttributeRight
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:self.view
+//                                                              attribute:NSLayoutAttributeRight
+//                                                             multiplier:1.0
+//                                                               constant:-rightSpce]];
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:recordView
+//                                                              attribute:NSLayoutAttributeHeight
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:nil
+//                                                              attribute:NSLayoutAttributeNotAnAttribute
+//                                                             multiplier:1.0
+//                                                               constant:recordHeight]];
+//        [recordView initAndLayoutUI];
+//    }
     self.scrollView.contentSize = CGSizeMake(kScreenWidth, 300 + resourceHeight + recordHeight);
     terminalTitleLabel.text = @"终端信息";
     statusLabel.text = [CSDataHandle getStatusStringWithCSType:self.csType status:self.status];

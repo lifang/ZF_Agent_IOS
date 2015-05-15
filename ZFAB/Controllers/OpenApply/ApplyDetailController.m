@@ -609,7 +609,7 @@
             switch (indexPath.row) {
                 case 0:
                     textKey = key_selected;
-                    titleName = @"选择已有商户";
+                    titleName = @"可选择的常用商户";
                     break;
                 case 1:
                     textKey = key_name;
@@ -750,6 +750,9 @@
                 textFiled.frame = rect;
                 textFiled.userInteractionEnabled = YES;
                 cell.accessoryType = UITableViewCellAccessoryNone;
+                if (indexPath.row == 0) {
+                    textFiled.userInteractionEnabled = NO;
+                }
             }
             if (indexPath.row == 1) {
                 textFiled.text = _bankTitleName;
@@ -1312,10 +1315,10 @@
     if (model.merchantPersonName && ![model.merchantPersonName isEqualToString:@""]) {
         [_infoDict setObject:model.merchantPersonName forKey:key_selected];
         [_infoDict setObject:model.merchantPersonName forKey:key_name];
-        [_infoDict setObject:model.merchantPersonName forKey:key_bank];
     }
     if (model.merchantName && ![model.merchantName isEqualToString:@""]) {
         [_infoDict setObject:model.merchantName forKey:key_merchantName];
+        [_infoDict setObject:model.merchantName forKey:key_bank];
     }
     if (model.merchantPersonID && ![model.merchantPersonID isEqualToString:@""]) {
         [_infoDict setObject:model.merchantPersonID forKey:key_cardID];
@@ -1373,8 +1376,7 @@
 - (void)textFieldDidEndEditing:(ApplyTextField *)textField {
     if (textField.text) {
         [_infoDict setObject:textField.text forKey:textField.key];
-        if ([textField.key isEqualToString:key_name] &&
-            (![_infoDict objectForKey:key_bank] || [[_infoDict objectForKey:key_bank] isEqualToString:@""])) {
+        if ([textField.key isEqualToString:key_merchantName]) {
             [_infoDict setObject:textField.text forKey:key_bank];
             [_tableView reloadData];
         }

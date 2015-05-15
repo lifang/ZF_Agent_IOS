@@ -38,7 +38,8 @@
 
 - (void)downloadImageWithURLs:(NSArray *)urlArray
                        target:(id)target
-                       action:(SEL)action {
+                       action:(SEL)action
+                   scaleImage:(BOOL)scaleImage {
     NSInteger count = [urlArray count];
     _totalPage = count;
     _pageControl.numberOfPages = _totalPage;
@@ -48,7 +49,9 @@
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:rect];
         imageView.tag = i + 1;
         imageView.userInteractionEnabled = YES;
-        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        if (scaleImage) {
+            imageView.contentMode = UIViewContentModeScaleAspectFit;
+        }
         imageView.layer.masksToBounds = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:target action:action];
         [imageView addGestureRecognizer:tap];

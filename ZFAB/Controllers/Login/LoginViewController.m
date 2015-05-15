@@ -312,7 +312,7 @@
     signUpBtn.translatesAutoresizingMaskIntoConstraints = NO;
     signUpBtn.titleLabel.font = [UIFont systemFontOfSize:12.f];
     [signUpBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [signUpBtn setTitle:@"注册" forState:UIControlStateNormal];
+    [signUpBtn setTitle:@"申请成为合作伙伴" forState:UIControlStateNormal];
     [signUpBtn setBackgroundImage:[UIImage imageNamed:@"selected"] forState:UIControlStateHighlighted];
     [signUpBtn addTarget:self action:@selector(signUp:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:signUpBtn];
@@ -336,7 +336,7 @@
                                                              toItem:nil
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1.0
-                                                           constant:60]];
+                                                           constant:100]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:signUpBtn
                                                           attribute:NSLayoutAttributeHeight
                                                           relatedBy:NSLayoutRelationEqual
@@ -505,10 +505,10 @@
 }
 
 - (IBAction)signUp:(id)sender {
-    RegisterViewController *registerC = [[RegisterViewController alloc] init];
-    [self.navigationController pushViewController:registerC animated:YES];
-//    CooperationViewController *cooperationC = [[CooperationViewController alloc] init];
-//    [self.navigationController pushViewController:cooperationC animated:YES];
+//    RegisterViewController *registerC = [[RegisterViewController alloc] init];
+//    [self.navigationController pushViewController:registerC animated:YES];
+    CooperationViewController *cooperationC = [[CooperationViewController alloc] init];
+    [self.navigationController pushViewController:cooperationC animated:YES];
 }
 
 #pragma mark - 数据处理

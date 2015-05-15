@@ -280,7 +280,7 @@
         case TradeTypeConsume:
 //            _payFromLabel.text = [NSString stringWithFormat:@"结算时间：%@",tradeModel.payedTime];
             _payFromLabel.text = @"";
-            _payToLabel.text = [NSString stringWithFormat:@"手  续  费：%.2f",tradeModel.poundage];
+            _payToLabel.text = [NSString stringWithFormat:@"手  续  费：￥%.2f",tradeModel.poundage];
             break;
         case TradeTypeRepayment:
             _payFromLabel.text = [NSString stringWithFormat:@"付款账号：%@",[StringFormat serectAccountString:tradeModel.payFromAccount]];
