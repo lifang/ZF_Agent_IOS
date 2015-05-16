@@ -62,6 +62,12 @@ typedef enum {
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    self.tabBarItem.badgeValue = nil;
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    delegate.messageCount = 0;
+}
+
 #pragma mark - UI
 
 - (void)setIsMultiDelete:(BOOL)isMultiDelete {

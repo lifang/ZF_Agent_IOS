@@ -24,22 +24,23 @@
 
 #define kCoolDownTime  120   //冷却时间
 
-//#define kServiceURL @"http://121.40.64.167:9090/api"
+#define kAppChannel  5
+
 #define kServiceURL @"http://121.40.84.2:28080/ZFAgent/api"
 //#define kServiceURL @"http://agent.ebank007.com/api"
 
-//#define kVideoAuthIP    @"121.40.84.2"
-#define kVideoAuthIP      @"121.40.64.120"   //线上
+#define kVideoAuthIP    @"121.40.84.2"
+//#define kVideoAuthIP      @"121.40.64.120"   //线上
 #define kVideoAuthPort  8906
 
 
 //视频提示地址
-#define kVideoServiceURL @"http://121.40.84.2:38080/notice/video"
+#define kVideoServiceURL @"http://121.40.84.2:38080/ZFManager/notice/video"
 //#define kVideoServiceURL @"http://admin.ebank007.com/notice/video"   //线上
 
 //支付地址
-#define kWhalesaleCallBackURL   @"http://121.40.84.2:28080/deposit_app_notify_url.jsp"
-#define kProcurementCallBackURL @"http://121.40.84.2:28080/app_notify_url.jsp"
+#define kWhalesaleCallBackURL   @"http://121.40.84.2:28080/ZFAgent/deposit_app_notify_url.jsp"
+#define kProcurementCallBackURL @"http://121.40.84.2:28080/ZFAgent/app_notify_url.jsp"
 //线上
 //#define kWhalesaleCallBackURL    @"http://agent.ebank007.com/deposit_app_notify_url.jsp"
 //#define kProcurementCallBackURL  @"http://agent.ebank007.com/app_notify_url.jsp"

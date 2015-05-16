@@ -284,8 +284,8 @@
 
 - (void)setStatisticData {
     _authorityItem = [[NSMutableArray alloc] initWithObjects:
-                      [[SelectedModel alloc] initWithName:@"批购" AndID:@"1"],
-                      [[SelectedModel alloc] initWithName:@"代购" AndID:@"2"],
+//                      [[SelectedModel alloc] initWithName:@"批购" AndID:@"1"],
+                      [[SelectedModel alloc] initWithName:@"采购" AndID:@"2"],
                       [[SelectedModel alloc] initWithName:@"终端管理/售后记录" AndID:@"3"],
                       [[SelectedModel alloc] initWithName:@"交易分润/POS分润" AndID:@"4"],
                       [[SelectedModel alloc] initWithName:@"管理下级代理商" AndID:@"5"],

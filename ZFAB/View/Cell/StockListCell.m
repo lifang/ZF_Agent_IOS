@@ -339,8 +339,8 @@
                                                                   constant:1.f]];
     //竖线
     CGFloat vLineWidth = 1.f;
-    CGFloat itemWidth = (kScreenWidth - 3 * vLineWidth) / 4;
-    for (int i = 0; i < 3; i++) {
+    CGFloat itemWidth = (kScreenWidth - 2 * vLineWidth) / 3;
+    for (int i = 0; i < 2; i++) {
         CGFloat originX = i * (itemWidth + vLineWidth) + itemWidth;
         UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(originX , 8, vLineWidth, 24)];
         line.image = [kImageName(@"stock_v_line.png") resizableImageWithCapInsets:UIEdgeInsetsMake(1, 0, 1, 0)];
@@ -361,15 +361,15 @@
     _agentCountLabel = [[UILabel alloc] init];
     [self initLabelWithOriginX:(itemWidth + vLineWidth) * 2
                          width:itemWidth
-                     titleName:@"代理商库存"
+                     titleName:@"当前库存"
                    numberLabel:_agentCountLabel
                        forView:backView];
     _totalCountLabel = [[UILabel alloc] init];
-    [self initLabelWithOriginX:(itemWidth + vLineWidth) * 3
-                         width:itemWidth
-                     titleName:@"总库存"
-                   numberLabel:_totalCountLabel
-                       forView:backView];
+//    [self initLabelWithOriginX:(itemWidth + vLineWidth) * 3
+//                         width:itemWidth
+//                     titleName:@"总库存"
+//                   numberLabel:_totalCountLabel
+//                       forView:backView];
 }
 
 - (void)initLabelWithOriginX:(CGFloat)originX

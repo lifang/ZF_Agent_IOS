@@ -8,6 +8,8 @@
 
 #import "RootViewController.h"
 #import "NavigationBarAttr.h"
+#import "UserArchiveHelper.h"
+#import "AppDelegate.h"
 
 @interface RootViewController ()
 
@@ -18,12 +20,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self showLoginViewController];
+    [self fillingUser];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+//初始化完成后查找上次登录的用户
+- (void)fillingUser {
+    LoginUserModel *user = [UserArchiveHelper getLastestUser];
+    if (user && user.password && user.agentID && ![user.agentID isEqualToString:@""]) {
+        AppDelegate *delegate = [AppDelegate shareAppDelegate];
+        delegate.agentID = user.agentID;
+        delegate.agentUserID = user.agentUserID;
+        delegate.userID = user.userID;
+        delegate.cityID = user.cityID;
+        delegate.hasProfit = user.hasProfit;
+        delegate.userType = user.userType;
+        delegate.isFirstLevelAgent = user.isFirstLevel;
+        delegate.authDict = user.authDict;
+        [self showMainViewController];
+    }
+    else {
+        [self showLoginViewController];
+    }
+    [user print];
 }
 
 #pragma mark - 登录与主界面

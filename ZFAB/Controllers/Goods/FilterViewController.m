@@ -266,7 +266,7 @@
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
     switch (indexPath.section) {
         case 0: {
-            cell.textLabel.text = @"只包含租赁";
+            cell.textLabel.text = @"支持租赁";
             _switchButton.frame = CGRectMake(kScreenWidth - 60, 6, 40, 30);
             [cell.contentView addSubview:_switchButton];
         }

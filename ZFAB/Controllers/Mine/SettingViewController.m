@@ -8,6 +8,7 @@
 
 #import "SettingViewController.h"
 #import "SDImageCache.h"
+#import "BPush.h"
 
 @interface SettingViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -128,9 +129,11 @@
     [userDefault synchronize];
     NSString *message = @"";
     if (_switchButton.isOn) {
+        [BPush bindChannel];
         message = @"您已成功开启消息推送，请确保在iPhone的“设置”-“通知”中也开启推送通知！";
     }
     else {
+        [BPush unbindChannel];
         message = @"您已成功关闭消息推送，在应用进入后台后您将不会收到推送消息！";
     }
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"

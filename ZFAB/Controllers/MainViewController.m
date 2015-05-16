@@ -17,18 +17,25 @@
 
 @interface MainViewController ()
 
+@property (nonatomic, strong) MessageViewController *messageC;
+
 @end
 
 @implementation MainViewController
 
 - (void)dealloc {
     NSLog(@"!!!!");
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self initControllers];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showColumnCount:)
+                                                 name:ShowTabBadgeNotification
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,11 +66,11 @@
                                              selectedImage:kImageName(@"tabbar2_selected.png")];
     UINavigationController *goodNav = [[UINavigationController alloc] initWithRootViewController:listC];
     
-    MessageViewController *messageC = [[MessageViewController alloc] init];
-    messageC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"我的消息"
+    _messageC = [[MessageViewController alloc] init];
+    _messageC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"我的消息"
                                                         image:kImageName(@"tabbar3.png")
                                                 selectedImage:kImageName(@"tabbar3_selected.png")];
-    UINavigationController *messageNav = [[UINavigationController alloc] initWithRootViewController:messageC];
+    UINavigationController *messageNav = [[UINavigationController alloc] initWithRootViewController:_messageC];
     
     MineViewController *mineC = [[MineViewController alloc] init];
     mineC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"我的"
@@ -97,5 +104,18 @@
     }
     return YES;
 }
+
+#pragma mark - NSNotification
+
+- (void)showColumnCount:(NSNotification *)notification {
+    int messageCount = [[notification.userInfo objectForKey:s_messageTab] intValue];
+    if (messageCount > 0) {
+        _messageC.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",messageCount];
+    }
+    else {
+        _messageC.tabBarItem.badgeValue = nil;
+    }
+}
+
 
 @end

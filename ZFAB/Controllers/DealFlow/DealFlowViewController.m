@@ -50,6 +50,12 @@ typedef enum {
     _tradeAgentItem = [[NSMutableArray alloc] init];
     self.title = @"交易流水";
     [self initAndLayoutUI];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                    message:@"手机端交易流水查询仅供单台终端查询，完整查询功能请登陆PC端合作伙伴平台"
+                                                   delegate:nil
+                                          cancelButtonTitle:@"确定"
+                                          otherButtonTitles:nil];
+    [alert show];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -118,14 +124,14 @@ typedef enum {
 
 - (void)setStartTime:(NSString *)startTime {
     _startTime = startTime;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:2];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:1];
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     cell.detailTextLabel.text = _startTime;
 }
 
 - (void)setEndTime:(NSString *)endTime {
     _endTime = endTime;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:1 inSection:2];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:1 inSection:1];
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     cell.detailTextLabel.text = _endTime;
 }
@@ -333,7 +339,7 @@ typedef enum {
 #pragma mark - TableView
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -343,15 +349,15 @@ typedef enum {
             //终端号
             row = 1;
             break;
+//        case 1:
+//            //选择代理商
+//            row = 1;
+//            break;
         case 1:
-            //选择代理商
-            row = 1;
-            break;
-        case 2:
             //时间
             row = 2;
             break;
-        case 3:
+        case 2:
             //交易流水
             row = [_tradeRecords count];
             break;
@@ -375,19 +381,19 @@ typedef enum {
             return cell;
         }
             break;
+//        case 1: {
+//            //代理商
+//            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+//            cell.textLabel.font = [UIFont systemFontOfSize:15.f];
+//            cell.detailTextLabel.font = [UIFont systemFontOfSize:14.f];
+//            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//            cell.textLabel.text = @"选择代理商";
+//            cell.detailTextLabel.text = _agentModel.agentName;
+//            cell.imageView.image = kImageName(@"agent.png");
+//            return cell;
+//        }
+//            break;
         case 1: {
-            //代理商
-            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
-            cell.textLabel.font = [UIFont systemFontOfSize:15.f];
-            cell.detailTextLabel.font = [UIFont systemFontOfSize:14.f];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.text = @"选择代理商";
-            cell.detailTextLabel.text = _agentModel.agentName;
-            cell.imageView.image = kImageName(@"agent.png");
-            return cell;
-        }
-            break;
-        case 2: {
             UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
             cell.textLabel.font = [UIFont systemFontOfSize:15.f];
             cell.detailTextLabel.font = [UIFont systemFontOfSize:14.f];
@@ -408,7 +414,7 @@ typedef enum {
             }
             return cell;
         }
-        case 3: {
+        case 2: {
             static NSString *cellIdentifier = @"TradeList";
             TradeCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
             if (cell == nil) {
@@ -427,7 +433,7 @@ typedef enum {
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 3 && [_tradeRecords count] > 0) {
+    if (section == 2 && [_tradeRecords count] > 0) {
         return 20.f;
     }
     return 0.001f;
@@ -440,11 +446,11 @@ typedef enum {
             height = 5.f;
             break;
         case 1:
-            height = 5.f;
-            break;
-        case 2:
             height = 60.f;
             break;
+//        case 2:
+//            height = 60.f;
+//            break;
         default:
             break;
     }
@@ -452,7 +458,7 @@ typedef enum {
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 3) {
+    if (indexPath.section == 2) {
         return kTradeCellHeight;
     }
     return 44;
@@ -470,12 +476,12 @@ typedef enum {
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (section == 2) {
+    if (section == 1) {
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
         footerView.backgroundColor = [UIColor clearColor];
         
         UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        searchBtn.frame = CGRectMake(20, 10, kScreenWidth / 2 - 40, 40);
+        searchBtn.frame = CGRectMake(kScreenWidth / 4 + 20, 10, kScreenWidth / 2 - 40, 40);
         searchBtn.layer.cornerRadius = 4;
         searchBtn.layer.masksToBounds = YES;
         searchBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
@@ -484,15 +490,15 @@ typedef enum {
         [searchBtn addTarget:self action:@selector(startSearch:) forControlEvents:UIControlEventTouchUpInside];
         [footerView addSubview:searchBtn];
         
-        UIButton *statisticBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        statisticBtn.frame = CGRectMake(kScreenWidth / 2 + 20, 10, kScreenWidth / 2 - 40, 40);
-        statisticBtn.layer.cornerRadius = 4;
-        statisticBtn.layer.masksToBounds = YES;
-        statisticBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
-        [statisticBtn setTitle:@"开始统计" forState:UIControlStateNormal];
-        [statisticBtn setBackgroundImage:[UIImage imageNamed:@"blue.png"] forState:UIControlStateNormal];
-        [statisticBtn addTarget:self action:@selector(startStatistic:) forControlEvents:UIControlEventTouchUpInside];
-        [footerView addSubview:statisticBtn];
+//        UIButton *statisticBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        statisticBtn.frame = CGRectMake(kScreenWidth / 2 + 20, 10, kScreenWidth / 2 - 40, 40);
+//        statisticBtn.layer.cornerRadius = 4;
+//        statisticBtn.layer.masksToBounds = YES;
+//        statisticBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+//        [statisticBtn setTitle:@"开始统计" forState:UIControlStateNormal];
+//        [statisticBtn setBackgroundImage:[UIImage imageNamed:@"blue.png"] forState:UIControlStateNormal];
+//        [statisticBtn addTarget:self action:@selector(startStatistic:) forControlEvents:UIControlEventTouchUpInside];
+//        [footerView addSubview:statisticBtn];
         return footerView;
     }
     return nil;
@@ -519,14 +525,14 @@ typedef enum {
         tradeC.delegate = self;
         [self.navigationController pushViewController:tradeC animated:YES];
     }
+//    else if (indexPath.section == 1) {
+//        //选择代理商
+//        TradeAgentController *agentC = [[TradeAgentController alloc] init];
+//        agentC.delegate = self;
+//        agentC.agentItem = _tradeAgentItem;
+//        [self.navigationController pushViewController:agentC animated:YES];
+//    }
     else if (indexPath.section == 1) {
-        //选择代理商
-        TradeAgentController *agentC = [[TradeAgentController alloc] init];
-        agentC.delegate = self;
-        agentC.agentItem = _tradeAgentItem;
-        [self.navigationController pushViewController:agentC animated:YES];
-    }
-    else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
             _timeType = TimeStart;
             [self pickerScrollIn];
@@ -536,7 +542,7 @@ typedef enum {
             [self pickerScrollIn];
         }
     }
-    else if (indexPath.section == 3) {
+    else if (indexPath.section == 2) {
         //交易流水
         TradeModel *trade = [_tradeRecords objectAtIndex:indexPath.row];
         TradeDetailController *detailC = [[TradeDetailController alloc] init];
@@ -581,13 +587,13 @@ typedef enum {
 #pragma mark - 上下拉刷新重写
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (_terminalNumber && _agentModel && _startTime && _endTime) {
+    if (_terminalNumber && _startTime && _endTime) {
         [super scrollViewDidScroll:scrollView];
     }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (_terminalNumber && _agentModel && _startTime && _endTime) {
+    if (_terminalNumber && _startTime && _endTime) {
         [super scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
     }
 }

@@ -67,6 +67,9 @@
 		773E271B1AD515EC007CB72D /* CancelDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 773E271A1AD515EC007CB72D /* CancelDetailController.m */; };
 		773E271F1AD550FB007CB72D /* OpenApplyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 773E271E1AD550FB007CB72D /* OpenApplyController.m */; };
 		773E27221AD5565F007CB72D /* TerminalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 773E27211AD5565F007CB72D /* TerminalModel.m */; };
+		773EC0611B07712D00157006 /* libBPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 773EC0601B07712D00157006 /* libBPush.a */; };
+		773EC0631B07717600157006 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773EC0621B07717600157006 /* CoreTelephony.framework */; };
+		773EC0651B07718000157006 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 773EC0641B07718000157006 /* libz.dylib */; };
 		773F140C1AD6103000F9EC92 /* OpenApplyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 773F140B1AD6103000F9EC92 /* OpenApplyCell.m */; };
 		773F140F1AD6181A00F9EC92 /* ApplyDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 773F140E1AD6181A00F9EC92 /* ApplyDetailController.m */; };
 		773F14121AD6191F00F9EC92 /* OpenApplyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 773F14111AD6191F00F9EC92 /* OpenApplyModel.m */; };
@@ -181,6 +184,7 @@
 		775AABE11ADE565C00FA8AD9 /* WholesaleOrderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775AABE01ADE565C00FA8AD9 /* WholesaleOrderController.m */; };
 		775AABE41ADE673C00FA8AD9 /* ProcurementBuyOrderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775AABE31ADE673C00FA8AD9 /* ProcurementBuyOrderController.m */; };
 		775AABE71ADE7E5A00FA8AD9 /* ProcurementRentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775AABE61ADE7E5A00FA8AD9 /* ProcurementRentController.m */; };
+		775B4EDD1B06DA6E0037E698 /* RegisterProtocolController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775B4EDC1B06DA6E0037E698 /* RegisterProtocolController.m */; };
 		775EDD561AE49C860021D81E /* MobileFindController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775EDD551AE49C860021D81E /* MobileFindController.m */; };
 		775EDD591AE4AC930021D81E /* SearchHelpController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775EDD581AE4AC930021D81E /* SearchHelpController.m */; };
 		775EDD5C1AE4CAC40021D81E /* PayWayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 775EDD5B1AE4CAC40021D81E /* PayWayViewController.m */; };
@@ -409,6 +413,10 @@
 		773E271E1AD550FB007CB72D /* OpenApplyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenApplyController.m; sourceTree = "<group>"; };
 		773E27201AD5565F007CB72D /* TerminalModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalModel.h; sourceTree = "<group>"; };
 		773E27211AD5565F007CB72D /* TerminalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalModel.m; sourceTree = "<group>"; };
+		773EC05F1B07712D00157006 /* BPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPush.h; sourceTree = "<group>"; };
+		773EC0601B07712D00157006 /* libBPush.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBPush.a; sourceTree = "<group>"; };
+		773EC0621B07717600157006 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		773EC0641B07718000157006 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		773F140A1AD6103000F9EC92 /* OpenApplyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenApplyCell.h; sourceTree = "<group>"; };
 		773F140B1AD6103000F9EC92 /* OpenApplyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenApplyCell.m; sourceTree = "<group>"; };
 		773F140D1AD6181A00F9EC92 /* ApplyDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyDetailController.h; sourceTree = "<group>"; };
@@ -636,6 +644,8 @@
 		775AABE31ADE673C00FA8AD9 /* ProcurementBuyOrderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcurementBuyOrderController.m; sourceTree = "<group>"; };
 		775AABE51ADE7E5A00FA8AD9 /* ProcurementRentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcurementRentController.h; sourceTree = "<group>"; };
 		775AABE61ADE7E5A00FA8AD9 /* ProcurementRentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcurementRentController.m; sourceTree = "<group>"; };
+		775B4EDB1B06DA6E0037E698 /* RegisterProtocolController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterProtocolController.h; sourceTree = "<group>"; };
+		775B4EDC1B06DA6E0037E698 /* RegisterProtocolController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterProtocolController.m; sourceTree = "<group>"; };
 		775EDD541AE49C860021D81E /* MobileFindController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileFindController.h; sourceTree = "<group>"; };
 		775EDD551AE49C860021D81E /* MobileFindController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileFindController.m; sourceTree = "<group>"; };
 		775EDD571AE4AC930021D81E /* SearchHelpController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchHelpController.h; sourceTree = "<group>"; };
@@ -881,6 +891,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				773EC0651B07718000157006 /* libz.dylib in Frameworks */,
+				773EC0631B07717600157006 /* CoreTelephony.framework in Frameworks */,
 				77641DA41AE8D2BB0022F31A /* libc++.dylib in Frameworks */,
 				77641DA21AE8D2B10022F31A /* libstdc++.dylib in Frameworks */,
 				77641DA01AE8D2A80022F31A /* libstdc++.6.dylib in Frameworks */,
@@ -918,6 +930,7 @@
 				77641D921AE8D2480022F31A /* libyuv_neon.a in Frameworks */,
 				77641D7C1AE8D2480022F31A /* libaudio_processing_sse2.a in Frameworks */,
 				77E05FD11AE5E8BB00B21DA9 /* AlipaySDK.framework in Frameworks */,
+				773EC0611B07712D00157006 /* libBPush.a in Frameworks */,
 				77E05FD51AE5E91300B21DA9 /* libssl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -960,6 +973,8 @@
 		773C57BA1AC12DE800D99E83 = {
 			isa = PBXGroup;
 			children = (
+				773EC0641B07718000157006 /* libz.dylib */,
+				773EC0621B07717600157006 /* CoreTelephony.framework */,
 				77641DA31AE8D2BB0022F31A /* libc++.dylib */,
 				77641DA11AE8D2B10022F31A /* libstdc++.dylib */,
 				77641D9F1AE8D2A80022F31A /* libstdc++.6.dylib */,
@@ -1082,6 +1097,8 @@
 				775845B51B01E18900F08B76 /* CooperationViewController.m */,
 				7762216D1B060BB20053C951 /* RegisterSuccessController.h */,
 				7762216E1B060BB20053C951 /* RegisterSuccessController.m */,
+				775B4EDB1B06DA6E0037E698 /* RegisterProtocolController.h */,
+				775B4EDC1B06DA6E0037E698 /* RegisterProtocolController.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1228,6 +1245,7 @@
 		773C58191AC145CB00D99E83 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				773EC05E1B07712D00157006 /* LibBPush */,
 				77641D5A1AE8D2260022F31A /* AnyChat */,
 				77E05FCD1AE5E89C00B21DA9 /* Alipay */,
 				773FDABD1AC2D0000029E224 /* KxMenu */,
@@ -1297,6 +1315,15 @@
 				773F14201AD629FF00F9EC92 /* ChannelSelectedController.m */,
 			);
 			path = OpenApply;
+			sourceTree = "<group>";
+		};
+		773EC05E1B07712D00157006 /* LibBPush */ = {
+			isa = PBXGroup;
+			children = (
+				773EC05F1B07712D00157006 /* BPush.h */,
+				773EC0601B07712D00157006 /* libBPush.a */,
+			);
+			path = LibBPush;
 			sourceTree = "<group>";
 		};
 		773F14281AD64C9D00F9EC92 /* TerminalManager */ = {
@@ -2055,6 +2082,7 @@
 				773C57C91AC12DE800D99E83 /* main.m in Sources */,
 				773F14211AD629FF00F9EC92 /* ChannelSelectedController.m in Sources */,
 				7760DAEA1ADCADFA005C607A /* PGFilterPOSController.m in Sources */,
+				775B4EDD1B06DA6E0037E698 /* RegisterProtocolController.m in Sources */,
 				774F11E51AE0E5B300ED26C4 /* CustomerManagerController.m in Sources */,
 				77551EFC1ADBD5A3008B2730 /* PrepareGoodCell.m in Sources */,
 				775AABD51ADE3BCB00FA8AD9 /* ChannelWebsiteController.m in Sources */,
@@ -2355,6 +2383,7 @@
 					"$(PROJECT_DIR)/ZFAB/Library/Alipay",
 					"$(PROJECT_DIR)/ZFAB/Library/AnyChat/libs/audioprocess",
 					"$(PROJECT_DIR)/ZFAB/Library/AnyChat/libs",
+					"$(PROJECT_DIR)/ZFAB/Library/LibBPush",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4f859d93-ee89-47b9-90b4-ed04bcac4115";
@@ -2386,6 +2415,7 @@
 					"$(PROJECT_DIR)/ZFAB/Library/Alipay",
 					"$(PROJECT_DIR)/ZFAB/Library/AnyChat/libs/audioprocess",
 					"$(PROJECT_DIR)/ZFAB/Library/AnyChat/libs",
+					"$(PROJECT_DIR)/ZFAB/Library/LibBPush",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4f859d93-ee89-47b9-90b4-ed04bcac4115";

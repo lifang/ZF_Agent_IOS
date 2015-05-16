@@ -400,6 +400,9 @@ static NSString *s_registerValidate_mehtod = @"agent/sendPhoneVerificationCodeRe
 //申请成为合作伙伴
 static NSString *s_cooperation_method = @"agent/getJoin";
 
+//推送
+static NSString *s_push_method = @"agents/sendDeviceCode";
+
 
 @interface NetworkInterface : NSObject
 
@@ -1802,5 +1805,9 @@ static NSString *s_cooperation_method = @"agent/getJoin";
                               agentType:(NSString *)agentType
                                    city:(NSString *)cityInfo
                                finished:(requestDidFinished)finish;
+
++ (void)uploadPushInfoWithUserID:(NSString *)userID
+                     channelInfo:(NSString *)channelInfo
+                        finished:(requestDidFinished)finish;
 
 @end

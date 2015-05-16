@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString *ShowTabBadgeNotification = @"ShowTabBadgeNotification";
+static NSString *s_messageTab = @"s_messageTab";
+
 @interface MainViewController : UITabBarController<UITabBarControllerDelegate>
 
 @end

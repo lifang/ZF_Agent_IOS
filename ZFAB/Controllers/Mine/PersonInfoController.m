@@ -173,7 +173,7 @@
                 row = 3;
                 break;
             case 3:
-                row = 3;
+                row = 2;
                 break;
             default:
                 break;
@@ -189,7 +189,7 @@
                 row = 1;
                 break;
             case 2:
-                row = 3;
+                row = 2;
                 break;
             default:
                 break;
@@ -274,12 +274,12 @@
                             imageName = @"register10.png";
                             content = _personInfo.userName;
                             break;
+//                        case 1:
+//                            titleName = @"修改账户密码";
+//                            imageName = @"register11.png";
+//                            content = nil;
+//                            break;
                         case 1:
-                            titleName = @"修改账户密码";
-                            imageName = @"register11.png";
-                            content = nil;
-                            break;
-                        case 2:
                             titleName = @"收货地址管理";
                             imageName = @"register9.png";
                             content = nil;
@@ -397,12 +397,12 @@
                             imageName = @"register10.png";
                             content = _personInfo.userName;
                             break;
+//                        case 1:
+//                            titleName = @"修改账户密码";
+//                            imageName = @"register11.png";
+//                            content = nil;
+//                            break;
                         case 1:
-                            titleName = @"修改账户密码";
-                            imageName = @"register11.png";
-                            content = nil;
-                            break;
-                        case 2:
                             titleName = @"收货地址管理";
                             imageName = @"register9.png";
                             content = nil;
@@ -504,12 +504,12 @@
             editC.userInfo = _personInfo;
             [self.navigationController pushViewController:editC animated:YES];
         }
+//        else if (indexPath.section == 3 && indexPath.row == 1) {
+//            //修改密码
+//            ModifyPasswordController *modifyC = [[ModifyPasswordController alloc] init];
+//            [self.navigationController pushViewController:modifyC animated:YES];
+//        }
         else if (indexPath.section == 3 && indexPath.row == 1) {
-            //修改密码
-            ModifyPasswordController *modifyC = [[ModifyPasswordController alloc] init];
-            [self.navigationController pushViewController:modifyC animated:YES];
-        }
-        else if (indexPath.section == 3 && indexPath.row == 2) {
             //修改地址
             AddressViewController *addressC = [[AddressViewController alloc] init];
             [self.navigationController pushViewController:addressC animated:YES];
@@ -528,12 +528,12 @@
             emailC.personInfo = _personInfo;
             [self.navigationController pushViewController:emailC animated:YES];
         }
+//        else if (indexPath.section == 2 && indexPath.row == 1) {
+//            //修改密码
+//            ModifyPasswordController *modifyC = [[ModifyPasswordController alloc] init];
+//            [self.navigationController pushViewController:modifyC animated:YES];
+//        }
         else if (indexPath.section == 2 && indexPath.row == 1) {
-            //修改密码
-            ModifyPasswordController *modifyC = [[ModifyPasswordController alloc] init];
-            [self.navigationController pushViewController:modifyC animated:YES];
-        }
-        else if (indexPath.section == 2 && indexPath.row == 2) {
             //修改地址
             AddressViewController *addressC = [[AddressViewController alloc] init];
             [self.navigationController pushViewController:addressC animated:YES];

@@ -11,8 +11,9 @@
 #import "RegularFormat.h"
 #import "NetworkInterface.h"
 #import "RegisterSuccessController.h"
+#import "RegisterProtocolController.h"
 
-@interface CooperationViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
+@interface CooperationViewController ()<UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIActionSheetDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 
@@ -257,7 +258,7 @@
                               nil];
     [attrString addAttributes:rentAttr range:NSMakeRange(2, [protocolInfo length] - 2)];
     protocolLabel.attributedText = attrString;
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(agreeProtocol:)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scanProtocol:)];
     [protocolLabel addGestureRecognizer:tap];
     [_scrollView addSubview:protocolLabel];
     
@@ -516,7 +517,12 @@
 }
 
 - (void)contact:(UITapGestureRecognizer *)tap {
-    
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"拨打电话？"
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                         destructiveButtonTitle:@"4000090876"
+                                              otherButtonTitles:nil];
+    [sheet showInView:self.view];
 }
 
 - (IBAction)sendInfo:(id)sender {
@@ -555,6 +561,11 @@
     _agreeButton.selected = !_agreeButton.selected;
     [self setSelectStatusForButton:_agreeButton];
     [self dataValidation];
+}
+
+- (IBAction)scanProtocol:(id)sender {
+    RegisterProtocolController *protocolC = [[RegisterProtocolController alloc] init];
+    [self.navigationController pushViewController:protocolC animated:YES];
 }
 
 - (IBAction)submit:(id)sender {
@@ -707,6 +718,15 @@
         _toolbar.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 44);
         _pickerView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 216);
     }];
+}
+
+#pragma mark - UIActionSheet
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != actionSheet.cancelButtonIndex) {
+        NSURL *phoneURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",@"4000090876"]];
+        [[UIApplication sharedApplication] openURL:phoneURL];
+    }
 }
 
 

@@ -71,13 +71,16 @@ typedef enum {
 @property (nonatomic, assign) BOOL isFirstLevelAgent; //是否一级代理商
 @property (nonatomic, assign) BOOL hasProfit;         //是否有分润
 
+//消息数量
+@property (nonatomic, assign) int messageCount;
+
 @property (nonatomic, strong) RootViewController *rootViewController;
 
 + (AppDelegate *)shareAppDelegate;
 
 + (RootViewController *)shareRootViewController;
 
-- (void)saveLoginInfo:(NSDictionary *)dict;
+- (void)saveLoginInfo:(NSDictionary *)dict username:(NSString *)username password:(NSString *)password;
 
 - (void)loginOut;
 

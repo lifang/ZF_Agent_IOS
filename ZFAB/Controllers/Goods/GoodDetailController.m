@@ -158,7 +158,7 @@
     _actualPriceLabel.textAlignment = NSTextAlignmentRight;
     
     _buyButton = [GoodButton buttonWithType:UIButtonTypeCustom];
-    [_buyButton setButtonAttrWithTitle:@"购买"];
+    [_buyButton setButtonAttrWithTitle:@"采购"];
     [_buyButton addTarget:self action:@selector(buyGood:) forControlEvents:UIControlEventTouchUpInside];
     _buyButton.selected = YES;
     _rentButton = [GoodButton buttonWithType:UIButtonTypeCustom];

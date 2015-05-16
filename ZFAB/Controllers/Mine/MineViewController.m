@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "MBProgressHUD.h"
 #import "SettingViewController.h"
+#import "ModifyPasswordController.h"
 
 static NSString *s_phoneNumber = @"4000090876";
 
@@ -118,7 +119,7 @@ static NSString *s_phoneNumber = @"4000090876";
     NSInteger row = 0;
     switch (section) {
         case 0:
-            row = 3;
+            row = 4;
             break;
         case 1:
             row = 1;
@@ -145,10 +146,16 @@ static NSString *s_phoneNumber = @"4000090876";
                 case 2:
                     titleName = @"员工管理";
                     break;
+                case 3:
+                    titleName = @"修改账户密码";
+                    break;
                 default:
                     break;
             }
             imageName = [NSString stringWithFormat:@"mine%ld.png",indexPath.row + 1];
+            if (indexPath.row == 3) {
+                imageName = @"mine.png";
+            }
         }
             break;
         case 1: {
@@ -187,19 +194,19 @@ static NSString *s_phoneNumber = @"4000090876";
             switch (indexPath.row) {
                 case 0: {
                     //我的信息
-                    AppDelegate *delegate = [AppDelegate shareAppDelegate];
-                    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthAR]] boolValue]) {
+//                    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+//                    if ([[delegate.authDict objectForKey:[NSNumber numberWithInt:AuthAR]] boolValue]) {
                         PersonInfoController *personC = [[PersonInfoController alloc] init];
                         personC.hidesBottomBarWhenPushed = YES;
                         [self.navigationController pushViewController:personC animated:YES];
-                    }
-                    else {
-                        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-                        hud.customView = [[UIImageView alloc] init];
-                        hud.mode = MBProgressHUDModeCustomView;
-                        [hud hide:YES afterDelay:1.f];
-                        hud.labelText = @"没有代理商资料权限";
-                    }
+//                    }
+//                    else {
+//                        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//                        hud.customView = [[UIImageView alloc] init];
+//                        hud.mode = MBProgressHUDModeCustomView;
+//                        [hud hide:YES afterDelay:1.f];
+//                        hud.labelText = @"没有代理商资料权限";
+//                    }
                 }
                     break;
                 case 1: {
@@ -234,6 +241,13 @@ static NSString *s_phoneNumber = @"4000090876";
                         [hud hide:YES afterDelay:1.f];
                         hud.labelText = @"没有员工账号权限";
                     }
+                }
+                    break;
+                case 3: {
+                    //修改密码
+                    ModifyPasswordController *modifyC = [[ModifyPasswordController alloc] init];
+                    modifyC.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:modifyC animated:YES];
                 }
                     break;
                 default:

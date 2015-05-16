@@ -1266,7 +1266,9 @@
     [params setObject:[NSNumber numberWithInt:_openStatus] forKey:@"status"];
     [params setObject:[NSNumber numberWithInt:[delegate.agentID intValue]] forKey:@"applyCustomerId"];
     [params setObject:[NSNumber numberWithInt:_applyType] forKey:@"publicPrivateStatus"];
-    [params setObject:[NSNumber numberWithInt:[_merchantID intValue]] forKey:@"merchantId"];
+    if (_merchantID) {
+        [params setObject:[NSNumber numberWithInt:[_merchantID intValue]] forKey:@"merchantId"];
+    }
     [params setObject:[_infoDict objectForKey:key_merchantName] forKey:@"merchantName"];
     [params setObject:[_infoDict objectForKey:key_sex] forKey:@"sex"];
     [params setObject:[_infoDict objectForKey:key_birth] forKey:@"birthday"];

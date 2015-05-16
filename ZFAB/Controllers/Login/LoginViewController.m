@@ -13,6 +13,7 @@
 #import "NetworkInterface.h"
 #import "UserArchiveHelper.h"
 #import "CooperationViewController.h"
+#import "BPush.h"
 
 @interface LoginViewController ()<UITextFieldDelegate>
 
@@ -477,9 +478,10 @@
     if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
         return;
     }
+    [BPush bindChannel];
     NSDictionary *infoDict = [dict objectForKey:@"result"];
-    [self saveLoginUser];
-    [[AppDelegate shareAppDelegate] saveLoginInfo:infoDict];
+//    [self saveLoginUser];
+    [[AppDelegate shareAppDelegate] saveLoginInfo:infoDict username:_usernameField.text password:_passwordField.text];
     [[AppDelegate shareRootViewController] showMainViewController];
 }
 
@@ -518,7 +520,7 @@
     LoginUserModel *user = [UserArchiveHelper getLastestUser];
     if (user) {
         _usernameField.text = user.username;
-        _passwordField.text = user.password;
+//        _passwordField.text = user.password;
     }
 }
 

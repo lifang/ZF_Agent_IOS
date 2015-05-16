@@ -2430,4 +2430,21 @@ static NSString *HTTP_GET  = @"GET";
                         finished:finish];
 }
 
++ (void)uploadPushInfoWithUserID:(NSString *)userID
+                     channelInfo:(NSString *)channelInfo
+                        finished:(requestDidFinished)finish {
+    //参数
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    [paramDict setObject:[NSNumber numberWithInt:[userID intValue]] forKey:@"id"];
+    if (channelInfo) {
+        [paramDict setObject:channelInfo forKey:@"deviceCode"];
+    }
+    //url
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_push_method];
+    [[self class] requestWithURL:urlString
+                          params:paramDict
+                      httpMethod:HTTP_POST
+                        finished:finish];
+}
+
 @end

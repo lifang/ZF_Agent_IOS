@@ -355,16 +355,16 @@
 }
 
 - (void)tapPicture:(UITapGestureRecognizer *)tap {
-    UIImageView *imageView = (UIImageView *)[tap view];
-    NSInteger index = imageView.tag - 1;
-    ChannelWebsiteController *websiteC = [[ChannelWebsiteController alloc] init];
-    if (index >= 0 && index < [_pictureItem count]) {
-        HomeImageModel *imageModel = [_pictureItem objectAtIndex:index];
-        websiteC.title = @"详情";
-        websiteC.urlString = imageModel.websiteURL;
-        websiteC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:websiteC animated:YES];
-    }
+//    UIImageView *imageView = (UIImageView *)[tap view];
+//    NSInteger index = imageView.tag - 1;
+//    ChannelWebsiteController *websiteC = [[ChannelWebsiteController alloc] init];
+//    if (index >= 0 && index < [_pictureItem count]) {
+//        HomeImageModel *imageModel = [_pictureItem objectAtIndex:index];
+//        websiteC.title = @"详情";
+//        websiteC.urlString = imageModel.websiteURL;
+//        websiteC.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:websiteC animated:YES];
+//    }
 }
 
 @end
