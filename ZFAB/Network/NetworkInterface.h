@@ -403,6 +403,9 @@ static NSString *s_cooperation_method = @"agent/getJoin";
 //推送
 static NSString *s_push_method = @"agents/sendDeviceCode";
 
+//获取所有用户
+static NSString *s_AllUserList_method = @"terminal/getCustomer";
+
 
 @interface NetworkInterface : NSObject
 
@@ -1809,5 +1812,11 @@ static NSString *s_push_method = @"agents/sendDeviceCode";
 + (void)uploadPushInfoWithUserID:(NSString *)userID
                      channelInfo:(NSString *)channelInfo
                         finished:(requestDidFinished)finish;
+
++ (void)getAllUserWithAgentID:(NSString *)agentID
+                      keyword:(NSString *)keyword
+                         page:(int)page
+                         rows:(int)rows
+                     finished:(requestDidFinished)finish;
 
 @end

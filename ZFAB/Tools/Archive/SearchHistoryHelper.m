@@ -47,6 +47,9 @@
         case HistoryTypeMerchant:
             path = kMerchantHistoryPath;
             break;
+        case HistoryTypeUser:
+            path = kUserHistoryPath;
+            break;
         default:
             break;
     }
@@ -79,6 +82,9 @@
             break;
         case HistoryTypeMerchant:
             key = kMerchantKey;
+            break;
+        case HistoryTypeUser:
+            key = kUserKey;
             break;
         default:
             break;

@@ -26,7 +26,7 @@
     _scrollView.showsVerticalScrollIndicator = NO;
     _scrollView.pagingEnabled = YES;
     _scrollView.delegate = self;
-    _scrollView.backgroundColor = [UIColor blackColor];
+    _scrollView.backgroundColor = [UIColor whiteColor];
     [self addSubview:_scrollView];
     
     _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.bounds.size.height - 20, self.bounds.size.width, 20)];
@@ -50,7 +50,7 @@
         imageView.tag = i + 1;
         imageView.userInteractionEnabled = YES;
         if (scaleImage) {
-            imageView.contentMode = UIViewContentModeScaleAspectFit;
+            imageView.contentMode = UIViewContentModeScaleAspectFill;
         }
         imageView.layer.masksToBounds = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:target action:action];

@@ -34,6 +34,9 @@
 #define kMerchantHistoryPath @"MerchantHistoryPath"
 #define kMerchantKey         @"MerchantKey"
 
+#define kUserHistoryPath  @"UserHistoryPath"
+#define kUserKey          @"UserKey"
+
 typedef enum {
     HistoryTypeNone = 0,
     HistoryTypeGood,    //商品搜索历史
@@ -44,6 +47,7 @@ typedef enum {
     HistoryTypeOpenApply, //开通申请
     HistoryTypeCS,       //售后
     HistoryTypeMerchant,  //商家
+    HistoryTypeUser,      //用户
 }HistoryType;
 
 @interface SearchHistoryHelper : NSObject

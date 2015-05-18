@@ -59,4 +59,19 @@
     return self;
 }
 
+- (id)initWithParseTerminalDictionary:(NSDictionary *)dict {
+    if (self = [super init]) {
+        if ([dict objectForKey:@"id"]) {
+            _userID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"id"]];
+        }
+        if ([dict objectForKey:@"username"]) {
+            _userName = [NSString stringWithFormat:@"%@",[dict objectForKey:@"username"]];
+        }
+        else {
+            _userName = @"";
+        }
+    }
+    return self;
+}
+
 @end

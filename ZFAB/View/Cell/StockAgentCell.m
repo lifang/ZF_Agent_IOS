@@ -146,6 +146,7 @@
     _arrowView = [[UIImageView alloc] init];
     _arrowView.translatesAutoresizingMaskIntoConstraints = NO;
     _arrowView.image = kImageName(@"arrow_right.png");
+    _arrowView.hidden = YES;
     [self.contentView addSubview:_arrowView];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_arrowView
                                                                  attribute:NSLayoutAttributeLeft

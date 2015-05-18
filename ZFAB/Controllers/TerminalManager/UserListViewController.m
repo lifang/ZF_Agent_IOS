@@ -28,11 +28,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"选择用户";
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:kImageName(@"add.png")
-                                                                  style:UIBarButtonItemStyleBordered
-                                                                 target:self
-                                                                 action:@selector(addUser:)];
-    self.navigationItem.rightBarButtonItem = rightItem;
+    self.historyType = HistoryTypeUser;
+    [self initNavigationBarView];
     _dataItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
     [self firstLoadData];
@@ -48,6 +45,27 @@
 }
 
 #pragma mark - UI
+
+- (void)initNavigationBarView {
+    UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    addButton.frame = CGRectMake(0, 0, 24, 24);
+    [addButton setBackgroundImage:kImageName(@"add.png") forState:UIControlStateNormal];
+    [addButton addTarget:self action:@selector(addUser:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    searchButton.frame = CGRectMake(0, 0, 24, 24);
+    [searchButton setBackgroundImage:kImageName(@"good_search.png") forState:UIControlStateNormal];
+    [searchButton addTarget:self action:@selector(showSearchView) forControlEvents:UIControlEventTouchUpInside];
+    
+    //设置间距
+    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:nil
+                                                                               action:nil];
+    spaceItem.width = -5;
+    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithCustomView:searchButton];
+    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithCustomView:addButton];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:spaceItem,addItem,searchItem, nil];
+}
 
 - (void)setHeaderAndFooterView {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 10.f)];
@@ -75,7 +93,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
-    [NetworkInterface getUserListWithAgentUserID:delegate.agentUserID token:delegate.token page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getAllUserWithAgentID:delegate.agentID keyword:self.searchInfo page:page rows:kPageSize * 2 finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -93,7 +111,11 @@
                     if (!isMore) {
                         [_dataItem removeAllObjects];
                     }
-                    if ([[object objectForKey:@"result"] count] > 0) {
+                    id list = nil;
+                    if ([[object objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
+                        list = [[object objectForKey:@"result"] objectForKey:@"merchaneList"];
+                    }
+                    if ([list isKindOfClass:[NSArray class]] && [list count] > 0) {
                         //有数据
                         self.page++;
                         [hud hide:YES];
@@ -125,15 +147,17 @@
 #pragma mark - Data
 
 - (void)parseUserDataWithDictionary:(NSDictionary *)dict {
-    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
         return;
     }
-    NSArray *userList = [dict objectForKey:@"result"];
-    for (int i = 0; i < [userList count]; i++) {
-        id userDict = [userList objectAtIndex:i];
-        if ([userDict isKindOfClass:[NSDictionary class]]) {
-            UserModel *model = [[UserModel alloc] initWithParseDictionary:userDict];
-            [_dataItem addObject:model];
+    id userList = [[dict objectForKey:@"result"] objectForKey:@"merchaneList"];
+    if ([userList isKindOfClass:[NSArray class]]) {
+        for (int i = 0; i < [userList count]; i++) {
+            id userDict = [userList objectAtIndex:i];
+            if ([userDict isKindOfClass:[NSDictionary class]]) {
+                UserModel *model = [[UserModel alloc] initWithParseTerminalDictionary:userDict];
+                [_dataItem addObject:model];
+            }
         }
     }
     [self.tableView reloadData];
@@ -201,6 +225,13 @@
 
 - (void)refreshData:(NSNotification *)notification {
     [self performSelector:@selector(firstLoadData) withObject:nil afterDelay:0.1f];
+}
+
+#pragma mark - 搜索
+
+- (void)getSearchKeyword:(NSString *)keyword {
+    self.searchInfo = keyword;
+    [self firstLoadData];
 }
 
 @end
