@@ -24,7 +24,10 @@
 
 #define kCoolDownTime  120   //冷却时间
 
-#define kAppChannel  5
+#define UMENG_APPKEY @"553defc8e0f55a043500022e"  //友盟key
+
+#define kAppChannel  5  //推送channel
+
 
 #define kServiceURL @"http://121.40.84.2:28080/ZFAgent/api"
 //#define kServiceURL @"http://agent.ebank007.com/api"
@@ -46,7 +49,6 @@
 //#define kProcurementCallBackURL  @"http://agent.ebank007.com/app_notify_url.jsp"
 
 #define kImageName(name) [UIImage imageNamed:name]
-
 
 #define kServiceReturnWrong  @"服务端数据返回错误"
 #define kNetworkFailed       @"网络连接失败"

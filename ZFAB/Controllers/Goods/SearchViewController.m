@@ -78,6 +78,9 @@
         case HistoryTypeMerchant:
             placeHolder = @"输入商家名";
             break;
+        case HistoryTypeUser:
+            placeHolder = @"输入用户名";
+            break;
         default:
             break;
     }

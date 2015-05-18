@@ -48,12 +48,14 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self.navigationController.navigationBar setBackgroundImage:[kImageName(@"home_back.png")
                                                                  resizableImageWithCapInsets:UIEdgeInsetsMake(1, 0, 43, 0)]
                                                   forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [self.navigationController.navigationBar setBackgroundImage:[kImageName(@"blue.png")
                                                                  resizableImageWithCapInsets:UIEdgeInsetsMake(21, 1, 21, 1)]
                                                   forBarMetrics:UIBarMetricsDefault];

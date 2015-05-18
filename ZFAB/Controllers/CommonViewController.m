@@ -7,12 +7,25 @@
 //
 
 #import "CommonViewController.h"
+#import "MobClick.h"
+
+static NSDictionary *s_mappingPlist = nil;
 
 @interface CommonViewController ()
 
 @end
 
 @implementation CommonViewController
+
+- (NSDictionary *)getMappingDictionary {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"MappingPlist" ofType:@"plist"];
+        NSDictionary *mappingDict = [NSDictionary dictionaryWithContentsOfFile:path];
+        s_mappingPlist = [mappingDict objectForKey:@"Mapping"];
+    });
+    return s_mappingPlist;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -33,6 +46,11 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    NSString *pageKey = [[self getMappingDictionary] objectForKey:NSStringFromClass(self.class)];
+    NSLog(@"++++++++++++++++++++++++++++++++++++++++%@",pageKey);
+    if (pageKey) {
+        [MobClick beginLogPageView:pageKey];
+    }
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(handleKeyboardDidShow:)
                                                 name:UIKeyboardDidShowNotification
@@ -45,6 +63,11 @@
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
+    NSString *pageKey = [[self getMappingDictionary] objectForKey:NSStringFromClass(self.class)];
+    NSLog(@"========================================%@",pageKey);
+    if (pageKey) {
+        [MobClick endLogPageView:pageKey];
+    }
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIKeyboardDidShowNotification
                                                   object:nil];

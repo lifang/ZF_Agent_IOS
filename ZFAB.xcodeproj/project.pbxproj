@@ -207,6 +207,8 @@
 		776221661B0594430053C951 /* ModifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776221651B0594430053C951 /* ModifyViewController.m */; };
 		7762216C1B05BBD80053C951 /* GoodImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7762216B1B05BBD80053C951 /* GoodImageController.m */; };
 		7762216F1B060BB20053C951 /* RegisterSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7762216E1B060BB20053C951 /* RegisterSuccessController.m */; };
+		7763E6391B09FEC900ED94EB /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7763E6371B09FEC900ED94EB /* libMobClickLibrary.a */; };
+		7763E63B1B0A00BE00ED94EB /* MappingPlist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7763E63A1B0A00BE00ED94EB /* MappingPlist.plist */; };
 		77641D7A1AE8D2480022F31A /* libaudio_processing.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77641D611AE8D2480022F31A /* libaudio_processing.a */; };
 		77641D7B1AE8D2480022F31A /* libaudio_processing_neon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77641D621AE8D2480022F31A /* libaudio_processing_neon.a */; };
 		77641D7C1AE8D2480022F31A /* libaudio_processing_sse2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77641D631AE8D2480022F31A /* libaudio_processing_sse2.a */; };
@@ -690,6 +692,9 @@
 		7762216B1B05BBD80053C951 /* GoodImageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodImageController.m; sourceTree = "<group>"; };
 		7762216D1B060BB20053C951 /* RegisterSuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterSuccessController.h; sourceTree = "<group>"; };
 		7762216E1B060BB20053C951 /* RegisterSuccessController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterSuccessController.m; sourceTree = "<group>"; };
+		7763E6371B09FEC900ED94EB /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
+		7763E6381B09FEC900ED94EB /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
+		7763E63A1B0A00BE00ED94EB /* MappingPlist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MappingPlist.plist; sourceTree = "<group>"; };
 		77641D5C1AE8D2480022F31A /* AnyChatDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnyChatDefine.h; sourceTree = "<group>"; };
 		77641D5D1AE8D2480022F31A /* AnyChatErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnyChatErrorCode.h; sourceTree = "<group>"; };
 		77641D5E1AE8D2480022F31A /* AnyChatPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnyChatPlatform.h; sourceTree = "<group>"; };
@@ -924,6 +929,7 @@
 				77641D801AE8D2480022F31A /* librtc_base_approved.a in Frameworks */,
 				77641D8F1AE8D2480022F31A /* libvpx.a in Frameworks */,
 				77641D7E1AE8D2480022F31A /* libcommon_audio_neon.a in Frameworks */,
+				7763E6391B09FEC900ED94EB /* libMobClickLibrary.a in Frameworks */,
 				77641D891AE8D2480022F31A /* libmediautil.a in Frameworks */,
 				77641D871AE8D2480022F31A /* libmediacore.a in Frameworks */,
 				77E05FD41AE5E91300B21DA9 /* libcrypto.a in Frameworks */,
@@ -1022,6 +1028,7 @@
 		773C57C61AC12DE800D99E83 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7763E63A1B0A00BE00ED94EB /* MappingPlist.plist */,
 				7746EAC71ACCD768009DD425 /* city.js */,
 				773C57C71AC12DE800D99E83 /* Info.plist */,
 				773C57FD1AC130BE00D99E83 /* ZFAB-Prefix.pch */,
@@ -1245,6 +1252,7 @@
 		773C58191AC145CB00D99E83 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				7763E6361B09FEB600ED94EB /* UM */,
 				773EC05E1B07712D00157006 /* LibBPush */,
 				77641D5A1AE8D2260022F31A /* AnyChat */,
 				77E05FCD1AE5E89C00B21DA9 /* Alipay */,
@@ -1561,6 +1569,15 @@
 				775AABB61ADDFA1100FA8AD9 /* TGDetailController.m */,
 			);
 			path = TransferGood;
+			sourceTree = "<group>";
+		};
+		7763E6361B09FEB600ED94EB /* UM */ = {
+			isa = PBXGroup;
+			children = (
+				7763E6371B09FEC900ED94EB /* libMobClickLibrary.a */,
+				7763E6381B09FEC900ED94EB /* MobClick.h */,
+			);
+			path = UM;
 			sourceTree = "<group>";
 		};
 		77641D591AE8D1E40022F31A /* Video */ = {
@@ -2004,6 +2021,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7763E63B1B0A00BE00ED94EB /* MappingPlist.plist in Resources */,
 				0D9CA9BA1AF1044F00CB37EF /* iphone1@3x.png in Resources */,
 				0D9BD7581AEF316E0007B7B4 /* iphone2@2x.png in Resources */,
 				7746EAC81ACCD768009DD425 /* city.js in Resources */,
@@ -2384,6 +2402,7 @@
 					"$(PROJECT_DIR)/ZFAB/Library/AnyChat/libs/audioprocess",
 					"$(PROJECT_DIR)/ZFAB/Library/AnyChat/libs",
 					"$(PROJECT_DIR)/ZFAB/Library/LibBPush",
+					"$(PROJECT_DIR)/ZFAB/Library/UM",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4f859d93-ee89-47b9-90b4-ed04bcac4115";
@@ -2416,6 +2435,7 @@
 					"$(PROJECT_DIR)/ZFAB/Library/AnyChat/libs/audioprocess",
 					"$(PROJECT_DIR)/ZFAB/Library/AnyChat/libs",
 					"$(PROJECT_DIR)/ZFAB/Library/LibBPush",
+					"$(PROJECT_DIR)/ZFAB/Library/UM",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4f859d93-ee89-47b9-90b4-ed04bcac4115";

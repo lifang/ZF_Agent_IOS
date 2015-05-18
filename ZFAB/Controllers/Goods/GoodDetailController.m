@@ -358,8 +358,9 @@
         [_mainScrollView addSubview:btn];
         originX += flexibleWidth + hSpace;
     }
-    int rows = (int)([_detailModel.channelItem count] - 1) / 3 + 1;
-    originY += rows * (btnHeight + hSpace);
+//    int rows = (int)([_detailModel.channelItem count] - 1) / 3 + 1;
+//    originY += rows * (btnHeight + hSpace);
+    originY += channelRows * (btnHeight + hSpace);
     
     if (_supplyType == SupplyGoodsProcurement) {
         //购买方式
