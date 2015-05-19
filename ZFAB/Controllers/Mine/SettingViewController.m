@@ -9,14 +9,17 @@
 #import "SettingViewController.h"
 #import "SDImageCache.h"
 #import "BPush.h"
+#import "NetworkInterface.h"
 
-@interface SettingViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface SettingViewController ()<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSArray *itemNames;
 
 @property (nonatomic, strong) UISwitch *switchButton;
+
+@property (nonatomic, strong) NSString *updateURL;
 
 @end
 
@@ -106,6 +109,60 @@
     [_switchButton addTarget:self action:@selector(changeValue:) forControlEvents:UIControlEventValueChanged];
 }
 
+#pragma mark - Request
+
+- (void)checkVersion {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"正在检测...";
+    [NetworkInterface checkVersionFinished:^(BOOL success, NSData *response) {
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                int errorCode = [[object objectForKey:@"code"] intValue];
+                if (errorCode == RequestFail) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                                    message:[object objectForKey:@"message"]
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"确定"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
+                else if (errorCode == RequestSuccess) {
+                    NSLog(@"%@",object);
+                    id infoDict = [object objectForKey:@"result"];
+                    if ([infoDict isKindOfClass:[NSDictionary class]]) {
+                        NSString *serviceVersion = [infoDict objectForKey:@"versions"];
+                        _updateURL = [infoDict objectForKey:@"down_url"];
+                        NSString *localVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+                        if ([localVersion isEqualToString:serviceVersion]) {
+                            hud.labelText = @"已经是最新版本";
+                        }
+                        else {
+                            hud.hidden = YES;
+                            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                                                message:@"发现新版本，是否前往下载？"
+                                                                               delegate:self
+                                                                      cancelButtonTitle:@"取消"
+                                                                      otherButtonTitles:@"前往下载", nil];
+                            [alertView show];
+                        }
+                        
+                    }
+                }
+            }
+            else {
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
 #pragma mark - Data
 
 - (void)initStaticData {
@@ -161,7 +218,8 @@
         [cell.contentView addSubview:_switchButton];
     }
     else if (indexPath.row == 1) {
-        cell.detailTextLabel.text = @"v1.0.0";
+        NSString *localVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"v%@",localVersion];
     }
     else if (indexPath.row == 2) {
         NSUInteger bitSize = [[SDImageCache sharedImageCache] getSize];
@@ -183,6 +241,7 @@
         }
             break;
         case 1: {
+            [self checkVersion];
         }
             break;
         case 2: {
@@ -210,4 +269,13 @@
     return 0.001f;
 }
 
+#pragma mark - UIAlertView
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_updateURL]];
+    }
+}
+
 @end
+

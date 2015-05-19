@@ -406,6 +406,8 @@ static NSString *s_push_method = @"agents/sendDeviceCode";
 //获取所有用户
 static NSString *s_AllUserList_method = @"terminal/getCustomer";
 
+//更新
+static NSString *s_update_method = @"index/getVersion";
 
 @interface NetworkInterface : NSObject
 
@@ -1818,5 +1820,7 @@ static NSString *s_AllUserList_method = @"terminal/getCustomer";
                          page:(int)page
                          rows:(int)rows
                      finished:(requestDidFinished)finish;
+
++ (void)checkVersionFinished:(requestDidFinished)finish;
 
 @end

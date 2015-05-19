@@ -50,12 +50,17 @@ typedef enum {
     _tradeAgentItem = [[NSMutableArray alloc] init];
     self.title = @"交易流水";
     [self initAndLayoutUI];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
-                                                    message:@"手机端交易流水查询仅供单台终端查询，完整查询功能请登陆PC端合作伙伴平台"
-                                                   delegate:nil
-                                          cancelButtonTitle:@"确定"
-                                          otherButtonTitles:nil];
-    [alert show];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if(![defaults boolForKey:@"firstScanDealFlow"]) {
+        [defaults setObject:[NSNumber numberWithBool:YES] forKey:@"firstScanDealFlow"];
+        [defaults synchronize];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                        message:@"手机端交易流水查询仅供单台终端查询，完整查询功能请登陆PC端合作伙伴平台"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

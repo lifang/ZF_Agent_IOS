@@ -28,6 +28,7 @@
 
 #define kAppChannel  5  //推送channel
 
+#define kAppVersionType  2   //版本更新
 
 #define kServiceURL @"http://121.40.84.2:28080/ZFAgent/api"
 //#define kServiceURL @"http://agent.ebank007.com/api"

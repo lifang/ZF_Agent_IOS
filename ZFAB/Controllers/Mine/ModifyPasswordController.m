@@ -114,7 +114,7 @@
     _passwordField.borderStyle = UITextBorderStyleNone;
     _passwordField.backgroundColor = [UIColor clearColor];
     _passwordField.delegate = self;
-    _passwordField.placeholder = @"新密码";
+    _passwordField.placeholder = @"新密码(6-20位字符)";
     _passwordField.font = [UIFont systemFontOfSize:15.f];
     _passwordField.secureTextEntry = YES;
     UIView *passwordView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, offsetX, offsetX)];
