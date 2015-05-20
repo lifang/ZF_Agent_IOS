@@ -21,6 +21,8 @@
 
 @property (nonatomic, strong) NSString *content;
 
+@property (nonatomic ,strong) NSLayoutConstraint *heightConstraint;
+
 - (id)initWithContent:(NSString *)content
       reuseIdentifier:(NSString *)reuseIdentifier;
 

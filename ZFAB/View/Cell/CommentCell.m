@@ -109,7 +109,6 @@
     _contentLabel.numberOfLines = 0;
     _contentLabel.font = [UIFont systemFontOfSize:14.f];
     [self.contentView addSubview:_contentLabel];
-     CGFloat newHeight = [self heightForComment:_content];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_contentLabel
                                                                  attribute:NSLayoutAttributeTop
                                                                  relatedBy:NSLayoutRelationEqual
@@ -131,13 +130,14 @@
                                                                  attribute:NSLayoutAttributeRight
                                                                 multiplier:1.0
                                                                   constant:-rightSpace]];
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_contentLabel
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:nil
-                                                                 attribute:NSLayoutAttributeNotAnAttribute
-                                                                multiplier:0.0
-                                                                  constant:newHeight]];
+    _heightConstraint = [NSLayoutConstraint constraintWithItem:_contentLabel
+                                                     attribute:NSLayoutAttributeHeight
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil
+                                                     attribute:NSLayoutAttributeNotAnAttribute
+                                                    multiplier:0.0
+                                                      constant:1.f];
+    [self.contentView addConstraint:_heightConstraint];
     //时间
     _timeLabel = [[UILabel alloc] init];
     _timeLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -231,6 +231,16 @@
 }
 
 - (void)setCommentData:(CommentModel *)model {
+    CGFloat newHeight = [self heightForComment:model.content];
+    [self.contentView removeConstraint:_heightConstraint];
+    _heightConstraint = [NSLayoutConstraint constraintWithItem:_contentLabel
+                                                     attribute:NSLayoutAttributeHeight
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil
+                                                     attribute:NSLayoutAttributeNotAnAttribute
+                                                    multiplier:0.0
+                                                      constant:newHeight];
+    [self.contentView addConstraint:_heightConstraint];
     _nameLabel.text = model.name;
     _timeLabel.text = model.createTime;
     _contentLabel.text = model.content;

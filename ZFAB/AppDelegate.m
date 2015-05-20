@@ -51,6 +51,8 @@
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:myTypes];
     }
     // 在 App 启动时注册百度云推送服务,需要提供 Apikey
+    //*****************
+    //掌富证书请替换apikey为t2EIwYVCal4Tl2zNloV9ld97
     [BPush registerChannel:launchOptions apiKey:@"e3hwiQojGDW6i0sFivClE4lq" pushMode:BPushModeDevelopment isDebug:NO];
     // 设置 BPush 的回调
     [BPush setDelegate:self];
