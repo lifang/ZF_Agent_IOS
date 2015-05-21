@@ -134,10 +134,10 @@
                     NSLog(@"%@",object);
                     id infoDict = [object objectForKey:@"result"];
                     if ([infoDict isKindOfClass:[NSDictionary class]]) {
-                        NSString *serviceVersion = [infoDict objectForKey:@"versions"];
+                        int serviceVersion = [[infoDict objectForKey:@"versions"] intValue];
                         _updateURL = [infoDict objectForKey:@"down_url"];
                         NSString *localVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-                        if ([localVersion isEqualToString:serviceVersion]) {
+                        if ([localVersion intValue] >= serviceVersion) {
                             hud.labelText = @"已经是最新版本";
                         }
                         else {

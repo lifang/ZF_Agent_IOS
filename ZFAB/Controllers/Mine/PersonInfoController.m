@@ -488,8 +488,13 @@
 //            mobileC.personInfo = _personInfo;
 //            [self.navigationController pushViewController:mobileC animated:YES];
             ModifyViewController *editC = [[ModifyViewController alloc] init];
+            if (!_personInfo.mobileNumber || [_personInfo.mobileNumber isEqualToString:@""]) {
+                editC.editType = EditViewNew;
+            }
+            else {
+                editC.editType = EditViewModify;
+            }
             editC.type = ModifyUserMobile;
-            editC.editType = EditViewModify;
             editC.userInfo = _personInfo;
             [self.navigationController pushViewController:editC animated:YES];
         }
@@ -499,8 +504,13 @@
 //            emailC.personInfo = _personInfo;
 //            [self.navigationController pushViewController:emailC animated:YES];
             ModifyViewController *editC = [[ModifyViewController alloc] init];
+            if (!_personInfo.email || [_personInfo.email isEqualToString:@""]) {
+                editC.editType = EditViewNew;
+            }
+            else {
+                editC.editType = EditViewModify;
+            }
             editC.type = ModifyUserEmail;
-            editC.editType = EditViewModify;
             editC.userInfo = _personInfo;
             [self.navigationController pushViewController:editC animated:YES];
         }
@@ -518,15 +528,35 @@
     else {
         if (indexPath.section == 0 && indexPath.row == 2) {
             //修改手机
-            ModifyMobileController *mobileC = [[ModifyMobileController alloc] init];
-            mobileC.personInfo = _personInfo;
-            [self.navigationController pushViewController:mobileC animated:YES];
+//            ModifyMobileController *mobileC = [[ModifyMobileController alloc] init];
+//            mobileC.personInfo = _personInfo;
+//            [self.navigationController pushViewController:mobileC animated:YES];
+            ModifyViewController *editC = [[ModifyViewController alloc] init];
+            if (!_personInfo.mobileNumber || [_personInfo.mobileNumber isEqualToString:@""]) {
+                editC.editType = EditViewNew;
+            }
+            else {
+                editC.editType = EditViewModify;
+            }
+            editC.type = ModifyUserMobile;
+            editC.userInfo = _personInfo;
+            [self.navigationController pushViewController:editC animated:YES];
         }
         else if (indexPath.section == 0 && indexPath.row == 3) {
             //修改邮箱
-            ModifyEmailController *emailC = [[ModifyEmailController alloc] init];
-            emailC.personInfo = _personInfo;
-            [self.navigationController pushViewController:emailC animated:YES];
+//            ModifyEmailController *emailC = [[ModifyEmailController alloc] init];
+//            emailC.personInfo = _personInfo;
+//            [self.navigationController pushViewController:emailC animated:YES];
+            ModifyViewController *editC = [[ModifyViewController alloc] init];
+            if (!_personInfo.email || [_personInfo.email isEqualToString:@""]) {
+                editC.editType = EditViewNew;
+            }
+            else {
+                editC.editType = EditViewModify;
+            }
+            editC.type = ModifyUserEmail;
+            editC.userInfo = _personInfo;
+            [self.navigationController pushViewController:editC animated:YES];
         }
 //        else if (indexPath.section == 2 && indexPath.row == 1) {
 //            //修改密码

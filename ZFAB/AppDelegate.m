@@ -57,10 +57,8 @@
     // 设置 BPush 的回调
     [BPush setDelegate:self];
     // App 是⽤用户点击推送消息启动
-    NSLog(@"!@#!#!%@",launchOptions);
     NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
     if (userInfo) {
-        NSLog(@"!!!!%@",userInfo);      
         [BPush handleNotification:userInfo];
         [self showNotificationViewWithInfo:userInfo pushLaunch:YES];
     }
