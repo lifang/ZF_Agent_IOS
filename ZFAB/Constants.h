@@ -45,9 +45,18 @@
 //支付地址
 #define kWhalesaleCallBackURL   @"http://121.40.84.2:28080/ZFAgent/deposit_app_notify_url.jsp"
 #define kProcurementCallBackURL @"http://121.40.84.2:28080/ZFAgent/app_notify_url.jsp"
+
 //线上
 //#define kWhalesaleCallBackURL    @"http://agent.ebank007.com/deposit_app_notify_url.jsp"
 //#define kProcurementCallBackURL  @"http://agent.ebank007.com/app_notify_url.jsp"
+
+//UnionPay
+#define kMode_Production             @"01" //测试
+#define kUnionPayURL  @"http://121.40.84.2:28080/ZFAgent/unionpay.do" //测试
+
+//#define kMode_Production             @"00"  //线上
+//#define kUnionPayURL  @"http://agent.ebank007.com/unionpay.do" //线上
+
 
 #define kImageName(name) [UIImage imageNamed:name]
 
