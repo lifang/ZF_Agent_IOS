@@ -35,7 +35,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _resultItem = [[NSMutableArray alloc] init];
-    _terminalFilter = [[NSMutableArray alloc] init];
+    if (!_terminalFilter) {
+        _terminalFilter = [[NSMutableArray alloc] init];
+    }
     [self initAndLayoutUI];
     [self firstLoadData];
 }
