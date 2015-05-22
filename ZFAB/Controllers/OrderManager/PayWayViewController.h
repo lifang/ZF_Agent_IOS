@@ -7,6 +7,7 @@
 //
 
 #import "CommonViewController.h"
+#import "UPPayPluginDelegate.h"
 
 typedef enum {
     PayWayFromNone = 0,
@@ -17,7 +18,7 @@ typedef enum {
     PayWayFromGoodProcurementRent,  //代租赁
 }PayWayFromType;
 
-@interface PayWayViewController : CommonViewController
+@interface PayWayViewController : CommonViewController <UPPayPluginDelegate,UIAlertViewDelegate>
 
 @property (nonatomic, assign) PayWayFromType fromType; //跳转来源
 

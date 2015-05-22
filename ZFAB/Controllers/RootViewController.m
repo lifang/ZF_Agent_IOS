@@ -46,7 +46,7 @@
     else {
         [self showLoginViewController];
     }
-    [user print];
+//    [user print];
 }
 
 #pragma mark - 登录与主界面
