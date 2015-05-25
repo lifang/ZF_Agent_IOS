@@ -2005,7 +2005,6 @@
 				TargetAttributes = {
 					773C57C21AC12DE800D99E83 = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = X6GEEF4LU9;
 					};
 					773C57DB1AC12DE800D99E83 = {
 						CreatedOnToolsVersion = 6.1.1;

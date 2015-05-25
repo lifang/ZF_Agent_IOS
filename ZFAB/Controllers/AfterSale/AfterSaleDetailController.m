@@ -265,7 +265,7 @@
                                                            constant:1.0]];
     
     UILabel *addressLabel = [[UILabel alloc] init];
-    [self setLabel:addressLabel withTopView:thirdLine middleSpace:space];
+    CGFloat addressHeight = [self setLabel:addressLabel withTopView:thirdLine middleSpace:space content:_address];
     
     //售后原因
     UILabel *reasonTitleLabel = [[UILabel alloc] init];
@@ -336,7 +336,7 @@
                                                          multiplier:0.0
                                                            constant:1.0]];
     UILabel *reasonLabel = [[UILabel alloc] init];
-    [self setLabel:reasonLabel withTopView:forthLine middleSpace:space];
+    CGFloat reasonHeight = [self setLabel:reasonLabel withTopView:forthLine middleSpace:space content:_reason];
     
     CGFloat recordHeight = 0.f;
     //追踪记录
@@ -380,7 +380,7 @@
 //                                                               constant:recordHeight]];
 //        [recordView initAndLayoutUI];
 //    }
-    self.scrollView.contentSize = CGSizeMake(kScreenWidth, 320 + textHeight + recordHeight);
+    self.scrollView.contentSize = CGSizeMake(kScreenWidth, 320 + textHeight + recordHeight + reasonHeight + addressHeight);
     terminalTitleLabel.text = @"终端号";
     addressTitleLabel.text = @"收货地址";
     reasonTitleLabel.text = @"售后原因";

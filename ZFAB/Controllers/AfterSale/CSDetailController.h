@@ -41,6 +41,11 @@ typedef enum {
      withTopView:(UIView *)topView
      middleSpace:(CGFloat)space;
 
+- (CGFloat)setLabel:(UILabel *)label
+        withTopView:(UIView *)topView
+        middleSpace:(CGFloat)space
+            content:(NSString *)content;
+
 //取消申请
 - (void)cancelApply;
 

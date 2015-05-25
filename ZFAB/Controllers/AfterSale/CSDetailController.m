@@ -9,6 +9,7 @@
 #import "CSDetailController.h"
 #import "AppDelegate.h"
 #import "CSListController.h"
+#import "StringFormat.h"
 
 @interface CSDetailController ()
 
@@ -111,6 +112,51 @@
                                                          multiplier:1.0
                                                            constant:labelHeight]];
 }
+
+- (CGFloat)setLabel:(UILabel *)label
+        withTopView:(UIView *)topView
+        middleSpace:(CGFloat)space
+            content:(NSString *)content {
+    CGFloat leftSpace = 20.f;
+    CGFloat rightSpce = 20.f;
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont systemFontOfSize:13.f];
+    label.textColor = kColor(108, 108, 108, 1);
+    label.numberOfLines = 0;
+    [_scrollView addSubview:label];
+    CGFloat height = [StringFormat heightForComment:content withFont:[UIFont systemFontOfSize:13.f] width:self.view.bounds.size.width - leftSpace - rightSpce];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:topView
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1.0
+                                                           constant:space]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:1.0
+                                                           constant:leftSpace]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
+                                                          attribute:NSLayoutAttributeRight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1.0
+                                                           constant:-rightSpce]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1.0
+                                                           constant:height]];
+    return height;
+}
+
 
 - (void)layoutButton:(UIButton *)button position:(OperationBtn)position {
     CGFloat topSpace = 20.f;
