@@ -18,7 +18,12 @@
         if ([dict objectForKey:@"serial_num"]) {
             _serialNumber = [NSString stringWithFormat:@"%@",[dict objectForKey:@"serial_num"]];
         }
-        _price = [[dict objectForKey:@"retail_price"] floatValue] / 100;
+        if ([dict objectForKey:@"retail_price"]) {
+            _price = [[dict objectForKey:@"retail_price"] floatValue] / 100;
+        }
+        else {
+            _price = [[dict objectForKey:@"money"] floatValue] / 100;
+        }
     }
     return self;
 }

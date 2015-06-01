@@ -22,6 +22,7 @@
 #import "HomeImageModel.h"
 #import "ChannelWebsiteController.h"
 #import "GoodListController.h"
+#import "GoodDetailController.h"
 
 @interface HomeViewController ()
 
@@ -357,16 +358,15 @@
 }
 
 - (void)tapPicture:(UITapGestureRecognizer *)tap {
-//    UIImageView *imageView = (UIImageView *)[tap view];
-//    NSInteger index = imageView.tag - 1;
-//    ChannelWebsiteController *websiteC = [[ChannelWebsiteController alloc] init];
-//    if (index >= 0 && index < [_pictureItem count]) {
-//        HomeImageModel *imageModel = [_pictureItem objectAtIndex:index];
-//        websiteC.title = @"详情";
-//        websiteC.urlString = imageModel.websiteURL;
-//        websiteC.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:websiteC animated:YES];
-//    }
+    UIImageView *imageView = (UIImageView *)[tap view];
+    NSInteger index = imageView.tag - 1;
+    if (index >= 0 && index < [_pictureItem count]) {
+        HomeImageModel *imageModel = [_pictureItem objectAtIndex:index];
+        GoodDetailController *detailC = [[GoodDetailController alloc] init];
+        detailC.goodID = imageModel.goodID;
+        detailC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:detailC animated:YES];
+    }
 }
 
 @end

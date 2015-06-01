@@ -228,14 +228,14 @@
         maxLabel.backgroundColor = [UIColor clearColor];
         maxLabel.font = [UIFont systemFontOfSize:11.f];
         maxLabel.adjustsFontSizeToFitWidth = YES;
-        maxLabel.text = [NSString stringWithFormat:@"最长租赁时间：%@月",_goodDetail.maxTime];
+        maxLabel.text = [NSString stringWithFormat:@"最长租赁时间：%d月",_goodDetail.maxTime];
         [cell.contentView addSubview:maxLabel];
         
         UILabel *minLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 100, 20)];
         minLabel.backgroundColor = [UIColor clearColor];
         minLabel.font = [UIFont systemFontOfSize:11.f];
         minLabel.adjustsFontSizeToFitWidth = YES;
-        minLabel.text = [NSString stringWithFormat:@"最短租赁时间：%@月",_goodDetail.minTime];
+        minLabel.text = [NSString stringWithFormat:@"最短租赁时间：%d月",_goodDetail.minTime];
         [cell.contentView addSubview:minLabel];
         
         CGFloat price = [self getSummaryPrice];

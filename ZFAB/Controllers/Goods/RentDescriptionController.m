@@ -71,8 +71,8 @@
 
 - (void)initSubView {
     UIView *topView = nil;
-    NSString *minDate = [NSString stringWithFormat:@"%@个月",_goodDetail.minTime];
-    NSString *maxDate = [NSString stringWithFormat:@"%@个月",_goodDetail.maxTime];
+    NSString *minDate = [NSString stringWithFormat:@"%d个月",_goodDetail.minTime];
+    NSString *maxDate = [NSString stringWithFormat:@"%d个月",_goodDetail.maxTime];
     topView = [self addRowsWithTitle:@"最短租赁时间" content:minDate topView:topView];
     topView = [self addRowsWithTitle:@"最长租赁时间" content:maxDate topView:topView];
     topView = [self addRowsWithTitle:@"每月租金" content:[NSString stringWithFormat:@"￥%.2f",_goodDetail.leasePrice] topView:topView];

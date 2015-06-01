@@ -18,7 +18,6 @@
 }
 
 - (void)setSearchBarStyle {
-    self.enablesReturnKeyAutomatically = NO;
     [self setImage:kImageName(@"good_search.png") forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     NSArray *subviews = nil;
     if (kDeviceVersion >= 7.0) {
@@ -31,6 +30,7 @@
         if ([view isKindOfClass:[UITextField class]]) {
             UITextField *textFeild = (UITextField *)view;
             textFeild.font = [UIFont systemFontOfSize:14.f];
+            textFeild.enablesReturnKeyAutomatically = NO;
             if (kDeviceVersion >= 7.0) {
                 textFeild.backgroundColor = kColor(95, 152, 237, 1);
                 textFeild.layer.cornerRadius = 4;

@@ -21,6 +21,9 @@
         if ([dict objectForKey:@"website_url"]) {
             _websiteURL = [NSString stringWithFormat:@"%@",[dict objectForKey:@"website_url"]];
         }
+        if ([dict objectForKey:@"goodid"]) {
+            _goodID = [NSString stringWithFormat:@"%@",[dict objectForKey:@"goodid"]];
+        }
     }
     return self;
 }
