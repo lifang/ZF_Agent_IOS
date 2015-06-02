@@ -77,7 +77,7 @@ static NSDictionary *s_mappingPlist = nil;
 }
 
 //监听事件  子类重写
-- (void)handleKeyboardDidShow:(NSNotification*)paramNotification {
+- (void)handleKeyboardDidShow:(NSNotification *)paramNotification {
 
 }
 
