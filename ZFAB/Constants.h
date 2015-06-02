@@ -30,6 +30,7 @@
 
 #define kAppVersionType  2   //版本更新
 
+//#define kServiceURL @"http://121.40.224.25:9090/api" //YUFA
 #define kServiceURL @"http://121.40.84.2:28080/ZFAgent/api"
 //#define kServiceURL @"http://agent.ebank007.com/api"
 
@@ -56,6 +57,10 @@
 
 //#define kMode_Production             @"00"  //线上
 //#define kUnionPayURL  @"http://agent.ebank007.com/unionpay.do" //线上
+
+//#define kMode_Production             @"00"  //YUFA
+//#define kUnionPayURL  @"http://121.40.224.25:9090/unionpay.do" //YUFA
+
 
 
 #define kImageName(name) [UIImage imageNamed:name]
