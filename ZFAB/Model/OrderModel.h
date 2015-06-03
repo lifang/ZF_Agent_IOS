@@ -65,6 +65,8 @@ static NSString *procurementThirdIdentifier = @"procurementThirdIdentifier";
 
 @property (nonatomic, assign) CGFloat goodActualPirce;  //现价
 
+@property (nonatomic, assign) CGFloat openCost; //开通费
+
 @property (nonatomic, assign) int goodCount;
 
 - (id)initWithParseDictionary:(NSDictionary *)dict;

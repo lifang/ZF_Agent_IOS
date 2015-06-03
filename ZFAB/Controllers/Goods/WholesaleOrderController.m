@@ -140,6 +140,7 @@
     if (indexPath.row == 0) {
         OrderDetailCell *cell = [[OrderDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil supplyType:self.supplyType];
         cell.nameLabel.text = _goodDetail.goodName;
+        cell.openPriceLabel.text = [NSString stringWithFormat:@"(含开通费￥%.2f)",_goodDetail.defaultChannel.openCost];
         [cell setPrimaryPriceWithString:[NSString stringWithFormat:@"原价 ￥%.2f",(_goodDetail.primaryPrice + _goodDetail.defaultChannel.openCost)]];
         cell.actualPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",(_goodDetail.wholesalePrice + _goodDetail.defaultChannel.openCost)];
         cell.numberLabel.text = [NSString stringWithFormat:@"X %d",_count];

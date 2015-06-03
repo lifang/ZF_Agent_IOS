@@ -102,6 +102,7 @@
         _shipmentCount = [[dict objectForKey:@"shipped_quantity"] intValue];
         _proTotalCount = [[dict objectForKey:@"order_totalNum"] intValue];
         _orderType = [[dict objectForKey:@"order_type"] intValue];
+        _totalOpenCost = [[dict objectForKey:@"bd_cost"] floatValue] / 100;
         
         if ([dict objectForKey:@"guishu_user"]) {
             _belongUser = [NSString stringWithFormat:@"%@",[dict objectForKey:@"guishu_user"]];

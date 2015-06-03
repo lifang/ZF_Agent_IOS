@@ -147,25 +147,66 @@
     }
     //价格
     _actualPriceLabel = [[UILabel alloc] init];
-    [self layoutGoodLabel:_actualPriceLabel WithTopView:_nameLabel topSpace:0.f alignment:NSTextAlignmentRight];
+    [self layoutGoodLabel:_actualPriceLabel WithTopView:_nameLabel topSpace:0.f alignment:NSTextAlignmentRight leftSpace:10.f];
     _actualPriceLabel.textColor = kColor(255, 102, 36, 1);
     _actualPriceLabel.font = [UIFont boldSystemFontOfSize:13.f];
-    //数量
-    _numberLabel = [[UILabel alloc] init];
-    [self layoutGoodLabel:_numberLabel WithTopView:_actualPriceLabel topSpace:0.f alignment:NSTextAlignmentRight];
+    //开通费用
+    _openPriceLabel = [[UILabel alloc] init];
+    [self layoutGoodLabel:_openPriceLabel WithTopView:_actualPriceLabel topSpace:0.f alignment:NSTextAlignmentRight leftSpace:10.f];
+    _openPriceLabel.textColor = kColor(255, 102, 36, 1);
+    _openPriceLabel.font = [UIFont boldSystemFontOfSize:12.f];
+//    //数量
+//    _numberLabel = [[UILabel alloc] init];
+//    [self layoutGoodLabel:_numberLabel WithTopView:_actualPriceLabel topSpace:0.f alignment:NSTextAlignmentRight leftSpace:10.f];
     //型号
     _brandLabel = [[UILabel alloc] init];
-    [self layoutGoodLabel:_brandLabel WithTopView:_numberLabel topSpace:0.f alignment:NSTextAlignmentLeft];
+    [self layoutGoodLabel:_brandLabel WithTopView:_openPriceLabel topSpace:0.f alignment:NSTextAlignmentLeft leftSpace:10.f];
     //支付通道
     _channelLabel = [[UILabel alloc] init];
-    [self layoutGoodLabel:_channelLabel WithTopView:_brandLabel topSpace:0.f alignment:NSTextAlignmentLeft];
+    [self layoutGoodLabel:_channelLabel WithTopView:_brandLabel topSpace:0.f alignment:NSTextAlignmentLeft leftSpace:40.f];
+    //数量
+    _numberLabel = [[UILabel alloc] init];
+    _numberLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _numberLabel.backgroundColor = [UIColor clearColor];
+    _numberLabel.font = [UIFont systemFontOfSize:12.f];
+    _numberLabel.textAlignment = NSTextAlignmentRight;
+    [self.contentView addSubview:_numberLabel];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_numberLabel
+                                                                 attribute:NSLayoutAttributeTop
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:_brandLabel
+                                                                 attribute:NSLayoutAttributeBottom
+                                                                multiplier:1.0
+                                                                  constant:0.f]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_numberLabel
+                                                                 attribute:NSLayoutAttributeLeft
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:_channelLabel
+                                                                 attribute:NSLayoutAttributeRight
+                                                                multiplier:1.0
+                                                                  constant:0.f]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_numberLabel
+                                                                 attribute:NSLayoutAttributeRight
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.contentView
+                                                                 attribute:NSLayoutAttributeRight
+                                                                multiplier:1.0
+                                                                  constant:-10.f]];
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_numberLabel
+                                                                 attribute:NSLayoutAttributeHeight
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:nil
+                                                                 attribute:NSLayoutAttributeNotAnAttribute
+                                                                multiplier:0.0
+                                                                  constant:labelHeight]];
+
 }
 
 - (void)layoutGoodLabel:(UILabel *)label
             WithTopView:(UIView *)topView
                topSpace:(CGFloat)space
-              alignment:(NSTextAlignment)alignment {
-    CGFloat leftSpace = 10.f;
+              alignment:(NSTextAlignment)alignment
+              leftSpace:(CGFloat)leftSpace {
     CGFloat labelHeight = 14.f;
     label.translatesAutoresizingMaskIntoConstraints = NO;
     label.backgroundColor = [UIColor clearColor];
@@ -214,6 +255,7 @@
     else {
         self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",data.goodPrimaryPrice];
     }
+    self.openPriceLabel.text = [NSString stringWithFormat:@"(含开通费￥%.2f)",data.openCost];
     self.numberLabel.text = [NSString stringWithFormat:@"X %d",data.goodCount];
     self.brandLabel.text = [NSString stringWithFormat:@"品牌型号 %@",data.goodBrand];
     self.channelLabel.text = [NSString stringWithFormat:@"支付通道 %@",data.goodChannel];

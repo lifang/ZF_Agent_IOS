@@ -80,7 +80,21 @@
     }
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
-    [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:userID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:self.confirmType goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:self.defaultAddress.addressID comment:self.reviewField.text needInvoice:needInvoice invoiceType:self.billType invoiceInfo:self.billField.text finished:^(BOOL success, NSData *response) {
+    [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID
+                                                  token:delegate.token
+                                                 userID:userID
+                                           createUserID:delegate.userID
+                                               belongID:delegate.agentUserID
+                                            confirmType:self.confirmType
+                                                 goodID:_goodDetail.goodID
+                                              channelID:_goodDetail.defaultChannel.channelID
+                                                  count:_count
+                                              addressID:self.defaultAddress.addressID
+                                                comment:self.reviewField.text
+                                            needInvoice:needInvoice
+                                            invoiceType:self.billType
+                                            invoiceInfo:self.billField.text
+                                               finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -141,6 +155,7 @@
     if (indexPath.row == 0) {
         OrderDetailCell *cell = [[OrderDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil supplyType:self.supplyType];
         cell.nameLabel.text = _goodDetail.goodName;
+        cell.openPriceLabel.text = [NSString stringWithFormat:@"(含开通费￥%.2f)",_goodDetail.defaultChannel.openCost];
         cell.actualPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",(_goodDetail.procurementPrice + _goodDetail.defaultChannel.openCost)];
         cell.numberLabel.text = [NSString stringWithFormat:@"X %d",_count];
         cell.brandLabel.text = [NSString stringWithFormat:@"品牌型号 %@%@",_goodDetail.goodBrand,_goodDetail.goodModel];

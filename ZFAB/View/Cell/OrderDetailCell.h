@@ -22,6 +22,8 @@
 
 @property (nonatomic, strong) UILabel *actualPriceLabel; //现价
 
+@property (nonatomic, strong) UILabel *openPriceLabel;
+
 @property (nonatomic, strong) UILabel *numberLabel;
 
 @property (nonatomic, strong) UILabel *brandLabel;

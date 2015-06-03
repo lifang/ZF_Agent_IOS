@@ -121,7 +121,25 @@
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
-    [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID token:delegate.token userID:delegate.agentUserID createUserID:delegate.userID belongID:delegate.agentUserID confirmType:self.confirmType goodID:_goodDetail.goodID channelID:_goodDetail.defaultChannel.channelID count:_count addressID:self.defaultAddress.addressID comment:self.reviewField.text needInvoice:0 invoiceType:0 invoiceInfo:nil finished:^(BOOL success, NSData *response) {
+    NSString *userID = delegate.agentUserID;
+    if (self.defaultUser) {
+        userID = self.defaultUser.userID;
+    }
+    [NetworkInterface createOrderFromGoodBuyWithAgentID:delegate.agentID
+                                                  token:delegate.token
+                                                 userID:userID
+                                           createUserID:delegate.userID
+                                               belongID:delegate.agentUserID
+                                            confirmType:self.confirmType
+                                                 goodID:_goodDetail.goodID
+                                              channelID:_goodDetail.defaultChannel.channelID
+                                                  count:_count
+                                              addressID:self.defaultAddress.addressID
+                                                comment:self.reviewField.text
+                                            needInvoice:0
+                                            invoiceType:0
+                                            invoiceInfo:nil
+                                               finished:^(BOOL success, NSData *response) {
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:0.3f];
@@ -193,6 +211,7 @@
         OrderDetailCell *cell = [[OrderDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil supplyType:self.supplyType];
         cell.nameLabel.text = _goodDetail.goodName;
         cell.numberLabel.text = [NSString stringWithFormat:@"X %d",_count];
+        cell.openPriceLabel.text = [NSString stringWithFormat:@"开通费￥%.2f",_goodDetail.defaultChannel.openCost];
         cell.brandLabel.text = [NSString stringWithFormat:@"品牌型号 %@%@",_goodDetail.goodBrand,_goodDetail.goodModel];
         cell.channelLabel.text = [NSString stringWithFormat:@"支付通道 %@",_goodDetail.defaultChannel.channelName];
         if ([_goodDetail.goodImageList count] > 0) {
@@ -214,7 +233,7 @@
     else if (indexPath.row == 2) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
         cell.textLabel.font = [UIFont systemFontOfSize:14.f];
-        cell.textLabel.text = @"押金和开通费用";
+        cell.textLabel.text = @"押金";
         cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16.f];
         cell.detailTextLabel.textColor = kColor(255, 102, 36, 1);
         cell.detailTextLabel.text = [NSString stringWithFormat:@"￥%.2f",_goodDetail.deposit * _count];

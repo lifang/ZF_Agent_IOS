@@ -39,6 +39,7 @@
         _goodPrimaryPrice = [[dict objectForKey:@"good_price"] floatValue] / 100;
         _goodActualPirce = [[dict objectForKey:@"good_batch_price"] floatValue] / 100;
         _goodCount = [[dict objectForKey:@"good_num"] intValue];
+        _openCost = [[dict objectForKey:@"good_opening_cost"] floatValue] / 100;
     }
     return self;
 }

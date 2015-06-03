@@ -38,6 +38,8 @@
 
 @property (nonatomic, assign) CGFloat actualPrice;   //实付金额
 
+@property (nonatomic, assign) CGFloat totalOpenCost;  //总开通费
+
 @property (nonatomic, strong) NSString *terminals;
 
 @property (nonatomic, assign) int orderType;         //订单类型
