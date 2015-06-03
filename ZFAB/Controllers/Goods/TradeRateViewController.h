@@ -15,4 +15,6 @@
 
 @property (nonatomic, strong) NSArray *tradeRateItem;
 
+@property (nonatomic, strong) ChannelModel *defaultChannel;
+
 @end

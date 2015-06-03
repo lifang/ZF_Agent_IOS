@@ -106,6 +106,7 @@
             if ([goodInfo objectForKey:@"lease_agreement"]) {
                 _leaseProtocol = [NSString stringWithFormat:@"%@",[goodInfo objectForKey:@"lease_agreement"]];
             }
+            _stockNumber = [[goodInfo objectForKey:@"quantity"] intValue];
         }
         id factoryInfo = [dict objectForKey:@"factory"];
         if ([factoryInfo isKindOfClass:[NSDictionary class]]) {

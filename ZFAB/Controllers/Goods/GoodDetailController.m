@@ -208,6 +208,10 @@
     else {
         [_goOrderBtn setTitle:@"立即采购" forState:UIControlStateNormal];
     }
+    if (_detailModel.stockNumber <= 0) {
+        //无库存
+        [_goOrderBtn setTitle:@"缺货" forState:UIControlStateNormal];
+    }
     _goOrderBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
     [_goOrderBtn addTarget:self action:@selector(goBuy:) forControlEvents:UIControlEventTouchUpInside];
     [_footerView addSubview:_goOrderBtn];
@@ -346,7 +350,7 @@
     NSMutableAttributedString *primaryString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%.2f",_detailModel.primaryPrice]];
     NSDictionary *normalAttr = [NSDictionary dictionaryWithObjectsAndKeys:
                                 [UIFont boldSystemFontOfSize:13.f],NSFontAttributeName,
-                                [UIColor blackColor],NSForegroundColorAttributeName,
+                                kColor(145, 145, 145, 1),NSForegroundColorAttributeName,
                                 [NSNumber numberWithInt:1],NSStrikethroughStyleAttributeName,
                                 nil];
     [primaryString setAttributes:normalAttr range:NSMakeRange(0, [primaryString length])];
@@ -356,7 +360,7 @@
     UILabel *saleNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, originY, kScreenWidth - originX - rightSpace, labelHeight)];
     saleNumberLabel.backgroundColor = [UIColor clearColor];
     saleNumberLabel.font = [UIFont systemFontOfSize:13.f];
-    saleNumberLabel.textColor = [UIColor lightGrayColor];
+    saleNumberLabel.textColor = kColor(145, 145, 145, 1);
     saleNumberLabel.textAlignment = NSTextAlignmentRight;
     saleNumberLabel.text = [NSString stringWithFormat:@"累计销售%d",_detailModel.goodSaleNumber];
     [_mainScrollView addSubview:saleNumberLabel];
@@ -566,36 +570,36 @@
     
     //标准手续费
     originY += labelHeight + 10;
-    CGFloat standFormHeight = [FormView heightWithRowCount:[_detailModel.defaultChannel.standRateItem count]
-                                                  hasTitle:YES];
-    FormView *standForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, kScreenWidth, standFormHeight)];
-    [standForm setGoodDetailDataWithFormTitle:@"刷卡交易标准手续费"
-                                      content:_detailModel.defaultChannel.standRateItem
-                                   titleArray:[NSArray arrayWithObjects:@"商户类",@"费率",@"说明",nil]];
-    [_mainScrollView addSubview:standForm];
-    
-    //资金服务费
-    originY += standFormHeight + 10;
-    CGFloat dateFormHeight = [FormView heightWithRowCount:[_detailModel.defaultChannel.dateRateItem count]
-                                                 hasTitle:YES];
-    FormView *dateForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, kScreenWidth, dateFormHeight)];
-    [dateForm setGoodDetailDataWithFormTitle:@"资金服务费"
-                                     content:_detailModel.defaultChannel.dateRateItem
-                                  titleArray:[NSArray arrayWithObjects:@"结算周",@"费率",@"说明", nil]];
-    [_mainScrollView addSubview:dateForm];
-    
-    //其它交易费率
-    originY += dateFormHeight + 10;
-    CGFloat otherFormHeight = [FormView heightWithRowCount:[_detailModel.defaultChannel.otherRateItem count]
-                                                  hasTitle:YES];
-    FormView *otherForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, kScreenWidth, otherFormHeight)];
-    [otherForm setGoodDetailDataWithFormTitle:@"其它交易费率"
-                                      content:_detailModel.defaultChannel.otherRateItem
-                                   titleArray:[NSArray arrayWithObjects:@"交易类",@"费率",@"说明", nil]];
-    [_mainScrollView addSubview:otherForm];
+//    CGFloat standFormHeight = [FormView heightWithRowCount:[_detailModel.defaultChannel.standRateItem count]
+//                                                  hasTitle:YES];
+//    FormView *standForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, kScreenWidth, standFormHeight)];
+//    [standForm setGoodDetailDataWithFormTitle:@"刷卡交易标准手续费"
+//                                      content:_detailModel.defaultChannel.standRateItem
+//                                   titleArray:[NSArray arrayWithObjects:@"商户类",@"费率",@"说明",nil]];
+//    [_mainScrollView addSubview:standForm];
+//    
+//    //资金服务费
+//    originY += standFormHeight + 10;
+//    CGFloat dateFormHeight = [FormView heightWithRowCount:[_detailModel.defaultChannel.dateRateItem count]
+//                                                 hasTitle:YES];
+//    FormView *dateForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, kScreenWidth, dateFormHeight)];
+//    [dateForm setGoodDetailDataWithFormTitle:@"资金服务费"
+//                                     content:_detailModel.defaultChannel.dateRateItem
+//                                  titleArray:[NSArray arrayWithObjects:@"结算周",@"费率",@"说明", nil]];
+//    [_mainScrollView addSubview:dateForm];
+//    
+//    //其它交易费率
+//    originY += dateFormHeight + 10;
+//    CGFloat otherFormHeight = [FormView heightWithRowCount:[_detailModel.defaultChannel.otherRateItem count]
+//                                                  hasTitle:YES];
+//    FormView *otherForm = [[FormView alloc] initWithFrame:CGRectMake(0, originY, kScreenWidth, otherFormHeight)];
+//    [otherForm setGoodDetailDataWithFormTitle:@"其它交易费率"
+//                                      content:_detailModel.defaultChannel.otherRateItem
+//                                   titleArray:[NSArray arrayWithObjects:@"交易类",@"费率",@"说明", nil]];
+//    [_mainScrollView addSubview:otherForm];
     
     //申请开通条件
-    originY += otherFormHeight + 10;
+//    originY += otherFormHeight + 10;
     UILabel *openTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, kScreenWidth - leftSpace - rightSpace, labelHeight)];
     [self setLabel:openTitleLabel withTitle:@"申请开通条件" font:[UIFont systemFontOfSize:13.f]];
     
@@ -798,7 +802,7 @@
     NSMutableAttributedString *openString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥%.2f",_detailModel.defaultChannel.openCost]];
     NSDictionary *openAttr = [NSDictionary dictionaryWithObjectsAndKeys:
                               [UIFont boldSystemFontOfSize:13.f],NSFontAttributeName,
-                              kColor(255, 102, 36, 1),NSForegroundColorAttributeName,
+                              kColor(145, 145, 145, 1),NSForegroundColorAttributeName,
                               nil];
     [openString setAttributes:openAttr range:NSMakeRange(0, [openString length])];
     _openPriceLabel.attributedText = openString;
@@ -927,6 +931,9 @@
     if (_supplyType == SupplyGoodsProcurement) {
         [_goOrderBtn setTitle:@"立即采购" forState:UIControlStateNormal];
     }
+    if (_detailModel.stockNumber <= 0) {
+        [_goOrderBtn setTitle:@"缺货" forState:UIControlStateNormal];
+    }
     _factTitleLabel.text = @"机具原价";
     [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.procurementPrice + _detailModel.defaultChannel.openCost]];
     [self setRentPriceWithFactString:[NSString stringWithFormat:@"%.2f",_detailModel.procurementPrice]];
@@ -940,6 +947,9 @@
     if (_supplyType == SupplyGoodsProcurement) {
         [_goOrderBtn setTitle:@"立即租赁" forState:UIControlStateNormal];
     }
+    if (_detailModel.stockNumber <= 0) {
+        [_goOrderBtn setTitle:@"缺货" forState:UIControlStateNormal];
+    }
     _factTitleLabel.text = @"租赁押金";
     [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.deposit + _detailModel.defaultChannel.openCost]];
     [self setRentPriceWithFactString:[NSString stringWithFormat:@"%.2f",_detailModel.deposit]];
@@ -947,6 +957,14 @@
 }
 
 - (IBAction)goBuy:(id)sender {
+    if (_detailModel.stockNumber <= 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.5f];
+        hud.labelText = @"很报歉，该商品正在加紧补货中";
+        return;
+    }
     if (_supplyType == SupplyGoodsWholesale) {
         //批购
         WholesaleOrderController *orderC = [[WholesaleOrderController alloc] init];
@@ -1021,7 +1039,8 @@
 
 - (IBAction)scanRate:(id)sender {
     TradeRateViewController *rateC = [[TradeRateViewController alloc] init];
-    rateC.tradeRateItem = _detailModel.defaultChannel.dateRateItem;
+//    rateC.tradeRateItem = _detailModel.defaultChannel.dateRateItem;
+    rateC.defaultChannel = _detailModel.defaultChannel;
     [self.navigationController pushViewController:rateC animated:YES];
 }
 
