@@ -44,6 +44,7 @@
     _pictureItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
     [self loadHomeImageList];
+    [self checkVersion];
 }
 
 - (void)didReceiveMemoryWarning {
