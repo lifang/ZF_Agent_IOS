@@ -211,6 +211,7 @@
     if (_detailModel.stockNumber <= 0) {
         //无库存
         [_goOrderBtn setTitle:@"缺货" forState:UIControlStateNormal];
+        [_goOrderBtn setBackgroundImage:kImageName(@"selected.png") forState:UIControlStateNormal];
     }
     _goOrderBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
     [_goOrderBtn addTarget:self action:@selector(goBuy:) forControlEvents:UIControlEventTouchUpInside];
@@ -460,6 +461,9 @@
         }
         originY += btnHeight;
     }
+    else {
+        originY += labelHeight;
+    }
     
     //厂家信息
     originY += hSpace;
@@ -619,29 +623,29 @@
     openLabel.numberOfLines = 0;
     [self setLabel:openLabel withTitle:_detailModel.defaultChannel.openRequirement font:[UIFont systemFontOfSize:13.f]];
     
-    //商品详细说明
+//    //商品详细说明
     originY += openHeight + 20;
-    UILabel *descriptionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, kScreenWidth - leftSpace - rightSpace, labelHeight)];
-    [self setLabel:descriptionTitleLabel withTitle:@"商品详细说明" font:[UIFont systemFontOfSize:13.f]];
-    
-    //划线
-    originY += labelHeight + vSpace;
-    UIView *fifthLine = [[UIView alloc] initWithFrame:CGRectMake(10, originY, kScreenWidth - 20, 1)];
-    fifthLine.backgroundColor = kMainColor;
-    [_mainScrollView addSubview:fifthLine];
-    
-    //说明
-    originY += vSpace + 1;
-    CGFloat descriptionHeight = [StringFormat heightForComment:_detailModel.goodDescription
-                                                      withFont:[UIFont systemFontOfSize:13.f]
-                                                         width:kScreenWidth - leftSpace - rightSpace];;
-    descriptionHeight = descriptionHeight < labelHeight ? labelHeight : descriptionHeight;
-    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, kScreenWidth - leftSpace - rightSpace, descriptionHeight)];
-    descriptionLabel.numberOfLines = 0;
-    [self setLabel:descriptionLabel withTitle:_detailModel.goodDescription font:[UIFont systemFontOfSize:13.f]];
+//    UILabel *descriptionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, kScreenWidth - leftSpace - rightSpace, labelHeight)];
+//    [self setLabel:descriptionTitleLabel withTitle:@"商品详细说明" font:[UIFont systemFontOfSize:13.f]];
+//    
+//    //划线
+//    originY += labelHeight + vSpace;
+//    UIView *fifthLine = [[UIView alloc] initWithFrame:CGRectMake(10, originY, kScreenWidth - 20, 1)];
+//    fifthLine.backgroundColor = kMainColor;
+//    [_mainScrollView addSubview:fifthLine];
+//    
+//    //说明
+//    originY += vSpace + 1;
+//    CGFloat descriptionHeight = [StringFormat heightForComment:_detailModel.goodDescription
+//                                                      withFont:[UIFont systemFontOfSize:13.f]
+//                                                         width:kScreenWidth - leftSpace - rightSpace];;
+//    descriptionHeight = descriptionHeight < labelHeight ? labelHeight : descriptionHeight;
+//    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, kScreenWidth - leftSpace - rightSpace, descriptionHeight)];
+//    descriptionLabel.numberOfLines = 0;
+//    [self setLabel:descriptionLabel withTitle:_detailModel.goodDescription font:[UIFont systemFontOfSize:13.f]];
     
     //感兴趣的
-    originY += descriptionHeight + 20;
+//    originY += descriptionHeight + 20;
 //    UIView *sixthLine = [[UIView alloc] initWithFrame:CGRectMake(0, originY, kScreenWidth, 1)];
 //    sixthLine.backgroundColor = kColor(200, 198, 199, 1);
 //    [_mainScrollView addSubview:sixthLine];
@@ -678,7 +682,7 @@
 - (UIView *)handleViewWithOriginY:(CGFloat)originY {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, originY, kScreenWidth, 135)];
     view.backgroundColor = [UIColor whiteColor];
-    for (int i = 0; i < 3; i++ ) {
+    for (int i = 0; i < 4; i++ ) {
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 45 * i - 1, kScreenWidth, 0.5f)];
         line.backgroundColor = kColor(201, 201, 201, 1);
         [view addSubview:line];
@@ -930,9 +934,11 @@
     _rentButton.selected = NO;
     if (_supplyType == SupplyGoodsProcurement) {
         [_goOrderBtn setTitle:@"立即采购" forState:UIControlStateNormal];
+        [_goOrderBtn setBackgroundImage:kImageName(@"blue.png") forState:UIControlStateNormal];
     }
     if (_detailModel.stockNumber <= 0) {
         [_goOrderBtn setTitle:@"缺货" forState:UIControlStateNormal];
+        [_goOrderBtn setBackgroundImage:kImageName(@"selected.png") forState:UIControlStateNormal];
     }
     _factTitleLabel.text = @"机具原价";
     [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.procurementPrice + _detailModel.defaultChannel.openCost]];
@@ -946,9 +952,11 @@
     _rentButton.selected = YES;
     if (_supplyType == SupplyGoodsProcurement) {
         [_goOrderBtn setTitle:@"立即租赁" forState:UIControlStateNormal];
+        [_goOrderBtn setBackgroundImage:kImageName(@"blue.png") forState:UIControlStateNormal];
     }
     if (_detailModel.stockNumber <= 0) {
         [_goOrderBtn setTitle:@"缺货" forState:UIControlStateNormal];
+        [_goOrderBtn setBackgroundImage:kImageName(@"selected.png") forState:UIControlStateNormal];
     }
     _factTitleLabel.text = @"租赁押金";
     [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.deposit + _detailModel.defaultChannel.openCost]];
@@ -962,7 +970,7 @@
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
         [hud hide:YES afterDelay:1.5f];
-        hud.labelText = @"很报歉，该商品正在加紧补货中";
+        hud.labelText = @"很抱歉，该商品正在加紧补货中";
         return;
     }
     if (_supplyType == SupplyGoodsWholesale) {

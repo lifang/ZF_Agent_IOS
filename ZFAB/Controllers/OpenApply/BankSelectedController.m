@@ -24,6 +24,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"选择银行";
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"使用我输入的"
+                                                                  style:UIBarButtonItemStyleBordered
+                                                                 target:self
+                                                                 action:@selector(userSearchName:)];
+    self.navigationItem.rightBarButtonItem = rightItem;
     _dataItem = [[NSMutableArray alloc] init];
     [self initAndLayoutUI];
 }
@@ -172,6 +177,24 @@
         return;
     }
     [self firstLoadData];
+}
+
+- (IBAction)userSearchName:(id)sender {
+    [_bankField resignFirstResponder];
+    if (!_bankField.text || [_bankField.text isEqualToString:@""]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:1.f];
+        hud.labelText = @"请输入银行名";
+        return;
+    }
+    BankModel *model = [[BankModel alloc] init];
+    model.bankName = _bankField.text;
+    if (_delegate && [_delegate respondsToSelector:@selector(getSelectedBank:)]) {
+        [_delegate getSelectedBank:model];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - UITableView

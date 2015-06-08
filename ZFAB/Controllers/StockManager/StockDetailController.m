@@ -79,43 +79,44 @@
 }
 
 - (void)setHeaderView {
-    UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 192)];
+    UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 152)];
     self.tableView.tableHeaderView = backgroundView;
-    UIView *stockView = [self addStockDetailViewForView:backgroundView];
-    //分类标题
-    UIView *columnView = [[UIView alloc] init];
-    columnView.translatesAutoresizingMaskIntoConstraints = NO;
-    columnView.backgroundColor = kColor(218, 217, 217, 1);
-    [backgroundView addSubview:columnView];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:columnView
-                                                           attribute:NSLayoutAttributeLeft
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:self.view
-                                                           attribute:NSLayoutAttributeLeft
-                                                          multiplier:1.0
-                                                            constant:0.f]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:columnView
-                                                           attribute:NSLayoutAttributeTop
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:stockView
-                                                           attribute:NSLayoutAttributeBottom
-                                                          multiplier:1.0
-                                                            constant:0.f]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:columnView
-                                                           attribute:NSLayoutAttributeRight
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:self.view
-                                                           attribute:NSLayoutAttributeRight
-                                                          multiplier:1.0
-                                                            constant:0.f]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:columnView
-                                                           attribute:NSLayoutAttributeHeight
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:nil
-                                                           attribute:NSLayoutAttributeNotAnAttribute
-                                                          multiplier:0.0
-                                                            constant:40.f]];
-    [self addTitleViewForView:columnView];
+    [self addStockDetailViewForView:backgroundView];
+//    UIView *stockView = [self addStockDetailViewForView:backgroundView];
+//    //分类标题
+//    UIView *columnView = [[UIView alloc] init];
+//    columnView.translatesAutoresizingMaskIntoConstraints = NO;
+//    columnView.backgroundColor = kColor(218, 217, 217, 1);
+//    [backgroundView addSubview:columnView];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:columnView
+//                                                           attribute:NSLayoutAttributeLeft
+//                                                           relatedBy:NSLayoutRelationEqual
+//                                                              toItem:self.view
+//                                                           attribute:NSLayoutAttributeLeft
+//                                                          multiplier:1.0
+//                                                            constant:0.f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:columnView
+//                                                           attribute:NSLayoutAttributeTop
+//                                                           relatedBy:NSLayoutRelationEqual
+//                                                              toItem:stockView
+//                                                           attribute:NSLayoutAttributeBottom
+//                                                          multiplier:1.0
+//                                                            constant:0.f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:columnView
+//                                                           attribute:NSLayoutAttributeRight
+//                                                           relatedBy:NSLayoutRelationEqual
+//                                                              toItem:self.view
+//                                                           attribute:NSLayoutAttributeRight
+//                                                          multiplier:1.0
+//                                                            constant:0.f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:columnView
+//                                                           attribute:NSLayoutAttributeHeight
+//                                                           relatedBy:NSLayoutRelationEqual
+//                                                              toItem:nil
+//                                                           attribute:NSLayoutAttributeNotAnAttribute
+//                                                          multiplier:0.0
+//                                                            constant:40.f]];
+//    [self addTitleViewForView:columnView];
 }
 
 //头部库存商品信息
@@ -479,149 +480,148 @@
     CGFloat topSpace = 5.f;
     CGFloat btnWidth = 20.f;
     
-    _searchButton = [[UIButton alloc] init];
-    _searchButton.translatesAutoresizingMaskIntoConstraints = NO;
+    _searchButton = [[UIButton alloc] initWithFrame:CGRectMake(leftSpace, topSpace + 5, btnWidth, btnWidth)];
+//    _searchButton.translatesAutoresizingMaskIntoConstraints = NO;
     [_searchButton setImage:kImageName(@"stocksearch.png") forState:UIControlStateNormal];
     [_searchButton addTarget:self action:@selector(showSearch:) forControlEvents:UIControlEventTouchUpInside];
     [backgroundView addSubview:_searchButton];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchButton
-                                                          attribute:NSLayoutAttributeLeft
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:backgroundView
-                                                          attribute:NSLayoutAttributeLeft
-                                                         multiplier:1.0
-                                                           constant:leftSpace]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchButton
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:backgroundView
-                                                          attribute:NSLayoutAttributeTop
-                                                         multiplier:1.0
-                                                           constant:topSpace + 5]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchButton
-                                                          attribute:NSLayoutAttributeWidth
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:0.0
-                                                           constant:btnWidth]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchButton
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:0.0
-                                                           constant:btnWidth]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchButton
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:backgroundView
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                         multiplier:1.0
+//                                                           constant:leftSpace]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchButton
+//                                                          attribute:NSLayoutAttributeTop
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:backgroundView
+//                                                          attribute:NSLayoutAttributeTop
+//                                                         multiplier:1.0
+//                                                           constant:topSpace + 5]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchButton
+//                                                          attribute:NSLayoutAttributeWidth
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:nil
+//                                                          attribute:NSLayoutAttributeNotAnAttribute
+//                                                         multiplier:0.0
+//                                                           constant:btnWidth]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchButton
+//                                                          attribute:NSLayoutAttributeHeight
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:nil
+//                                                          attribute:NSLayoutAttributeNotAnAttribute
+//                                                         multiplier:0.0
+//                                                           constant:btnWidth]];
     //下级代理商
-    UILabel *agentNameLabel = [[UILabel alloc] init];
-    agentNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    UILabel *agentNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace + btnWidth, topSpace, kScreenWidth * 0.4 - btnWidth, 30.f)];
+//    agentNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
     agentNameLabel.backgroundColor = [UIColor clearColor];
     agentNameLabel.font = [UIFont systemFontOfSize:13.f];
-//    agentNameLabel.textAlignment = NSTextAlignmentCenter;
     agentNameLabel.text = @"下级代理商";
     [backgroundView addSubview:agentNameLabel];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:agentNameLabel
-                                                          attribute:NSLayoutAttributeLeft
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:backgroundView
-                                                          attribute:NSLayoutAttributeLeft
-                                                         multiplier:1.0
-                                                           constant:leftSpace + btnWidth]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:agentNameLabel
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:backgroundView
-                                                          attribute:NSLayoutAttributeTop
-                                                         multiplier:1.0
-                                                           constant:topSpace]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:agentNameLabel
-                                                          attribute:NSLayoutAttributeWidth
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeWidth
-                                                         multiplier:0.4
-                                                           constant:-btnWidth]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:agentNameLabel
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:0.0
-                                                           constant:30.f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:agentNameLabel
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:backgroundView
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                         multiplier:1.0
+//                                                           constant:leftSpace + btnWidth]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:agentNameLabel
+//                                                          attribute:NSLayoutAttributeTop
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:backgroundView
+//                                                          attribute:NSLayoutAttributeTop
+//                                                         multiplier:1.0
+//                                                           constant:topSpace]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:agentNameLabel
+//                                                          attribute:NSLayoutAttributeWidth
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:self.view
+//                                                          attribute:NSLayoutAttributeWidth
+//                                                         multiplier:0.4
+//                                                           constant:-btnWidth]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:agentNameLabel
+//                                                          attribute:NSLayoutAttributeHeight
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:nil
+//                                                          attribute:NSLayoutAttributeNotAnAttribute
+//                                                         multiplier:0.0
+//                                                           constant:30.f]];
     //配货
-    UILabel *prepareLabel = [[UILabel alloc] init];
-    prepareLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    UILabel *prepareLabel = [[UILabel alloc] initWithFrame:CGRectMake(agentNameLabel.frame.origin.x + agentNameLabel.frame.size.width, topSpace, kScreenWidth * 0.3 - 2 * leftSpace, 30.f)];
+//    prepareLabel.translatesAutoresizingMaskIntoConstraints = NO;
     prepareLabel.backgroundColor = [UIColor clearColor];
     prepareLabel.font = [UIFont systemFontOfSize:13.f];
     prepareLabel.textAlignment = NSTextAlignmentCenter;
     prepareLabel.text = @"配货总量";
     [backgroundView addSubview:prepareLabel];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:prepareLabel
-                                                               attribute:NSLayoutAttributeLeft
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:agentNameLabel
-                                                               attribute:NSLayoutAttributeRight
-                                                              multiplier:1.0
-                                                                constant:0.f]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:prepareLabel
-                                                               attribute:NSLayoutAttributeTop
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:backgroundView
-                                                               attribute:NSLayoutAttributeTop
-                                                              multiplier:1.0
-                                                                constant:topSpace]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:prepareLabel
-                                                               attribute:NSLayoutAttributeWidth
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self.view
-                                                               attribute:NSLayoutAttributeWidth
-                                                              multiplier:0.3
-                                                                constant:-leftSpace * 2]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:prepareLabel
-                                                               attribute:NSLayoutAttributeHeight
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:nil
-                                                               attribute:NSLayoutAttributeNotAnAttribute
-                                                              multiplier:0.0
-                                                                constant:30.f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:prepareLabel
+//                                                               attribute:NSLayoutAttributeLeft
+//                                                               relatedBy:NSLayoutRelationEqual
+//                                                                  toItem:agentNameLabel
+//                                                               attribute:NSLayoutAttributeRight
+//                                                              multiplier:1.0
+//                                                                constant:0.f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:prepareLabel
+//                                                               attribute:NSLayoutAttributeTop
+//                                                               relatedBy:NSLayoutRelationEqual
+//                                                                  toItem:backgroundView
+//                                                               attribute:NSLayoutAttributeTop
+//                                                              multiplier:1.0
+//                                                                constant:topSpace]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:prepareLabel
+//                                                               attribute:NSLayoutAttributeWidth
+//                                                               relatedBy:NSLayoutRelationEqual
+//                                                                  toItem:self.view
+//                                                               attribute:NSLayoutAttributeWidth
+//                                                              multiplier:0.3
+//                                                                constant:-leftSpace * 2]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:prepareLabel
+//                                                               attribute:NSLayoutAttributeHeight
+//                                                               relatedBy:NSLayoutRelationEqual
+//                                                                  toItem:nil
+//                                                               attribute:NSLayoutAttributeNotAnAttribute
+//                                                              multiplier:0.0
+//                                                                constant:30.f]];
     //已开通量
-    UILabel *openLabel = [[UILabel alloc] init];
-    openLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    UILabel *openLabel = [[UILabel alloc] initWithFrame:CGRectMake(prepareLabel.frame.origin.x + prepareLabel.frame.size.width, topSpace, kScreenWidth * 0.3 - 2 * leftSpace, 30.f)];
+//    openLabel.translatesAutoresizingMaskIntoConstraints = NO;
     openLabel.backgroundColor = [UIColor clearColor];
     openLabel.font = [UIFont systemFontOfSize:13.f];
     openLabel.textAlignment = NSTextAlignmentCenter;
     openLabel.text = @"已开通量";
     [backgroundView addSubview:openLabel];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:openLabel
-                                                               attribute:NSLayoutAttributeLeft
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:prepareLabel
-                                                               attribute:NSLayoutAttributeRight
-                                                              multiplier:1.0
-                                                                constant:0.f]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:openLabel
-                                                               attribute:NSLayoutAttributeTop
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:backgroundView
-                                                               attribute:NSLayoutAttributeTop
-                                                              multiplier:1.0
-                                                                constant:topSpace]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:openLabel
-                                                               attribute:NSLayoutAttributeWidth
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self.view
-                                                               attribute:NSLayoutAttributeWidth
-                                                              multiplier:0.3
-                                                                constant:-leftSpace * 2]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:openLabel
-                                                               attribute:NSLayoutAttributeHeight
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:nil
-                                                               attribute:NSLayoutAttributeNotAnAttribute
-                                                              multiplier:0.0
-                                                                constant:30.f]];
-    _searchBar = [[UISearchBar alloc] init];
-    _searchBar.translatesAutoresizingMaskIntoConstraints = NO;
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:openLabel
+//                                                               attribute:NSLayoutAttributeLeft
+//                                                               relatedBy:NSLayoutRelationEqual
+//                                                                  toItem:prepareLabel
+//                                                               attribute:NSLayoutAttributeRight
+//                                                              multiplier:1.0
+//                                                                constant:0.f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:openLabel
+//                                                               attribute:NSLayoutAttributeTop
+//                                                               relatedBy:NSLayoutRelationEqual
+//                                                                  toItem:backgroundView
+//                                                               attribute:NSLayoutAttributeTop
+//                                                              multiplier:1.0
+//                                                                constant:topSpace]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:openLabel
+//                                                               attribute:NSLayoutAttributeWidth
+//                                                               relatedBy:NSLayoutRelationEqual
+//                                                                  toItem:self.view
+//                                                               attribute:NSLayoutAttributeWidth
+//                                                              multiplier:0.3
+//                                                                constant:-leftSpace * 2]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:openLabel
+//                                                               attribute:NSLayoutAttributeHeight
+//                                                               relatedBy:NSLayoutRelationEqual
+//                                                                  toItem:nil
+//                                                               attribute:NSLayoutAttributeNotAnAttribute
+//                                                              multiplier:0.0
+//                                                                constant:30.f]];
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40.f)];
+//    _searchBar.translatesAutoresizingMaskIntoConstraints = NO;
     _searchBar.enablesReturnKeyAutomatically = NO;
     _searchBar.placeholder = @"代理商名称";
     _searchBar.delegate = self;
@@ -629,34 +629,34 @@
     _searchBar.backgroundColor = [UIColor blackColor];
     _searchBar.hidden = YES;
     [backgroundView addSubview:_searchBar];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchBar
-                                                          attribute:NSLayoutAttributeLeft
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeLeft
-                                                         multiplier:1.0
-                                                           constant:0.f]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchBar
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:backgroundView
-                                                          attribute:NSLayoutAttributeTop
-                                                         multiplier:1.0
-                                                           constant:0.f]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchBar
-                                                          attribute:NSLayoutAttributeRight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeRight
-                                                         multiplier:1.0
-                                                           constant:0.f]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchBar
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:0.0
-                                                           constant:40.f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchBar
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:self.view
+//                                                          attribute:NSLayoutAttributeLeft
+//                                                         multiplier:1.0
+//                                                           constant:0.f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchBar
+//                                                          attribute:NSLayoutAttributeTop
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:backgroundView
+//                                                          attribute:NSLayoutAttributeTop
+//                                                         multiplier:1.0
+//                                                           constant:0.f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchBar
+//                                                          attribute:NSLayoutAttributeRight
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:self.view
+//                                                          attribute:NSLayoutAttributeRight
+//                                                         multiplier:1.0
+//                                                           constant:0.f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_searchBar
+//                                                          attribute:NSLayoutAttributeHeight
+//                                                          relatedBy:NSLayoutRelationEqual
+//                                                             toItem:nil
+//                                                          attribute:NSLayoutAttributeNotAnAttribute
+//                                                         multiplier:0.0
+//                                                           constant:40.f]];
 }
 
 - (void)initLabelWithOriginX:(CGFloat)originX
@@ -840,6 +840,24 @@
 //    terminalC.stockModel = _stockModel;
 //    terminalC.stockAgent = model;
 //    [self.navigationController pushViewController:terminalC animated:YES];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if ([_dataItem count] > 0) {
+        //分类标题
+        UIView *columnView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+        columnView.backgroundColor = kColor(218, 217, 217, 1);
+        [self addTitleViewForView:columnView];
+        return columnView;
+    }
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if ([_dataItem count] > 0) {
+        return 40.f;
+    }
+    return 0.f;
 }
 
 #pragma mark - 上下拉刷新重写

@@ -368,6 +368,7 @@
         if (imageModel.goodID) {
             GoodDetailController *detailC = [[GoodDetailController alloc] init];
             detailC.goodID = imageModel.goodID;
+            detailC.supplyType = SupplyGoodsProcurement;
             detailC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:detailC animated:YES];
         }
