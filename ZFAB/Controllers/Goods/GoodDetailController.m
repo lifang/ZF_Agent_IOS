@@ -940,7 +940,7 @@
         [_goOrderBtn setTitle:@"缺货" forState:UIControlStateNormal];
         [_goOrderBtn setBackgroundImage:kImageName(@"selected.png") forState:UIControlStateNormal];
     }
-    _factTitleLabel.text = @"机具原价";
+    _factTitleLabel.text = @"机具现价";
     [self setPriceWithString:[NSString stringWithFormat:@"%.2f",_detailModel.procurementPrice + _detailModel.defaultChannel.openCost]];
     [self setRentPriceWithFactString:[NSString stringWithFormat:@"%.2f",_detailModel.procurementPrice]];
     [self setOpenPrice];

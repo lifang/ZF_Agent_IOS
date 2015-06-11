@@ -470,7 +470,7 @@ typedef enum {
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if (section == 3 && [_tradeRecords count] > 0) {
+    if (section == 2 && [_tradeRecords count] > 0) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 20.f)];
         label.backgroundColor = [UIColor clearColor];
         label.font = [UIFont systemFontOfSize:12.f];
