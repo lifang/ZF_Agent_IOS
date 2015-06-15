@@ -271,6 +271,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     GoodListModel *model = [_dataItem objectAtIndex:indexPath.row];
     GoodDetailController *detailC = [[GoodDetailController alloc] init];
+    detailC.hidesBottomBarWhenPushed = YES;
     detailC.supplyType = _supplyType;
     detailC.goodID = model.goodID;
     [self.navigationController pushViewController:detailC animated:YES];

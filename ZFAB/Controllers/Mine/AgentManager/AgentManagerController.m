@@ -125,7 +125,6 @@
             //配货
             PrepareGoodManagerController *prepareC = [[PrepareGoodManagerController alloc] init];
             [self.navigationController pushViewController:prepareC animated:YES];
-            
         }
             break;
         case 2: {
