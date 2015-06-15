@@ -51,15 +51,15 @@ static NSDictionary *s_mappingPlist = nil;
     if (pageKey) {
         [MobClick beginLogPageView:pageKey];
     }
-    [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(handleKeyboardDidShow:)
-                                                name:UIKeyboardDidShowNotification
-                                              object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleKeyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
     //注册通知，监听键盘消失事件
-    [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(handleKeyboardDidHidden)
-                                                name:UIKeyboardDidHideNotification
-                                              object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleKeyboardDidHidden)
+                                                 name:UIKeyboardDidHideNotification
+                                               object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
