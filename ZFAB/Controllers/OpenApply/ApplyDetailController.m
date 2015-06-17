@@ -67,7 +67,10 @@
 
 @property (nonatomic, strong) UIToolbar *toolbar;
 
-@property (nonatomic, strong) NSArray *cityArray;  //pickerView 第二列
+@property (nonatomic, strong) NSMutableArray *channelItems;
+
+@property (nonatomic, strong) NSArray *cityArray;  //pickerView 城市第二列
+@property (nonatomic, strong) NSArray *secondArray; //支付通道第二列
 
 @property (nonatomic, strong) NSString *merchantID;
 @property (nonatomic, strong) NSString *channelID; //支付通道ID
@@ -92,6 +95,7 @@
     self.view.backgroundColor = kColor(244, 243, 243, 1);
     _applyType = OpenApplyPublic;
     _infoDict = [[NSMutableDictionary alloc] init];
+    _channelItems = [[NSMutableArray alloc] init];
     _tempField = [[UITextField alloc] init];
     _tempField.hidden = YES;
     [self.view addSubview:_tempField];
@@ -361,7 +365,56 @@
     }];
 }
 
+- (void)getChannelList {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.labelText = @"加载中...";
+    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+    [NetworkInterface getChannelListWithToken:delegate.token finished:^(BOOL success, NSData *response) {
+        NSLog(@"!!!!%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
+        hud.customView = [[UIImageView alloc] init];
+        hud.mode = MBProgressHUDModeCustomView;
+        [hud hide:YES afterDelay:0.5f];
+        if (success) {
+            id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                NSString *errorCode = [NSString stringWithFormat:@"%@",[object objectForKey:@"code"]];
+                if ([errorCode intValue] == RequestFail) {
+                    //返回错误代码
+                    hud.labelText = [NSString stringWithFormat:@"%@",[object objectForKey:@"message"]];
+                }
+                else if ([errorCode intValue] == RequestSuccess) {
+                    [hud hide:YES];
+                    [self parseChannelListWithDictionary:object];
+                }
+            }
+            else {
+                //返回错误数据
+                hud.labelText = kServiceReturnWrong;
+            }
+        }
+        else {
+            hud.labelText = kNetworkFailed;
+        }
+    }];
+}
+
 #pragma mark - Data
+
+- (void)parseChannelListWithDictionary:(NSDictionary *)dict {
+    if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSArray class]]) {
+        return;
+    }
+    [_channelItems removeAllObjects];
+    NSArray *list = [dict objectForKey:@"result"];
+    for (int i = 0; i < [list count]; i++) {
+        NSDictionary *channelDict = [list objectAtIndex:i];
+        ChannelListModel *model = [[ChannelListModel alloc] initWithParseDictionary:channelDict];
+        if ([model.channelID isEqualToString:_channelID]) {
+            [_channelItems addObject:model];
+        }
+    }
+    [self pickerScrollIn];
+}
 
 - (void)parseApplyDataWithDictionary:(NSDictionary *)dict {
     if (![dict objectForKey:@"result"] || ![[dict objectForKey:@"result"] isKindOfClass:[NSDictionary class]]) {
@@ -890,11 +943,20 @@
                 hud.labelText = @"获取终端支付通道失败";
             }
             else {
-                //选择支付通道
-                ChannelSelectedController *channelC = [[ChannelSelectedController alloc] init];
-                channelC.delegate = self;
-                channelC.channelID = _applyData.terminalChannelID;
-                [self.navigationController pushViewController:channelC animated:YES];
+                ApplyInfoCell *cell = (ApplyInfoCell *)[_tableView cellForRowAtIndexPath:indexPath];
+                _selectedKey = cell.key;
+                if ([_channelItems count] > 0) {
+                    [self pickerScrollIn];
+                }
+                else {
+                    [self getChannelList];
+                }
+//                [self pickerScrollIn];
+//                //选择支付通道
+//                ChannelSelectedController *channelC = [[ChannelSelectedController alloc] init];
+//                channelC.delegate = self;
+//                channelC.channelID = _applyData.terminalChannelID;
+//                [self.navigationController pushViewController:channelC animated:YES];
             }
         }
         else {
@@ -951,6 +1013,9 @@
     else if (_selectedKey == key_sex) {
         return 1;
     }
+    else if (_selectedKey == key_channel) {
+        return 2;
+    }
     return 0;
 }
 
@@ -968,6 +1033,20 @@
     }
     else if (_selectedKey == key_sex) {
         return 2;
+    }
+    else if (_selectedKey == key_channel) {
+        if (component == 0) {
+            return [_channelItems count];
+        }
+        else {
+            NSInteger channelIndex = [pickerView selectedRowInComponent:0];
+            if ([_channelItems count] > 0) {
+                ChannelListModel *channel = [_channelItems objectAtIndex:channelIndex];
+                _secondArray = channel.children;
+                return [_secondArray count];
+            }
+            return 0;
+        }
     }
     return 0;
 }
@@ -998,6 +1077,21 @@
         }
         return title;
     }
+    else if (_selectedKey == key_channel) {
+        if (component == 0) {
+            //通道
+            ChannelListModel *model = [_channelItems objectAtIndex:row];
+            return model.channelName;
+        }
+        else {
+            //结算时间
+            if ([_secondArray count] > 0) {
+                BillingModel *model = [_secondArray objectAtIndex:row];
+                return model.billName;
+            }
+            return @"";
+        }
+    }
     return @"";
 }
 
@@ -1005,6 +1099,12 @@
     if (_selectedKey == key_location) {
         if (component == 0) {
             //省
+            [_pickerView reloadComponent:1];
+        }
+    }
+    else if (_selectedKey == key_channel) {
+        if (component == 0) {
+            //通道
             [_pickerView reloadComponent:1];
         }
     }
@@ -1052,6 +1152,14 @@
             _pickerView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 216);
         }];
     }
+    else if ([_selectedKey isEqualToString:key_channel]) {
+        [_pickerView reloadAllComponents];
+        [UIView animateWithDuration:.3f animations:^{
+            _toolbar.frame = CGRectMake(0, kScreenHeight - 260, kScreenWidth, 44);
+            _pickerView.frame = CGRectMake(0, kScreenHeight - 216, kScreenWidth, 216);
+            _datePicker.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 216);
+        }];
+    }
 }
 
 - (void)pickerScrollOut {
@@ -1088,6 +1196,30 @@
     else if ([_selectedKey isEqualToString:key_sex]) {
         NSInteger index = [_pickerView selectedRowInComponent:0];
         [_infoDict setObject:[NSNumber numberWithInteger:index] forKey:key_sex];
+    }
+    else if ([_selectedKey isEqualToString:key_channel]) {
+        NSInteger firstIndex = [_pickerView selectedRowInComponent:0];
+        NSInteger secondIndex = [_pickerView selectedRowInComponent:1];
+        ChannelListModel *channel = nil;
+        BillingModel *billModel = nil;
+        if (firstIndex < [_channelItems count]) {
+            channel = [_channelItems objectAtIndex:firstIndex];
+        }
+        if (secondIndex < [_secondArray count]) {
+            billModel = [_secondArray objectAtIndex:secondIndex];
+        }
+        NSString *channelName = channel.channelName;
+        NSString *billName = billModel.billName;
+        if (!channel.channelName) {
+            channelName = @"";
+        }
+        if (!billModel.billName) {
+            billName = @"";
+        }
+        NSString *channelInfo = [NSString stringWithFormat:@"%@ %@",channelName,billName];
+        [_infoDict setObject:channelInfo forKey:key_channel];
+        _channelID = channel.channelID;
+        _billID = billModel.billID;
     }
     [_tableView reloadData];
 }
