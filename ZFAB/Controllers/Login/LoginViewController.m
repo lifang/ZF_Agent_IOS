@@ -388,7 +388,7 @@
      applyBtn.layer.borderColor=[UIColor colorWithRed:0 green:0.435 blue:0.835 alpha:1].CGColor;
     [applyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     applyBtn.titleLabel.font = [UIFont systemFontOfSize:15.f];
-    [applyBtn setTitle:@"申请成为代理商" forState:UIControlStateNormal];
+    [applyBtn setTitle:@"申请成为合作伙伴" forState:UIControlStateNormal];
     //[applyBtn setBackgroundColor:[UIColor colorWithHexString:@"006fd5"]];
     [applyBtn setBackgroundColor:[UIColor colorWithRed:0 green:0.435 blue:0.835 alpha:1]];
     [applyBtn addTarget:self action:@selector(applyBtnClick:) forControlEvents:UIControlEventTouchUpInside];
