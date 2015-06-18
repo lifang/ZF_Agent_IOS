@@ -7,6 +7,8 @@
 //
 
 #import "RegularFormat.h"
+#import <CoreTelephony/CTCarrier.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
 
 @implementation RegularFormat
 
@@ -82,5 +84,47 @@
     }
     return NO;
 }
+
++ (BOOL)supportSIMStatusNotInserted {
+    CTTelephonyNetworkInfo *teleNetInfo = [CTTelephonyNetworkInfo new];
+    CTCarrier *carrier = [teleNetInfo subscriberCellularProvider];
+    if (nil != carrier.carrierName) {
+        NSString *radiotech = [teleNetInfo currentRadioAccessTechnology];
+        if (nil != radiotech) {
+            return NO;
+        }
+        return YES;
+        
+    }
+    else {
+        return YES;
+    }
+}
+
+//extern NSString* const kCTSMSMessageReceivedNotification;
+//extern NSString* const kCTSMSMessageReplaceReceivedNotification;
+//extern NSString* const kCTSIMSupportSIMStatusNotInserted;
+//extern NSString* const kCTSIMSupportSIMStatusReady;
+//
+//id CTTelephonyCenterGetDefault(void);
+//void CTTelephonyCenterAddObserver(id,id,CFNotificationCallback,NSString*,void*,int);
+//void CTTelephonyCenterRemoveObserver(id,id,NSString*,void*);
+//int CTSMSMessageGetUnreadCount(void);
+//
+//int CTSMSMessageGetRecordIdentifier(void * msg);
+//NSString * CTSIMSupportGetSIMStatus();
+//NSString * CTSIMSupportCopyMobileSubscriberIdentity();
+//
+//id  CTSMSMessageCreate(void* unknow/*always 0*/,NSString* number,NSString* text);
+//void * CTSMSMessageCreateReply(void* unknow/*always 0*/,void * forwardTo,NSString* text);
+//
+//void* CTSMSMessageSend(id server,id msg);
+//
+//NSString *CTSMSMessageCopyAddress(void *, void *);
+//NSString *CTSMSMessageCopyText(void *, void *);
+//
+//+ (BOOL)supportSIMStatusNotInserted {
+//    return [CTSIMSupportGetSIMStatus() isEqualToString:kCTSIMSupportSIMStatusNotInserted];
+//}
 
 @end

@@ -29,6 +29,10 @@
 
 @implementation TerminalManagerController
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -42,6 +46,10 @@
                                                                  target:self
                                                                  action:@selector(showSearchView)];
     self.navigationItem.rightBarButtonItem = rightItem;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshTMList:)
+                                                 name:refreshTMListNotification
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -389,6 +397,12 @@
 - (void)getSearchKeyword:(NSString *)keyword {
     self.searchInfo = keyword;
     [self firstLoadData];
+}
+
+#pragma mark - NSNotification 
+
+- (void)refreshTMList:(NSNotification *)notification {
+    [self performSelector:@selector(firstLoadData) withObject:nil afterDelay:0.1f];
 }
 
 @end

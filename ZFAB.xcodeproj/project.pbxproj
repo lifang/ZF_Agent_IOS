@@ -245,6 +245,7 @@
 		77641DA21AE8D2B10022F31A /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77641DA11AE8D2B10022F31A /* libstdc++.dylib */; };
 		77641DA41AE8D2BB0022F31A /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77641DA31AE8D2BB0022F31A /* libc++.dylib */; };
 		77641DA71AE8D2E80022F31A /* VideoAuthController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77641DA61AE8D2E80022F31A /* VideoAuthController.m */; };
+		776609ED1B32B0D500DE9ADC /* LocalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 776609EF1B32B0D500DE9ADC /* LocalView.xib */; };
 		7766A4371AC8E58600DCBD76 /* NetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7766A4361AC8E58600DCBD76 /* NetworkRequest.m */; };
 		7766A43A1AC8E5EB00DCBD76 /* EncryptHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7766A4391AC8E5EB00DCBD76 /* EncryptHelper.m */; };
 		7766A43E1AC9174600DCBD76 /* UserManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7766A43D1AC9174600DCBD76 /* UserManagerController.m */; };
@@ -738,6 +739,8 @@
 		77641DA31AE8D2BB0022F31A /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		77641DA51AE8D2E80022F31A /* VideoAuthController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoAuthController.h; sourceTree = "<group>"; };
 		77641DA61AE8D2E80022F31A /* VideoAuthController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoAuthController.m; sourceTree = "<group>"; };
+		776609EE1B32B0D500DE9ADC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/LocalView.xib; sourceTree = "<group>"; };
+		776609F01B32B0EB00DE9ADC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/LocalView.xib"; sourceTree = "<group>"; };
 		7766A4351AC8E58600DCBD76 /* NetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkRequest.h; sourceTree = "<group>"; };
 		7766A4361AC8E58600DCBD76 /* NetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkRequest.m; sourceTree = "<group>"; };
 		7766A4381AC8E5EB00DCBD76 /* EncryptHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptHelper.h; sourceTree = "<group>"; };
@@ -1048,6 +1051,7 @@
 				773C57C71AC12DE800D99E83 /* Info.plist */,
 				773C57FD1AC130BE00D99E83 /* ZFAB-Prefix.pch */,
 				773C57C81AC12DE800D99E83 /* main.m */,
+				776609EF1B32B0D500DE9ADC /* LocalView.xib */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2020,6 +2024,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 773C57BA1AC12DE800D99E83;
 			productRefGroup = 773C57C41AC12DE800D99E83 /* Products */;
@@ -2048,6 +2053,7 @@
 				0D9CA9BE1AF1045E00CB37EF /* iphone3@3x.png in Resources */,
 				77E05FCF1AE5E8B600B21DA9 /* AlipaySDK.bundle in Resources */,
 				0D9BD7561AEF31690007B7B4 /* iphone1@2x.png in Resources */,
+				776609ED1B32B0D500DE9ADC /* LocalView.xib in Resources */,
 				773C57D41AC12DE800D99E83 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2310,6 +2316,18 @@
 			targetProxy = 773C57DD1AC12DE800D99E83 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		776609EF1B32B0D500DE9ADC /* LocalView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				776609EE1B32B0D500DE9ADC /* en */,
+				776609F01B32B0EB00DE9ADC /* zh-Hans */,
+			);
+			name = LocalView.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		773C57E41AC12DE800D99E83 /* Debug */ = {

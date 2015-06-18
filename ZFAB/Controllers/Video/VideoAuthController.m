@@ -219,6 +219,7 @@
     NSArray *otherUsers = [AnyChatPlatform GetOnlineUser];
     NSLog(@"online = %@",otherUsers);
     if ([otherUsers count] > 0) {
+        [_tipView hide:YES];
         _remoteID = [[otherUsers firstObject] intValue];
         [self StartVideoChat:_remoteID];
     }

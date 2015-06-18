@@ -906,26 +906,26 @@ typedef enum {
     //已开通
     if (_terminalModel.status == TerminalStatusOpened) {
         UIButton *videoAuthBtn = [self buttonWithTitle:@"视频认证" action:@selector(videoAuth:)];
-        UIButton *findPswBtn = [self buttonWithTitle:@"找回POS密码" action:@selector(findPassword:)];
+//        UIButton *findPswBtn = [self buttonWithTitle:@"找回POS密码" action:@selector(findPassword:)];
         if (_terminalModel.appID && ![_terminalModel.appID isEqualToString:@""]) {
             UIButton *synBtn = [self buttonWithTitle:@"同步" action:@selector(synchronization:)];
             if (_terminalModel.hasVideoAuth) {
                 [self layoutButton:synBtn position:TerDetailBtnTopRight];
-                [self layoutButton:findPswBtn position:TerDetailBtnBottomRight];
-                [self layoutButton:videoAuthBtn position:TerDetailBtnTopLeft];
+//                [self layoutButton:findPswBtn position:TerDetailBtnBottomRight];
+                [self layoutButton:videoAuthBtn position:TerDetailBtnBottomRight];
             }
             else {
                 [self layoutButton:synBtn position:TerDetailBtnTopRight];
-                [self layoutButton:findPswBtn position:TerDetailBtnBottomRight];
+//                [self layoutButton:findPswBtn position:TerDetailBtnBottomRight];
             }
         }
         else {
             if (_terminalModel.hasVideoAuth) {
-                [self layoutButton:findPswBtn position:TerDetailBtnTopRight];
-                [self layoutButton:videoAuthBtn position:TerDetailBtnBottomRight];
+//                [self layoutButton:findPswBtn position:TerDetailBtnTopRight];
+                [self layoutButton:videoAuthBtn position:TerDetailBtnTopRight];
             }
             else {
-                [self layoutButton:findPswBtn position:TerDetailBtnTopRight];
+//                [self layoutButton:findPswBtn position:TerDetailBtnTopRight];
             }
             
         }
@@ -934,30 +934,30 @@ typedef enum {
         //部分开通
         UIButton *openConfirmBtn = [self buttonWithTitle:@"重新申请开通" action:@selector(openConfirm:)];
         UIButton *videoAuthBtn = [self buttonWithTitle:@"视频认证" action:@selector(videoAuth:)];
-        UIButton *findPswBtn = [self buttonWithTitle:@"找回POS密码" action:@selector(findPassword:)];
+//        UIButton *findPswBtn = [self buttonWithTitle:@"找回POS密码" action:@selector(findPassword:)];
         if (_terminalModel.appID && ![_terminalModel.appID isEqualToString:@""]) {
             UIButton *synBtn = [self buttonWithTitle:@"同步" action:@selector(synchronization:)];
             if (_terminalModel.hasVideoAuth) {
                 [self layoutButton:synBtn position:TerDetailBtnTopRight];
                 [self layoutButton:openConfirmBtn position:TerDetailBtnBottomRight];
-                [self layoutButton:findPswBtn position:TerDetailBtnTopLeft];
-                [self layoutButton:videoAuthBtn position:TerDetailBtnBottomLeft];
+//                [self layoutButton:findPswBtn position:TerDetailBtnTopLeft];
+                [self layoutButton:videoAuthBtn position:TerDetailBtnTopLeft];
             }
             else {
                 [self layoutButton:synBtn position:TerDetailBtnTopRight];
                 [self layoutButton:openConfirmBtn position:TerDetailBtnBottomRight];
-                [self layoutButton:findPswBtn position:TerDetailBtnTopLeft];
+//                [self layoutButton:findPswBtn position:TerDetailBtnTopLeft];
             }
         }
         else {
             if (_terminalModel.hasVideoAuth) {
                 [self layoutButton:openConfirmBtn position:TerDetailBtnTopRight];
-                [self layoutButton:findPswBtn position:TerDetailBtnBottomRight];
-                [self layoutButton:videoAuthBtn position:TerDetailBtnTopLeft];
+//                [self layoutButton:findPswBtn position:TerDetailBtnBottomRight];
+                [self layoutButton:videoAuthBtn position:TerDetailBtnBottomRight];
             }
             else {
                 [self layoutButton:openConfirmBtn position:TerDetailBtnTopRight];
-                [self layoutButton:findPswBtn position:TerDetailBtnBottomRight];
+//                [self layoutButton:findPswBtn position:TerDetailBtnBottomRight];
             }
         }
     }
@@ -1153,7 +1153,7 @@ typedef enum {
 }
 
 - (NSString *)getStatusString {
-    NSString *statusString = nil;
+    NSString *statusString = @"";
     int index = [self.status intValue];
     switch (index) {
         case TerminalStatusOpened:

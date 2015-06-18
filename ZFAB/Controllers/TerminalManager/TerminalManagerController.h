@@ -8,6 +8,8 @@
 
 #import "RefreshViewController.h"
 
+static NSString *refreshTMListNotification = @"refreshTMListNotification";
+
 @interface TerminalManagerController : RefreshViewController
 
 @end

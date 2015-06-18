@@ -16,6 +16,7 @@
 #import "ChannelSelectedController.h"
 #import "MerchantSelectedController.h"
 #import "RegularFormat.h"
+#import "TerminalManagerController.h"
 
 #define kTextViewTag   111
 #define kApplyImageTag 112
@@ -351,6 +352,7 @@
                     if ([[self.navigationController childViewControllers] count] >= 2) {
                         UIViewController *controller = [self.navigationController.childViewControllers objectAtIndex:1];
                         [self.navigationController popToViewController:controller animated:YES];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:refreshTMListNotification object:nil];
                     }
                 }
             }
@@ -409,7 +411,7 @@
     for (int i = 0; i < [list count]; i++) {
         NSDictionary *channelDict = [list objectAtIndex:i];
         ChannelListModel *model = [[ChannelListModel alloc] initWithParseDictionary:channelDict];
-        if ([model.channelID isEqualToString:_channelID]) {
+        if ([model.channelID isEqualToString:_applyData.terminalChannelID]) {
             [_channelItems addObject:model];
         }
     }
