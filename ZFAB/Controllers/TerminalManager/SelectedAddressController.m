@@ -195,6 +195,21 @@
         [_addressItems addObject:model];
     }
     [_tableView reloadData];
+    AddressModel *selectedAddress = [self hasSelectedAddress];
+    if (_delegate && [_delegate respondsToSelector:@selector(getSelectedAddress:)]) {
+        [_delegate getSelectedAddress:selectedAddress];
+    }
+}
+
+- (AddressModel *)hasSelectedAddress {
+    AddressModel *selectedAddress = nil;
+    for (AddressModel *address in _addressItems) {
+        if (_addressID && [address.addressID isEqualToString:_addressID]) {
+            selectedAddress = address;
+            break;
+        }
+    }
+    return selectedAddress;
 }
 
 #pragma mark - Action

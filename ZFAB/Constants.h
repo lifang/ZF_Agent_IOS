@@ -31,16 +31,16 @@
 #define kAppVersionType  2   //版本更新
 
 //#define kServiceURL @"http://121.40.224.25:9090/api" //YUFA
-//#define kServiceURL @"http://121.40.84.2:28080/ZFAgent/api"
-#define kServiceURL @"http://agent.ebank007.com/api"
+#define kServiceURL @"http://121.40.84.2:28080/ZFAgent/api"
+//#define kServiceURL @"http://agent.ebank007.com/api"
 
-//#define kVideoAuthIP    @"121.40.84.2"
-#define kVideoAuthIP      @"121.40.64.120"   //线上
+#define kVideoAuthIP    @"121.40.84.2"
+//#define kVideoAuthIP      @"121.40.64.120"   //线上
 #define kVideoAuthPort  8906
 
 //视频提示地址
-//#define kVideoServiceURL @"http://121.40.84.2:38080/ZFManager/notice/video"
-#define kVideoServiceURL @"http://admin.ebank007.com/notice/video"   //线上
+#define kVideoServiceURL @"http://121.40.84.2:38080/ZFManager/notice/video" 
+//#define kVideoServiceURL @"http://admin.ebank007.com/notice/video"   //线上
 
 //支付地址
 #define kWhalesaleCallBackURL   @"http://121.40.84.2:28080/ZFAgent/deposit_app_notify_url.jsp"

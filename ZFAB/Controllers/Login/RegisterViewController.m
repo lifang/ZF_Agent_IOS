@@ -133,7 +133,6 @@
         if (success) {
             id object = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:nil];
             if ([object isKindOfClass:[NSDictionary class]]) {
-                [hud hide:YES];
                 int errorCode = [[object objectForKey:@"code"] intValue];
                 if (errorCode == RequestFail) {
                     //返回错误代码
