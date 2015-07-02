@@ -40,7 +40,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refreshTMList:)
-                                                 name:refreshTMListNotification
+                                                 name:@"refreshTMListNotification"
                                                object:nil];
 }
 
