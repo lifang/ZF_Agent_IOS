@@ -175,7 +175,7 @@
     AppDelegate *delegate = [AppDelegate shareAppDelegate];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
-    [NetworkInterface getPersonModifyEmailValidateWithAgentUserID:delegate.agentUserID token:delegate.token email:_personInfo.email finished:^(BOOL success, NSData *response) {
+    [NetworkInterface getPersonModifyEmailValidateWithAgentUserID:delegate.agentUserID agentName:_personInfo.personName token:delegate.token email:_personInfo.email finished:^(BOOL success, NSData *response) {
         NSLog(@"%@",[[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding]);
         hud.customView = [[UIImageView alloc] init];
         hud.mode = MBProgressHUDModeCustomView;
