@@ -1707,6 +1707,7 @@ static NSString *HTTP_GET  = @"GET";
 
 //86.
 + (void)getPersonModifyEmailValidateWithAgentUserID:(NSString *)agentUserID
+                                          agentName:(NSString *)agentName
                                               token:(NSString *)token
                                               email:(NSString *)email
                                            finished:(requestDidFinished)finish {
@@ -1717,6 +1718,9 @@ static NSString *HTTP_GET  = @"GET";
     }
     if (email) {
         [paramDict setObject:email forKey:@"email"];
+    }
+    if (agentName) {
+        [paramDict setObject:agentName forKey:@"userName"];
     }
     //url
     NSString *urlString = [NSString stringWithFormat:@"%@/%@",kServiceURL,s_modifyEmailValidate_method];

@@ -1411,6 +1411,7 @@ static NSString *s_update_method = @"index/getVersion";
  @result finish  请求回调结果
  */
 + (void)getPersonModifyEmailValidateWithAgentUserID:(NSString *)agentUserID
+                                          agentName:(NSString *)agentName
                                               token:(NSString *)token
                                               email:(NSString *)email
                                            finished:(requestDidFinished)finish;
