@@ -37,7 +37,19 @@
                                                                  target:self
                                                                  action:@selector(showSearchView)];
     self.navigationItem.rightBarButtonItem = rightItem;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshTMList:)
+                                                 name:@"refreshTMListNotification"
+                                               object:nil];
 }
+
+#pragma mark - NSNotification
+
+- (void)refreshTMList:(NSNotification *)notification {
+    [self performSelector:@selector(firstLoadData) withObject:nil afterDelay:0.1f];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

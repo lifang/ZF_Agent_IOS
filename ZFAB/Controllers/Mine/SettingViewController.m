@@ -209,6 +209,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 3;
+   // return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -217,10 +218,12 @@
         _switchButton.frame = CGRectMake(kScreenWidth - 60, 6, 40, 30);
         [cell.contentView addSubview:_switchButton];
     }
+    
     else if (indexPath.row == 1) {
         NSString *localVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"v%@",localVersion];
     }
+    
     else if (indexPath.row == 2) {
         NSUInteger bitSize = [[SDImageCache sharedImageCache] getSize];
         long MB = 1024 * 1024;
@@ -240,10 +243,12 @@
         case 0: {
         }
             break;
+            
         case 1: {
             [self checkVersion];
         }
             break;
+            
         case 2: {
             [self clearDisk];
         }

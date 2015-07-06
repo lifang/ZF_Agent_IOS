@@ -376,6 +376,7 @@
     }
 }
 
+
 - (void)checkVersion {
     
     [NetworkInterface checkVersionFinished:^(BOOL success, NSData *response) {
@@ -410,6 +411,80 @@
     }];
 }
 
+
+
+/*
+ //AppStore 更新
+ -(void)checkVersion
+ {
+ 
+     _updateURL = @"https://itunes.apple.com/app/id1004337490";
+     NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+     NSString *localVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
+     NSArray *localVersionComponents = [localVersion componentsSeparatedByString:@"."];
+ 
+     NSString *strURL=[[NSString alloc] initWithFormat:@"http://itunes.apple.com/lookup?id=1004337490"];
+     NSURL *url=[NSURL URLWithString:strURL];
+ 
+     NSData *postData = [strURL dataUsingEncoding:NSUTF8StringEncoding];
+ 
+     NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
+     [request setHTTPMethod:@"POST"];
+     [request setHTTPBody:postData];
+ 
+     NSOperationQueue *queue=[NSOperationQueue mainQueue];
+     [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+         if (data) {//请求成功
+             NSDictionary *dict=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+             NSLog(@"%@",dict);
+             NSString *error=dict[@"error"];
+             if (error) {
+ 
+             }
+             else
+             {
+                 NSArray *infoArray = [dict objectForKey:@"results"];
+                 if ([infoArray count]) {
+                     NSDictionary *releaseInfo = [infoArray objectAtIndex:0];
+                     NSString *AppStoreVersion = [releaseInfo objectForKey:@"version"];
+                     NSArray *AppStoreVersionComponents = [AppStoreVersion componentsSeparatedByString: @"."];
+ 
+                     if ([localVersionComponents count] == 3 && [AppStoreVersionComponents count] == 3) {
+                         if ([AppStoreVersionComponents[0] integerValue] > [localVersionComponents[0] integerValue])
+                         { // A.b.c
+                             [self displayUpdateMessage];
+                         }
+                         else if([AppStoreVersionComponents[1] integerValue] > [localVersionComponents[1] integerValue])
+                         { // a.B.c
+                             [self displayUpdateMessage];
+                         }
+                         else if
+                             ([AppStoreVersionComponents[2] integerValue] > [localVersionComponents[2] integerValue])
+                         { // a.b.C
+                             [self displayUpdateMessage];
+                         }
+                     }
+                 }
+             }
+         }
+     }];
+ }
+ 
+ 
+ 
+ -(void)displayUpdateMessage
+ {
+ 
+     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示信息"
+                                                         message:@"发现新版本，是否前往下载？"
+                                                        delegate:self
+                                               cancelButtonTitle:@"取消"
+                                               otherButtonTitles:@"前往下载", nil];
+     [alertView show];
+ 
+ }
+ 
+ */
 
 #pragma mark - UIAlertView
 
