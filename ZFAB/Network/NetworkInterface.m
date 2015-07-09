@@ -25,18 +25,6 @@ static NSString *HTTP_GET  = @"GET";
                                                               httpMethod:method
                                                                 finished:finish];
     NSLog(@"url = %@,params = %@",urlString,params);
-//    NSMutableString *param = [[NSMutableString alloc] initWithString:@"{"];
-//    for (id key in params) {
-//        id value = [params objectForKey:key];
-//        if ([value isKindOfClass:[NSString class]]) {
-//            [param appendString:[NSString stringWithFormat:@"\"%@\"",key]];
-//            [param appendString:@":"];
-//            [param appendString:[NSString stringWithFormat:@"\"%@\"",value]];
-//            [param appendString:@",\n"];
-//        }
-//    }
-//    [param appendString:@"}"];
-//    NSLog(@"%@",param);
     
     if ([method isEqualToString:HTTP_POST] && params) {
         NSData *postData = [NSJSONSerialization dataWithJSONObject:params

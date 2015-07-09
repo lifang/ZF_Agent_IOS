@@ -77,7 +77,7 @@
                                                      image:kImageName(@"tabbar4.png")
                                              selectedImage:kImageName(@"tabbar4_selected.png")];
     UINavigationController *mineNav = [[UINavigationController alloc] initWithRootViewController:mineC];
-    
+
     [NavigationBarAttr setNavigationBarStyle:homeNav];
     [NavigationBarAttr setNavigationBarStyle:goodNav];
     [NavigationBarAttr setNavigationBarStyle:messageNav];
