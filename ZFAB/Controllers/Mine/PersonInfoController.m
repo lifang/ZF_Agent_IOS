@@ -63,16 +63,16 @@
         typeString = @"个人";
     }
     
-    AppDelegate *delegate = [AppDelegate shareAppDelegate];
+   // AppDelegate *delegate = [AppDelegate shareAppDelegate];
     UILabel *typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, kScreenWidth - 40, 20)];
     typeLabel.backgroundColor = [UIColor clearColor];
     typeLabel.font = [UIFont boldSystemFontOfSize:15.f];
-    if (delegate.isFirstLevelAgent) {
+   // if (delegate.isFirstLevelAgent) {
         typeLabel.text = [NSString stringWithFormat:@"合作伙伴类型：%@",typeString];
-    }
-    else {
-        typeLabel.text = [NSString stringWithFormat:@"代理商类型：%@",typeString];
-    }
+  //  }
+    //else {
+      //  typeLabel.text = [NSString stringWithFormat:@"代理商类型：%@",typeString];
+    //}
     [headerView addSubview:typeLabel];
 }
 
