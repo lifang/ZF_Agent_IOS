@@ -860,15 +860,19 @@
     if (textField == _usernameField || textField == _passwordField || textField == _confirmField) {
         return;
     }
-    RegisterCell *cell = (RegisterCell *)[[textField superview] superview];
-    if (cell) {
-        CGRect rect = cell.textLabel.frame;
-        [cell.textLabel sizeToFit];
-        rect.size.width = cell.textLabel.frame.size.width;
-        cell.textLabel.frame = rect;
-        CGFloat originX = cell.textLabel.frame.origin.x + cell.textLabel.frame.size.width;
+    id cell = [textField superview];
+    while (![cell isKindOfClass:[RegisterCell class]] && [cell superview]) {
+        cell = (id)[cell superview];
+    }
+    if (cell && [cell isKindOfClass:[RegisterCell class]]) {
+        RegisterCell *selectedCell = (RegisterCell *)cell;
+        CGRect rect = selectedCell.textLabel.frame;
+        [selectedCell.textLabel sizeToFit];
+        rect.size.width = selectedCell.textLabel.frame.size.width;
+        selectedCell.textLabel.frame = rect;
+        CGFloat originX = selectedCell.textLabel.frame.origin.x + selectedCell.textLabel.frame.size.width;
         CGFloat width = kScreenWidth - originX - 20 > 170 ? 170 : kScreenWidth - originX - 20;
-        textField.frame = CGRectMake(kScreenWidth - width - 20, 0, width, cell.contentView.frame.size.height);
+        textField.frame = CGRectMake(kScreenWidth - width - 20, 0, width, selectedCell.contentView.frame.size.height);
     }
 }
 
@@ -1026,7 +1030,7 @@
     CGRect keyboardRect = [[[paramNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect fieldRect = [[self.editingField superview] convertRect:self.editingField.frame toView:self.view];
     CGFloat topHeight = self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height;
-    CGFloat offsetY = keyboardRect.size.height - (kScreenHeight - topHeight - fieldRect.origin.y - fieldRect.size.height);
+    CGFloat offsetY = keyboardRect.size.height + kOffsetKeyboard - (kScreenHeight - topHeight - fieldRect.origin.y - fieldRect.size.height);
     if (offsetY > 0 && self.offset == 0) {
         self.primaryPoint = self.tableView.contentOffset;
         self.offset = offsetY;
