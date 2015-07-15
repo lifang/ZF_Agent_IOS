@@ -765,6 +765,7 @@
                 case 2:
                     textKey = key_bankID;
                     titleName = @"结算银行卡号";
+                    textFiled.keyboardType =UIKeyboardTypeNumberPad;
                     break;
                 case 3:
                     if (_applyType == OpenTypePublic) {

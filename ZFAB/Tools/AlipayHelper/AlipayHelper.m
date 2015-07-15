@@ -30,8 +30,9 @@
     }
     else {
         order.notifyURL = kProcurementCallBackURL;
-    }
     
+    }
+    NSLog(@"order.notifyURL:%@",order.notifyURL);
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";
     order.inputCharset = @"utf-8";

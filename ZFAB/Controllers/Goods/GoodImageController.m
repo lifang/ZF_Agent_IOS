@@ -192,7 +192,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    NSString *identifier = [NSString stringWithFormat:@"ImageIdentifier%ld",indexPath.row];
+    NSString *identifier = [NSString stringWithFormat:@"ImageIdentifier%ld",(long)indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     CGSize size = [[_imageSizeArray objectAtIndex:indexPath.row] CGSizeValue];
     CGFloat HHH = size.height;
