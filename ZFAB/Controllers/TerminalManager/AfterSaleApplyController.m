@@ -436,7 +436,7 @@
     CGRect keyboardRect = [[[paramNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect fieldRect = [[_textView superview] convertRect:_textView.frame toView:self.view];
     CGFloat topHeight = self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height;
-    CGFloat offsetY = keyboardRect.size.height - (kScreenHeight - topHeight - fieldRect.origin.y - fieldRect.size.height);
+    CGFloat offsetY = keyboardRect.size.height + kOffsetKeyboard - (kScreenHeight - topHeight - fieldRect.origin.y - fieldRect.size.height);
     if (offsetY > 0 && self.offset == 0) {
         self.primaryPoint = self.tableView.contentOffset;
         self.offset = offsetY;
