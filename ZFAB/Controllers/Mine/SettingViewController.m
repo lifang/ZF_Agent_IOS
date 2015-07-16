@@ -168,7 +168,7 @@
 - (void)initStaticData {
     _itemNames = [NSArray arrayWithObjects:
                   @"接收新通知",
-                  @"检测版本更新",
+                //  @"检测版本更新",
                   @"清除缓存",
                   nil];
 }
@@ -208,8 +208,8 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
-   // return 2;
+   // return 3;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -218,13 +218,13 @@
         _switchButton.frame = CGRectMake(kScreenWidth - 60, 6, 40, 30);
         [cell.contentView addSubview:_switchButton];
     }
-    
+    /*
     else if (indexPath.row == 1) {
         NSString *localVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"v%@",localVersion];
     }
-    
-    else if (indexPath.row == 2) {
+    */
+    else if (indexPath.row == 1) {
         NSUInteger bitSize = [[SDImageCache sharedImageCache] getSize];
         long MB = 1024 * 1024;
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2fM",((float)bitSize / MB)];
@@ -243,13 +243,13 @@
         case 0: {
         }
             break;
-            
+        /*
         case 1: {
             [self checkVersion];
         }
             break;
-            
-        case 2: {
+         */
+        case 1: {
             [self clearDisk];
         }
             break;

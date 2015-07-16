@@ -47,7 +47,9 @@
 //支付地址
 #define kWhalesaleCallBackURL   @"http://121.40.84.2:28080/ZFAgent/deposit_app_notify_url.jsp"
 #define kProcurementCallBackURL @"http://121.40.84.2:28080/ZFAgent/app_notify_url.jsp"
-
+//yufa
+//#define kWhalesaleCallBackURL    @"http://121.40.224.25:9090/deposit_app_notify_url.jsp"
+//#define kProcurementCallBackURL  @"http://121.40.224.25:9090/app_notify_url.jsp"
 //线上
 //#define kWhalesaleCallBackURL    @"http://agent.ebank007.com/deposit_app_notify_url.jsp"
 //#define kProcurementCallBackURL  @"http://agent.ebank007.com/app_notify_url.jsp"
@@ -62,8 +64,8 @@
 //#define kMode_Production             @"00"  //YUFA
 //#define kUnionPayURL  @"http://121.40.224.25:9090/unionpay.do" //YUFA
 
-//#define kBaiduAPIKey  @"SpyzCO4eBg4rrCrqqC3zy42F" //APPstore
-#define kBaiduAPIKey @"t2EIwYVCal4Tl2zNloV9ld97" //zhangfu
+#define kBaiduAPIKey  @"SpyzCO4eBg4rrCrqqC3zy42F" //APPstore
+//#define kBaiduAPIKey @"t2EIwYVCal4Tl2zNloV9ld97" //zhangfu
 
 
 #define kImageName(name) [UIImage imageNamed:name]

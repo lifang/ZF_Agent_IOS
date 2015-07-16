@@ -8,14 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0D0998D01B0DAAE9009CDD6C /* libUPPayPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D0998CD1B0DAAE9009CDD6C /* libUPPayPlugin.a */; };
-		0D9BD7561AEF31690007B7B4 /* iphone1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D9BD7551AEF31690007B7B4 /* iphone1@2x.png */; };
-		0D9BD7581AEF316E0007B7B4 /* iphone2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D9BD7571AEF316E0007B7B4 /* iphone2@2x.png */; };
-		0D9BD75A1AEF31730007B7B4 /* iphone3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D9BD7591AEF31730007B7B4 /* iphone3@2x.png */; };
-		0D9BD75C1AEF31790007B7B4 /* iphone4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D9BD75B1AEF31790007B7B4 /* iphone4@2x.png */; };
-		0D9CA9BA1AF1044F00CB37EF /* iphone1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D9CA9B91AF1044F00CB37EF /* iphone1@3x.png */; };
-		0D9CA9BC1AF1045800CB37EF /* iphone2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D9CA9BB1AF1045800CB37EF /* iphone2@3x.png */; };
-		0D9CA9BE1AF1045E00CB37EF /* iphone3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D9CA9BD1AF1045E00CB37EF /* iphone3@3x.png */; };
-		0D9CA9C01AF1046300CB37EF /* iphone4@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D9CA9BF1AF1046300CB37EF /* iphone4@3x.png */; };
 		772A9C5A1AC3C8B1002A0B72 /* FindPasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772A9C591AC3C8B1002A0B72 /* FindPasswordController.m */; };
 		772A9C5E1AC3C95C002A0B72 /* RegularFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 772A9C5D1AC3C95C002A0B72 /* RegularFormat.m */; };
 		772A9C641AC4260A002A0B72 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 772A9C631AC4260A002A0B72 /* RegisterViewController.m */; };
@@ -304,14 +296,6 @@
 		0D0998CD1B0DAAE9009CDD6C /* libUPPayPlugin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUPPayPlugin.a; sourceTree = "<group>"; };
 		0D0998CE1B0DAAE9009CDD6C /* UPPayPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPPayPlugin.h; sourceTree = "<group>"; };
 		0D0998CF1B0DAAE9009CDD6C /* UPPayPluginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPPayPluginDelegate.h; sourceTree = "<group>"; };
-		0D9BD7551AEF31690007B7B4 /* iphone1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone1@2x.png"; sourceTree = "<group>"; };
-		0D9BD7571AEF316E0007B7B4 /* iphone2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone2@2x.png"; sourceTree = "<group>"; };
-		0D9BD7591AEF31730007B7B4 /* iphone3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone3@2x.png"; sourceTree = "<group>"; };
-		0D9BD75B1AEF31790007B7B4 /* iphone4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone4@2x.png"; sourceTree = "<group>"; };
-		0D9CA9B91AF1044F00CB37EF /* iphone1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone1@3x.png"; sourceTree = "<group>"; };
-		0D9CA9BB1AF1045800CB37EF /* iphone2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone2@3x.png"; sourceTree = "<group>"; };
-		0D9CA9BD1AF1045E00CB37EF /* iphone3@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone3@3x.png"; sourceTree = "<group>"; };
-		0D9CA9BF1AF1046300CB37EF /* iphone4@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone4@3x.png"; sourceTree = "<group>"; };
 		772A9C581AC3C8B1002A0B72 /* FindPasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordController.h; sourceTree = "<group>"; };
 		772A9C591AC3C8B1002A0B72 /* FindPasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPasswordController.m; sourceTree = "<group>"; };
 		772A9C5C1AC3C95C002A0B72 /* RegularFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegularFormat.h; sourceTree = "<group>"; };
@@ -969,22 +953,6 @@
 			path = UnionPay;
 			sourceTree = "<group>";
 		};
-		0D9BD7541AEF30CF0007B7B4 /* Image */ = {
-			isa = PBXGroup;
-			children = (
-				0D9BD7551AEF31690007B7B4 /* iphone1@2x.png */,
-				0D9BD7571AEF316E0007B7B4 /* iphone2@2x.png */,
-				0D9BD7591AEF31730007B7B4 /* iphone3@2x.png */,
-				0D9BD75B1AEF31790007B7B4 /* iphone4@2x.png */,
-				0D9CA9B91AF1044F00CB37EF /* iphone1@3x.png */,
-				0D9CA9BB1AF1045800CB37EF /* iphone2@3x.png */,
-				0D9CA9BD1AF1045E00CB37EF /* iphone3@3x.png */,
-				0D9CA9BF1AF1046300CB37EF /* iphone4@3x.png */,
-			);
-			name = Image;
-			path = Network;
-			sourceTree = "<group>";
-		};
 		772A9C5B1AC3C95C002A0B72 /* Regular */ = {
 			isa = PBXGroup;
 			children = (
@@ -1035,7 +1003,6 @@
 				773C58121AC144FB00D99E83 /* View */,
 				7766A43F1AC91C8300DCBD76 /* Model */,
 				773C58191AC145CB00D99E83 /* Library */,
-				0D9BD7541AEF30CF0007B7B4 /* Image */,
 				773FDAA71AC258440029E224 /* Network */,
 				773C57D31AC12DE800D99E83 /* Images.xcassets */,
 				773C57C61AC12DE800D99E83 /* Supporting Files */,
@@ -2009,6 +1976,7 @@
 				TargetAttributes = {
 					773C57C21AC12DE800D99E83 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = X6GEEF4LU9;
 					};
 					773C57DB1AC12DE800D99E83 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -2043,16 +2011,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7763E63B1B0A00BE00ED94EB /* MappingPlist.plist in Resources */,
-				0D9CA9BA1AF1044F00CB37EF /* iphone1@3x.png in Resources */,
-				0D9BD7581AEF316E0007B7B4 /* iphone2@2x.png in Resources */,
 				7746EAC81ACCD768009DD425 /* city.js in Resources */,
-				0D9CA9C01AF1046300CB37EF /* iphone4@3x.png in Resources */,
-				0D9BD75C1AEF31790007B7B4 /* iphone4@2x.png in Resources */,
-				0D9CA9BC1AF1045800CB37EF /* iphone2@3x.png in Resources */,
-				0D9BD75A1AEF31730007B7B4 /* iphone3@2x.png in Resources */,
-				0D9CA9BE1AF1045E00CB37EF /* iphone3@3x.png in Resources */,
 				77E05FCF1AE5E8B600B21DA9 /* AlipaySDK.bundle in Resources */,
-				0D9BD7561AEF31690007B7B4 /* iphone1@2x.png in Resources */,
 				776609ED1B32B0D500DE9ADC /* LocalView.xib in Resources */,
 				773C57D41AC12DE800D99E83 /* Images.xcassets in Resources */,
 			);
@@ -2347,8 +2307,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: fang qian (YSGNM446KN)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: fang qian (YSGNM446KN)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2368,7 +2328,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "f8c91460-62b2-4577-8a1f-fdade09d86fe";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2390,8 +2350,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: fang qian (YSGNM446KN)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: fang qian (YSGNM446KN)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2404,7 +2364,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "f8c91460-62b2-4577-8a1f-fdade09d86fe";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2484,8 +2444,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -2506,8 +2466,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sen Ye (FE46ZS29LM)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sen Ye (FE46ZS29LM)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",

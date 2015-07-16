@@ -264,13 +264,14 @@
     
     //电话
     originY += middleSpace + 20;
-    UILabel *phoneLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, kScreenWidth - leftSpace - rightSpace, 24)];
-    phoneLabel.backgroundColor = kColor(252, 232, 231, 1);
-    phoneLabel.font = [UIFont systemFontOfSize:13.f];
-    phoneLabel.layer.borderWidth = 1.f;
-    phoneLabel.layer.borderColor = kColor(248, 89, 86, 1).CGColor;
-    phoneLabel.textColor = kColor(244, 140, 135, 1);
-    phoneLabel.userInteractionEnabled = YES;
+   // UILabel *phoneLabel = [[UILabel alloc] initWithFrame:CGRectMake(leftSpace, originY, kScreenWidth - leftSpace - rightSpace, 24)];
+  //  phoneLabel.backgroundColor = kColor(252, 232, 231, 1);
+  //  phoneLabel.font = [UIFont systemFontOfSize:13.f];
+   // phoneLabel.layer.borderWidth = 1.f;
+   // phoneLabel.layer.borderColor = kColor(248, 89, 86, 1).CGColor;
+   // phoneLabel.textColor = kColor(244, 140, 135, 1);
+   // phoneLabel.userInteractionEnabled = YES;
+    /*
     NSString *contactInfo = @"若申请时遇到问题，请拨打电话400-009-0876";
     NSMutableAttributedString *contactAttrString = [[NSMutableAttributedString alloc] initWithString:contactInfo];
     NSDictionary *contactAttr = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -280,9 +281,12 @@
                               nil];
     [contactAttrString addAttributes:contactAttr range:NSMakeRange(14, [contactInfo length] - 14)];
     phoneLabel.attributedText = contactAttrString;
+     */
+    /*
     UITapGestureRecognizer *phoneTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(contact:)];
     [phoneLabel addGestureRecognizer:phoneTap];
-    [_scrollView addSubview:phoneLabel];
+     */
+   // [_scrollView addSubview:phoneLabel];
     
     originY += 24 + middleSpace * 2;
     _submitButton = [UIButton buttonWithType:UIButtonTypeCustom];

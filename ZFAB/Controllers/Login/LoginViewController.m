@@ -38,7 +38,7 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     [self initAndLayoutUI];
-    
+    /*
     //判断是不是第一次启动应用
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"])
     {
@@ -47,6 +47,7 @@
         
         [self setGuideUI];
     }
+     */
     
     CGFloat topHeight = self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height;
     self.primaryPoint = CGPointMake(0, self.view.frame.origin.y + topHeight);

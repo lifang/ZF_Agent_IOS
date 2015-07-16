@@ -376,7 +376,7 @@
     }
 }
 
-
+/*
 - (void)checkVersion {
     
     [NetworkInterface checkVersionFinished:^(BOOL success, NSData *response) {
@@ -411,9 +411,9 @@
     }];
 }
 
+*/
 
 
-/*
  //AppStore 更新
  -(void)checkVersion
  {
@@ -484,7 +484,7 @@
  
  }
  
- */
+
 
 #pragma mark - UIAlertView
 
